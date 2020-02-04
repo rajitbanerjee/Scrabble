@@ -26,4 +26,20 @@ public class Pool {
             }
         }
     }
+
+    private void addTiles(String letters, int points) {
+        for (char ch: letters.toCharArray()) {
+            pool.add(new Tile(ch, points));
+        }
+    }
+
+    int countTiles() {
+        return pool.size();
+    }
+
+    public void displayTileCount() {
+        System.out.println("Number of tiles in pool: " + pool.size());
+    }
+
+
 }
