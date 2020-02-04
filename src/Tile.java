@@ -1,3 +1,9 @@
+/**
+ * Each Tile has an associated type (blank or A-Z) and an
+ * assigned number of points for using it to construct a word.
+ *
+ * @author Rajit Banerjee, 18202817
+ */
 public class Tile {
     private char type;
     private int points;
