@@ -15,6 +15,9 @@ public class Pool {
         resetPool();
     }
 
+    /**
+     * Resets the pool to its initial state with 100 tiles.
+     */
     public void resetPool() {
         pool.clear();
 
