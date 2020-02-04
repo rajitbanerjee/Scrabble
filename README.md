@@ -1,5 +1,5 @@
 # Scrabble by DarkMode.
-* Java implementation of popular word game, Scrabble. 
+* Java implementation of the popular word game, Scrabble. 
 * Written by @katarinac, @AmplifiedHuman and @rajitbanerjee for COMP20050: Software Engineering Project 2.
 
 ### Authors:
