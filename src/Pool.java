@@ -28,7 +28,7 @@ public class Pool {
     }
 
     private void addTiles(String letters, int points) {
-        for (char ch: letters.toCharArray()) {
+        for (char ch : letters.toCharArray()) {
             pool.add(new Tile(ch, points));
         }
     }
@@ -39,6 +39,19 @@ public class Pool {
 
     public void displayTileCount() {
         System.out.println("Number of tiles in pool: " + pool.size());
+    }
+
+    public boolean isPoolEmpty() {
+        return pool.isEmpty();
+    }
+
+    public Tile drawTile() {
+        // returns a random index between [0, pool.size())
+        int index = (int) (Math.random() * pool.size());
+
+        Tile t = pool.get(index);
+        pool.remove(index);
+        return t;
     }
 
     public int getTileValue(Tile t) {
