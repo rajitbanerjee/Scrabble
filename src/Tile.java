@@ -11,4 +11,25 @@ public class Tile {
         setType(type);
         setPoints(points);
     }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public void setType(char type) {
+        this.type = type;
+    }
+
+    public char getType() {
+        return type;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    @Override
+    public String toString() {
+        return type + " (points: " + points + ")";
+    }
 }
