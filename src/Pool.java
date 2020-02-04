@@ -41,5 +41,11 @@ public class Pool {
         System.out.println("Number of tiles in pool: " + pool.size());
     }
 
+    public int getTileValue(Tile t) {
+        return t.getPoints();
+    }
 
+    public ArrayList<Tile> getPool() {
+        return pool;
+    }
 }
