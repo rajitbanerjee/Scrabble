@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 
 public class Pool {
+    // the pool stores the tiles to be used by players
     private ArrayList<Tile> pool;
 
     Pool() {

@@ -5,7 +5,9 @@
  * @author Rajit Banerjee, 18202817
  */
 public class Tile {
+    // each tile has a type (blank/letter A-Z)
     private char type;
+    // points for each tile vary between 0 and 10.
     private int points;
 
     Tile() {
