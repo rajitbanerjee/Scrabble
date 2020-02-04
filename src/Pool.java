@@ -65,7 +65,7 @@ public class Pool {
      * Display the number of tiles currently in the pool.
      */
     public void displayTileCount() {
-        System.out.println("Number of tiles in pool: " + pool.size());
+        System.out.println("Number of tiles in pool: " + countTiles());
     }
 
     /**
