@@ -10,12 +10,12 @@ public class Tile {
     // points for each tile vary between 0 and 10.
     private int points;
 
-    Tile() {
+    public Tile() {
         type = 0;
         points = 0;
     }
 
-    Tile(char type, int points) {
+    public Tile(char type, int points) {
         setType(type);
         setPoints(points);
     }

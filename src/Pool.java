@@ -11,7 +11,7 @@ public class Pool {
     // the pool stores the tiles to be used by players
     private ArrayList<Tile> pool;
 
-    Pool() {
+    public Pool() {
         pool = new ArrayList<>();
         resetPool();
     }
@@ -58,7 +58,7 @@ public class Pool {
      *
      * @return current number of tiles in the pool
      */
-    int countTiles() {
+    public int countTiles() {
         return pool.size();
     }
 
