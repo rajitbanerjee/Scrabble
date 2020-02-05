@@ -118,5 +118,20 @@ public class Player {
         this.name = name;
     }
 
-    //TODO Method to display player's name in CLI as per requirements
+    /**
+     * Prints the player name to the CLI.
+     */
+    public void printName() {
+        System.out.println(name);
+    }
+
+    /**
+     * Override toString method to return player name.
+     *
+     * @return the player name (can be changed to include player score)
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
 }
