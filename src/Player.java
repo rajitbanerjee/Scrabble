@@ -10,9 +10,10 @@ public class Player {
 
     /**
      * First Constructor for the player class, frame remains null if unspecified.
-     * Throws an exception if the given name is null.
+     *
+     * @throws NullPointerException if the given name is null
      */
-    public Player(String name) {
+    public Player(String name) throws NullPointerException {
         if (name == null) {
             throw new NullPointerException("Player name cannot be null");
         }
@@ -23,7 +24,7 @@ public class Player {
 
     /**
      * Second Constructor for the player class.
-     * Throws an exception if the given name is null.
+     * Call to first Constructor throws an exception if the given name is null.
      */
     public Player(String name, Frame frame) {
         this(name);
@@ -41,6 +42,7 @@ public class Player {
 
     /**
      * Resets the player information to default, empty name and zero score.
+     * TODO Reset/create a new Frame obj for the player on resetting player data
      */
     public void reset() {
         name = "";
@@ -65,15 +67,15 @@ public class Player {
 
     /**
      * Mutator method for the score variable. (Might be useful for debugging purposes)
-     * Throws an IllegalArgumentException if x < 0
      *
-     * @param x player score
+     * @param score player score
+     * @throws IllegalArgumentException if given score is negative
      */
-    public void setScore(int x) {
-        if (x < 0) {
+    public void setScore(int score) throws IllegalArgumentException {
+        if (score < 0) {
             throw new IllegalArgumentException("Player score cannot be less than 0");
         }
-        score = x;
+        this.score = score;
     }
 
     /**
@@ -104,14 +106,17 @@ public class Player {
     }
 
     /**
-     * Mutator method for the frame variable. Throws an exception if the given string is null.
+     * Mutator method for the frame variable.
      *
      * @param name player name
+     * @throws NullPointerException if given name is null
      */
-    public void setName(String name) {
+    public void setName(String name) throws NullPointerException {
         if (name == null) {
             throw new NullPointerException("Player name cannot be null");
         }
         this.name = name;
     }
+
+    //TODO Method to display player's name in CLI as per requirements
 }
