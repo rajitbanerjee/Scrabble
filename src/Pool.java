@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * The Pool holds 100 tiles initially, and players refill their
@@ -82,14 +83,19 @@ public class Pool {
      * Draw a tile at random from the pool.
      *
      * @return the randomly drawn Tile object
+     * @throws NoSuchElementException if player tries to draw Tile from empty Pool
      */
-    public Tile drawTile() {
-        // returns a random index between [0, pool.size())
-        int index = (int) (Math.random() * pool.size());
+    public Tile drawTile() throws NoSuchElementException {
+        if (isPoolEmpty()) {
+            throw new NoSuchElementException("Pool has no tiles!");
+        } else {
+            // returns a random index between [0, pool.size())
+            int index = (int) (Math.random() * pool.size());
 
-        Tile t = pool.get(index);
-        pool.remove(index);
-        return t;
+            Tile t = pool.get(index);
+            pool.remove(index);
+            return t;
+        }
     }
 
     /**
