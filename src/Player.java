@@ -42,11 +42,11 @@ public class Player {
 
     /**
      * Resets the player information to default, empty name and zero score.
-     * TODO Reset/create a new Frame obj for the player on resetting player data
      */
     public void reset() {
         name = "";
         score = 0;
+        frame = null;
     }
 
     /**
