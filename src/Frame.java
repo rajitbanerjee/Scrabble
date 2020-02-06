@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * Frame holds the 7 tiles each player has in their possession. When tiles are
@@ -76,6 +77,9 @@ public class Frame {
      * @param letter to be removed from the frame
      */
     public void removeLetter(char letter) {
+        if(!isLetterInFrame(letter)){
+            throw new NoSuchElementException("Letter can't be removed. Not in frame");
+        }
         frame.remove(findLetterIndex(letter));
     }
 
@@ -86,6 +90,9 @@ public class Frame {
      * @return the tile associated with the letter
      */
     public Tile accessLetter(char letter) {
+        if(!isLetterInFrame(letter)){
+            throw new NoSuchElementException("Letter can't be accessed. Not in frame");
+        }
         return frame.get(findLetterIndex(letter));
     }
 
