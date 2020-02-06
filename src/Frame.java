@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 
 public class Frame {
-    //frame holds the tiles each player has access to
+    // frame holds the tiles each player has access to
     private ArrayList<Tile> frame;
 
     /**
