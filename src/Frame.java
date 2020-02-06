@@ -51,12 +51,10 @@ public class Frame {
      * letter is not in the frame
      */
     private int findLetterIndex(char letter) {
-        int i = 0;
-        for (Tile tile : frame) {
-            if (tile.getType() == Character.toUpperCase(letter)) {
+        for (int i = 0; i < frame.size(); i++) {
+            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
                 return i;
             }
-            i++;
         }
         return -1;
     }
@@ -77,7 +75,7 @@ public class Frame {
      * @param letter to be removed from the frame
      */
     public void removeLetter(char letter) {
-        if(!isLetterInFrame(letter)){
+        if (!isLetterInFrame(letter)) {
             throw new NoSuchElementException("Letter can't be removed. Not in frame");
         }
         frame.remove(findLetterIndex(letter));
@@ -90,7 +88,7 @@ public class Frame {
      * @return the tile associated with the letter
      */
     public Tile accessLetter(char letter) {
-        if(!isLetterInFrame(letter)){
+        if (!isLetterInFrame(letter)) {
             throw new NoSuchElementException("Letter can't be accessed. Not in frame");
         }
         return frame.get(findLetterIndex(letter));
