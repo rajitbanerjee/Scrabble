@@ -26,7 +26,7 @@ public class Frame {
      *
      * @param pool the game's shared pool
      */
-    private void fillFrame(Pool pool) {
+    public void fillFrame(Pool pool) {
         for (int i = frame.size(); i < 7; i++) {
             frame.add(pool.drawTile());
         }
@@ -37,7 +37,7 @@ public class Frame {
      *
      * @return true if frame is empty
      */
-    private boolean isFrameEmpty() {
+    public boolean isFrameEmpty() {
         return frame.isEmpty();
     }
 
@@ -66,7 +66,7 @@ public class Frame {
      * @param letter the letter that is being searched
      * @return true if letter is inside frame
      */
-    private boolean isLetterInFrame(char letter) {
+    public boolean isLetterInFrame(char letter) {
         return findLetterIndex(letter) != -1;
     }
 
@@ -75,7 +75,7 @@ public class Frame {
      *
      * @param letter to be removed from the frame
      */
-    private void removeLetter(char letter) {
+    public void removeLetter(char letter) {
         frame.remove(findLetterIndex(letter));
     }
 
@@ -85,7 +85,7 @@ public class Frame {
      * @param letter chosen by user to specify which tile from the frame is chosen
      * @return the tile associated with the letter
      */
-    private Tile accessLetter(char letter) {
+    public Tile accessLetter(char letter) {
         return frame.get(findLetterIndex(letter));
     }
 
