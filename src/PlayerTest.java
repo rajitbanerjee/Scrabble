@@ -103,7 +103,27 @@ public class PlayerTest {
         if (playerA.getScore() != 1000) {
             System.out.println("Error: setScore() does not work as expected");
         }
-        // TODO: reset(), resetScore(), getFrame()? might need to be tested
+        // Tests getName()
+        if (!playerA.getName().equals("A")) {
+            System.out.println("Error: Name set incorrectly");
+        }
+        // Tests resetScore()
+        playerA.resetScore();
+        if (playerA.getScore() != 0) {
+            System.out.println("Error: resetScore() does not work as expected");
+        }
+        // Tests reset()
+        playerA.setScore(100);
+        Frame temp = playerA.getFrame();
+        playerA.reset();
+        if (playerA.getScore() != 0 || !playerA.getName().equals("") || playerA.getFrame() != null) {
+            System.out.println("Error: reset() does not work as expected");
+        }
+        // Tests getFrame() && setFrame()
+        playerA.setFrame(temp);
+        if (playerA.getFrame() == null) {
+            System.out.println("Error: setFrame() or getFrame() does not work as expected");
+        }
         System.out.println("Player Test completed.");
     }
 }
