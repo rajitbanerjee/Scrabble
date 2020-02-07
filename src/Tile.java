@@ -24,7 +24,7 @@ public class Tile {
         setPoints(points);
     }
 
-    // getter methods for instance variables
+    // getter and setter methods for type of tile
     public char getType() {
         return type;
     }
@@ -33,11 +33,11 @@ public class Tile {
         this.type = type;
     }
 
+    // getter and setter methods for points
     public int getPoints() {
         return points;
     }
 
-    // setter methods for instance variables
     public void setPoints(int points) {
         this.points = points;
     }

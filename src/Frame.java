@@ -21,15 +21,16 @@ public class Frame {
      * Constructor method for frame. Fills the frame with tiles.
      *
      * @param pool the game's shared pool
-     * @throws IllegalArgumentException when pool is null
+     * @throws IllegalArgumentException if given pool object is null
      */
-    public Frame(Pool pool) {
+    public Frame(Pool pool) throws IllegalArgumentException {
         if (pool == null) {
             throw new IllegalArgumentException("Pool cannot be null");
+        } else {
+            frame = new ArrayList<>();
+            this.pool = pool;
+            fillFrame();
         }
-        frame = new ArrayList<>();
-        this.pool = pool;
-        fillFrame();
     }
 
     /**
