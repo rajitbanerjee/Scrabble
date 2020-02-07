@@ -10,16 +10,23 @@ import java.util.HashMap;
  */
 public class PlayerTest {
     public static void main(String[] args) {
-        Pool pool = new Pool();
-        // Display pool count
-        pool.displayTileCount();
+        // Run tests on Tile
+        testTile();
         // Run tests on Pool
+        Pool pool = new Pool();
+        pool.displayTileCount();
         testPool(pool);
-        Player playerA = new Player("A", new Frame(pool));
         // Run tests on Player
+        Player playerA = new Player("A", new Frame(pool));
         testPlayer(playerA);
         // Run tests on Frame
         testFrame(playerA.getFrame());
+    }
+
+    // basic tests for properties of Frame and Pool's constituent tiles
+    private static void testTile() {
+
+
     }
 
     // test the operations on each player's frame

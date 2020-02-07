@@ -24,13 +24,22 @@ public class Tile {
         setPoints(points);
     }
 
-    // getter and setter methods for type of tile
     public char getType() {
         return type;
     }
 
-    public void setType(char type) {
-        this.type = type;
+    /**
+     * Setter for tile type.
+     *
+     * @param type letter A-Z or blank type of tile
+     * @throws IllegalArgumentException if tile type is invalid
+     */
+    public void setType(char type) throws IllegalArgumentException {
+        if (!Character.isLetter(Character.toUpperCase(type)) && type != '-') {
+            throw new IllegalArgumentException("Invalid tile type.");
+        } else {
+            this.type = type;
+        }
     }
 
     // getter and setter methods for points
@@ -38,8 +47,18 @@ public class Tile {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    /**
+     * Setter for tile's associated points
+     *
+     * @param points assigned to each type of tile
+     * @throws IllegalArgumentException if points are negative or ore than 10
+     */
+    public void setPoints(int points) throws IllegalArgumentException {
+        if (points < 0 || points > 10) {
+            throw new IllegalArgumentException("Invalid tile points.");
+        } else {
+            this.points = points;
+        }
     }
 
     // each Tile is displayed as the type of Tile and the associated points

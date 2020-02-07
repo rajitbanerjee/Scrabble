@@ -131,9 +131,9 @@ public class Frame {
     }
 
     /**
-     * Access method for pool
+     * Accessor method for pool.
      *
-     * @return the pool
+     * @return the pool which is used to refill the frame
      */
     public Pool getPool() {
         return pool;
