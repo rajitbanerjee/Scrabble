@@ -28,11 +28,16 @@ public class Frame {
      * Method to fill/refill the frame if it has less than 7 tiles.
      *
      * @param pool the game's shared pool
+     * @throws RuntimeException if pool is empty, frame cannot be filled
      */
-    public void fillFrame(Pool pool) {
-        int numTilesToDraw = Math.min(pool.countTiles(), 7 - frame.size());
-        for (int i = 0; i < numTilesToDraw; i++) {
-            frame.add(pool.drawTile());
+    public void fillFrame(Pool pool) throws RuntimeException {
+        if (pool.isPoolEmpty()) {
+            throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
+        } else {
+            int numTilesToDraw = Math.min(pool.countTiles(), 7 - frame.size());
+            for (int i = 0; i < numTilesToDraw; i++) {
+                frame.add(pool.drawTile());
+            }
         }
     }
 
