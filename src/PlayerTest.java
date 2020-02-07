@@ -18,7 +18,66 @@ public class PlayerTest {
         Player playerA = new Player("A", new Frame(pool));
         // Run tests on Player
         testPlayer(playerA);
-        // TODO: Add tests for Frame
+        testFrame(playerA.getFrame());
+    }
+
+    //test the functionalities of each player's frame
+    private static void testFrame(Frame frame) {
+        System.out.println("Testing the Frame class...");
+
+        //test isFrameEmpty()
+        if(frame.isFrameEmpty()){
+            System.out.println("Error: Frame should not be empty");
+        }
+        frame.getFrame().clear();   //empty frame
+        if(!frame.isFrameEmpty()){
+            System.out.println("Error: Frame should be empty");
+        }
+        //testing fillFrame()
+        while(frame.getPool().countTiles() > 0){    //will empty entire pool
+            int tilesInPoolBefore = frame.getPool().countTiles();   //num of tiles in pool before drawing
+            frame.fillFrame();
+            if(tilesInPoolBefore - frame.getPool().countTiles() > 7){  //check that no more than 7 tiles are removed
+                System.out.println("Error: No more than 7 tiles should be drawn from the pool");
+            }
+            if(frame.isFrameEmpty() && frame.getPool().countTiles() > 0){   //check if tiles are still available in the pool
+                System.out.println("Error: frame should not be empty");
+            }
+            frame.getFrame().clear();
+        }
+
+        frame.getPool().resetPool();    //restore pool to 100
+        frame.fillFrame();
+
+        //test isLetterInFrame()
+        for(int i = 0; i < frame.getFrame().size(); i++){
+            if(!frame.isLetterInFrame(frame.getFrame().get(i).getType())){    //check if each drawn tile is in the frame
+                System.out.println("Error: letter is not found in frame");
+            }
+        }
+        //test removeLetter() with letters from the frame
+        for( int i = frame.getFrame().size() - 1 ; i >= 0; i--){    //removes all letters currently in the frame
+            frame.removeLetter(frame.getFrame().get(i).getType());
+        }
+        if(!frame.isFrameEmpty()){  //check that all elements have been removed correctly
+            System.out.println("Error: The frame should be empty");
+        }
+        //test removeLetter() with inputs not inside the frame
+        try{
+            String alphabet = "abcdefghi-";    //at least one letter will be outside the frame
+            char [] letters = alphabet.toCharArray();
+            for(char letter: letters){
+                frame.removeLetter(letter);
+            }
+            System.out.println("Error: frame cannot remove letters it does not contain");
+        }catch (Exception e){
+            //test passes
+        }
+
+        //test accessLetter()
+        //test displayFrame()
+
+        System.out.println("Frame Test completed");
     }
 
     // Test the correctness of Tiles in Pool and the Pool size
