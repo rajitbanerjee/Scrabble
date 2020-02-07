@@ -11,6 +11,8 @@ import java.util.NoSuchElementException;
  */
 
 public class Frame {
+    // Pool instance variable to store the pool for future method accesses
+    private final Pool pool;
     // frame holds the tiles each player has access to
     private ArrayList<Tile> frame;
 
@@ -18,19 +20,23 @@ public class Frame {
      * Constructor method for frame. Fills the frame with tiles.
      *
      * @param pool the game's shared pool
+     * @throws IllegalArgumentException when pool is null
      */
     public Frame(Pool pool) {
+        if (pool == null) {
+            throw new IllegalArgumentException("Pool cannot be null");
+        }
         frame = new ArrayList<>();
-        fillFrame(pool);
+        this.pool = pool;
+        fillFrame();
     }
 
     /**
      * Method to fill/refill the frame if it has less than 7 tiles.
      *
-     * @param pool the game's shared pool
      * @throws RuntimeException if pool is empty, frame cannot be filled
      */
-    public void fillFrame(Pool pool) throws RuntimeException {
+    public void fillFrame() throws RuntimeException {
         if (pool.isPoolEmpty()) {
             throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
         } else {
