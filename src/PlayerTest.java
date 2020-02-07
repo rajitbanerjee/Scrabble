@@ -1,5 +1,11 @@
 import java.util.HashMap;
 
+/**
+ * Tests functionality of Player, Pool and Frame classes.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ */
 public class PlayerTest {
     public static void main(String[] args) {
         Pool pool = new Pool();
@@ -99,7 +105,7 @@ public class PlayerTest {
         if (playerA.getScore() != 1000) {
             System.out.println("Error: setScore() does not work as expected");
         }
-        // TODO: reset(), resetScore(), getFrame? might need to be tested
+        // TODO: reset(), resetScore(), getFrame()? might need to be tested
         System.out.println("Player Test completed.");
     }
 }

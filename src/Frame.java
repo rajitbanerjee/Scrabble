@@ -6,6 +6,8 @@ import java.util.NoSuchElementException;
  * removed from the frame, the frame is refilled with tiles from the pool.
  *
  * @author Katarina Cvetkovic, 18347921
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
  */
 
 public class Frame {

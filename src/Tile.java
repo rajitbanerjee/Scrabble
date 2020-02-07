@@ -15,11 +15,13 @@ public class Tile {
         points = 0;
     }
 
+    // create a new Tile with given type (blank or A-Z) and assigned points
     public Tile(char type, int points) {
         setType(type);
         setPoints(points);
     }
 
+    // setter methods for instance variables
     public void setPoints(int points) {
         this.points = points;
     }
@@ -28,6 +30,7 @@ public class Tile {
         this.type = type;
     }
 
+    // getter methods for instance variables
     public char getType() {
         return type;
     }
@@ -36,6 +39,7 @@ public class Tile {
         return points;
     }
 
+    // each Tile is displayed as the type of Tile and the associated points
     @Override
     public String toString() {
         return type + " (points: " + points + ")";
