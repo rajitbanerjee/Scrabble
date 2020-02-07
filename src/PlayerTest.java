@@ -13,8 +13,10 @@ public class PlayerTest {
         Pool pool = new Pool();
         // Display pool count
         pool.displayTileCount();
+        // Run tests on Pool
         testPool(pool);
         Player playerA = new Player("A", new Frame(pool));
+        // Run tests on Player
         testPlayer(playerA);
         // TODO: Add tests for Frame
     }
@@ -74,7 +76,7 @@ public class PlayerTest {
         if (pool.countTiles() != 100) {
             System.out.println("Error: resetPool() does not work as expected.");
         }
-
+        // Prints final test result
         System.out.println(String.format("Pool Test completed. (%d/100 tiles correct)", correctTiles));
     }
 
