@@ -128,4 +128,11 @@ public class Frame {
     public ArrayList<Tile> getFrame() {
         return frame;
     }
+
+    /**
+     * Access method for pool
+     *
+     * @return the pool
+     */
+    public Pool getPool(){ return pool;}
 }
