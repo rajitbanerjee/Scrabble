@@ -30,8 +30,8 @@ public class Frame {
      * @param pool the game's shared pool
      */
     public void fillFrame(Pool pool) {
-        int nTiles = Math.min(pool.countTiles(), 7 - frame.size());
-        for (int i = 0; i < nTiles; i++) {
+        int numTilesToDraw = Math.min(pool.countTiles(), 7 - frame.size());
+        for (int i = 0; i < numTilesToDraw; i++) {
             frame.add(pool.drawTile());
         }
     }
