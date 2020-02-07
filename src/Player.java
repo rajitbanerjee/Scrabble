@@ -16,10 +16,11 @@ public class Player {
     public Player(String name) throws NullPointerException {
         if (name == null) {
             throw new NullPointerException("Player name cannot be null");
+        } else {
+            this.name = name;
+            score = 0;
+            frame = null;
         }
-        this.name = name;
-        score = 0;
-        frame = null;
     }
 
     /**
@@ -34,10 +35,15 @@ public class Player {
     /**
      * Increases the player score by dx.
      *
-     * @param dx increment value
+     * @param value increment value
+     * @throws IllegalArgumentException if increment value is negative
      */
-    public void increaseScore(int dx) {
-        score += dx;
+    public void increaseScore(int value) throws IllegalArgumentException {
+        if (value < 0) {
+            throw new IllegalArgumentException("Increment value must be positive!");
+        } else {
+            score += value;
+        }
     }
 
     /**
@@ -74,8 +80,9 @@ public class Player {
     public void setScore(int score) throws IllegalArgumentException {
         if (score < 0) {
             throw new IllegalArgumentException("Player score cannot be less than 0");
+        } else {
+            this.score = score;
         }
-        this.score = score;
     }
 
     /**
@@ -114,8 +121,9 @@ public class Player {
     public void setName(String name) throws NullPointerException {
         if (name == null) {
             throw new NullPointerException("Player name cannot be null");
+        } else {
+            this.name = name;
         }
-        this.name = name;
     }
 
     /**
