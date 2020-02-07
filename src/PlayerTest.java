@@ -127,12 +127,14 @@ public class PlayerTest {
             System.out.println("Error: resetPool() does not work as expected.");
         }
         // Prints final test result
-        System.out.println(String.format("Pool tests completed. (%d/100 tiles correct)\n", correctTiles));
+        System.out.println(String.format("Pool tests completed. (%d/100 tiles correct)\n",
+                correctTiles));
     }
 
     // Player class tests
     public static void testPlayer(Player playerA) {
-        System.out.println(String.format("Player name: %s\tScore: %d", playerA.getName(), playerA.getScore()));
+        System.out.println(String.format("Player name: %s\tScore: %d",
+                playerA.getName(), playerA.getScore()));
         System.out.println("Testing the Player class...");
         // Try to increase score by a negative value
         try {
@@ -171,7 +173,8 @@ public class PlayerTest {
         playerA.setScore(100);
         Frame temp = playerA.getFrame();
         playerA.reset();
-        if (playerA.getScore() != 0 || !playerA.getName().equals("") || playerA.getFrame() != null) {
+        if (playerA.getScore() != 0 || !playerA.getName().equals("")
+                || playerA.getFrame() != null) {
             System.out.println("Error: reset() does not work as expected.");
         }
         // Tests getFrame() && setFrame()
