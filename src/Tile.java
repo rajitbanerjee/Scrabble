@@ -24,22 +24,22 @@ public class Tile {
         setPoints(points);
     }
 
-    // setter methods for instance variables
-    public void setPoints(int points) {
-        this.points = points;
+    // getter methods for instance variables
+    public char getType() {
+        return type;
     }
 
     public void setType(char type) {
         this.type = type;
     }
 
-    // getter methods for instance variables
-    public char getType() {
-        return type;
-    }
-
     public int getPoints() {
         return points;
+    }
+
+    // setter methods for instance variables
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     // each Tile is displayed as the type of Tile and the associated points

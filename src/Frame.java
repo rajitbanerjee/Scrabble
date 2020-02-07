@@ -134,5 +134,7 @@ public class Frame {
      *
      * @return the pool
      */
-    public Pool getPool(){ return pool;}
+    public Pool getPool() {
+        return pool;
+    }
 }
