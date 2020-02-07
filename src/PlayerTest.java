@@ -13,8 +13,7 @@ public class PlayerTest {
         pool.displayTileCount();
         testPool(pool);
         Player playerA = new Player("A", new Frame(pool));
-        Player playerB = new Player("B", new Frame(pool));
-        testPlayer(playerA, playerB);
+        testPlayer(playerA);
         // TODO: Add tests for Frame
     }
 
@@ -77,9 +76,8 @@ public class PlayerTest {
         System.out.println(String.format("Pool Test completed. (%d/100 tiles correct)", correctTiles));
     }
 
-    public static void testPlayer(Player playerA, Player playerB) {
+    public static void testPlayer(Player playerA) {
         System.out.println(String.format("Player name: %s\tScore: %d", playerA.getName(), playerA.getScore()));
-        System.out.println(String.format("Player name: %s\tScore: %d", playerB.getName(), playerB.getScore()));
         System.out.println("Testing the Player class...");
         // Try to increase score by a negative value
         try {
