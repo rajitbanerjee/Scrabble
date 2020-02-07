@@ -3,6 +3,9 @@
  * assigned number of points for using it to construct a word.
  *
  * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
  */
 public class Tile {
     // each tile has a type (blank/letter A-Z)
