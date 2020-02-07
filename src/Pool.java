@@ -6,6 +6,9 @@ import java.util.NoSuchElementException;
  * frames by drawing tiles at random from the Pool.
  *
  * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
  */
 
 public class Pool {

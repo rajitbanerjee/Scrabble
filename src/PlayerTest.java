@@ -5,6 +5,8 @@ import java.util.HashMap;
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
  */
 public class PlayerTest {
     public static void main(String[] args) {

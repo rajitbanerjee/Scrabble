@@ -2,6 +2,9 @@
  * The Player class stores information about the player.
  *
  * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
  */
 public class Player {
     private String name;
