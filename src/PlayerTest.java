@@ -252,12 +252,12 @@ public class PlayerTest {
 
         // test accessLetter()
         frame.fillFrame();
-        char letter;    //letter being accessed
-        Tile accessedTile;  //the tile of the letter
-        for(int i = 0; i < frame.getFrame().size(); i++){
-            letter = frame.getFrame().get(i).getType();
-            accessedTile = frame.accessLetter(letter);
-            if(accessedTile.getType() != letter){
+        for (int i = 0; i < frame.getFrame().size(); i++) {
+            // letter being accessed
+            char letter = frame.getFrame().get(i).getType();
+            // the tile of the letter
+            Tile accessedTile = frame.accessLetter(letter);
+            if (accessedTile.getType() != letter) {
                 System.out.println("The correct letter was not accessed");
             }
         }
