@@ -20,6 +20,9 @@ public class PlayerTest {
         // Run tests on Player
         Player playerA = new Player("A", new Frame(pool));
         testPlayer(playerA);
+        //demonstrate displayFrame()
+        System.out.print("Player's Frame: ");
+        playerA.getFrame().displayFrame();
         // Run tests on Frame
         testFrame(playerA.getFrame());
     }
