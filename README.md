@@ -6,7 +6,9 @@
 * [Katarina Cvetkovic](https://github.com/katarinac)
 * [Jason Tee](https://github.com/AmplifiedHuman)
 * [Rajit Banerjee](https://github.com/rajitbanerjee)
-###Instructions for Code Execution - Assignment 1:
+
+# Instructions for Code Execution - Assignment 1:
+
 In order to run our code, you should run the main method from the PlayerTest class. 
 
 The PlayerTest class contains four methods which test the classes; 
