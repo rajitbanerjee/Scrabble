@@ -39,10 +39,10 @@ public class Frame {
      * @throws RuntimeException if pool is empty, frame cannot be filled
      */
     public void fillFrame() throws RuntimeException {
-        if (pool.isPoolEmpty()) {
+        if (pool.isEmpty()) {
             throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
         } else {
-            int numTilesToDraw = Math.min(pool.countTiles(), 7 - frame.size());
+            int numTilesToDraw = Math.min(pool.size(), 7 - frame.size());
             for (int i = 0; i < numTilesToDraw; i++) {
                 frame.add(pool.drawTile());
             }
@@ -54,7 +54,7 @@ public class Frame {
      *
      * @return {@code true} if frame is empty, {@code false} otherwise
      */
-    public boolean isFrameEmpty() {
+    public boolean isEmpty() {
         return frame.isEmpty();
     }
 
@@ -66,7 +66,7 @@ public class Frame {
      * @return the index of the first tile containing this letter or -1 if the
      * letter is not in the frame
      */
-    private int findLetterIndex(char letter) {
+    private int getLetterIndex(char letter) {
         for (int i = 0; i < frame.size(); i++) {
             if (frame.get(i).getType() == Character.toUpperCase(letter)) {
                 return i;
@@ -82,7 +82,7 @@ public class Frame {
      * @return {@code true} if letter is inside frame, {@code false} otherwise
      */
     public boolean isLetterInFrame(char letter) {
-        return findLetterIndex(letter) != -1;
+        return getLetterIndex(letter) != -1;
     }
 
     /**
@@ -91,9 +91,9 @@ public class Frame {
      * @param letter to be removed from the frame
      * @throws NoSuchElementException if specified letter isn't in frame
      */
-    public void removeLetter(char letter) throws NoSuchElementException {
+    public void remove(char letter) throws NoSuchElementException {
         if (isLetterInFrame(letter)) {
-            frame.remove(findLetterIndex(letter));
+            frame.remove(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be removed. Not in frame");
         }
@@ -106,9 +106,9 @@ public class Frame {
      * @return the tile associated with the letter
      * @throws NoSuchElementException if required letter is not in frame
      */
-    public Tile accessLetter(char letter) throws NoSuchElementException {
+    public Tile getTile(char letter) throws NoSuchElementException {
         if (isLetterInFrame(letter)) {
-            return frame.get(findLetterIndex(letter));
+            return frame.get(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be accessed. Not in frame");
         }
@@ -117,7 +117,7 @@ public class Frame {
     /**
      * Prints the frame to the CLI.
      */
-    public void displayFrame() {
+    public void printFrame() {
         System.out.println(frame);
     }
 

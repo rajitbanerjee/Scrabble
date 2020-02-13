@@ -17,13 +17,13 @@ public class Pool {
 
     public Pool() {
         pool = new ArrayList<>();
-        resetPool();
+        reset();
     }
 
     /**
      * Resets the pool to its initial state with 100 tiles.
      */
-    public void resetPool() {
+    public void reset() {
         pool.clear();
 
         // different types of tiles, "-" represents the blank tile grouped...
@@ -62,15 +62,15 @@ public class Pool {
      *
      * @return current number of tiles in the pool
      */
-    public int countTiles() {
+    public int size() {
         return pool.size();
     }
 
     /**
      * Display the number of tiles currently in the pool.
      */
-    public void displayTileCount() {
-        System.out.println("Number of tiles in pool: " + countTiles());
+    public void printSize() {
+        System.out.println("Number of tiles in pool: " + size());
     }
 
     /**
@@ -78,7 +78,7 @@ public class Pool {
      *
      * @return {@code true} if pool has 0 tiles, {@code false} otherwise
      */
-    public boolean isPoolEmpty() {
+    public boolean isEmpty() {
         return pool.isEmpty();
     }
 
@@ -89,7 +89,7 @@ public class Pool {
      * @throws NoSuchElementException if player tries to draw Tile from empty Pool
      */
     public Tile drawTile() throws NoSuchElementException {
-        if (isPoolEmpty()) {
+        if (isEmpty()) {
             throw new NoSuchElementException("Pool has no tiles!");
         } else {
             // returns a random index between [0, pool.size())
