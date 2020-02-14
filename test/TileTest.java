@@ -2,6 +2,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tile class tests.
+ *
+ * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
+
 class TileTest {
     @Test
     void testTile() {
@@ -45,8 +54,6 @@ class TileTest {
         if (!t.toString().equals("  Z  ")) {
             fail("Error: toString() doesn't work as expected.");
         }
-
-
     }
 
 }
