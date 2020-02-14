@@ -44,12 +44,6 @@ public class Board {
         }
     }
 
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('A', 1, new Tile('Z', 10));
-        b.display();
-    }
-
     public void reset() {
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
@@ -94,4 +88,5 @@ public class Board {
         }
         System.out.println();
     }
+
 }
