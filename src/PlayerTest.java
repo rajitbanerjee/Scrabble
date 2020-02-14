@@ -130,13 +130,13 @@ public class PlayerTest {
             System.out.println("Error: resetPool() does not work as expected.");
         }
         // Prints final test result
-        System.out.printf("\nPool tests completed. (%d/100 tiles correct)\n",
+        System.out.printf("Pool tests completed. (%d/100 tiles correct)\n",
                 correctTiles);
     }
 
     // Player class tests
     public static void testPlayer(Player playerA) {
-        System.out.printf("\nPlayer name: %s\tScore: %d",
+        System.out.printf("\nPlayer name: %s\tScore: %d\n",
                 playerA.getName(), playerA.getScore());
         System.out.println("Testing the Player class...");
         // Try to increase score by a negative value

@@ -111,12 +111,4 @@ public class Pool {
         return t.getPoints();
     }
 
-    /**
-     * Accessor for pool variable.
-     *
-     * @return the pool of tiles
-     */
-    public ArrayList<Tile> getPool() {
-        return pool;
-    }
 }
