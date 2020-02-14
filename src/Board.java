@@ -60,7 +60,7 @@ public class Board {
 
     public void placeTile(char column, int row, Tile tile) {
         column = Character.toUpperCase(column);
-        if (column < 'A' || column > 'Z') {
+        if (column < 'A' || column > 'O') {
             throw new IllegalArgumentException("Illegal column index.");
         }
         if (row <= 0 || row > 15) {
