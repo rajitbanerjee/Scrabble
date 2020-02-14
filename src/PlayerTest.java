@@ -67,7 +67,7 @@ public class PlayerTest {
         }
 
         // Test toString()
-        if (!t.toString().equals("Z (points: 10)")) {
+        if (!t.toString().equals("  Z  ")) {
             System.out.println("Error: toString() doesn't work as expected.");
         }
 
@@ -113,7 +113,7 @@ public class PlayerTest {
         for (int i = 0; i < 100; i++) {
             Tile t = pool.drawTile();
             if (!map.containsKey(t.getType()) || map.get(t.getType()) != t.getPoints()) {
-                System.out.println(String.format("Error: Character %c is invalid", t.getType()));
+                System.out.printf("\nError: Character %c is invalid", t.getType());
             } else if (map.get(t.getType()) != pool.getTileValue(t)) {
                 System.out.println("Error: getTileValue() returns incorrect values");
             } else {
@@ -130,14 +130,14 @@ public class PlayerTest {
             System.out.println("Error: resetPool() does not work as expected.");
         }
         // Prints final test result
-        System.out.println(String.format("Pool tests completed. (%d/100 tiles correct)\n",
-                correctTiles));
+        System.out.printf("\nPool tests completed. (%d/100 tiles correct)\n",
+                correctTiles);
     }
 
     // Player class tests
     public static void testPlayer(Player playerA) {
-        System.out.println(String.format("Player name: %s\tScore: %d",
-                playerA.getName(), playerA.getScore()));
+        System.out.printf("\nPlayer name: %s\tScore: %d",
+                playerA.getName(), playerA.getScore());
         System.out.println("Testing the Player class...");
         // Try to increase score by a negative value
         try {
