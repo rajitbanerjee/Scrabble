@@ -88,6 +88,27 @@ public class Board {
     }
 
     /**
+     * Retrieve a Tile at a specified row and column on the board.
+     *
+     * @param column the specified column on the board
+     * @param row    the specified row on the board
+     * @return the Tile at a specified position on the board
+     * @throws IllegalArgumentException if specified row or column are out of bounds
+     */
+    public Tile getTile(char column, int row)
+            throws IllegalArgumentException {
+        column = Character.toUpperCase(column);
+        if (column < 'A' || column > 'O') {
+            throw new IllegalArgumentException("Illegal column index.");
+        }
+        if (row <= 0 || row > 15) {
+            throw new IllegalArgumentException("Illegal row index.");
+        }
+        return board[row - 1][column - 'A'].getTile();
+    }
+
+
+    /**
      * Displays the board and tiles (if any) on the command line.
      */
     public void display() {
