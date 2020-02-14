@@ -15,14 +15,14 @@ public class PlayerTest {
         testTile();
         // Run tests on Pool
         Pool pool = new Pool();
-        pool.displayTileCount();
+        pool.printSize();
         testPool(pool);
         // Run tests on Player
         Player playerA = new Player("A", new Frame(pool));
         testPlayer(playerA);
         //demonstrate displayFrame()
         System.out.print("Player's Frame: ");
-        playerA.getFrame().displayFrame();
+        playerA.getFrame().printFrame();
         // Run tests on Frame
         testFrame(playerA.getFrame());
     }
@@ -121,12 +121,12 @@ public class PlayerTest {
             }
         }
         // Checks if Pool is empty
-        if (!pool.isPoolEmpty()) {
+        if (!pool.isEmpty()) {
             System.out.println("Error: Pool size error.");
         }
-        pool.resetPool();
+        pool.reset();
         // Tests resetPool() method
-        if (pool.countTiles() != 100) {
+        if (pool.size() != 100) {
             System.out.println("Error: resetPool() does not work as expected.");
         }
         // Prints final test result
@@ -193,32 +193,32 @@ public class PlayerTest {
         System.out.println("Testing the Frame class...");
 
         // test isFrameEmpty()
-        if (frame.isFrameEmpty()) {
+        if (frame.isEmpty()) {
             System.out.println("Error: Frame should not be empty");
         }
         // empty frame
         frame.getFrame().clear();
-        if (!frame.isFrameEmpty()) {
+        if (!frame.isEmpty()) {
             System.out.println("Error: Frame should be empty");
         }
         // testing fillFrame()
         // draw tiles until pool is emptied
-        while (frame.getPool().countTiles() > 0) {
+        while (frame.getPool().size() > 0) {
             // num of tiles in pool before drawing
-            int tilesInPoolBefore = frame.getPool().countTiles();
+            int tilesInPoolBefore = frame.getPool().size();
             frame.fillFrame();
             // check that no more than 7 tiles are removed
-            if (tilesInPoolBefore - frame.getPool().countTiles() > 7) {
+            if (tilesInPoolBefore - frame.getPool().size() > 7) {
                 System.out.println("Error: No more than 7 tiles should be drawn from the pool");
             }
             // check if tiles are still available in the pool
-            if (frame.isFrameEmpty() && frame.getPool().countTiles() > 0) {
+            if (frame.isEmpty() && frame.getPool().size() > 0) {
                 System.out.println("Error: frame should not be empty");
             }
             frame.getFrame().clear();
         }
         // restore pool to 100
-        frame.getPool().resetPool();
+        frame.getPool().reset();
         frame.fillFrame();
 
         // test isLetterInFrame()
@@ -231,9 +231,9 @@ public class PlayerTest {
         // test removeLetter() with letters from the frame
         for (int i = frame.getFrame().size() - 1; i >= 0; i--) {
             // removes all letters currently in the frame
-            frame.removeLetter(frame.getFrame().get(i).getType());
+            frame.remove(frame.getFrame().get(i).getType());
         }
-        if (!frame.isFrameEmpty()) {
+        if (!frame.isEmpty()) {
             // check that all elements have been removed correctly
             System.out.println("Error: The frame should be empty");
         }
@@ -243,7 +243,7 @@ public class PlayerTest {
             // at least one letter will be outside the frame
             char[] letters = alphabet.toCharArray();
             for (char letter : letters) {
-                frame.removeLetter(letter);
+                frame.remove(letter);
             }
             System.out.println("Error: frame cannot remove letters it does not contain");
         } catch (Exception e) {
@@ -256,7 +256,7 @@ public class PlayerTest {
             // letter being accessed
             char letter = frame.getFrame().get(i).getType();
             // the tile of the letter
-            Tile accessedTile = frame.accessLetter(letter);
+            Tile accessedTile = frame.getTile(letter);
             if (accessedTile.getType() != letter) {
                 System.out.println("The correct letter was not accessed");
             }
