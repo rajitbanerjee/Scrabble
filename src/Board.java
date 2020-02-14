@@ -1,6 +1,18 @@
+/**
+ * The Board is a 15x15 matrix of Squares.
+ *
+ * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
 public class Board {
     Square[][] board = new Square[15][15];
 
+    /**
+     * The constructor loops through every Square in the Board
+     * and sets the multiplier that a particular index may have.
+     */
     public Board() {
         // set Centre and Normal squares
         for (int i = 0; i < 15; i++) {
@@ -44,6 +56,9 @@ public class Board {
         }
     }
 
+    /**
+     * Reset the board so that it contains 0 Tiles.
+     */
     public void reset() {
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
@@ -52,7 +67,16 @@ public class Board {
         }
     }
 
-    public void placeTile(char column, int row, Tile tile) {
+    /**
+     * Place a given Tile at a specified row and column on the Board.
+     *
+     * @param column character between A-O to specify the board column
+     * @param row    integer between 1-15 to specify the board row
+     * @param tile   the Tile to be placed at the specified index
+     * @throws IllegalArgumentException if column or row is invalid
+     */
+    public void placeTile(char column, int row, Tile tile)
+            throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         if (column < 'A' || column > 'O') {
             throw new IllegalArgumentException("Illegal column index.");
@@ -63,6 +87,9 @@ public class Board {
         board[row - 1][column - 'A'].setTile(tile);
     }
 
+    /**
+     * Displays the board and tiles (if any) on the command line.
+     */
     public void display() {
         printLine();
         System.out.print("\t|");
@@ -81,6 +108,9 @@ public class Board {
         }
     }
 
+    /**
+     * Display a line of dashes, used to display the Board.
+     */
     private void printLine() {
         System.out.println();
         for (int i = 0; i < 95; i++) {
