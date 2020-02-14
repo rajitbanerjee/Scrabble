@@ -26,7 +26,7 @@ public class Pool {
     public void resetPool() {
         pool.clear();
 
-        // different types of tiles, "-" represents the blank tile grouped...
+        // different types of tiles ("-" represents the blank tile) grouped...
         // according to equality of associated points
         String[] tileTypes = {"-", "E", "AI", "O", "NRT", "LSU",
                 "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
