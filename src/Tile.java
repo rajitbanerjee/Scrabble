@@ -64,6 +64,6 @@ public class Tile {
     // each Tile is displayed as the type of Tile and the associated points
     @Override
     public String toString() {
-        return type + " (points: " + points + ")";
+        return type + "";
     }
 }
