@@ -1,3 +1,13 @@
+/**
+ * Each Square has an assigned multiplier and can have
+ * a Tile placed on it.
+ * The Board is comprised of 15x15 Squares.
+ *
+ * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
 public class Square {
     private Multiplier multiplier;
     private Tile tile = null;
@@ -6,12 +16,9 @@ public class Square {
         this.multiplier = multiplier;
     }
 
+    // Required setters and getters
     public Multiplier getMultiplier() {
         return multiplier;
-    }
-
-    public void setMultiplier(Multiplier multiplier) {
-        this.multiplier = multiplier;
     }
 
     public Tile getTile() {
@@ -22,6 +29,15 @@ public class Square {
         this.tile = tile;
     }
 
+    /**
+     * Gets the String representation of a Square.
+     * If no Tile is placed on a Square, the Square
+     * multiplier is displayed, else the Tile letter
+     * is displayed.
+     *
+     * @return String representation of a Square
+     */
+    @Override
     public String toString() {
         if (tile == null) {
             switch (multiplier) {
@@ -42,5 +58,6 @@ public class Square {
         return tile.toString();
     }
 
+    // stores the different types of multipliers on a board
     enum Multiplier {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
 }
