@@ -14,10 +14,10 @@ public class Player {
     /**
      * First Constructor for the player class, frame remains null if unspecified.
      *
-     * @throws NullPointerException if the given name is null
+     * @throws NullPointerException if the given name is null or empty
      */
     public Player(String name) throws NullPointerException {
-        if (name == null) {
+        if (name == null || name.trim().equals("")) {
             throw new NullPointerException("Player name cannot be null");
         } else {
             this.name = name;
@@ -122,7 +122,7 @@ public class Player {
      * @throws NullPointerException if given name is null
      */
     public void setName(String name) throws NullPointerException {
-        if (name == null) {
+        if (name == null || name.trim().equals("")) {
             throw new NullPointerException("Player name cannot be null");
         } else {
             this.name = name;

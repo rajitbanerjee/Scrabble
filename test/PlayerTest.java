@@ -1,11 +1,58 @@
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private static final PrintStream originalOut = System.out;
+
+    @BeforeAll
+    static void setUpStream() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterAll
+    static void restoreStreams() {
+        System.setOut(originalOut);
+    }
+
     @Test
     void testPlayer() {
+        // Empty name tests
+        try {
+            new Player(null);
+            new Player(" ");
+            fail("Error: Player name cannot be empty.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+
         Player playerA = new Player("A", new Frame(new Pool()));
+        // Test player name printing
+        playerA.printName();
+        assertEquals("A", outContent.toString().strip());
+
+        // Name empty setter tests
+        try {
+            playerA.setName("");
+            playerA.setName(null);
+            fail("Error: Player name cannot be empty.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+
+        // Name non-empty setter test
+        try {
+            playerA.setName("A");
+        } catch (Exception e) {
+            fail("Name setter works, incorrect exception.");
+        }
+
         // Try to increase score by a negative value
         try {
             playerA.increaseScore(-1);
@@ -33,6 +80,9 @@ class PlayerTest {
         // Tests getName()
         if (!playerA.getName().equals("A")) {
             fail("Error: Name set incorrectly.");
+        }
+        if (!playerA.toString().equals("A")) {
+            fail("Error: toString() not working.");
         }
         // Tests resetScore()
         playerA.resetScore();
