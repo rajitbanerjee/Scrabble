@@ -43,8 +43,12 @@ public class Board {
         for (int[] index : triple_ws) {
             board[index[0]][index[1]] = new Square(Square.Multiplier.TRIPLE_WS);
         }
-
     }
+
+    public void placeTile(char column, int row, Tile tile) {
+        board[row - 1][column - 'A'].setTile(tile);
+    }
+
 
     public void display() {
         printLine();
@@ -74,6 +78,8 @@ public class Board {
 
     public static void main(String[] args) {
         Board b = new Board();
+        b.placeTile('A', 1, new Tile('Z', 10));
         b.display();
+
     }
 }
