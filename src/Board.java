@@ -50,6 +50,14 @@ public class Board {
         b.display();
     }
 
+    public void reset() {
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                board[i][j].setTile(null);
+            }
+        }
+    }
+
     public void placeTile(char column, int row, Tile tile) {
         column = Character.toUpperCase(column);
         if (column < 'A' || column > 'Z') {
