@@ -1,12 +1,11 @@
-import javax.swing.*;
-
 public class Board {
     Square[][] board = new Square[15][15];
 
-    Board() {
+    public Board() {
         // set Centre and Normal squares
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
+                // centre square index
                 if (i == 7 && j == 7) {
                     board[i][j] = new Square(Square.Multiplier.CENTRE);
                 } else {
@@ -45,10 +44,22 @@ public class Board {
         }
     }
 
-    public void placeTile(char column, int row, Tile tile) {
-        board[row - 1][column - 'A'].setTile(tile);
+    public static void main(String[] args) {
+        Board b = new Board();
+        b.placeTile('A', 1, new Tile('Z', 10));
+        b.display();
     }
 
+    public void placeTile(char column, int row, Tile tile) {
+        column = Character.toUpperCase(column);
+        if (column < 'A' || column > 'Z') {
+            throw new IllegalArgumentException("Illegal column index.");
+        }
+        if (row <= 0 || row > 15) {
+            throw new IllegalArgumentException("Illegal row index.");
+        }
+        board[row - 1][column - 'A'].setTile(tile);
+    }
 
     public void display() {
         printLine();
@@ -69,17 +80,10 @@ public class Board {
     }
 
     private void printLine() {
-        System.out.print("\n");
+        System.out.println();
         for (int i = 0; i < 95; i++) {
             System.out.print("-");
         }
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('A', 1, new Tile('Z', 10));
-        b.display();
-
     }
 }

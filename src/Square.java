@@ -1,27 +1,25 @@
 public class Square {
-    enum Multiplier {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
+    private Multiplier multiplier;
+    private Tile tile = null;
 
-    Multiplier multiplier;
-    Tile tile = null;
-
-    Square(Multiplier multiplier) {
+    public Square(Multiplier multiplier) {
         this.multiplier = multiplier;
-    }
-
-    public void setMultiplier(Multiplier multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
     }
 
     public Multiplier getMultiplier() {
         return multiplier;
     }
 
+    public void setMultiplier(Multiplier multiplier) {
+        this.multiplier = multiplier;
+    }
+
     public Tile getTile() {
         return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     public String toString() {
@@ -40,8 +38,9 @@ public class Square {
                 default:
                     return "     ";
             }
-        } else {
-            return tile.toString();
         }
+        return tile.toString();
     }
+
+    enum Multiplier {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
 }
