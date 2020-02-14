@@ -13,11 +13,6 @@ public class Tile {
     // points for each tile vary between 0 and 10.
     private int points;
 
-    public Tile() {
-        type = 0;
-        points = 0;
-    }
-
     // create a new Tile with given type (blank or A-Z) and assigned points
     public Tile(char type, int points) {
         setType(type);
@@ -58,6 +53,22 @@ public class Tile {
             throw new IllegalArgumentException("Invalid tile points.");
         } else {
             this.points = points;
+        }
+    }
+
+    /**
+     * Tile equality checker.
+     *
+     * @param o Object to be tested for equality against another Tile
+     * @return {@code true} if Tiles are equal, {@code false} otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Tile) {
+            Tile tile = (Tile) o;
+            return tile.getType() == getType() && tile.getPoints() == getPoints();
+        } else {
+            return false;
         }
     }
 
