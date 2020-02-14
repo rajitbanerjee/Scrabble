@@ -115,7 +115,8 @@ public class Frame {
     }
 
     /**
-     * Prints the frame to the CLI.
+     * Prints the frame to the command line.
+     * Note: cannot be unit testes without force setting a frame
      */
     public void printFrame() {
         System.out.println(frame);
