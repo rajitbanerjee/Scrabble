@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author Rajit Banerjee, 18202817
  * @team DarkMode
  */
-public class PlayerTest {
+public class PlayerTestMain {
     public static void main(String[] args) {
         System.out.println("Running tests for Tile, Pool, Player and Frame classes:\n");
         // Run tests on Tile
