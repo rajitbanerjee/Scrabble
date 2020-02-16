@@ -76,14 +76,14 @@ public class Board {
      * @param orientation whether the word goes across or down
      * @param word  the word to be placed on the board
      * @param frame the players frame
+     * @throws IllegalArgumentException if orientation isn't across or down
      */
-    private void placeWord(char column, int row, char orientation, String word, Frame frame) {
+    private void placeWord(char column, int row, char orientation, String word, Frame frame)
+                throws IllegalArgumentException{
         word = word.toUpperCase();
         orientation = Character.toUpperCase(orientation);
-        if(areLettersInFrame(word, frame) && !doesBoardConflict(column, row, orientation, word)){
-            //check if frame contains sufficient tiles
-        }else{
-            //the word placement is invalid
+        if(orientation != 'A' && orientation != 'D'){
+            throw new IllegalArgumentException("Illegal orientation parameter passed");
         }
     }
 
