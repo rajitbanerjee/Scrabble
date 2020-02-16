@@ -68,6 +68,35 @@ public class Board {
     }
 
     /**
+     * Place a given word either vertically or horizontally at a specified
+     * row and column on the board
+     *
+     * @param column character between A-O to specify the board column
+     * @param row    integer between 1-15 to specify the board row
+     * @param orientation whether the word goes across or down
+     * @param word  the word to be placed on the board
+     * @param frame the players frame
+     */
+    private void placeWord(char column, int row, char orientation, String word, Frame frame) {
+
+    }
+
+    /**
+     * Checks that at least one letter from the frame is used
+     * @param word  the word to be placed
+     * @param frame the players frame
+     * @return  true if at least one letter from the frame is used
+     */
+    private boolean frameContainsALetter (String word, Frame frame){
+        for (char ch : word.toCharArray()) {
+            if (frame.isLetterInFrame(ch)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Place a given Tile at a specified row and column on the Board.
      *
      * @param column character between A-O to specify the board column
