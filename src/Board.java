@@ -78,7 +78,34 @@ public class Board {
      * @param frame the players frame
      */
     private void placeWord(char column, int row, char orientation, String word, Frame frame) {
+        word = word.toUpperCase();
+        orientation = Character.toUpperCase(orientation);
+        if(frameContainsALetter(word, frame) && !doesBoardConflict(column, row, orientation, word)){
+            //check if frame contains sufficient tiles
+        }else{
+            //the word placement is invalid
+        }
+    }
 
+    private boolean doesBoardConflict(char column, int row, char orientation, String word) {
+        char [] wordArray = word.toCharArray();
+        int wordLength = word.length();
+        if(orientation == 'A'){
+            for(int i = 0 ; i < wordLength ; i++){
+                if(board[column - 'A' + i][row].getTile() != null &&
+                        board[column - 'A' + i][row].getTile().getType() != wordArray[i]){
+                    return true;
+                }
+            }
+        }else{
+            for(int i = 0 ; i < wordLength ; i++){
+                if(board[column - 'A'][row + i].getTile() != null &&
+                        board[column - 'A'][row + i].getTile().getType() != wordArray[i]){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
