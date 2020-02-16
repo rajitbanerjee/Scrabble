@@ -80,7 +80,7 @@ public class Board {
     private void placeWord(char column, int row, char orientation, String word, Frame frame) {
         word = word.toUpperCase();
         orientation = Character.toUpperCase(orientation);
-        if(frameContainsALetter(word, frame) && !doesBoardConflict(column, row, orientation, word)){
+        if(areLettersInFrame(word, frame) && !doesBoardConflict(column, row, orientation, word)){
             //check if frame contains sufficient tiles
         }else{
             //the word placement is invalid
@@ -107,14 +107,13 @@ public class Board {
         }
         return false;
     }
-
     /**
      * Checks that at least one letter from the frame is used
      * @param word  the word to be placed
      * @param frame the players frame
      * @return  true if at least one letter from the frame is used
      */
-    private boolean frameContainsALetter (String word, Frame frame){
+    private boolean areLettersInFrame (String word, Frame frame){
         for (char ch : word.toCharArray()) {
             if (frame.isLetterInFrame(ch)) {
                 return true;
