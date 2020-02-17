@@ -92,8 +92,8 @@ public class Board {
             throws IllegalArgumentException {
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase();
-        row -= 1;
-        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
+        row -= 1; // change row from board position to actual index starting at 0
+        if (isInvalidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         }
@@ -198,8 +198,8 @@ public class Board {
         // Checks if the supplied orientation is valid
         column = Character.toUpperCase(column);
         orientation = Character.toUpperCase(orientation);
-        row -= 1;
-        if (!isValidSquare(column, row)) {
+        row -= 1; // change row from board position to actual index starting at 0
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
 
@@ -263,7 +263,7 @@ public class Board {
     public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         row -= 1;
-        if (!isValidSquare(column, row)) {
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
         if (tile == null) {
@@ -286,7 +286,7 @@ public class Board {
     public Tile getTile(char column, int row) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         row -= 1;
-        if (!isValidSquare(column, row)) {
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
         return board[row][column - 'A'].getTile();
@@ -325,9 +325,9 @@ public class Board {
     }
 
     // Accepts real index (0 - 14)
-    private boolean isValidSquare(char column, int row) {
+    private boolean isInvalidSquare(char column, int row) {
         column = Character.toUpperCase(column);
-        return column >= 'A' && column <= 'O' && row >= 0 && row < 15;
+        return column < 'A' || column > 'O' || row < 0 || row > 14;
     }
 
     // Accepts real index (0 - 14)
@@ -341,10 +341,10 @@ public class Board {
         if (orientation == 'A') {
             return (columnStart + wordLength - 1) > 'O';
         }
-        return (rowStart + wordLength - 1) >= 15;
+        return (rowStart + wordLength - 1) > 14;
     }
 
-
+    // Accepts real index (0 - 14)
     private boolean doesWordCoverSquare(char columnStart, int rowStart, char orientation, int wordLength,
                                         char targetColumn, int targetRow) {
 
