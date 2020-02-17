@@ -110,11 +110,11 @@ public class Board {
     }
 
     /**
-     * Retrieve a tile at a specified row and column on the board, return null if square is empty.
+     * Retrieve a tile at a specified row and column on the board.
      *
      * @param column the specified column on the board
      * @param row    the specified row on the board
-     * @return the Tile at a specified position on the board
+     * @return the Tile at a specified position on the board, null if empty
      * @throws IllegalArgumentException if specified row or column are out of bounds
      */
     public Tile getTile(char column, int row) throws IllegalArgumentException {
@@ -154,10 +154,10 @@ public class Board {
     }
 
     /**
-     * Place a given word either vertically or horizontally at a specified
-     * row and column on the board.
+     * Place a given word either vertically or horizontally starting at a
+     * specified row and column on the board.
      *
-     * @param column      character between A-O to specify the board column
+     * @param column      character between 'A'-'O' to specify the board column
      * @param row         integer between 1-15 to specify the board row
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
