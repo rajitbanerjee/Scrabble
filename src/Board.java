@@ -101,12 +101,47 @@ public class Board {
             throw new IllegalArgumentException("First word must be placed in the middle.");
         } else {
             if (frameContainsALetter(word, frame) &&
-                    !doesBoardConflict(column, row, orientation, word)) {
-                // TODO check if frame contains sufficient tiles
+                    !doesBoardConflict(column, row, orientation, word) &&
+                        doesFrameContainTiles(column, row, orientation, word, frame)) {
+                // TODO place tiles
             } else {
                 // TODO the word placement is invalid
             }
         }
+    }
+
+    /**
+     * checks if the frame contains the correct letters necessary for this word placement
+     *
+     * @param column        character between A-O to specify the board column
+     * @param row           integer between 0-14 to specify the board row
+     * @param orientation   whether the word goes across or down
+     * @param word          the word to be placed on the board
+     * @param frame         the players frame
+     * @return true if the frame contains all tiles needed
+     * @throws IllegalArgumentException for frame not containing all tiles needed for word
+     */
+    private boolean doesFrameContainTiles(char column, int row, char orientation, String word, Frame frame)
+            throws IllegalArgumentException{
+        int wordLength = word.length();
+        // Checks the horizontal direction
+        if (orientation == 'A') {
+            for (int i = 0; i < wordLength; i++) {
+                //throw exception if frame does not contain letter needed
+                if (isEmpty((char) (column + (char)i), row) && !frame.isLetterInFrame(word.charAt(i))) {
+                    throw new IllegalArgumentException("Frame does not contain necessary letters");
+                }
+            }
+        } else {
+            // checks the vertical direction
+            for (int i = 0; i < wordLength; i++) {
+                //throw exception if frame does not contain letter needed
+                if (isEmpty(column, row + i) && !frame.isLetterInFrame(word.charAt(i))) {
+                    throw new IllegalArgumentException("Frame does not contain necessary letters");
+                }
+            }
+        }
+        return true;
     }
 
     /**
