@@ -97,7 +97,7 @@ public class Board {
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         }
-        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 7)) {
+        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 8)) {
             throw new IllegalArgumentException("First word must be placed in the middle.");
         } else {
             if (frameContainsALetter(word, frame) &&
@@ -301,10 +301,12 @@ public class Board {
                                         char targetColumn, int targetRow) {
         int columnStartIndex = columnStart - 'A';
         int targetColumnIndex = targetColumn - 'A';
-        if (orientation == 'A' && rowStart == targetRow &&
-                ((columnStartIndex + wordLength - 1) >= targetColumnIndex)) {
-            return true;
+        if (orientation == 'A') {
+            return rowStart == targetRow &&
+                    ((columnStartIndex + wordLength - 1) >= targetColumnIndex);
+        } else {
+            return orientation == 'D' && columnStart == targetColumn &&
+                    ((rowStart + wordLength - 1) >= targetRow);
         }
-        return orientation == 'D' && columnStart == targetColumn && ((rowStart + wordLength - 1) >= targetRow);
     }
 }
