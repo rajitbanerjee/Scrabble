@@ -110,7 +110,7 @@ public class Board {
     }
 
     /**
-     *
+     * Checks if a word conflicts with any existing words on the board
      */
     private boolean doesBoardConflict(char column, int row, char orientation, String word)
             throws IllegalArgumentException {
@@ -136,14 +136,14 @@ public class Board {
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
                 if (!isEmpty(column, row) && board[row][column - 'A' + i].getTile().getType() != wordArray[i]) {
-                    return false;
+                    return true;
                 }
             }
         } else {
             // checks the vertical direction
             for (int i = 0; i < wordLength; i++) {
                 if (!isEmpty(column, row) && board[row + i][column - 'A'].getTile().getType() != wordArray[i]) {
-                    return false;
+                    return true;
                 }
             }
         }
