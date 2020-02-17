@@ -232,17 +232,16 @@ public class Board {
      */
     private boolean doesBoardConflict(int column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
-        int wordLength = word.length();
         // Checks the horizontal direction
         if (orientation == 'A') {
-            for (int i = 0; i < wordLength; i++) {
+            for (int i = 0; i < word.length(); i++) {
                 if (!isSquareEmpty(column, row) && board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
             }
         } else {
             // checks the vertical direction
-            for (int i = 0; i < wordLength; i++) {
+            for (int i = 0; i < word.length(); i++) {
                 if (!isSquareEmpty(column, row) && board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -262,20 +261,19 @@ public class Board {
      * @return true if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, Frame frame) {
-        int wordLength = word.length();
         // Checks the horizontal direction
         if (orientation == 'A') {
-            for (int i = 0; i < wordLength; i++) {
+            for (int i = 0; i < word.length(); i++) {
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column + i, row) && !frame.isLetterInFrame(word.charAt(i))) {
+                if (isSquareEmpty(column + i, row) && !frame.contains(word.charAt(i))) {
                     return false;
                 }
             }
         } else {
             // checks the vertical direction
-            for (int i = 0; i < wordLength; i++) {
+            for (int i = 0; i < word.length(); i++) {
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column, row + i) && !frame.isLetterInFrame(word.charAt(i))) {
+                if (isSquareEmpty(column, row + i) && !frame.contains(word.charAt(i))) {
                     return false;
                 }
             }
@@ -296,7 +294,7 @@ public class Board {
             throw new IllegalArgumentException("Either word or frame is empty.");
         }
         for (char ch : word.toCharArray()) {
-            if (frame.isLetterInFrame(ch) || frame.isLetterInFrame('-')) {
+            if (frame.contains(ch) || frame.contains('-')) {
                 return true;
             }
         }
@@ -304,14 +302,14 @@ public class Board {
     }
 
     // Accepts real index (0 - 14)
-    private boolean doesWordCoverSquare(int columnStart, int rowStart, char orientation, int wordLength,
+    private boolean doesWordCoverSquare(int startColumn, int startRow, char orientation, int wordLength,
                                         int targetColumn, int targetRow) {
         if (orientation == 'A') {
-            return rowStart == targetRow &&
-                    ((columnStart + wordLength - 1) >= targetColumn);
+            return startRow == targetRow &&
+                    ((startColumn + wordLength - 1) >= targetColumn);
         } else {
-            return orientation == 'D' && columnStart == targetColumn &&
-                    ((rowStart + wordLength - 1) >= targetRow);
+            return orientation == 'D' && startColumn == targetColumn &&
+                    ((startRow + wordLength - 1) >= targetRow);
         }
     }
 
@@ -340,6 +338,7 @@ public class Board {
                 }
             }
         } else {
+            // Check the vertical direction
             for (int i = 0; i < wordLength; i++) {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {

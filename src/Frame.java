@@ -79,7 +79,7 @@ public class Frame {
      * @param letter the letter that is being searched
      * @return {@code true} if letter is inside frame, {@code false} otherwise
      */
-    public boolean isLetterInFrame(char letter) {
+    public boolean contains(char letter) {
         return getLetterIndex(letter) != -1;
     }
 
@@ -90,7 +90,7 @@ public class Frame {
      * @throws NoSuchElementException if specified letter isn't in frame
      */
     public void remove(char letter) throws NoSuchElementException {
-        if (isLetterInFrame(letter)) {
+        if (contains(letter)) {
             frame.remove(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be removed. Not in frame");
@@ -105,7 +105,7 @@ public class Frame {
      * @throws NoSuchElementException if required letter is not in frame
      */
     public Tile getTile(char letter) throws NoSuchElementException {
-        if (isLetterInFrame(letter)) {
+        if (contains(letter)) {
             return frame.get(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be accessed. Not in frame");

@@ -87,7 +87,7 @@ class FrameTest {
         // test isLetterInFrame()
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // check if each drawn tile is in the frame
-            if (!frame.isLetterInFrame(frame.getFrame().get(i).getType())) {
+            if (!frame.contains(frame.getFrame().get(i).getType())) {
                 fail("Error: letter is not found in frame");
             }
         }
