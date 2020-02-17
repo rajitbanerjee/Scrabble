@@ -26,11 +26,10 @@ public class Frame {
     public Frame(Pool pool) throws IllegalArgumentException {
         if (pool == null) {
             throw new IllegalArgumentException("Pool cannot be null");
-        } else {
-            frame = new ArrayList<>();
-            this.pool = pool;
-            fillFrame();
         }
+        frame = new ArrayList<>();
+        this.pool = pool;
+        fillFrame();
     }
 
     /**
@@ -41,11 +40,10 @@ public class Frame {
     public void fillFrame() throws RuntimeException {
         if (pool.isEmpty()) {
             throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
-        } else {
-            int numTilesToDraw = Math.min(pool.size(), 7 - frame.size());
-            for (int i = 0; i < numTilesToDraw; i++) {
-                frame.add(pool.drawTile());
-            }
+        }
+        int numTilesToDraw = Math.min(pool.size(), 7 - frame.size());
+        for (int i = 0; i < numTilesToDraw; i++) {
+            frame.add(pool.drawTile());
         }
     }
 

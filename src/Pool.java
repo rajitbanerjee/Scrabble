@@ -91,14 +91,13 @@ public class Pool {
     public Tile drawTile() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("Pool has no tiles!");
-        } else {
-            // returns a random index between [0, pool.size())
-            int index = (int) (Math.random() * pool.size());
-
-            Tile t = pool.get(index);
-            pool.remove(index);
-            return t;
         }
+        // returns a random index between [0, pool.size())
+        int index = (int) (Math.random() * pool.size());
+
+        Tile t = pool.get(index);
+        pool.remove(index);
+        return t;
     }
 
     /**
