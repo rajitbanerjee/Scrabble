@@ -223,8 +223,7 @@ public class Board {
     /**
      * Checks if a word conflicts with any existing words on the board
      */
-    private boolean doesBoardConflict(char column, int row, char orientation, String word)
-            throws IllegalArgumentException {
+    private boolean doesBoardConflict(char column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
         int wordLength = word.length();
         // Checks the horizontal direction
