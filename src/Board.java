@@ -119,7 +119,7 @@ public class Board {
         orientation = Character.toUpperCase(orientation);
         row -= 1;
         if (!isValidSquare(column, row)) {
-            System.out.println("Square out of bounds");
+            throw new IllegalArgumentException("Square out of bounds.");
         }
 
         if ((orientation != 'A' && orientation != 'D') || word == null || word.trim().equals("")) {
@@ -183,7 +183,7 @@ public class Board {
         column = Character.toUpperCase(column);
         row -= 1;
         if (!isValidSquare(column, row)) {
-            System.out.println("Square out of bounds");
+            throw new IllegalArgumentException("Square out of bounds.");
         }
         if (tile == null) {
             throw new IllegalArgumentException("Tile cannot be null.");
@@ -206,7 +206,7 @@ public class Board {
         column = Character.toUpperCase(column);
         row -= 1;
         if (!isValidSquare(column, row)) {
-            System.out.println("Square out of bounds");
+            throw new IllegalArgumentException("Square out of bounds.");
         }
         return board[row][column - 'A'].getTile();
     }
