@@ -272,7 +272,7 @@ public class Board {
             throw new IllegalArgumentException("Either word or frame is empty.");
         }
         for (char ch : word.toCharArray()) {
-            if (frame.isLetterInFrame(ch)) {
+            if (frame.isLetterInFrame(ch) || frame.isLetterInFrame('-')) {
                 return true;
             }
         }
