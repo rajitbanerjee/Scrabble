@@ -56,6 +56,13 @@ public class Board {
         }
     }
 
+    // temporary tests
+    public static void main(String[] args) {
+        Board b = new Board();
+        b.placeTile('H', 8, new Tile('Z', 10));
+        b.display();
+    }
+
     /**
      * Reset the board so that it contains 0 Tiles.
      */
@@ -66,7 +73,6 @@ public class Board {
             }
         }
     }
-
 
     /**
      * Place a given word either vertically or horizontally at a specified
@@ -82,12 +88,12 @@ public class Board {
     private void placeWord(char column, int row, char orientation, String word, Frame frame)
             throws IllegalArgumentException {
         orientation = Character.toUpperCase(orientation);
-        if (column < 'A' || column > 'O' || row <= 0 || row > 15 ||
-                (orientation != 'A' && orientation != 'D') || word.trim().equals("")) {
+        word = word.toUpperCase();
+        row -= 1;
+        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
+                word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         } else {
-            word = word.toUpperCase();
-            orientation = Character.toUpperCase(orientation);
             if (frameContainsALetter(word, frame) &&
                     !doesBoardConflict(column, row, orientation, word)) {
                 // TODO check if frame contains sufficient tiles
@@ -97,33 +103,47 @@ public class Board {
         }
     }
 
-
+    /**
+     *
+     */
     private boolean doesBoardConflict(char column, int row, char orientation, String word)
             throws IllegalArgumentException {
-        if (column < 'A' || column > 'O' || row <= 0 || row > 15 ||
-                (orientation != 'A' && orientation != 'D') || word.trim().equals("")) {
+        // Checks if the supplied orientation is valid
+        column = Character.toUpperCase(column);
+        orientation = Character.toUpperCase(orientation);
+        row -= 1;
+        if (!isValidSquare(column, row)) {
+            System.out.println("Square out of bounds");
+        }
+
+        if ((orientation != 'A' && orientation != 'D') || word == null || word.trim().equals("")) {
             throw new IllegalArgumentException("Word cannot be placed.");
-        } else {
-            char[] wordArray = word.toCharArray();
-            int wordLength = word.length();
-            if (orientation == 'A') {
-                for (int i = 0; i < wordLength; i++) {
-                    if (board[column - 'A' + i][row].getTile() != null &&
-                            board[column - 'A' + i][row].getTile().getType() != wordArray[i]) {
-                        return true;
-                    }
-                }
-            } else {
-                for (int i = 0; i < wordLength; i++) {
-                    if (board[column - 'A'][row + i].getTile() != null &&
-                            board[column - 'A'][row + i].getTile().getType() != wordArray[i]) {
-                        return true;
-                    }
+        }
+
+        char[] wordArray = word.toCharArray();
+        int wordLength = word.length();
+        // Overflow check
+        if (isOverflowed(column, row, orientation, word.length())) {
+            throw new IllegalArgumentException("Word overflowed the board.");
+        }
+        // Checks the horizontal direction
+        if (orientation == 'A') {
+            for (int i = 0; i < wordLength; i++) {
+                if (!isEmpty(column, row) && board[row][column - 'A' + i].getTile().getType() != wordArray[i]) {
+                    return false;
                 }
             }
-            return false;
+        } else {
+            // checks the vertical direction
+            for (int i = 0; i < wordLength; i++) {
+                if (!isEmpty(column, row) && board[row + i][column - 'A'].getTile().getType() != wordArray[i]) {
+                    return false;
+                }
+            }
         }
+        return false;
     }
+
 
     /**
      * Checks that at least one letter from the frame is used.
@@ -133,18 +153,16 @@ public class Board {
      * @return true if at least one letter from the frame is used
      * @throws IllegalArgumentException if word is empty or frame object is null
      */
-    private boolean frameContainsALetter(String word, Frame frame)
-            throws IllegalArgumentException {
+    private boolean frameContainsALetter(String word, Frame frame) throws IllegalArgumentException {
         if (word.trim().equals("") || frame == null) {
             throw new IllegalArgumentException("Either word or frame is empty.");
-        } else {
-            for (char ch : word.toCharArray()) {
-                if (frame.isLetterInFrame(ch)) {
-                    return true;
-                }
-            }
-            return false;
         }
+        for (char ch : word.toCharArray()) {
+            if (frame.isLetterInFrame(ch)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -153,36 +171,39 @@ public class Board {
      * @param column character between A-O to specify the board column
      * @param row    integer between 1-15 to specify the board row
      * @param tile   the Tile to be placed at the specified index
-     * @throws IllegalArgumentException if column or row is invalid
+     * @throws IllegalArgumentException if column or row is invalid, or when tile is occupied
      */
-    public void placeTile(char column, int row, Tile tile)
-            throws IllegalArgumentException {
+    public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
-        if (column < 'A' || column > 'O' || row <= 0 || row > 15 || tile == null) {
-            throw new IllegalArgumentException("Illegal board index or empty tile object.");
-        } else {
-            board[row - 1][column - 'A'].setTile(tile);
+        row -= 1;
+        if (!isValidSquare(column, row)) {
+            System.out.println("Square out of bounds");
         }
+        if (tile == null) {
+            throw new IllegalArgumentException("Tile cannot be null.");
+        }
+        if (!isEmpty(column, row)) {
+            throw new IllegalArgumentException("Square is currently occupied.");
+        }
+        board[row][column - 'A'].setTile(tile);
     }
 
     /**
-     * Retrieve a Tile at a specified row and column on the board.
+     * Retrieve a Tile at a specified row and column on the board, return null if square is empty.
      *
      * @param column the specified column on the board
      * @param row    the specified row on the board
      * @return the Tile at a specified position on the board
      * @throws IllegalArgumentException if specified row or column are out of bounds
      */
-    public Tile getTile(char column, int row)
-            throws IllegalArgumentException {
+    public Tile getTile(char column, int row) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
-        if (column < 'A' || column > 'O' || row <= 0 || row > 15) {
-            throw new IllegalArgumentException("Illegal board index.");
-        } else {
-            return board[row - 1][column - 'A'].getTile();
+        row -= 1;
+        if (!isValidSquare(column, row)) {
+            System.out.println("Square out of bounds");
         }
+        return board[row][column - 'A'].getTile();
     }
-
 
     /**
      * Displays the board and tiles (if any) on the command line.
@@ -216,11 +237,23 @@ public class Board {
         System.out.println();
     }
 
-    // temporary tests
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('H', 8, new Tile('Z', 10));
-        b.display();
+    // Accepts real index (0 - 15)
+    private boolean isValidSquare(char column, int row) {
+        column = Character.toUpperCase(column);
+        return column >= 'A' && column <= 'O' && row >= 0 && row < 15;
     }
 
+    // Accepts real index (0 - 15)
+    private boolean isEmpty(char column, int row) {
+        column = Character.toUpperCase(column);
+        return board[row][column - 'A'].getTile() == null;
+    }
+
+    // Accepts real index (0 - 15)
+    private boolean isOverflowed(char columnStart, int rowStart, char orientation, int wordLength) {
+        if (orientation == 'A') {
+            return rowStart + wordLength > 15;
+        }
+        return ('A' + wordLength) > 'O';
+    }
 }
