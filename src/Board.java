@@ -225,19 +225,6 @@ public class Board {
      */
     private boolean doesBoardConflict(char column, int row, char orientation, String word)
             throws IllegalArgumentException {
-        // Checks if the supplied orientation is valid
-        column = Character.toUpperCase(column);
-        orientation = Character.toUpperCase(orientation);
-        // change row from board position to actual index starting at 0
-        row -= 1;
-        if (!isValidSquare(column, row)) {
-            throw new IllegalArgumentException("Square out of bounds.");
-        }
-
-        if ((orientation != 'A' && orientation != 'D') || word == null || word.trim().equals("")) {
-            throw new IllegalArgumentException("Word cannot be placed.");
-        }
-
         char[] wordArray = word.toCharArray();
         int wordLength = word.length();
         // Checks the horizontal direction
