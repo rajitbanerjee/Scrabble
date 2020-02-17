@@ -102,7 +102,7 @@ public class Board {
         } else {
             if (frameContainsALetter(word, frame) &&
                     !doesBoardConflict(column, row, orientation, word) &&
-                        doesFrameContainTiles(column, row, orientation, word, frame)) {
+                    doesFrameContainTiles(column, row, orientation, word, frame)) {
                 // TODO place tiles
             } else {
                 // TODO the word placement is invalid
@@ -276,24 +276,24 @@ public class Board {
         System.out.println();
     }
 
-    // Accepts real index (0 - 15)
+    // Accepts real index (0 - 14)
     private boolean isValidSquare(char column, int row) {
         column = Character.toUpperCase(column);
         return column >= 'A' && column <= 'O' && row >= 0 && row < 15;
     }
 
-    // Accepts real index (0 - 15)
+    // Accepts real index (0 - 14)
     private boolean isEmpty(char column, int row) {
         column = Character.toUpperCase(column);
         return board[row][column - 'A'].getTile() == null;
     }
 
-    // Accepts real index (0 - 15)
+    // Accepts real index (0 - 14)
     private boolean isOverflowed(char columnStart, int rowStart, char orientation, int wordLength) {
         if (orientation == 'A') {
             return (columnStart + wordLength - 1) > 'O';
         }
-        return (rowStart + wordLength - 1) > 15;
+        return (rowStart + wordLength - 1) >= 15;
     }
 
 
