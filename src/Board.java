@@ -156,7 +156,7 @@ public class Board {
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
                 // return false if frame does not contain letter needed
-                if (isEmpty((char) (column + (char) i), row) && !frame.isLetterInFrame(word.charAt(i))) {
+                if (isSquareEmpty((char) (column + (char) i), row) && !frame.isLetterInFrame(word.charAt(i))) {
                     return false;
                 }
             }
@@ -164,7 +164,7 @@ public class Board {
             // checks the vertical direction
             for (int i = 0; i < wordLength; i++) {
                 // return false if frame does not contain letter needed
-                if (isEmpty(column, row + i) && !frame.isLetterInFrame(word.charAt(i))) {
+                if (isSquareEmpty(column, row + i) && !frame.isLetterInFrame(word.charAt(i))) {
                     return false;
                 }
             }
@@ -181,38 +181,38 @@ public class Board {
             for (int i = 0; i < wordLength; i++) {
                 // if first letter check left
                 if (i == 0 && isValidSquare((char) (column - 1), row)) {
-                    isJoined = !isEmpty((char) (column - 1), row);
+                    isJoined = !isSquareEmpty((char) (column - 1), row);
                 }
                 // if last letter check right
                 if (i == wordLength - 1 && isValidSquare((char) (column + 1), row)) {
-                    isJoined = !isEmpty((char) (column + 1), row);
+                    isJoined = !isSquareEmpty((char) (column + 1), row);
                 }
                 // Check top
                 if (isValidSquare(column, row - 1)) {
-                    isJoined = !isEmpty(column, row - 1);
+                    isJoined = !isSquareEmpty(column, row - 1);
                 }
                 // Check bottom
                 if (isValidSquare(column, row + 1)) {
-                    isJoined = !isEmpty(column, row + 1);
+                    isJoined = !isSquareEmpty(column, row + 1);
                 }
             }
         } else {
             for (int i = 0; i < wordLength; i++) {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
-                    isJoined = !isEmpty(column, row - 1);
+                    isJoined = !isSquareEmpty(column, row - 1);
                 }
                 // if last letter check bottom
                 if (i == wordLength - 1 && isValidSquare(column, row + 1)) {
-                    isJoined = !isEmpty((char) (column + 1), row);
+                    isJoined = !isSquareEmpty((char) (column + 1), row);
                 }
                 // Check left
                 if (isValidSquare((char) (column - 1), row)) {
-                    isJoined = !isEmpty((char) (column - 1), row);
+                    isJoined = !isSquareEmpty((char) (column - 1), row);
                 }
                 // Check right
                 if (isValidSquare((char) (column + 1), row)) {
-                    isJoined = !isEmpty((char) (column + 1), row);
+                    isJoined = !isSquareEmpty((char) (column + 1), row);
                 }
             }
         }
@@ -229,14 +229,14 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
-                if (!isEmpty(column, row) && board[row][column - 'A' + i].getTile().getType() != wordArray[i]) {
+                if (!isSquareEmpty(column, row) && board[row][column - 'A' + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
             }
         } else {
             // checks the vertical direction
             for (int i = 0; i < wordLength; i++) {
-                if (!isEmpty(column, row) && board[row + i][column - 'A'].getTile().getType() != wordArray[i]) {
+                if (!isSquareEmpty(column, row) && board[row + i][column - 'A'].getTile().getType() != wordArray[i]) {
                     return true;
                 }
             }
@@ -282,7 +282,7 @@ public class Board {
         if (tile == null) {
             throw new IllegalArgumentException("Tile cannot be null.");
         }
-        if (!isEmpty(column, row)) {
+        if (!isSquareEmpty(column, row)) {
             throw new IllegalArgumentException("Square is currently occupied.");
         }
         board[row][column - 'A'].setTile(tile);
@@ -344,7 +344,7 @@ public class Board {
     }
 
     // Accepts real index (0 - 14)
-    private boolean isEmpty(char column, int row) {
+    private boolean isSquareEmpty(char column, int row) {
         column = Character.toUpperCase(column);
         return board[row][column - 'A'].getTile() == null;
     }
