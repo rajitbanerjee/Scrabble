@@ -97,7 +97,7 @@ public class Board {
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         }
-        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 8)) {
+        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 7)) {
             throw new IllegalArgumentException("First word must be placed in the middle.");
         } else {
             if (frameContainsALetter(word, frame) &&
@@ -150,7 +150,7 @@ public class Board {
         // Checks if the supplied orientation is valid
         column = Character.toUpperCase(column);
         orientation = Character.toUpperCase(orientation);
-        row -= 1;
+        row -= 1; // change row from board position to actual index starting at 0
         if (!isValidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
