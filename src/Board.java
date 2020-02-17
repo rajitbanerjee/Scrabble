@@ -252,8 +252,8 @@ public class Board {
     // Accepts real index (0 - 15)
     private boolean isOverflowed(char columnStart, int rowStart, char orientation, int wordLength) {
         if (orientation == 'A') {
-            return rowStart + wordLength > 15;
+            return columnStart + wordLength > 'O';
         }
-        return ('A' + wordLength) > 'O';
+        return rowStart + wordLength > 15;
     }
 }
