@@ -51,9 +51,8 @@ public class Tile {
     public void setPoints(int points) throws IllegalArgumentException {
         if (points < 0 || points > 10) {
             throw new IllegalArgumentException("Invalid tile points.");
-        } else {
-            this.points = points;
         }
+        this.points = points;
     }
 
     /**
