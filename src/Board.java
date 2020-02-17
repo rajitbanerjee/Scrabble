@@ -299,6 +299,7 @@ public class Board {
 
     private boolean doesWordCoverSquare(char columnStart, int rowStart, char orientation, int wordLength,
                                         char targetColumn, int targetRow) {
+
         int columnStartIndex = columnStart - 'A';
         int targetColumnIndex = targetColumn - 'A';
         if (orientation == 'A') {
