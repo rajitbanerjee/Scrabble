@@ -93,7 +93,7 @@ public class Board {
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase();
         row -= 1; // change row from board position to actual index starting at 0
-        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
+        if (isInvalidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         }
@@ -151,7 +151,7 @@ public class Board {
         column = Character.toUpperCase(column);
         orientation = Character.toUpperCase(orientation);
         row -= 1; // change row from board position to actual index starting at 0
-        if (!isValidSquare(column, row)) {
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
 
@@ -215,7 +215,7 @@ public class Board {
     public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         row -= 1;
-        if (!isValidSquare(column, row)) {
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
         if (tile == null) {
@@ -238,7 +238,7 @@ public class Board {
     public Tile getTile(char column, int row) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         row -= 1;
-        if (!isValidSquare(column, row)) {
+        if (isInvalidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
         return board[row][column - 'A'].getTile();
@@ -277,9 +277,9 @@ public class Board {
     }
 
     // Accepts real index (0 - 14)
-    private boolean isValidSquare(char column, int row) {
+    private boolean isInvalidSquare(char column, int row) {
         column = Character.toUpperCase(column);
-        return column >= 'A' && column <= 'O' && row >= 0 && row < 15;
+        return column < 'A' || column > 'O' || row < 0 || row >= 15;
     }
 
     // Accepts real index (0 - 14)
