@@ -97,7 +97,7 @@ public class Board {
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
         }
-        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 8)) {
+        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 7)) {
             throw new IllegalArgumentException("First word must be placed in the middle.");
         } else {
             if (frameContainsALetter(word, frame) &&
@@ -299,6 +299,7 @@ public class Board {
 
     private boolean doesWordCoverSquare(char columnStart, int rowStart, char orientation, int wordLength,
                                         char targetColumn, int targetRow) {
+
         int columnStartIndex = columnStart - 'A';
         int targetColumnIndex = targetColumn - 'A';
         if (orientation == 'A') {
