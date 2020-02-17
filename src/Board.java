@@ -78,6 +78,45 @@ public class Board {
     }
 
     /**
+     * Allows a word placement to be checked to determine if it is legal or not
+     */
+    public boolean isWordValid(char column, int row, char orientation, String word, Frame frame) {
+        // Input conversion
+        orientation = Character.toUpperCase(orientation);
+        word = word.toUpperCase();
+        word = word.trim();
+        row -= 1;
+        // Checks for input validity
+        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') || word.length() < 2
+                || frame == null) {
+            return false;
+        }
+        // Checks for overflow
+        if (isOverflowed(column, row, orientation, word.length())) {
+            return false;
+        }
+        // Checks for conflicts with existing letters on the board
+        if (doesBoardConflict(column, row, orientation, word)) {
+            return false;
+        }
+        // Checks if frame contains the required tiles
+        if (!doesFrameContainTiles(column, row, orientation, word, frame)) {
+            return false;
+        }
+        // Checks whether the placement uses at least one letter from frame
+        if (!frameContainsALetter(word, frame)) {
+            return false;
+        }
+        // If first move checks if it covers the center square
+        if (isFirstMove) {
+            return doesWordCoverSquare(column, row, orientation, word.length(), 'H', 7);
+        } else {
+            // If not first move checks if it connects with at least one existing character on the board
+            return isWordJoined(column, row, orientation, word.length());
+        }
+    }
+
+    /**
      * Place a given word either vertically or horizontally at a specified
      * row and column on the board
      *
@@ -88,26 +127,17 @@ public class Board {
      * @param frame       the players frame
      * @throws IllegalArgumentException for invalid column, row, orientation or word
      */
-    private void placeWord(char column, int row, char orientation, String word, Frame frame)
+    public void placeWord(char column, int row, char orientation, String word, Frame frame)
             throws IllegalArgumentException {
+        // Input conversion
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase();
-        row -= 1; // change row from board position to actual index starting at 0
-        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
-                word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
-            throw new IllegalArgumentException("Word cannot be placed.");
+        word = word.trim();
+        row -= 1;
+        if (!isWordValid(column, row, orientation, word, frame)) {
+            throw new IllegalArgumentException("Invalid word placement");
         }
-        if (isFirstMove && !doesWordCoverSquare(column, row, orientation, word.length(), 'H', 7)) {
-            throw new IllegalArgumentException("First word must be placed in the middle.");
-        } else {
-            if (frameContainsALetter(word, frame) &&
-                    !doesBoardConflict(column, row, orientation, word) &&
-                    doesFrameContainTiles(column, row, orientation, word, frame)) {
-                // TODO place tiles
-            } else {
-                // TODO the word placement is invalid
-            }
-        }
+        // TODO: Place word
     }
 
     /**
@@ -198,7 +228,8 @@ public class Board {
         // Checks if the supplied orientation is valid
         column = Character.toUpperCase(column);
         orientation = Character.toUpperCase(orientation);
-        row -= 1; // change row from board position to actual index starting at 0
+        // change row from board position to actual index starting at 0
+        row -= 1;
         if (!isValidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
@@ -209,10 +240,6 @@ public class Board {
 
         char[] wordArray = word.toCharArray();
         int wordLength = word.length();
-        // Overflow check
-        if (isOverflowed(column, row, orientation, word.length())) {
-            throw new IllegalArgumentException("Word overflowed the board.");
-        }
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
