@@ -279,7 +279,7 @@ public class Board {
     // Accepts real index (0 - 14)
     private boolean isInvalidSquare(char column, int row) {
         column = Character.toUpperCase(column);
-        return column < 'A' || column > 'O' || row < 0 || row >= 15;
+        return column < 'A' || column > 'O' || row < 0 || row > 14;
     }
 
     // Accepts real index (0 - 14)
@@ -293,7 +293,7 @@ public class Board {
         if (orientation == 'A') {
             return (columnStart + wordLength - 1) > 'O';
         }
-        return (rowStart + wordLength - 1) >= 15;
+        return (rowStart + wordLength - 1) > 14;
     }
 
     // Accepts real index (0 - 14)
