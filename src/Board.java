@@ -79,15 +79,9 @@ public class Board {
 
     /**
      * Allows a word placement to be checked to determine if it is legal or not
+     * Accepts real index (0 - 14)
      */
-    public boolean isWordValid(char column, int row, char orientation, String word, Frame frame) {
-        // Input conversion
-        orientation = Character.toUpperCase(orientation);
-        word = word.toUpperCase();
-        word = word.trim();
-        // Convert column and row to real indices (0 - 14)
-        column -= 'A';
-        row -= 1;
+    public boolean isWordValid(int column, int row, char orientation, String word, Frame frame) {
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || frame == null) {
@@ -131,10 +125,9 @@ public class Board {
      */
     public void placeWord(char column, int row, char orientation, String word, Frame frame)
             throws IllegalArgumentException {
-        // Input conversion
+        // Input standardisation
         orientation = Character.toUpperCase(orientation);
-        word = word.toUpperCase();
-        word = word.trim();
+        word = word.toUpperCase().trim();
         // convert column and row to real board indices (0 - 14)
         column -= 'A';
         row -= 1;
