@@ -110,7 +110,7 @@ public class Board {
     }
 
     /**
-     * Retrieve a Tile at a specified row and column on the board, return null if square is empty.
+     * Retrieve a tile at a specified row and column on the board, return null if square is empty.
      *
      * @param column the specified column on the board
      * @param row    the specified row on the board
@@ -155,7 +155,7 @@ public class Board {
 
     /**
      * Place a given word either vertically or horizontally at a specified
-     * row and column on the board
+     * row and column on the board.
      *
      * @param column      character between A-O to specify the board column
      * @param row         integer between 1-15 to specify the board row
@@ -180,7 +180,6 @@ public class Board {
 
     /**
      * Allows a word placement to be checked to determine if it is legal or not.
-     * Accepts real index (0 - 14).
      *
      * @param column      integer between 0-14 to specify the real board column index
      * @param row         integer between 0-14 to specify the real board row index
@@ -223,7 +222,6 @@ public class Board {
 
     /**
      * Checks if a specified square index is within the board.
-     * Accepts real index (0 - 14).
      *
      * @param column integer between 0-14 to specify the real board column index
      * @param row    integer between 0-14 to specify the real board row index
@@ -233,11 +231,8 @@ public class Board {
         return column >= 0 && column < 15 && row >= 0 && row < 15;
     }
 
-    //
-
     /**
      * Checks if a word placement goes out of the board.
-     * Accepts real index (0 - 14).
      *
      * @param column      the starting column index (0 - 14) of the word
      * @param row         the starting row index (0 - 14) of the word
@@ -283,7 +278,8 @@ public class Board {
     }
 
     /**
-     * checks if the frame contains the correct letters necessary for this word placement (ignores filled squares)
+     * Checks if the frame contains the letters necessary for word placement (ignores filled squares).
+     * TODO: fix bug which returns true if frame contains 1 reqd letter when > 1 of a type are reqd
      *
      * @param column      integer between 0-14 to specify the board column
      * @param row         integer between 0-14 to specify the board row
@@ -333,9 +329,9 @@ public class Board {
         return false;
     }
 
-    // Accepts real index (0 - 14)
-
     /**
+     * Checks if the word to be placed covers a given square.
+     *
      * @param column       integer between 0-14 to specify the board column
      * @param row          integer between 0-14 to specify the board row
      * @param orientation  whether the word goes across or down
