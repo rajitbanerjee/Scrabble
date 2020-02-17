@@ -92,7 +92,7 @@ public class Board {
             throws IllegalArgumentException {
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase();
-        row -= 1;
+        row -= 1; // change row from board position to actual index starting at 0
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.trim().equals("") || isOverflowed(column, row, orientation, word.length())) {
             throw new IllegalArgumentException("Word cannot be placed.");
@@ -296,7 +296,7 @@ public class Board {
         return (rowStart + wordLength - 1) >= 15;
     }
 
-
+    // Accepts real index (0 - 14)
     private boolean doesWordCoverSquare(char columnStart, int rowStart, char orientation, int wordLength,
                                         char targetColumn, int targetRow) {
 
