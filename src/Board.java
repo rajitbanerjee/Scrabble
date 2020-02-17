@@ -1,9 +1,9 @@
 /**
  * The Board is a 15x15 matrix of Squares.
  *
- * @author Rajit Banerjee, 18202817
- * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
  * @team DarkMode
  */
 public class Board {
@@ -67,60 +67,84 @@ public class Board {
         }
     }
 
+
     /**
      * Place a given word either vertically or horizontally at a specified
      * row and column on the board
      *
-     * @param column character between A-O to specify the board column
-     * @param row    integer between 1-15 to specify the board row
+     * @param column      character between A-O to specify the board column
+     * @param row         integer between 1-15 to specify the board row
      * @param orientation whether the word goes across or down
-     * @param word  the word to be placed on the board
-     * @param frame the players frame
+     * @param word        the word to be placed on the board
+     * @param frame       the players frame
+     * @throws IllegalArgumentException for invalid column, row, orientation or word
      */
-    private void placeWord(char column, int row, char orientation, String word, Frame frame) {
-        word = word.toUpperCase();
+    private void placeWord(char column, int row, char orientation, String word, Frame frame)
+            throws IllegalArgumentException {
         orientation = Character.toUpperCase(orientation);
-        if(frameContainsALetter(word, frame) && !doesBoardConflict(column, row, orientation, word)){
-            //check if frame contains sufficient tiles
-        }else{
-            //the word placement is invalid
+        if (column < 'A' || column > 'O' || row <= 0 || row > 15 ||
+                (orientation != 'A' && orientation != 'D') || word.trim().equals("")) {
+            throw new IllegalArgumentException("Word cannot be placed.");
+        } else {
+            word = word.toUpperCase();
+            orientation = Character.toUpperCase(orientation);
+            if (frameContainsALetter(word, frame) &&
+                    !doesBoardConflict(column, row, orientation, word)) {
+                // TODO check if frame contains sufficient tiles
+            } else {
+                // TODO the word placement is invalid
+            }
         }
     }
 
-    private boolean doesBoardConflict(char column, int row, char orientation, String word) {
-        char [] wordArray = word.toCharArray();
-        int wordLength = word.length();
-        if(orientation == 'A'){
-            for(int i = 0 ; i < wordLength ; i++){
-                if(board[column - 'A' + i][row].getTile() != null &&
-                        board[column - 'A' + i][row].getTile().getType() != wordArray[i]){
-                    return true;
+
+    private boolean doesBoardConflict(char column, int row, char orientation, String word)
+            throws IllegalArgumentException {
+        if (column < 'A' || column > 'O' || row <= 0 || row > 15 ||
+                (orientation != 'A' && orientation != 'D') || word.trim().equals("")) {
+            throw new IllegalArgumentException("Word cannot be placed.");
+        } else {
+            char[] wordArray = word.toCharArray();
+            int wordLength = word.length();
+            if (orientation == 'A') {
+                for (int i = 0; i < wordLength; i++) {
+                    if (board[column - 'A' + i][row].getTile() != null &&
+                            board[column - 'A' + i][row].getTile().getType() != wordArray[i]) {
+                        return true;
+                    }
+                }
+            } else {
+                for (int i = 0; i < wordLength; i++) {
+                    if (board[column - 'A'][row + i].getTile() != null &&
+                            board[column - 'A'][row + i].getTile().getType() != wordArray[i]) {
+                        return true;
+                    }
                 }
             }
-        }else{
-            for(int i = 0 ; i < wordLength ; i++){
-                if(board[column - 'A'][row + i].getTile() != null &&
-                        board[column - 'A'][row + i].getTile().getType() != wordArray[i]){
-                    return true;
-                }
-            }
+            return false;
         }
-        return false;
     }
 
     /**
-     * Checks that at least one letter from the frame is used
+     * Checks that at least one letter from the frame is used.
+     *
      * @param word  the word to be placed
      * @param frame the players frame
-     * @return  true if at least one letter from the frame is used
+     * @return true if at least one letter from the frame is used
+     * @throws IllegalArgumentException if word is empty or frame object is null
      */
-    private boolean frameContainsALetter (String word, Frame frame){
-        for (char ch : word.toCharArray()) {
-            if (frame.isLetterInFrame(ch)) {
-                return true;
+    private boolean frameContainsALetter(String word, Frame frame)
+            throws IllegalArgumentException {
+        if (word.trim().equals("") || frame == null) {
+            throw new IllegalArgumentException("Either word or frame is empty.");
+        } else {
+            for (char ch : word.toCharArray()) {
+                if (frame.isLetterInFrame(ch)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     /**
@@ -134,13 +158,11 @@ public class Board {
     public void placeTile(char column, int row, Tile tile)
             throws IllegalArgumentException {
         column = Character.toUpperCase(column);
-        if (column < 'A' || column > 'O') {
-            throw new IllegalArgumentException("Illegal column index.");
+        if (column < 'A' || column > 'O' || row <= 0 || row > 15 || tile == null) {
+            throw new IllegalArgumentException("Illegal board index or empty tile object.");
+        } else {
+            board[row - 1][column - 'A'].setTile(tile);
         }
-        if (row <= 0 || row > 15) {
-            throw new IllegalArgumentException("Illegal row index.");
-        }
-        board[row - 1][column - 'A'].setTile(tile);
     }
 
     /**
@@ -154,13 +176,11 @@ public class Board {
     public Tile getTile(char column, int row)
             throws IllegalArgumentException {
         column = Character.toUpperCase(column);
-        if (column < 'A' || column > 'O') {
-            throw new IllegalArgumentException("Illegal column index.");
+        if (column < 'A' || column > 'O' || row <= 0 || row > 15) {
+            throw new IllegalArgumentException("Illegal board index.");
+        } else {
+            return board[row - 1][column - 'A'].getTile();
         }
-        if (row <= 0 || row > 15) {
-            throw new IllegalArgumentException("Illegal row index.");
-        }
-        return board[row - 1][column - 'A'].getTile();
     }
 
 
@@ -199,7 +219,7 @@ public class Board {
     // temporary tests
     public static void main(String[] args) {
         Board b = new Board();
-        b.placeTile('A', 1, new Tile('Z', 10));
+        b.placeTile('H', 8, new Tile('Z', 10));
         b.display();
     }
 
