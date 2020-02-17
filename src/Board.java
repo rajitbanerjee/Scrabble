@@ -143,6 +143,54 @@ public class Board {
     }
 
     /**
+     * If a word is joined with any existing characters, return true, false otherwise
+     */
+    private boolean isWordJoined(char column, int row, char orientation, int wordLength) {
+        boolean isJoined = false;
+        if (orientation == 'A') {
+            for (int i = 0; i < wordLength; i++) {
+                // if first letter check left
+                if (i == 0 && isValidSquare((char) (column - 1), row)) {
+                    isJoined = !isEmpty((char) (column - 1), row);
+                }
+                // if last letter check right
+                if (i == wordLength - 1 && isValidSquare((char) (column + 1), row)) {
+                    isJoined = !isEmpty((char) (column + 1), row);
+                }
+                // Check top
+                if (isValidSquare(column, row - 1)) {
+                    isJoined = !isEmpty(column, row - 1);
+                }
+                // Check bottom
+                if (isValidSquare(column, row + 1)) {
+                    isJoined = !isEmpty(column, row + 1);
+                }
+            }
+        } else {
+            for (int i = 0; i < wordLength; i++) {
+                // if first letter check top
+                if (i == 0 && isValidSquare(column, row - 1)) {
+                    isJoined = !isEmpty(column, row - 1);
+                }
+                // if last letter check bottom
+                if (i == wordLength - 1 && isValidSquare(column, row + 1)) {
+                    isJoined = !isEmpty((char) (column + 1), row);
+                }
+                // Check left
+                if (isValidSquare((char) (column - 1), row)) {
+                    isJoined = !isEmpty((char) (column - 1), row);
+                }
+                // Check right
+                if (isValidSquare((char) (column + 1), row)) {
+                    isJoined = !isEmpty((char) (column + 1), row);
+                }
+            }
+        }
+        return isJoined;
+    }
+
+
+    /**
      * Checks if a word conflicts with any existing words on the board
      */
     private boolean doesBoardConflict(char column, int row, char orientation, String word)
