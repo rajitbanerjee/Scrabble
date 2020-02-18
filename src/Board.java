@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * The Board is a 15x15 matrix of Squares.
  *
@@ -189,9 +191,16 @@ public class Board {
      * @return {@code true} if word placement is legal
      */
     public boolean isWordPlacementValid(int column, int row, char orientation, String word, Frame frame) {
+        // Input conversion
+        orientation = Character.toUpperCase(orientation);
+        word = word.toUpperCase();
+        word = word.trim();
+        // Convert column and row to real indices (0 - 14)
+        column -= 'A';
+        row -= 1;
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
-                word.length() < 2 || frame == null) {
+                word.length() < 2 || !isAlphaString(word) || frame == null) {
             return false;
         }
         // Checks for overflow
@@ -279,7 +288,6 @@ public class Board {
 
     /**
      * Checks if the frame contains the letters necessary for word placement (ignores filled squares).
-     * TODO: fix bug which returns true if frame contains 1 reqd letter when > 1 of a type are reqd
      *
      * @param column      integer between 0-14 to specify the board column
      * @param row         integer between 0-14 to specify the board row
@@ -289,20 +297,37 @@ public class Board {
      * @return {@code true} if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, Frame frame) {
-        // Checks the horizontal direction
+        // creates list of the characters in frame
+        ArrayList<Character> list = new ArrayList<>();
+        for (Tile t : frame.getFrame()) {
+            list.add(t.getType());
+        }
+        // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column + i, row) && !frame.contains(word.charAt(i))) {
-                    return false;
+                if (isSquareEmpty(column + i, row)) {
+                    if (list.contains(word.charAt(i))) {
+                        list.remove(word.charAt(i));
+                    } else if (list.contains('-')) {
+                        list.remove(Character.valueOf('-'));
+                    } else {
+                        return false;
+                    }
                 }
             }
         } else {
             // checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column, row + i) && !frame.contains(word.charAt(i))) {
-                    return false;
+                if (isSquareEmpty(column, row + i)) {
+                    if (list.contains(word.charAt(i))) {
+                        list.remove(word.charAt(i));
+                    } else if (list.contains('-')) {
+                        list.remove(Character.valueOf('-'));
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
@@ -415,5 +440,15 @@ public class Board {
      */
     private boolean isSquareEmpty(int column, int row) {
         return board[row][column].getTile() == null;
+    }
+
+    /**
+     * Checks if a string only contains alphabetical characters
+     *
+     * @param input give string
+     * @return {@code true} if the given string only contains alphabetical characters
+     */
+    private boolean isAlphaString(String input) {
+        return input.matches("[A-Za-z]+");
     }
 }
