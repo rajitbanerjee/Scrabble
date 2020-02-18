@@ -94,20 +94,20 @@ public class Board {
      */
     public void display() {
         printLine();
-        System.out.print("\t|");
-        for (char ch = 'A'; ch <= 'O'; ch++) {
-            System.out.print("  " + ch + "  |");
-        }
-        printLine();
+        printColumnIndices();
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 if (j == 0) {
                     System.out.print((i + 1) + "\t|");
                 }
                 System.out.print(board[i][j] + "|");
+                if (j == 14) {
+                    System.out.print("\t  " + (i + 1));
+                }
             }
             printLine();
         }
+        printColumnIndices();
     }
 
     /**
@@ -115,10 +115,21 @@ public class Board {
      */
     private void printLine() {
         System.out.println();
-        for (int i = 0; i < 95; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.print("-");
         }
         System.out.println();
+    }
+
+    /**
+     * Display the column indices 'A' - 'O' on the board
+     */
+    private void printColumnIndices() {
+        System.out.print("\t|");
+        for (char ch = 'A'; ch <= 'O'; ch++) {
+            System.out.print("  " + ch + "  |");
+        }
+        printLine();
     }
 
     /**
