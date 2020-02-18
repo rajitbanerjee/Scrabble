@@ -74,7 +74,7 @@ public class Board {
     // temporary tests
     public static void main(String[] args) {
         Board b = new Board();
-        b.placeTile('H', 8, new Tile('Z', 10));
+        b.placeTile('H', 8, Tile.makeTile('Z'));
         b.display();
     }
 
@@ -471,4 +471,5 @@ public class Board {
         }
         printLine();
     }
+
 }

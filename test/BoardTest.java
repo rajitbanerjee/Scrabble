@@ -116,7 +116,7 @@ class BoardTest {
     @Test
     void testGetTile() {
         Square[][] b = board.getBoard();
-        Tile tile = new Tile('Z', 10);
+        Tile tile = Tile.makeTile('Z');
         for (char column = 'A'; column <= 'O'; column++) {
             for (int row = 1; row <= 15; row++) {
                 tile.setType((char) ((int) (Math.random() * 26) + 'A'));
@@ -139,7 +139,7 @@ class BoardTest {
     @Test
     void testPlaceTile() {
         Square[][] b = board.getBoard();
-        Tile tile = new Tile('Z', 10);
+        Tile tile = Tile.makeTile('Z');
         for (char column = 'A'; column <= 'O'; column++) {
             for (int row = 1; row <= 15; row++) {
                 tile.setType((char) ((int) (Math.random() * 26) + 'A'));
@@ -174,6 +174,18 @@ class BoardTest {
         } catch (Exception ignored) {
             // test passed
         }
+    }
+
+    @Test
+    void testWordPlacementValidity() {
+        Pool pool = new Pool();
+        Frame frame = new Frame(pool);
+        ArrayList<Tile> f = new ArrayList<>();
+        for (char ch: "HEL".toCharArray()) {
+            f.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f);
+        assertFalse(board.isWordPlacementValid(7, 7, 'A', "HELLO", frame));
     }
 
 }

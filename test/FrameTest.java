@@ -128,7 +128,7 @@ class FrameTest {
         }
 
         ArrayList<Tile> newFrame = new ArrayList<>();
-        newFrame.add(new Tile('Q', 10));
+        newFrame.add(Tile.makeTile('Q'));
         frame.setFrame(newFrame);
         try {
             frame.getTile('Z');
@@ -140,7 +140,7 @@ class FrameTest {
         // test frame printing to command line
         frame.printFrame();
         assertEquals("[  Q  ]", outContent.toString().strip());
-        newFrame.add(new Tile('Z', 10));
+        newFrame.add(Tile.makeTile('Z'));
         frame.setFrame(newFrame);
         outContent.reset();
         frame.printFrame();
