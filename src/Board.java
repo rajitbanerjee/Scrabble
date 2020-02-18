@@ -163,7 +163,7 @@ public class Board {
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
      * @param frame       the players frame
-     * @throws IllegalArgumentException for invalid column, row, orientation or word
+     * @throws IllegalArgumentException for illegal word placement
      */
     public void placeWord(char column, int row, char orientation, String word, Frame frame)
             throws IllegalArgumentException {
@@ -214,7 +214,7 @@ public class Board {
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
-        if (!frameContainsALetter(word, frame)) {
+        if (!isFrameUsed(word, frame)) {
             return false;
         }
         // If first move checks if it covers the center square
@@ -340,7 +340,7 @@ public class Board {
      * @return {@code true} if at least one letter from the frame is used
      * @throws IllegalArgumentException if word is empty or frame object is null
      */
-    private boolean frameContainsALetter(String word, Frame frame) throws IllegalArgumentException {
+    private boolean isFrameUsed(String word, Frame frame) throws IllegalArgumentException {
         if (word.trim().equals("") || frame == null) {
             throw new IllegalArgumentException("Either word or frame is empty.");
         }
