@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -113,7 +115,7 @@ class FrameTest {
             // test passes
         }
 
-        // test accessLetter()
+        // test getTile()
         frame.fillFrame();
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // letter being accessed
@@ -124,6 +126,25 @@ class FrameTest {
                 fail("The correct letter was not accessed");
             }
         }
+
+        ArrayList<Tile> newFrame = new ArrayList<>();
+        newFrame.add(new Tile('Q', 10));
+        frame.setFrame(newFrame);
+        try {
+            frame.getTile('Z');
+            fail("Letter not in frame.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+
+        // test frame printing to command line
+        frame.printFrame();
+        assertEquals("[  Q  ]", outContent.toString().strip());
+        newFrame.add(new Tile('Z', 10));
+        frame.setFrame(newFrame);
+        outContent.reset();
+        frame.printFrame();
+        assertEquals("[  Q  ,   Z  ]", outContent.toString().strip());
     }
 
 }
