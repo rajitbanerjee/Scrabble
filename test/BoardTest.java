@@ -95,22 +95,11 @@ class BoardTest {
     }
 
     @Test
-    void testGetTile() {
-        Tile tile = new Tile('Z', 10);
-        for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= 15; row++) {
-                board.placeTile(column, row, tile);
-                assertEquals(tile, board.getTile(column, row));
-            }
-        }
-    }
-
-    @Test
     void testReset() {
         Square[][] b = board.getBoard();
-        for (int i = 0; i < 15; i ++) {
+        for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
-                b[i][j].setTile(new Tile ('Z', 10));
+                b[i][j].setTile(new Tile('Z', 10));
             }
         }
         board.reset();
@@ -123,4 +112,68 @@ class BoardTest {
             }
         }
     }
+
+    @Test
+    void testGetTile() {
+        Square[][] b = board.getBoard();
+        Tile tile = new Tile('Z', 10);
+        for (char column = 'A'; column <= 'O'; column++) {
+            for (int row = 1; row <= 15; row++) {
+                tile.setType((char) ((int) (Math.random() * 26) + 'A'));
+                b[row - 1][column - 'A'].setTile(tile);
+                assertEquals(tile, board.getTile(column, row));
+            }
+        }
+
+        // test if exception is thrown for square out of bounds
+        try {
+            board.getTile('A', 16);
+            board.getTile('P', 14);
+            board.getTile('B', 0);
+            fail("Queried tile out of bounds.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+    }
+
+    @Test
+    void testPlaceTile() {
+        Square[][] b = board.getBoard();
+        Tile tile = new Tile('Z', 10);
+        for (char column = 'A'; column <= 'O'; column++) {
+            for (int row = 1; row <= 15; row++) {
+                tile.setType((char) ((int) (Math.random() * 26) + 'A'));
+                board.placeTile(column, row, tile);
+                assertEquals(tile, b[row - 1][column - 'A'].getTile());
+            }
+        }
+
+        // test if exception is thrown for square out of bounds
+        try {
+            // try to place a Tile outside the board's bounds
+            board.placeTile('A', 16, tile);
+            board.placeTile('P', 14, tile);
+            board.placeTile('B', 0, tile);
+            fail("Queried tile out of bounds.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+        try {
+            // try to place a null Tile object
+            board.placeTile('A', 1, null);
+            fail("Cannot place a null tile.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+
+        try {
+            // try to place a Tile on the same Square twice
+            board.placeTile('A', 1, tile);
+            board.placeTile('A', 1, tile);
+            fail("Cannot place a tile on an occupied square.");
+        } catch (Exception ignored) {
+            // test passed
+        }
+    }
+
 }
