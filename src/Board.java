@@ -59,6 +59,16 @@ public class Board {
         }
     }
 
+    /**
+     * Accessor for the board.
+     * Required for testing purposes.
+     *
+     * @return the 15x15 matrix of Squares representing the board
+     */
+    public Square[][] getBoard() {
+        return board;
+    }
+
     // temporary tests
     public static void main(String[] args) {
         Board b = new Board();
