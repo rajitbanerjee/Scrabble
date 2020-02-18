@@ -111,32 +111,10 @@ public class Board {
     }
 
     /**
-     * Display a line of dashes, used to display the Board.
-     */
-    private void printLine() {
-        System.out.println();
-        for (int i = 0; i < 100; i++) {
-            System.out.print("-");
-        }
-        System.out.println();
-    }
-
-    /**
-     * Display the column indices 'A' - 'O' on the board
-     */
-    private void printColumnIndices() {
-        System.out.print("\t|");
-        for (char ch = 'A'; ch <= 'O'; ch++) {
-            System.out.print("  " + ch + "  |");
-        }
-        printLine();
-    }
-
-    /**
      * Retrieve a tile at a specified row and column on the board.
      *
-     * @param column the specified column on the board
-     * @param row    the specified row on the board
+     * @param column the specified column ('A' - 'O') on the board
+     * @param row    the specified row (1 - 15) on the board
      * @return the Tile at a specified position on the board, null if empty
      * @throws IllegalArgumentException if specified row or column are out of bounds
      */
@@ -154,8 +132,8 @@ public class Board {
     /**
      * Place a given Tile at a specified row and column on the Board.
      *
-     * @param column character between A-O to specify the board column
-     * @param row    integer between 1-15 to specify the board row
+     * @param column character between 'A' - 'O' to specify the board column
+     * @param row    integer between 1 - 15 to specify the board row
      * @param tile   the Tile to be placed at the specified index
      * @throws IllegalArgumentException if column or row is invalid, or when tile is occupied
      */
@@ -212,10 +190,9 @@ public class Board {
      * @return {@code true} if word placement is legal
      */
     public boolean isWordPlacementValid(int column, int row, char orientation, String word, Frame frame) {
-        // Input conversion
+        // Input standardisation
         orientation = Character.toUpperCase(orientation);
-        word = word.toUpperCase();
-        word = word.trim();
+        word = word.toUpperCase().trim();
         // Convert column and row to real indices (0 - 14)
         column -= 'A';
         row -= 1;
@@ -471,5 +448,27 @@ public class Board {
      */
     private boolean isAlphaString(String input) {
         return input.matches("[A-Za-z]+");
+    }
+
+    /**
+     * Display a line of dashes, used to display the Board.
+     */
+    private void printLine() {
+        System.out.println();
+        for (int i = 0; i < 100; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+    }
+
+    /**
+     * Display the column indices 'A' - 'O' on the board
+     */
+    private void printColumnIndices() {
+        System.out.print("\t|");
+        for (char ch = 'A'; ch <= 'O'; ch++) {
+            System.out.print("  " + ch + "  |");
+        }
+        printLine();
     }
 }
