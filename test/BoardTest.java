@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class BoardTest {
-    Board board;
+    private Board board;
 
     @BeforeEach
     void setUp() {
@@ -35,16 +37,7 @@ class BoardTest {
     @Test
     void testConstructor() {
         Square[][] b = board.getBoard();
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                    // centre square index
-                    if (i == 7 && j == 7) {
-                        assertEquals(Square.Multiplier.CENTRE, b[i][j].getMultiplier());
-                    } else {
-                        assertEquals(Square.Multiplier.NORMAL, b[i][j].getMultiplier());
-                    }
-            }
-        }
+
         // double letter score multiplier indices
         int[][] double_ls = {{0, 3}, {0, 11}, {2, 6}, {2, 8}, {3, 0}, {3, 7},
                 {3, 14}, {6, 2}, {6, 6}, {6, 8}, {6, 12}, {7, 3}, {7, 11},
@@ -60,6 +53,27 @@ class BoardTest {
         // triple word score multiplier indices
         int[][] triple_ws = {{0, 0}, {0, 7}, {0, 14}, {7, 0},
                 {7, 14}, {14, 0}, {14, 7}, {14, 14}};
+        // normal squares without score multipliers - hard-coding is the easiest way to obtain the indices
+        int[][] normal = {
+                {0, 1}, {0, 2}, {0, 4}, {0, 5}, {0, 6}, {0, 8}, {0, 9}, {0, 10}, {0, 12}, {0, 13},
+                {1, 0}, {1, 2}, {1, 3}, {1, 4}, {1, 6}, {1, 7}, {1, 8}, {1, 10}, {1, 11}, {1, 12},
+                {1, 14}, {2, 0}, {2, 1}, {2, 3}, {2, 4}, {2, 5}, {2, 7}, {2, 9}, {2, 10}, {2, 11},
+                {2, 13}, {2, 14}, {3, 1}, {3, 2}, {3, 4}, {3, 5}, {3, 6}, {3, 8}, {3, 9}, {3, 10},
+                {3, 12}, {3, 13}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 5}, {4, 6}, {4, 7}, {4, 8},
+                {4, 9}, {4, 11}, {4, 12}, {4, 13}, {4, 14}, {5, 0}, {5, 2}, {5, 3}, {5, 4}, {5, 6},
+                {5, 7}, {5, 8}, {5, 10}, {5, 11}, {5, 12}, {5, 14}, {6, 0}, {6, 1}, {6, 3}, {6, 4},
+                {6, 5}, {6, 7}, {6, 9}, {6, 10}, {6, 11}, {6, 13}, {6, 14}, {7, 1}, {7, 2}, {7, 4},
+                {7, 5}, {7, 6}, {7, 8}, {7, 9}, {7, 10}, {7, 12}, {7, 13}, {8, 0}, {8, 1}, {8, 3},
+                {8, 4}, {8, 5}, {8, 7}, {8, 9}, {8, 10}, {8, 11}, {8, 13}, {8, 14}, {9, 0}, {9, 2},
+                {9, 3}, {9, 4}, {9, 6}, {9, 7}, {9, 8}, {9, 10}, {9, 11}, {9, 12}, {9, 14}, {10, 0},
+                {10, 1}, {10, 2}, {10, 3}, {10, 5}, {10, 6}, {10, 7}, {10, 8}, {10, 9}, {10, 11},
+                {10, 12}, {10, 13}, {10, 14}, {11, 1}, {11, 2}, {11, 4}, {11, 5}, {11, 6}, {11, 8},
+                {11, 9}, {11, 10}, {11, 12}, {11, 13}, {12, 0}, {12, 1}, {12, 3}, {12, 4}, {12, 5},
+                {12, 7}, {12, 9}, {12, 10}, {12, 11}, {12, 13}, {12, 14}, {13, 0}, {13, 2}, {13, 3},
+                {13, 4}, {13, 6}, {13, 7}, {13, 8}, {13, 10}, {13, 11}, {13, 12}, {13, 14}, {14, 1},
+                {14, 2}, {14, 4}, {14, 5}, {14, 6}, {14, 8}, {14, 9}, {14, 10}, {14, 12}, {14, 13}
+        };
+
 
         // check if multipliers are set correctly
         for (int[] index : double_ls) {
@@ -74,12 +88,39 @@ class BoardTest {
         for (int[] index : triple_ws) {
             assertEquals(Square.Multiplier.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
         }
+        for (int[] index : normal) {
+            assertEquals(Square.Multiplier.NORMAL, b[index[0]][index[1]].getMultiplier());
+        }
+        assertEquals(Square.Multiplier.CENTRE, b[7][7].getMultiplier());
     }
 
     @Test
     void testGetTile() {
         Tile tile = new Tile('Z', 10);
-        board.placeTile('A', 1, tile);
-        assertEquals(tile, board.getTile('A', 1));
+        for (char column = 'A'; column <= 'O'; column++) {
+            for (int row = 1; row <= 15; row++) {
+                board.placeTile(column, row, tile);
+                assertEquals(tile, board.getTile(column, row));
+            }
+        }
+    }
+
+    @Test
+    void testReset() {
+        Square[][] b = board.getBoard();
+        for (int i = 0; i < 15; i ++) {
+            for (int j = 0; j < 15; j++) {
+                b[i][j].setTile(new Tile ('Z', 10));
+            }
+        }
+        board.reset();
+        b = board.getBoard();
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                if (b[i][j].getTile() != null) {
+                    fail("reset() doesn't work as expected");
+                }
+            }
+        }
     }
 }
