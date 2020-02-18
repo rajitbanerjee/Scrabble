@@ -54,6 +54,14 @@ class TileTest {
         if (!t.toString().equals("  Z  ")) {
             fail("Error: toString() doesn't work as expected.");
         }
+
+        //test equals()
+        Tile t1 = new Tile('Z', 10);
+        Tile t2 = new Tile('Z', 10);
+        Square s1 = new Square(Square.Multiplier.NORMAL);
+        s1.setTile(t1);
+        assertEquals(t1, t2);
+        assertNotEquals(t1, s1);
     }
 
 }
