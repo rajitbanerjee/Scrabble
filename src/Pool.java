@@ -32,15 +32,13 @@ public class Pool {
                 "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
         // number of tiles for each tile type in every group of tile types
         int[] numTiles = {2, 12, 9, 8, 6, 4, 4, 3, 2, 2, 1, 1, 1};
-        // points for the different groups of tile types
-        int[] points = {0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 8, 10};
 
         //E.g. tiles in the last group "QZ" each have quantity = 1, points = 10
 
         // add required number of tiles of each type to the pool
         for (int i = 0; i < tileTypes.length; i++) {
             for (int j = 0; j < numTiles[i]; j++) {
-                addTiles(tileTypes[i], points[i]);
+                addTiles(tileTypes[i]);
             }
         }
     }
@@ -48,12 +46,11 @@ public class Pool {
     /**
      * Add given group of tiles to the pool, each with the given associated points.
      *
-     * @param tiles  group of tiles with the same number of points
-     * @param points points associated with each tile in the given group of tiles
+     * @param tiles  group of tiles to be added
      */
-    private void addTiles(String tiles, int points) {
+    private void addTiles(String tiles) {
         for (char ch : tiles.toCharArray()) {
-            pool.add(new Tile(ch, points));
+            pool.add(Tile.makeTile(ch));
         }
     }
 

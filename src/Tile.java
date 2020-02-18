@@ -76,4 +76,35 @@ public class Tile {
     public String toString() {
         return String.format("  %c  ", type);
     }
+
+    /**
+     * Creates a Tile object of the specified type.
+     *
+     * @param type the type of Tile to be created A-Z or blank -
+     * @return Tile object for specified type
+     * @throws IllegalArgumentException if specified type is neither A-Z nor -
+     */
+    public static Tile makeTile(char type) throws IllegalArgumentException {
+        type = Character.toUpperCase(type);
+        // different types of tiles ("-" represents the blank tile) grouped...
+        // according to equality of associated points
+        String[] tileTypes = {"-", "E", "AI", "O", "NRT", "LSU",
+                "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
+        // the points associated for each tile in each group
+        int[] pointTypes = {0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 8, 10};
+
+        int points = -1;
+        for (int i = 0; i < tileTypes.length; i++) {
+            if (tileTypes[i].contains(type + "")) {
+                points = pointTypes[i];
+                break;
+            }
+        }
+        // every tile must have associated points
+        // if points remain -1 (initial), that means there's an error with type
+        if (points == -1) {
+            throw new IllegalArgumentException("Invalid type of tile given");
+        }
+        return new Tile(type, points);
+    }
 }

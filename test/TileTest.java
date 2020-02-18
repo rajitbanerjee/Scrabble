@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -55,13 +57,56 @@ class TileTest {
             fail("Error: toString() doesn't work as expected.");
         }
 
-        //test equals()
+        // Test equals()
         Tile t1 = new Tile('Z', 10);
         Tile t2 = new Tile('Z', 10);
         Square s1 = new Square(Square.Multiplier.NORMAL);
         s1.setTile(t1);
         assertEquals(t1, t2);
         assertNotEquals(t1, s1);
+
+        // Test makeTile()
+        // Create a HashMap to test the score of each letter
+        HashMap<Character, Integer> map = new HashMap<>();
+        String onePointLetters = "AEILNORSTU";
+        String twoPointLetters = "DG";
+        String threePointLetters = "BCMP";
+        String fourPointLetters = "FHVWY";
+
+        for (char ch : onePointLetters.toCharArray()) {
+            map.put(ch, 1);
+        }
+        for (char ch : twoPointLetters.toCharArray()) {
+            map.put(ch, 2);
+        }
+        for (char ch : threePointLetters.toCharArray()) {
+            map.put(ch, 3);
+        }
+        for (char ch : fourPointLetters.toCharArray()) {
+            map.put(ch, 4);
+        }
+        // 5 point
+        map.put('K', 5);
+        // 8 point
+        map.put('J', 8);
+        map.put('X', 8);
+        // 10 point
+        map.put('Q', 10);
+        map.put('Z', 10);
+        // 0 point
+        map.put('-', 0);
+
+        // check if all the tiles have the correct number of points
+        for (HashMap.Entry<Character, Integer> entry : map.entrySet()) {
+            assertEquals(entry.getValue(), Tile.makeTile(entry.getKey()).getPoints());
+        }
+
+        try {
+            Tile.makeTile('*');
+            fail("Invalid tile type");
+        } catch (Exception ignored) {
+            // test passed
+        }
     }
 
 }
