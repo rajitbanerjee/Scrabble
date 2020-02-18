@@ -181,11 +181,25 @@ class BoardTest {
         Pool pool = new Pool();
         Frame frame = new Frame(pool);
         ArrayList<Tile> f = new ArrayList<>();
-        for (char ch: "HEL".toCharArray()) {
+        for (char ch : "HEL".toCharArray()) {
             f.add(Tile.makeTile(ch));
         }
         frame.setFrame(f);
         assertFalse(board.isWordPlacementValid(7, 7, 'A', "HELLO", frame));
+        /*
+         * TODO
+         *  1. Test for square out of bounds
+         *  2. Test for invalid orientation
+         *  3. Test for too short a word
+         *  4. Test for alphabetic word
+         *  5. Test for null frame object
+         *  6. Test for board overflow detection
+         *  7. Test for conflict in word placement with existing words on board
+         *  8. Test to check that frame contains required tiles for the word
+         *  9. Test to check if the word uses at least one letter from frame
+         *  10. Test to check if the first move covers the centre square
+         *  11. Test to check that the placed word connects with another word on board
+         */
     }
 
 }
