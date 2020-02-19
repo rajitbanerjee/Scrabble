@@ -151,8 +151,6 @@ public class Board {
     public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         // Convert row and column to real indices (0 - 14)
-        column -= 'A';
-        row -= 1;
         if (!isValidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
@@ -205,8 +203,7 @@ public class Board {
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase().trim();
         // Convert column and row to real indices (0 - 14)
-        column -= 'A';
-        row -= 1;
+
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || !isAlphaString(word) || frame == null) {
