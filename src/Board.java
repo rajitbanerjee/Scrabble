@@ -447,7 +447,7 @@ public class Board {
      * @return {@code true} if the given string only contains alphabetical characters
      */
     private boolean isAlphaString(String input) {
-        return input.matches("[A-Za-z]+");
+        return input.matches("[-A-Za-z-]+");
     }
 
     /**
