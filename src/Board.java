@@ -295,17 +295,16 @@ public class Board {
      * @param frame       the players frame
      * @return {@code true} if the frame contains all tiles needed
      */
+    // TODO: add support for blank tiles
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
         String tilesInFrame = "";
-        String character;
         for (Tile t : frame.getFrame()) {
             tilesInFrame = tilesInFrame + t.getType();
         }
         // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
@@ -320,8 +319,7 @@ public class Board {
         } else {
             // checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
