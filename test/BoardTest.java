@@ -181,14 +181,41 @@ class BoardTest {
         Pool pool = new Pool();
         Frame frame = new Frame(pool);
         ArrayList<Tile> f = new ArrayList<>();
-        for (char ch : "HEL".toCharArray()) {
+        for (char ch : "HELLO".toCharArray()) {
             f.add(Tile.makeTile(ch));
         }
         frame.setFrame(f);
-        assertFalse(board.isWordPlacementValid(7, 7, 'A', "HELLO", frame));
+        //test for isValid()
+        assertTrue(board.isWordPlacementValid(7 ,7, 'A', "Hello", frame));
+        assertFalse(board.isWordPlacementValid(-1, 7, 'A', "HELLO", frame));
+        assertFalse(board.isWordPlacementValid(16, 7, 'A', "HELLO", frame));
+        assertFalse(board.isWordPlacementValid(7 ,-1, 'A', "Hello", frame));
+        assertFalse(board.isWordPlacementValid(7 ,16, 'A', "Hello", frame));
+
+        //test for isWordJoined()
+        board.setFirstMove(false);
+        board.placeTile((char) ('H' - 'A'), 7, new Tile('Z', 10));  //place tile on centre square
+        //horizontal placements
+        assertTrue(board.isWordPlacementValid(7 ,8, 'A', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(7 ,6, 'A', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(5 ,8, 'A', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(6 ,6, 'A', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(8 ,7, 'A', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(2 ,7, 'A', "Hello", frame));
+        //vertical placements
+        assertTrue(board.isWordPlacementValid(8 ,7, 'D', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(7 ,2, 'D', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(6 ,7, 'D', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(6 ,3, 'D', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(8 ,7, 'D', "Hello", frame));
+        assertTrue(board.isWordPlacementValid(8 ,4, 'D', "Hello", frame));
+        //invalid placements
+        assertFalse(board.isWordPlacementValid(0 ,0, 'D', "Hello", frame));
+        assertFalse(board.isWordPlacementValid(5 ,5, 'D', "Hello", frame));
+        assertFalse(board.isWordPlacementValid(0 ,0, 'A', "Hello", frame));
+        assertFalse(board.isWordPlacementValid(10 ,5, 'A', "Hello", frame));
         /*
          * TODO
-         *  1. Test for square out of bounds
          *  2. Test for invalid orientation
          *  3. Test for too short a word
          *  4. Test for alphabetic word
@@ -198,7 +225,6 @@ class BoardTest {
          *  8. Test to check that frame contains required tiles for the word
          *  9. Test to check if the word uses at least one letter from frame
          *  10. Test to check if the first move covers the centre square
-         *  11. Test to check that the placed word connects with another word on board
          */
     }
 
