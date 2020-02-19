@@ -151,33 +151,11 @@ public class Board {
     }
 
     /**
-     * Place a given Tile at a specified row and column on the Board.
-     *
-     * @param column character between 'A' - 'O' to specify the board column
-     * @param row    integer between 1 - 15 to specify the board row
-     * @param tile   the Tile to be placed at the specified index
-     * @throws IllegalArgumentException if column or row is invalid, or when tile is occupied
-     */
-    public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
-        column = Character.toUpperCase(column);
-        if (!isValidSquare(column, row)) {
-            throw new IllegalArgumentException("Square out of bounds.");
-        }
-        if (tile == null) {
-            throw new IllegalArgumentException("Tile cannot be null.");
-        }
-        if (!isSquareEmpty(column, row)) {
-            throw new IllegalArgumentException("Square is currently occupied.");
-        }
-        board[row][column].setTile(tile);
-    }
-
-    /**
      * Place a given word either vertically or horizontally starting at a
      * specified row and column on the board.
      *
-     * @param column      character between 'A'-'O' to specify the board column
-     * @param row         integer between 1-15 to specify the board row
+     * @param column      character between 'A' - 'O' to specify the board column
+     * @param row         integer between 1 - 15 to specify the board row
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
      * @param frame       the players frame
@@ -194,29 +172,30 @@ public class Board {
         if (!isWordPlacementValid(column, row, orientation, word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        int i = 0;
         //place word
-        for (char ch : word.toCharArray()) {
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            // Checks the horizontal direction
             if (orientation == 'A') {
                 if (board[column + i][row].getTile() == null) {
-                    placeTile((char) (column + i), row, frame.getTile(ch));
+                    placeTile(column + i, row, frame.getTile(ch));
                     frame.remove(ch);
                 }
             } else {
+                // Checks the vertical direction
                 if (board[column][row + i].getTile() == null) {
                     placeTile(column, row + i, frame.getTile(ch));
                     frame.remove(ch);
                 }
             }
-            i++;
         }
     }
 
     /**
      * Allows a word placement to be checked to determine if it is legal or not.
      *
-     * @param column      integer between 0-14 to specify the real board column index
-     * @param row         integer between 0-14 to specify the real board row index
+     * @param column      integer between 0 - 14 to specify the real board column index
+     * @param row         integer between 0 - 14 to specify the real board row index
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
      * @param frame       the players frame
@@ -247,21 +226,31 @@ public class Board {
         if (!isFrameUsed(word, frame)) {
             return false;
         }
-        // If first move checks if it covers the center square
+        // If first move, checks if it covers the centre square
         if (isFirstMove) {
-            return doesWordCoverSquare(column, row, orientation, word.length(), 7, 7);
+            return doesWordCoverCentre(column, row, orientation, word.length());
         } else {
-            // If not first move checks if it connects with at least one existing character on the board
+            // If not first move, checks if word connects with an existing word on board
             return isWordJoined(column, row, orientation, word.length());
         }
     }
 
+    /**
+     * Place a given Tile at a specified row and column on the Board.
+     *
+     * @param column integer between 0 - 14 to specify the board column
+     * @param row    integer between 0 - 14 to specify the board row
+     * @param tile   the Tile to be placed at the specified index
+     */
+    private void placeTile(int column, int row, Tile tile) {
+        board[row][column].setTile(tile);
+    }
 
     /**
      * Checks if a specified square index is within the board.
      *
-     * @param column integer between 0-14 to specify the real board column index
-     * @param row    integer between 0-14 to specify the real board row index
+     * @param column integer between 0 - 14 to specify the real board column index
+     * @param row    integer between 0 - 14 to specify the real board row index
      * @return {@code true} if the specified square index is valid
      */
     private boolean isValidSquare(int column, int row) {
@@ -279,8 +268,10 @@ public class Board {
      */
     private boolean isOverflowed(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
+            // Checks the horizontal direction
             return (column + wordLength - 1) > 14;
         } else {
+            // Check the vertical direction
             return (row + wordLength - 1) > 14;
         }
     }
@@ -299,14 +290,16 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) && board[row][column + i].getTile().getType() != wordArray[i]) {
+                if (!isSquareEmpty(column, row) &&
+                        board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
             }
         } else {
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) && board[row + i][column].getTile().getType() != wordArray[i]) {
+                if (!isSquareEmpty(column, row) &&
+                        board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
                 }
             }
@@ -317,14 +310,15 @@ public class Board {
     /**
      * Checks if the frame contains the letters necessary for word placement (ignores filled squares).
      *
-     * @param column      integer between 0-14 to specify the board column
-     * @param row         integer between 0-14 to specify the board row
+     * @param column      integer between 0 - 14 to specify the board column
+     * @param row         integer between 0 - 14 to specify the board row
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
      * @param frame       the players frame
      * @return {@code true} if the frame contains all tiles needed
      */
-    private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
+    private boolean doesFrameContainTiles(int column, int row, char orientation, String word,
+                                          @NotNull Frame frame) {
         StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
             sb.append(t.getType());
@@ -370,12 +364,8 @@ public class Board {
      * @param word  the word to be placed
      * @param frame the players frame
      * @return {@code true} if at least one letter from the frame is used
-     * @throws IllegalArgumentException if word is empty or frame object is null
      */
-    private boolean isFrameUsed(@NotNull String word, Frame frame) throws IllegalArgumentException {
-        if (word.trim().equals("") || frame == null) {
-            throw new IllegalArgumentException("Either word or frame is empty.");
-        }
+    private boolean isFrameUsed(@NotNull String word, Frame frame) {
         for (char ch : word.toCharArray()) {
             if (frame.contains(ch) || frame.contains('-')) {
                 return true;
@@ -385,38 +375,36 @@ public class Board {
     }
 
     /**
-     * Checks if the word to be placed covers a given square.
+     * Checks if the word to be placed covers the centre square H8 (aka 7, 7)
      *
-     * @param column       integer between 0-14 to specify the board column
-     * @param row          integer between 0-14 to specify the board row
+     * @param column       integer between 0 - 14 to specify the board column
+     * @param row          integer between 0 - 14 to specify the board row
      * @param orientation  whether the word goes across or down
      * @param wordLength   the length of the word
-     * @param targetColumn the required column index to be covered
-     * @param targetRow    the required row index to be covered
-     * @return {@code true} if the word being placed covers the required square
+     * @return {@code true} if the word being placed covers the centre square
      */
-    private boolean doesWordCoverSquare(int column, int row, char orientation, int wordLength,
-                                        int targetColumn, int targetRow) {
+    private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
-            return row == targetRow &&
-                    ((column + wordLength - 1) >= targetColumn);
+            // Checks the horizontal direction
+            return row == 7 && ((column + wordLength - 1) >= 7);
         } else {
-            return orientation == 'D' && column == targetColumn &&
-                    ((row + wordLength - 1) >= targetRow);
+            // Checks the vertical direction
+            return orientation == 'D' && column == 7 && ((row + wordLength - 1) >= 7);
         }
     }
 
     /**
      * Checks if a word is joined with any existing tiles.
      *
-     * @param column      integer between 0-14 to specify the board column
-     * @param row         integer between 0-14 to specify the board row
+     * @param column      integer between 0 - 14 to specify the board column
+     * @param row         integer between 0 - 14 to specify the board row
      * @param orientation whether the word goes across or down
      * @param wordLength  the length of the word
      * @return {@code true} if the word is joined with existing board tiles
      */
     private boolean isWordJoined(int column, int row, char orientation, int wordLength) {
         boolean isJoined = false;
+        // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < wordLength && !isJoined; i++) {
                 // if first letter check left
@@ -460,12 +448,11 @@ public class Board {
         return isJoined;
     }
 
-
     /**
      * Checks if a given square doesn't contain a tile.
      *
-     * @param column integer between 0-14 to specify the board column
-     * @param row    integer between 0-14 to specify the board row
+     * @param column integer between 0 - 14 to specify the board column
+     * @param row    integer between 0 - 14 to specify the board row
      * @return {@code true} if the given square is empty
      */
     private boolean isSquareEmpty(int column, int row) {
@@ -473,7 +460,7 @@ public class Board {
     }
 
     /**
-     * Checks if a string only contains alphabetical characters
+     * Checks if a string only contains alphabetical characters.
      *
      * @param input give string
      * @return {@code true} if the given string only contains alphabetical characters
@@ -495,7 +482,7 @@ public class Board {
     }
 
     /**
-     * Display the column indices 'A' - 'O' on the board
+     * Display the column indices 'A' - 'O' on the board.
      */
     private void printColumnIndices() {
         System.out.print("\t|");
