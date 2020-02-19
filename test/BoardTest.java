@@ -137,46 +137,6 @@ class BoardTest {
     }
 
     @Test
-    void testPlaceTile() {
-        Square[][] b = board.getBoard();
-        Tile tile = Tile.makeTile('Z');
-        for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= 15; row++) {
-                tile.setType((char) ((int) (Math.random() * 26) + 'A'));
-                board.placeTile((char) (column - 'A'), row - 1, tile);
-                assertEquals(tile, b[row - 1][column - 'A'].getTile());
-            }
-        }
-
-        // test if exception is thrown for square out of bounds
-        try {
-            // try to place a Tile outside the board's bounds
-            board.placeTile((char) ('A' -'A'), 16, tile);
-            board.placeTile((char) ('P' - 'A'), 14, tile);
-            board.placeTile((char) ('B' - 'A'), - 1, tile);
-            fail("Queried tile out of bounds.");
-        } catch (Exception ignored) {
-            // test passed
-        }
-        try {
-            // try to place a null Tile object
-            board.placeTile((char) ('A' - 'A'), 1 - 1, null);
-            fail("Cannot place a null tile.");
-        } catch (Exception ignored) {
-            // test passed
-        }
-
-        try {
-            // try to place a Tile on the same Square twice
-            board.placeTile((char) ('A' - 1), 1, tile);
-            board.placeTile((char) ('A' - 1), 1, tile);
-            fail("Cannot place a tile on an occupied square.");
-        } catch (Exception ignored) {
-            // test passed
-        }
-    }
-
-    @Test
     void testWordPlacementValidity() {
         Pool pool = new Pool();
         Frame frame = new Frame(pool);
@@ -185,7 +145,7 @@ class BoardTest {
             f.add(Tile.makeTile(ch));
         }
         frame.setFrame(f);
-        assertFalse(board.isWordPlacementValid(7, 7, 'A', "HELLO", frame));
+        assertFalse(board.isWordPlacementValid('H', 8, 'A', "HELLO", frame));
         /*
          * TODO
          *  1. Test for square out of bounds
