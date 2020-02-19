@@ -295,7 +295,6 @@ public class Board {
      * @param frame       the players frame
      * @return {@code true} if the frame contains all tiles needed
      */
-    // TODO: add support for blank tiles
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
         String tilesInFrame = "";
         for (Tile t : frame.getFrame()) {
