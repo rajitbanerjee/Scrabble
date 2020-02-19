@@ -62,6 +62,13 @@ public class Board {
         }
     }
 
+    // temporary tests
+    public static void main(String[] args) {
+        Board b = new Board();
+        b.placeTile('H', 8, Tile.makeTile('Z'));
+        b.display();
+    }
+
     /**
      * Accessor for the board.
      * Required for testing purposes.
@@ -70,13 +77,6 @@ public class Board {
      */
     public Square[][] getBoard() {
         return board;
-    }
-
-    // temporary tests
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('H', 8, Tile.makeTile('Z'));
-        b.display();
     }
 
     /**
@@ -308,9 +308,9 @@ public class Board {
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if(tilesInFrame.contains("-")) {
+                    } else if (tilesInFrame.contains("-")) {
                         tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    }else {
+                    } else {
                         return false;
                     }
                 }
@@ -323,9 +323,9 @@ public class Board {
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if(tilesInFrame.contains("-")) {
+                    } else if (tilesInFrame.contains("-")) {
                         tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    }else {
+                    } else {
                         return false;
                     }
                 }
