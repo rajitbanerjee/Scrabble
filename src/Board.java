@@ -215,17 +215,20 @@ public class Board {
     /**
      * Allows a word placement to be checked to determine if it is legal or not.
      *
-     * @param column      integer between 0-14 to specify the real board column index
-     * @param row         integer between 0-14 to specify the real board row index
+     * @param column      character between 'A' - 'O' to specify the real board column index
+     * @param row         integer between 1 - 15 to specify the real board row index
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed on the board
      * @param frame       the players frame
      * @return {@code true} if word placement is legal
      */
-    public boolean isWordPlacementValid(int column, int row, char orientation, String word, Frame frame) {
+    public boolean isWordPlacementValid(char column, int row, char orientation, String word, Frame frame) {
         // Input standardisation
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase().trim();
+        // convert column and row to real board indices (0 - 14)
+        column -= 'A';
+        row -= 1;
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || !isAlphaString(word) || frame == null) {
