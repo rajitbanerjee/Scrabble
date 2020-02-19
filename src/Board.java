@@ -23,21 +23,21 @@ public class Board {
         board = new Square[15][15];
         isFirstMove = true;
         // initialise multiplier squares on board
-        board[7][7] = new Square(Square.Multiplier.CENTRE);
-        for (int[] index : Constants.NORMAL_SQUARES) {
-            board[index[0]][index[1]] = new Square(Square.Multiplier.NORMAL);
+        board[7][7] = new Square(Constants.MULTIPLIER.CENTRE);
+        for (int[] index : Constants.NORMAL_SQ_ARRAY) {
+            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.NORMAL);
         }
-        for (int[] index : Constants.DOUBLE_LS) {
-            board[index[0]][index[1]] = new Square(Square.Multiplier.DOUBLE_LS);
+        for (int[] index : Constants.DOUBLE_LS_ARRAY) {
+            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.DOUBLE_LS);
         }
-        for (int[] index : Constants.TRIPLE_LS) {
-            board[index[0]][index[1]] = new Square(Square.Multiplier.TRIPLE_LS);
+        for (int[] index : Constants.TRIPLE_LS_ARRAY) {
+            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_LS);
         }
-        for (int[] index : Constants.DOUBLE_WS) {
-            board[index[0]][index[1]] = new Square(Square.Multiplier.DOUBLE_WS);
+        for (int[] index : Constants.DOUBLE_WS_ARRAY) {
+            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.DOUBLE_WS);
         }
-        for (int[] index : Constants.TRIPLE_WS) {
-            board[index[0]][index[1]] = new Square(Square.Multiplier.TRIPLE_WS);
+        for (int[] index : Constants.TRIPLE_WS_ARRAY) {
+            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_WS);
         }
     }
 
@@ -49,6 +49,7 @@ public class Board {
 
         player.getFrame().printFrame();
         Scanner in = new Scanner(System.in);
+        System.out.println("Please enter a word: ");
         String s = in.nextLine();
 
         b.placeWord('H', 8, 'A', s, player.getFrame());

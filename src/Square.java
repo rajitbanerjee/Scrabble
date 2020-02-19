@@ -9,15 +9,15 @@
  * @team DarkMode
  */
 public class Square {
-    private Multiplier multiplier;
+    private Constants.MULTIPLIER multiplier;
     private Tile tile = null;
 
-    public Square(Multiplier multiplier) {
+    public Square(Constants.MULTIPLIER multiplier) {
         this.multiplier = multiplier;
     }
 
     // Required setters and getters
-    public Multiplier getMultiplier() {
+    public Constants.MULTIPLIER getMultiplier() {
         return multiplier;
     }
 
@@ -57,8 +57,5 @@ public class Square {
         }
         return tile.toString();
     }
-
-    // stores the different types of multipliers on a board
-    // NOTE: Centre is also has a score multiplier of DOUBLE_WS
-    enum Multiplier {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
+    
 }
