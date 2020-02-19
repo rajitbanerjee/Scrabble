@@ -310,7 +310,9 @@ public class Board {
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else {
+                    } else if(tilesInFrame.contains("-")) {
+                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
+                    }else {
                         return false;
                     }
                 }
@@ -324,7 +326,9 @@ public class Board {
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else {
+                    } else if(tilesInFrame.contains("-")) {
+                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
+                    }else {
                         return false;
                     }
                 }
