@@ -1,6 +1,4 @@
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 
 /**
  * The Board is a 15x15 matrix of Squares.
