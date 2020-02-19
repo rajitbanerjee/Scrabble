@@ -22,44 +22,21 @@ public class Board {
     public Board() {
         board = new Square[15][15];
         isFirstMove = true;
-        // set Centre and Normal squares
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
-                // centre square index
-                if (i == 7 && j == 7) {
-                    board[i][j] = new Square(Square.Multiplier.CENTRE);
-                } else {
-                    board[i][j] = new Square(Square.Multiplier.NORMAL);
-                }
-            }
-        }
-        // double letter score multiplier indices
-        int[][] double_ls = {{0, 3}, {0, 11}, {2, 6}, {2, 8}, {3, 0}, {3, 7},
-                {3, 14}, {6, 2}, {6, 6}, {6, 8}, {6, 12}, {7, 3}, {7, 11},
-                {8, 2}, {8, 6}, {8, 8}, {8, 12}, {11, 0}, {11, 7}, {11, 14},
-                {12, 6}, {12, 8}, {14, 3}, {14, 11}};
-        // triple letter score multiplier indices
-        int[][] triple_ls = {{1, 5}, {1, 9}, {5, 1}, {5, 5}, {5, 9}, {5, 13}, {9, 1},
-                {9, 5}, {9, 9}, {9, 13}, {13, 5}, {13, 9}};
-        // double word score multiplier indices
-        int[][] double_ws = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {10, 10}, {11, 11},
-                {12, 12}, {13, 13}, {1, 13}, {2, 12}, {3, 11}, {4, 10}, {10, 4},
-                {11, 3}, {12, 2}, {13, 1}};
-        // triple word score multiplier indices
-        int[][] triple_ws = {{0, 0}, {0, 7}, {0, 14}, {7, 0},
-                {7, 14}, {14, 0}, {14, 7}, {14, 14}};
-
         // initialise multiplier squares on board
-        for (int[] index : double_ls) {
+        board[7][7] = new Square(Square.Multiplier.CENTRE);
+        for (int[] index : Constants.NORMAL_SQUARES) {
+            board[index[0]][index[1]] = new Square(Square.Multiplier.NORMAL);
+        }
+        for (int[] index : Constants.DOUBLE_LS) {
             board[index[0]][index[1]] = new Square(Square.Multiplier.DOUBLE_LS);
         }
-        for (int[] index : triple_ls) {
+        for (int[] index : Constants.TRIPLE_LS) {
             board[index[0]][index[1]] = new Square(Square.Multiplier.TRIPLE_LS);
         }
-        for (int[] index : double_ws) {
+        for (int[] index : Constants.DOUBLE_WS) {
             board[index[0]][index[1]] = new Square(Square.Multiplier.DOUBLE_WS);
         }
-        for (int[] index : triple_ws) {
+        for (int[] index : Constants.TRIPLE_WS) {
             board[index[0]][index[1]] = new Square(Square.Multiplier.TRIPLE_WS);
         }
     }
@@ -103,8 +80,8 @@ public class Board {
      * Reset the board so that it contains 0 Tiles.
      */
     public void reset() {
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 board[i][j].setTile(null);
             }
         }
@@ -116,8 +93,8 @@ public class Board {
     public void display() {
         printLine();
         printColumnIndices();
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j < 15; j++) {
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 if (j == 0) {
                     System.out.print((i + 1) + "\t|");
                 }
@@ -254,7 +231,7 @@ public class Board {
      * @return {@code true} if the specified square index is valid
      */
     private boolean isValidSquare(int column, int row) {
-        return column >= 0 && column < 15 && row >= 0 && row < 15;
+        return column >= 0 && column < Constants.BOARD_SIZE && row >= 0 && row < Constants.BOARD_SIZE;
     }
 
     /**
@@ -269,10 +246,10 @@ public class Board {
     private boolean isOverflowed(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
-            return (column + wordLength - 1) > 14;
+            return (column + wordLength - 1) >= Constants.BOARD_SIZE;
         } else {
             // Check the vertical direction
-            return (row + wordLength - 1) > 14;
+            return (row + wordLength - 1) >= Constants.BOARD_SIZE;
         }
     }
 
@@ -377,19 +354,21 @@ public class Board {
     /**
      * Checks if the word to be placed covers the centre square H8 (aka 7, 7)
      *
-     * @param column       integer between 0 - 14 to specify the board column
-     * @param row          integer between 0 - 14 to specify the board row
-     * @param orientation  whether the word goes across or down
-     * @param wordLength   the length of the word
+     * @param column      integer between 0 - 14 to specify the board column
+     * @param row         integer between 0 - 14 to specify the board row
+     * @param orientation whether the word goes across or down
+     * @param wordLength  the length of the word
      * @return {@code true} if the word being placed covers the centre square
      */
     private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
-            return row == 7 && ((column + wordLength - 1) >= 7);
+            return row == Constants.BOARD_SIZE / 2 &&
+                    ((column + wordLength - 1) >= Constants.BOARD_SIZE / 2);
         } else {
             // Checks the vertical direction
-            return orientation == 'D' && column == 7 && ((row + wordLength - 1) >= 7);
+            return orientation == 'D' && column == Constants.BOARD_SIZE / 2 &&
+                    ((row + wordLength - 1) >= Constants.BOARD_SIZE / 2);
         }
     }
 

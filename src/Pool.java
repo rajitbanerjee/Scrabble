@@ -27,20 +27,10 @@ public class Pool {
      */
     public void reset() {
         pool.clear();
-
-        // different types of tiles ("-" represents the blank tile) grouped...
-        // according to equality of associated points
-        String[] tileTypes = {"-", "E", "AI", "O", "NRT", "LSU",
-                "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
-        // number of tiles for each tile type in every group of tile types
-        int[] numTiles = {2, 12, 9, 8, 6, 4, 4, 3, 2, 2, 1, 1, 1};
-
-        //E.g. tiles in the last group "QZ" each have quantity = 1, points = 10
-
         // add required number of tiles of each type to the pool
-        for (int i = 0; i < tileTypes.length; i++) {
-            for (int j = 0; j < numTiles[i]; j++) {
-                addTiles(tileTypes[i]);
+        for (int i = 0; i < Constants.TILE_TYPES.length; i++) {
+            for (int j = 0; j < Constants.NUM_TILES[i]; j++) {
+                addTiles(Constants.TILE_TYPES[i]);
             }
         }
     }

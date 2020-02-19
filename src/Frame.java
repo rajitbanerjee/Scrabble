@@ -41,7 +41,7 @@ public class Frame {
         if (pool.isEmpty()) {
             throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
         }
-        int numTilesToDraw = Math.min(pool.size(), 7 - frame.size());
+        int numTilesToDraw = Math.min(pool.size(), Constants.FRAME_LIMIT - frame.size());
         for (int i = 0; i < numTilesToDraw; i++) {
             frame.add(pool.drawTile());
         }
