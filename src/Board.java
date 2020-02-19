@@ -1,4 +1,6 @@
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The Board is a 15x15 matrix of Squares.
@@ -295,21 +297,21 @@ public class Board {
      * @return {@code true} if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, Frame frame) {
-        // creates list of the characters in frame
-        ArrayList<Character> list = new ArrayList<>();
+        String tilesInFrame = "";
+        String character;
         for (Tile t : frame.getFrame()) {
-            list.add(t.getType());
+            tilesInFrame = tilesInFrame + t.getType();
         }
         // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
+                character = "";
+                character = character + word.charAt(i);
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column + i, row)) {
-                    if (list.contains(word.charAt(i))) {
-                        list.remove(word.charAt(i));
-                    } else if (list.contains('-')) {
-                        list.remove(Character.valueOf('-'));
-                    } else {
+                    if (tilesInFrame.contains(character)) {
+                        tilesInFrame.replaceFirst(character, "");
+                    }else{
                         return false;
                     }
                 }
@@ -317,13 +319,13 @@ public class Board {
         } else {
             // checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
+                character = "";
+                character = character + word.charAt(i);
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column, row + i)) {
-                    if (list.contains(word.charAt(i))) {
-                        list.remove(word.charAt(i));
-                    } else if (list.contains('-')) {
-                        list.remove(Character.valueOf('-'));
-                    } else {
+                    if (tilesInFrame.contains(character)) {
+                        tilesInFrame.replaceFirst(character, "");
+                    }else{
                         return false;
                     }
                 }
