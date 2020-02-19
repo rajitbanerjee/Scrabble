@@ -405,24 +405,19 @@ public class Board {
     }
 
     /**
-     * Checks if the word to be placed covers a given square.
+     * Checks if the word to be placed covers the centre square H8 i.e., (7, 7).
      *
-     * @param column       integer between 0-14 to specify the board column
-     * @param row          integer between 0-14 to specify the board row
-     * @param orientation  whether the word goes across or down
-     * @param wordLength   the length of the word
-     * @param targetColumn the required column index to be covered
-     * @param targetRow    the required row index to be covered
-     * @return {@code true} if the word being placed covers the required square
+     * @param column      integer between 0 - 14 to specify the board column
+     * @param row         integer between 0 - 14 to specify the board row
+     * @param orientation whether the word goes across or down
+     * @param wordLength  the length of the word
+     * @return {@code true} if the word being placed covers the centre square
      */
-    private boolean doesWordCoverSquare(int column, int row, char orientation, int wordLength,
-                                        int targetColumn, int targetRow) {
+    private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
-            return row == targetRow &&
-                    ((column + wordLength - 1) >= targetColumn);
+            return row == 7 && ((column + wordLength - 1) >= 7);
         } else {
-            return orientation == 'D' && column == targetColumn &&
-                    ((row + wordLength - 1) >= targetRow);
+            return orientation == 'D' && column == 7 && ((row + wordLength - 1) >= 7);
         }
     }
 
