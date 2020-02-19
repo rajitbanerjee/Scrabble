@@ -72,16 +72,6 @@ public class Board {
         return board;
     }
 
-    /**
-     * Mutator for isFirstMove.
-     * Should be used after first move is completed to change isFirstMove to false.
-     *
-     * @param firstMove false after first move has been made
-     */
-    public void setFirstMove(boolean firstMove) {
-        isFirstMove = firstMove;
-    }
-
     // temporary tests
     public static void main(String[] args) {
         Board b = new Board();
