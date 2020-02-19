@@ -422,9 +422,6 @@ public class Board {
                 // if first letter check left
                 if (i == 0 && isValidSquare(column - 1, row)) {
                     isJoined = !isSquareEmpty(column - 1, row);
-                    if (isJoined) {
-                        break;
-                    }
                 }
                 // if last letter check right
                 if (i == wordLength - 1 && isValidSquare(column + i + 1, row)) {
@@ -445,9 +442,6 @@ public class Board {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
                     isJoined = !isSquareEmpty(column, row - 1);
-                    if (isJoined) {
-                        break;
-                    }
                 }
                 // if last letter check bottom
                 if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
