@@ -196,15 +196,15 @@ public class Board {
         }
         int i = 0;
         //place word
-        for(char ch : word.toCharArray()){
-            if(orientation == 'A'){
-                if(board[column + i][row ].getTile() == null){
-                    placeTile((char) (column + i),row,frame.getTile(ch));
+        for (char ch : word.toCharArray()) {
+            if (orientation == 'A') {
+                if (board[column + i][row].getTile() == null) {
+                    placeTile((char) (column + i), row, frame.getTile(ch));
                     frame.remove(ch);
                 }
-            }else{
-                if(board[column ][row + i].getTile() == null){
-                    placeTile(column,row + i,frame.getTile(ch));
+            } else {
+                if (board[column][row + i].getTile() == null) {
+                    placeTile(column, row + i, frame.getTile(ch));
                     frame.remove(ch);
                 }
             }
@@ -436,13 +436,13 @@ public class Board {
                 // Check top
                 if (isValidSquare(column + i, row - 1)) {
                     isJoined = !isSquareEmpty(column + i, row - 1);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
                 if (isValidSquare(column + i, row + 1)) {
                     isJoined = !isSquareEmpty(column + i, row + 1);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
@@ -453,28 +453,28 @@ public class Board {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
                     isJoined = !isSquareEmpty(column, row - 1);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
                 // if last letter check bottom
                 if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
                     isJoined = !isSquareEmpty(column, row + i + 1);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
                 // Check left
                 if (isValidSquare(column - 1, row + i)) {
                     isJoined = !isSquareEmpty(column - 1, row + i);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
                 // Check right
                 if (isValidSquare(column + 1, row + i)) {
                     isJoined = !isSquareEmpty(column + 1, row + i);
-                    if(isJoined){
+                    if (isJoined) {
                         break;
                     }
                 }
