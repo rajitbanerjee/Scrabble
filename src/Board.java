@@ -185,7 +185,24 @@ public class Board {
         if (!isWordPlacementValid(column, row, orientation, word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        // TODO: Place word
+        int i = 0;
+        for(char ch : word.toCharArray()){
+            if(orientation == 'A'){
+                System.out.println(column);
+                System.out.println(row + i);
+                if(board[column + i][row ].getTile() == null){
+                    placeTile((char) (column + i),row,frame.getTile(ch));
+                    frame.remove(ch);
+                }
+            }else{
+                if(board[column ][row + i].getTile() == null){
+                    placeTile(column,row + i,frame.getTile(ch));
+                    frame.remove(ch);
+                }
+            }
+            i++;
+
+        }
     }
 
     /**
