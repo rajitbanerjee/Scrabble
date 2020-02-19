@@ -1,6 +1,8 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Scanner;
+
 /**
  * The Board is a 15x15 matrix of Squares.
  *
@@ -65,8 +67,16 @@ public class Board {
     // temporary tests
     public static void main(String[] args) {
         Board b = new Board();
-        b.placeTile('H', 8, Tile.makeTile('Z'));
+        Pool pool = new Pool();
+        Player player = new Player("name", new Frame(pool));
+
+        player.getFrame().printFrame();
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+
+        b.placeWord('H', 8, 'A', s, player.getFrame());
         b.display();
+        player.getFrame().printFrame();
     }
 
     /**
@@ -201,7 +211,6 @@ public class Board {
                 }
             }
             i++;
-
         }
     }
 
