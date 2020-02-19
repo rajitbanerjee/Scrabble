@@ -1,6 +1,8 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.concurrent.ConcurrentNavigableMap;
+
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
@@ -33,17 +35,10 @@ public class Tile {
     @Contract("_ -> new")
     public static Tile makeTile(char type) throws IllegalArgumentException {
         type = Character.toUpperCase(type);
-        // different types of tiles ("-" represents the blank tile) grouped...
-        // according to equality of associated points
-        String[] tileTypes = {"-", "E", "AI", "O", "NRT", "LSU",
-                "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
-        // the points associated for each tile in each group
-        int[] pointTypes = {0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 8, 10};
-
         int points = -1;
-        for (int i = 0; i < tileTypes.length; i++) {
-            if (tileTypes[i].contains(type + "")) {
-                points = pointTypes[i];
+        for (int i = 0; i < Constants.TILE_TYPES.length; i++) {
+            if (Constants.TILE_TYPES[i].contains(type + "")) {
+                points = Constants.POINT_TYPES[i];
                 break;
             }
         }
