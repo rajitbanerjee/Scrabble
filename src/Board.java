@@ -160,7 +160,6 @@ public class Board {
      */
     public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
-        // Convert row and column to real indices (0 - 14)
         if (!isValidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
@@ -196,10 +195,9 @@ public class Board {
             throw new IllegalArgumentException("Invalid word placement");
         }
         int i = 0;
+        //place word
         for(char ch : word.toCharArray()){
             if(orientation == 'A'){
-                System.out.println(column);
-                System.out.println(row + i);
                 if(board[column + i][row ].getTile() == null){
                     placeTile((char) (column + i),row,frame.getTile(ch));
                     frame.remove(ch);
@@ -228,8 +226,6 @@ public class Board {
         // Input standardisation
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase().trim();
-        // Convert column and row to real indices (0 - 14)
-
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || !isAlphaString(word) || frame == null) {
