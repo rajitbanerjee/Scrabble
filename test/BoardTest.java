@@ -39,22 +39,22 @@ class BoardTest {
         Square[][] b = board.getBoard();
         
         // check if multipliers are set correctly
-        for (int[] index : Constants.DOUBLE_LS) {
-            assertEquals(Square.Multiplier.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : Constants.DOUBLE_LS_ARRAY) {
+            assertEquals(Constants.MULTIPLIER.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.TRIPLE_LS) {
-            assertEquals(Square.Multiplier.TRIPLE_LS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : Constants.TRIPLE_LS_ARRAY) {
+            assertEquals(Constants.MULTIPLIER.TRIPLE_LS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.DOUBLE_WS) {
-            assertEquals(Square.Multiplier.DOUBLE_WS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : Constants.DOUBLE_WS_ARRAY) {
+            assertEquals(Constants.MULTIPLIER.DOUBLE_WS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.TRIPLE_WS) {
-            assertEquals(Square.Multiplier.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : Constants.TRIPLE_WS_ARRAY) {
+            assertEquals(Constants.MULTIPLIER.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.NORMAL_SQUARES) {
-            assertEquals(Square.Multiplier.NORMAL, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : Constants.NORMAL_SQ_ARRAY) {
+            assertEquals(Constants.MULTIPLIER.NORMAL, b[index[0]][index[1]].getMultiplier());
         }
-        assertEquals(Square.Multiplier.CENTRE, b[7][7].getMultiplier());
+        assertEquals(Constants.MULTIPLIER.CENTRE, b[7][7].getMultiplier());
     }
 
     @Test

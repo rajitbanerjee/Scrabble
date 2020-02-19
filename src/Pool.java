@@ -28,9 +28,9 @@ public class Pool {
     public void reset() {
         pool.clear();
         // add required number of tiles of each type to the pool
-        for (int i = 0; i < Constants.TILE_TYPES.length; i++) {
-            for (int j = 0; j < Constants.NUM_TILES[i]; j++) {
-                addTiles(Constants.TILE_TYPES[i]);
+        for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
+            for (int j = 0; j < Constants.NUM_TILES_ARRAY[i]; j++) {
+                addTiles(Constants.TILE_TYPES_ARRAY[i]);
             }
         }
     }
