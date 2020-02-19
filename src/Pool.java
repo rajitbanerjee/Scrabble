@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -48,7 +50,7 @@ public class Pool {
      *
      * @param tiles  group of tiles to be added
      */
-    private void addTiles(String tiles) {
+    private void addTiles(@NotNull String tiles) {
         for (char ch : tiles.toCharArray()) {
             pool.add(Tile.makeTile(ch));
         }
@@ -103,7 +105,7 @@ public class Pool {
      * @param t Tile object whose points are to be queried
      * @return the points associated with the given Tile object
      */
-    public int getTileValue(Tile t) {
+    public int getTileValue(@NotNull Tile t) {
         return t.getPoints();
     }
 

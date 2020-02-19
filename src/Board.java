@@ -1,4 +1,5 @@
-
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The Board is a 15x15 matrix of Squares.
@@ -72,8 +73,8 @@ public class Board {
     }
 
     /**
-     * Mutator for firstMove
-     * Should be used after first move is completed to change isFirstMove to false
+     * Mutator for isFirstMove.
+     * Should be used after first move is completed to change isFirstMove to false.
      *
      * @param firstMove false after first move has been made
      */
@@ -274,7 +275,7 @@ public class Board {
      * @param word        the word to be placed
      * @return {@code true} if the word placement conflicts with existing words on board
      */
-    private boolean doesWordConflict(int column, int row, char orientation, String word) {
+    private boolean doesWordConflict(int column, int row, char orientation, @NotNull String word) {
         char[] wordArray = word.toCharArray();
         // Checks the horizontal direction
         if (orientation == 'A') {
@@ -304,7 +305,7 @@ public class Board {
      * @param frame       the players frame
      * @return {@code true} if the frame contains all tiles needed
      */
-    private boolean doesFrameContainTiles(int column, int row, char orientation, String word, Frame frame) {
+    private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
         String tilesInFrame = "";
         String character;
         for (Tile t : frame.getFrame()) {
@@ -318,8 +319,8 @@ public class Board {
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
-                        tilesInFrame.replaceFirst(character, "");
-                    }else{
+                        tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                    } else {
                         return false;
                     }
                 }
@@ -332,8 +333,8 @@ public class Board {
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
-                        tilesInFrame.replaceFirst(character, "");
-                    }else{
+                        tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                    } else {
                         return false;
                     }
                 }
@@ -350,7 +351,7 @@ public class Board {
      * @return {@code true} if at least one letter from the frame is used
      * @throws IllegalArgumentException if word is empty or frame object is null
      */
-    private boolean isFrameUsed(String word, Frame frame) throws IllegalArgumentException {
+    private boolean isFrameUsed(@NotNull String word, Frame frame) throws IllegalArgumentException {
         if (word.trim().equals("") || frame == null) {
             throw new IllegalArgumentException("Either word or frame is empty.");
         }
@@ -456,8 +457,9 @@ public class Board {
      * @param input give string
      * @return {@code true} if the given string only contains alphabetical characters
      */
-    private boolean isAlphaString(String input) {
-        return input.matches("[-A-Za-z-]+");
+    @Contract(pure = true)
+    private boolean isAlphaString(@NotNull String input) {
+        return input.matches("[A-Za-z]+");
     }
 
     /**

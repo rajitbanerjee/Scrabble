@@ -1,3 +1,6 @@
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
@@ -26,6 +29,8 @@ public class Tile {
      * @return Tile object for specified type
      * @throws IllegalArgumentException if specified type is neither A-Z nor -
      */
+    @NotNull
+    @Contract("_ -> new")
     public static Tile makeTile(char type) throws IllegalArgumentException {
         type = Character.toUpperCase(type);
         // different types of tiles ("-" represents the blank tile) grouped...
