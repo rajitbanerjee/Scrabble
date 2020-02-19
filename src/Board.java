@@ -1,6 +1,8 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Scanner;
+
 /**
  * The Board is a 15x15 matrix of Squares.
  *
@@ -62,6 +64,21 @@ public class Board {
         }
     }
 
+    // temporary tests
+    public static void main(String[] args) {
+        Board b = new Board();
+        Pool pool = new Pool();
+        Player player = new Player("name", new Frame(pool));
+
+        player.getFrame().printFrame();
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+
+        b.placeWord('H', 8, 'A', s, player.getFrame());
+        b.display();
+        player.getFrame().printFrame();
+    }
+
     /**
      * Accessor for the board.
      * Required for testing purposes.
@@ -72,11 +89,14 @@ public class Board {
         return board;
     }
 
-    // temporary tests
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('H', 8, Tile.makeTile('Z'));
-        b.display();
+    /**
+     * Mutator for isFirstMove.
+     * Should be used after first move is completed to change isFirstMove to false.
+     *
+     * @param firstMove false after first move has been made
+     */
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
     }
 
     /**
@@ -141,8 +161,6 @@ public class Board {
     public void placeTile(char column, int row, Tile tile) throws IllegalArgumentException {
         column = Character.toUpperCase(column);
         // Convert row and column to real indices (0 - 14)
-        column -= 'A';
-        row -= 1;
         if (!isValidSquare(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
@@ -177,7 +195,23 @@ public class Board {
         if (!isWordPlacementValid(column, row, orientation, word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        // TODO: Place word
+        int i = 0;
+        for(char ch : word.toCharArray()){
+            if(orientation == 'A'){
+                System.out.println(column);
+                System.out.println(row + i);
+                if(board[column + i][row ].getTile() == null){
+                    placeTile((char) (column + i),row,frame.getTile(ch));
+                    frame.remove(ch);
+                }
+            }else{
+                if(board[column ][row + i].getTile() == null){
+                    placeTile(column,row + i,frame.getTile(ch));
+                    frame.remove(ch);
+                }
+            }
+            i++;
+        }
     }
 
     /**
@@ -195,8 +229,7 @@ public class Board {
         orientation = Character.toUpperCase(orientation);
         word = word.toUpperCase().trim();
         // Convert column and row to real indices (0 - 14)
-        column -= 'A';
-        row -= 1;
+
         // Checks for input validity
         if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || !isAlphaString(word) || frame == null) {
@@ -296,23 +329,22 @@ public class Board {
      * @return {@code true} if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
-        String tilesInFrame = "";
-        String character;
+        StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
-            tilesInFrame = tilesInFrame + t.getType();
+            sb.append(t.getType());
         }
+        String tilesInFrame = sb.toString();
         // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if(tilesInFrame.contains("-")) {
+                    } else if (tilesInFrame.contains("-")) {
                         tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    }else {
+                    } else {
                         return false;
                     }
                 }
@@ -320,15 +352,14 @@ public class Board {
         } else {
             // checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if(tilesInFrame.contains("-")) {
+                    } else if (tilesInFrame.contains("-")) {
                         tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    }else {
+                    } else {
                         return false;
                     }
                 }
