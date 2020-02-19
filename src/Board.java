@@ -62,6 +62,13 @@ public class Board {
         }
     }
 
+    // temporary tests
+    public static void main(String[] args) {
+        Board b = new Board();
+        b.placeTile('H', 8, Tile.makeTile('Z'));
+        b.display();
+    }
+
     /**
      * Accessor for the board.
      * Required for testing purposes.
@@ -80,13 +87,6 @@ public class Board {
      */
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
-    }
-
-    // temporary tests
-    public static void main(String[] args) {
-        Board b = new Board();
-        b.placeTile('H', 8, Tile.makeTile('Z'));
-        b.display();
     }
 
     /**
@@ -306,20 +306,21 @@ public class Board {
      * @return {@code true} if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
-        String tilesInFrame = "";
-        String character;
+        StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
-            tilesInFrame = tilesInFrame + t.getType();
+            sb.append(t.getType());
         }
+        String tilesInFrame = sb.toString();
         // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column + i, row)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                    } else if (tilesInFrame.contains("-")) {
+                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
                     } else {
                         return false;
                     }
@@ -328,12 +329,13 @@ public class Board {
         } else {
             // checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                character = "";
-                character = character + word.charAt(i);
+                String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
                 if (isSquareEmpty(column, row + i)) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                    } else if (tilesInFrame.contains("-")) {
+                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
                     } else {
                         return false;
                     }
