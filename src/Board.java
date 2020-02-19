@@ -383,49 +383,64 @@ public class Board {
      * @return {@code true} if the word is joined with existing board tiles
      */
     private boolean isWordJoined(int column, int row, char orientation, int wordLength) {
-        boolean isJoined = false;
         // Checks the horizontal direction
         if (orientation == 'A') {
-            for (int i = 0; i < wordLength && !isJoined; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 // if first letter check left
                 if (i == 0 && isValidSquare(column - 1, row)) {
-                    isJoined = !isSquareEmpty(column - 1, row);
+                    if (!isSquareEmpty(column - 1, row)) {
+                        return true;
+                    }
                 }
                 // if last letter check right
                 if (i == wordLength - 1 && isValidSquare(column + i + 1, row)) {
-                    isJoined = !isSquareEmpty(column + i + 1, row);
+                    if (!isSquareEmpty(column + i + 1, row)) {
+                        return true;
+                    }
                 }
                 // Check top
                 if (isValidSquare(column + i, row - 1)) {
-                    isJoined = !isSquareEmpty(column + i, row - 1);
+                    if (!isSquareEmpty(column + i, row - 1)) {
+                        return true;
+                    }
                 }
                 // Check bottom
                 if (isValidSquare(column + i, row + 1)) {
-                    isJoined = !isSquareEmpty(column + i, row + 1);
+                    if (!isSquareEmpty(column + i, row + 1)) {
+                        return true;
+                    }
                 }
             }
         } else {
             // Check the vertical direction
-            for (int i = 0; i < wordLength && !isJoined; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
-                    isJoined = !isSquareEmpty(column, row - 1);
+                    if (!isSquareEmpty(column, row - 1)) {
+                        return true;
+                    }
                 }
                 // if last letter check bottom
                 if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
-                    isJoined = !isSquareEmpty(column, row + i + 1);
+                    if (!isSquareEmpty(column, row + i + 1)) {
+                        return true;
+                    }
                 }
                 // Check left
                 if (isValidSquare(column - 1, row + i)) {
-                    isJoined = !isSquareEmpty(column - 1, row + i);
+                    if (!isSquareEmpty(column - 1, row + i)) {
+                        return true;
+                    }
                 }
                 // Check right
                 if (isValidSquare(column + 1, row + i)) {
-                    isJoined = !isSquareEmpty(column + 1, row + i);
+                    if (!isSquareEmpty(column + 1, row + i)) {
+                        return true;
+                    }
                 }
             }
         }
-        return isJoined;
+        return false;
     }
 
     /**
