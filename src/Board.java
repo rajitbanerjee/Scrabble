@@ -256,6 +256,26 @@ public class Board {
         }
     }
 
+    /**
+     * Place a given Tile at a specified row and column on the Board.
+     *
+     * @param column integer between 0 - 14 to specify the board column
+     * @param row    integer between 0 - 14 to specify the board row
+     * @param tile   the Tile to be placed at the specified index
+     * @throws IllegalArgumentException if column or row is invalid, or when tile is occupied
+     */
+    private void placeTile(int column, int row, Tile tile) throws IllegalArgumentException {
+        if (!isValidSquare(column, row)) {
+            throw new IllegalArgumentException("Square out of bounds.");
+        }
+        if (tile == null) {
+            throw new IllegalArgumentException("Tile cannot be null.");
+        }
+        if (!isSquareEmpty(column, row)) {
+            throw new IllegalArgumentException("Square is currently occupied.");
+        }
+        board[row][column].setTile(tile);
+    }
 
     /**
      * Checks if a specified square index is within the board.
