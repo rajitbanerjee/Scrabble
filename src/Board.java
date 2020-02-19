@@ -422,29 +422,18 @@ public class Board {
                 // if first letter check left
                 if (i == 0 && isValidSquare(column - 1, row)) {
                     isJoined = !isSquareEmpty(column - 1, row);
-                    if(isJoined){
-                        break;
-                    }
                 }
                 // if last letter check right
-                if (i == wordLength - 1 && isValidSquare(column + i + 1, row)) {
-                    isJoined = !isSquareEmpty(column + i + 1, row);
-                    if(isJoined){
-                        break;
-                    }
+                if (i == wordLength - 1 && isValidSquare(column + 1, row)) {
+                    isJoined = !isSquareEmpty(column + 1, row);
                 }
                 // Check top
-                if (isValidSquare(column + i, row - 1)) {
-                    isJoined = !isSquareEmpty(column + i, row - 1);
-                    if(isJoined){
-                        break;
-                    }
+                if (isValidSquare(column, row - 1)) {
+                    isJoined = !isSquareEmpty(column, row - 1);
                 }
-                if (isValidSquare(column + i, row + 1)) {
-                    isJoined = !isSquareEmpty(column + i, row + 1);
-                    if(isJoined){
-                        break;
-                    }
+                // Check bottom
+                if (isValidSquare(column, row + 1)) {
+                    isJoined = !isSquareEmpty(column, row + 1);
                 }
             }
         } else {
@@ -453,30 +442,18 @@ public class Board {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
                     isJoined = !isSquareEmpty(column, row - 1);
-                    if(isJoined){
-                        break;
-                    }
                 }
                 // if last letter check bottom
-                if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
-                    isJoined = !isSquareEmpty(column, row + i + 1);
-                    if(isJoined){
-                        break;
-                    }
+                if (i == wordLength - 1 && isValidSquare(column, row + 1)) {
+                    isJoined = !isSquareEmpty(column + 1, row);
                 }
                 // Check left
-                if (isValidSquare(column - 1, row + i)) {
-                    isJoined = !isSquareEmpty(column - 1, row + i);
-                    if(isJoined){
-                        break;
-                    }
+                if (isValidSquare(column - 1, row)) {
+                    isJoined = !isSquareEmpty(column - 1, row);
                 }
                 // Check right
-                if (isValidSquare(column + 1, row + i)) {
-                    isJoined = !isSquareEmpty(column + 1, row + i);
-                    if(isJoined){
-                        break;
-                    }
+                if (isValidSquare(column + 1, row)) {
+                    isJoined = !isSquareEmpty(column + 1, row);
                 }
             }
         }
