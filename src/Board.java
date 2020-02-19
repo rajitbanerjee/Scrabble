@@ -296,10 +296,11 @@ public class Board {
      * @return {@code true} if the frame contains all tiles needed
      */
     private boolean doesFrameContainTiles(int column, int row, char orientation, String word, @NotNull Frame frame) {
-        String tilesInFrame = "";
+        StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
-            tilesInFrame = tilesInFrame + t.getType();
+            sb.append(t.getType());
         }
+        String tilesInFrame = sb.toString();
         // checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
