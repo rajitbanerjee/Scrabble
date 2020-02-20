@@ -33,6 +33,23 @@ class SquareTest {
     }
 
     @Test
+    void testIsEmpty() {
+        Square square = new Square(Constants.MULTIPLIER.NORMAL);
+        assertTrue(square.isEmpty());
+        square.setTile(Tile.makeTile('Z'));
+        assertFalse(square.isEmpty());
+    }
+
+    @Test
+    void testIsValid() {
+        assertTrue(Square.isValid('H' - 'A', 8));
+        assertFalse(Square.isValid('R' - 'A', 7));
+        assertFalse(Square.isValid((char) ('A' - 1), 7));
+        assertFalse(Square.isValid('H', -1));
+        assertFalse(Square.isValid('H', 16));
+    }
+
+    @Test
     void testTile() {
         Square square = new Square(Constants.MULTIPLIER.NORMAL);
         square.setTile(Tile.makeTile('Z'));
