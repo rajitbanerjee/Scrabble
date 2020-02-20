@@ -406,18 +406,6 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
-                // if first letter check left
-                if (i == 0 && isValidSquare(column - 1, row)) {
-                    if (!isSquareEmpty(column - 1, row)) {
-                        return true;
-                    }
-                }
-                // if last letter check right
-                if (i == wordLength - 1 && isValidSquare(column + i + 1, row)) {
-                    if (!isSquareEmpty(column + i + 1, row)) {
-                        return true;
-                    }
-                }
                 // Check top
                 if (isValidSquare(column + i, row - 1)) {
                     if (!isSquareEmpty(column + i, row - 1)) {
@@ -430,22 +418,16 @@ public class Board {
                         return true;
                     }
                 }
+                //check if the word contains tiles already on the board
+                if (isValidSquare(column + i, row)) {
+                    if (!isSquareEmpty(column + i, row)) {
+                        return true;
+                    }
+                }
             }
         } else {
             // Check the vertical direction
             for (int i = 0; i < wordLength; i++) {
-                // if first letter check top
-                if (i == 0 && isValidSquare(column, row - 1)) {
-                    if (!isSquareEmpty(column, row - 1)) {
-                        return true;
-                    }
-                }
-                // if last letter check bottom
-                if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
-                    if (!isSquareEmpty(column, row + i + 1)) {
-                        return true;
-                    }
-                }
                 // Check left
                 if (isValidSquare(column - 1, row + i)) {
                     if (!isSquareEmpty(column - 1, row + i)) {
@@ -455,6 +437,12 @@ public class Board {
                 // Check right
                 if (isValidSquare(column + 1, row + i)) {
                     if (!isSquareEmpty(column + 1, row + i)) {
+                        return true;
+                    }
+                }
+                //check if the word contains letter already on the board
+                if (isValidSquare(column, row + i)) {
+                    if (!isSquareEmpty(column, row + i)) {
                         return true;
                     }
                 }
