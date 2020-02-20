@@ -139,12 +139,12 @@ class FrameTest {
 
         // test frame printing to command line
         frame.printFrame();
-        assertEquals("[  Q  ]", outContent.toString().strip());
+        assertEquals("[ Q ]", outContent.toString().strip());
         newFrame.add(Tile.makeTile('Z'));
         frame.setFrame(newFrame);
         outContent.reset();
         frame.printFrame();
-        assertEquals("[  Q  ,   Z  ]", outContent.toString().strip());
+        assertEquals("[ Q ,  Z ]", outContent.toString().strip());
     }
 
 }

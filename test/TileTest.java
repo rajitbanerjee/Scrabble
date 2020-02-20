@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TileTest {
     @Test
     void testTile() {
-        Tile t = new Tile('Z', 10);
+        Tile t = Tile.makeTile('Z');
 
         // Try to access tile type
         if (t.getType() != 'Z') {
@@ -53,13 +53,13 @@ class TileTest {
         }
 
         // Test toString()
-        if (!t.toString().equals("  Z  ")) {
+        if (!t.toString().equals(" Z ")) {
             fail("Error: toString() doesn't work as expected.");
         }
 
         // Test equals()
-        Tile t1 = new Tile('Z', 10);
-        Tile t2 = new Tile('Z', 10);
+        Tile t1 = Tile.makeTile('Z');
+        Tile t2 = Tile.makeTile('Z');
         Square s1 = new Square(Constants.MULTIPLIER.NORMAL);
         s1.setTile(t1);
         assertEquals(t1, t2);
