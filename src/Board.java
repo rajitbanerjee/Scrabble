@@ -271,7 +271,7 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) &&
+                if (!isSquareEmpty(column + i, row) &&
                         board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -279,7 +279,7 @@ public class Board {
         } else {
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) &&
+                if (!isSquareEmpty(column, row + i) &&
                         board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
                 }
