@@ -204,7 +204,7 @@ public class Board {
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
-        if (!isFrameUsed(word, frame)) {
+        if (!isFrameUsed(column, row, orientation, word, frame)) {
             return false;
         }
         // If first move, checks if it covers the centre square
@@ -271,7 +271,7 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) &&
+                if (!isSquareEmpty(column + i, row) &&
                         board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -279,7 +279,7 @@ public class Board {
         } else {
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row) &&
+                if (!isSquareEmpty(column, row + i) &&
                         board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -346,10 +346,25 @@ public class Board {
      * @param frame the players frame
      * @return {@code true} if at least one letter from the frame is used
      */
-    private boolean isFrameUsed(@NotNull String word, Frame frame) {
-        for (char ch : word.toCharArray()) {
-            if (frame.contains(ch) || frame.contains('-')) {
-                return true;
+    private boolean isFrameUsed(int column, int row, char orientation, @NotNull String word, Frame frame) {
+        int i = 0;
+        if (orientation == 'A') {
+            for (char ch : word.toCharArray()) {
+                if (isSquareEmpty(column + i, row)) {
+                    if (frame.contains(ch) || frame.contains('-')) {
+                        return true;
+                    }
+                }
+                i++;
+            }
+        } else {
+            for (char ch : word.toCharArray()) {
+                if (isSquareEmpty(column, row + i)) {
+                    if (frame.contains(ch) || frame.contains('-')) {
+                        return true;
+                    }
+                }
+                i++;
             }
         }
         return false;
@@ -386,49 +401,64 @@ public class Board {
      * @return {@code true} if the word is joined with existing board tiles
      */
     private boolean isWordJoined(int column, int row, char orientation, int wordLength) {
-        boolean isJoined = false;
         // Checks the horizontal direction
         if (orientation == 'A') {
-            for (int i = 0; i < wordLength && !isJoined; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 // if first letter check left
                 if (i == 0 && isValidSquare(column - 1, row)) {
-                    isJoined = !isSquareEmpty(column - 1, row);
+                    if (!isSquareEmpty(column - 1, row)) {
+                        return true;
+                    }
                 }
                 // if last letter check right
                 if (i == wordLength - 1 && isValidSquare(column + i + 1, row)) {
-                    isJoined = !isSquareEmpty(column + i + 1, row);
+                    if (!isSquareEmpty(column + i + 1, row)) {
+                        return true;
+                    }
                 }
                 // Check top
                 if (isValidSquare(column + i, row - 1)) {
-                    isJoined = !isSquareEmpty(column + i, row - 1);
+                    if (!isSquareEmpty(column + i, row - 1)) {
+                        return true;
+                    }
                 }
                 // Check bottom
                 if (isValidSquare(column + i, row + 1)) {
-                    isJoined = !isSquareEmpty(column + i, row + 1);
+                    if (!isSquareEmpty(column + i, row + 1)) {
+                        return true;
+                    }
                 }
             }
         } else {
             // Check the vertical direction
-            for (int i = 0; i < wordLength && !isJoined; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 // if first letter check top
                 if (i == 0 && isValidSquare(column, row - 1)) {
-                    isJoined = !isSquareEmpty(column, row - 1);
+                    if (!isSquareEmpty(column, row - 1)) {
+                        return true;
+                    }
                 }
                 // if last letter check bottom
                 if (i == wordLength - 1 && isValidSquare(column, row + i + 1)) {
-                    isJoined = !isSquareEmpty(column, row + i + 1);
+                    if (!isSquareEmpty(column, row + i + 1)) {
+                        return true;
+                    }
                 }
                 // Check left
                 if (isValidSquare(column - 1, row + i)) {
-                    isJoined = !isSquareEmpty(column - 1, row + i);
+                    if (!isSquareEmpty(column - 1, row + i)) {
+                        return true;
+                    }
                 }
                 // Check right
                 if (isValidSquare(column + 1, row + i)) {
-                    isJoined = !isSquareEmpty(column + 1, row + i);
+                    if (!isSquareEmpty(column + 1, row + i)) {
+                        return true;
+                    }
                 }
             }
         }
-        return isJoined;
+        return false;
     }
 
     /**
