@@ -159,14 +159,24 @@ public class Board {
             // Checks the horizontal direction
             if (orientation == 'A') {
                 if (board[column + i][row].getTile() == null) {
-                    placeTile(column + i, row, frame.getTile(ch));
-                    frame.remove(ch);
+                    if (!frame.contains(ch)) {
+                        placeTile(column + i, row, Tile.makeTile(ch));
+                        frame.remove('-');
+                    } else {
+                        placeTile(column + i, row, frame.getTile(ch));
+                        frame.remove(ch);
+                    }
                 }
             } else {
                 // Checks the vertical direction
                 if (board[column][row + i].getTile() == null) {
-                    placeTile(column, row + i, frame.getTile(ch));
-                    frame.remove(ch);
+                    if (!frame.contains(ch)) {
+                        placeTile(column, row + i, Tile.makeTile(ch));
+                        frame.remove('-');
+                    } else {
+                        placeTile(column, row + i, frame.getTile(ch));
+                        frame.remove(ch);
+                    }
                 }
             }
         }
