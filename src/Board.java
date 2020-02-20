@@ -204,7 +204,7 @@ public class Board {
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
-        if (!isFrameUsed(word, frame)) {
+        if (!isFrameUsed(column, row, orientation, word, frame)) {
             return false;
         }
         // If first move, checks if it covers the centre square
@@ -346,10 +346,25 @@ public class Board {
      * @param frame the players frame
      * @return {@code true} if at least one letter from the frame is used
      */
-    private boolean isFrameUsed(@NotNull String word, Frame frame) {
-        for (char ch : word.toCharArray()) {
-            if (frame.contains(ch) || frame.contains('-')) {
-                return true;
+    private boolean isFrameUsed(int column, int row, char orientation, @NotNull String word, Frame frame) {
+        int i = 0;
+        if (orientation == 'A') {
+            for (char ch : word.toCharArray()) {
+                if (isSquareEmpty(column + i, row)) {
+                    if (frame.contains(ch) || frame.contains('-')) {
+                        return true;
+                    }
+                }
+                i++;
+            }
+        } else {
+            for (char ch : word.toCharArray()) {
+                if (isSquareEmpty(column, row + i)) {
+                    if (frame.contains(ch) || frame.contains('-')) {
+                        return true;
+                    }
+                }
+                i++;
             }
         }
         return false;
