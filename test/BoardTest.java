@@ -193,9 +193,7 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 9, 'A', "lleH", frame));
         assertFalse(board.isWordPlacementValid('H', 9, 'A', "Hello", frame));
         /*
-         * TODO
-         *  9. Test to check if the word uses at least one letter from frame
-         *  10. Test to check if the first move covers the centre square
+         * TODO Test to check if the word uses at least one letter from frame
          */
     }
 
