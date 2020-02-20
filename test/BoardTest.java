@@ -184,8 +184,8 @@ class BoardTest {
 
         //check if at least one tile from the frame is used for a word placement
         board.reset();
-        board.getBoard()[7][('H' - 'A')].setTile(new Tile('A', 1));
-        board.getBoard()[7][('I' - 'A')].setTile(new Tile('B', 3));
+        board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('A'));
+        board.getBoard()[7][('I' - 'A')].setTile(Tile.makeTile('B'));
         board.setFirstMove(false);
         ArrayList<Tile> f3 = new ArrayList<>();
         for (char ch : "-CDE-".toCharArray()) {
