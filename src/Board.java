@@ -96,11 +96,15 @@ public class Board {
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
                 if (j == 0) {
-                    System.out.print((i + 1) + "\t|");
+                    System.out.printf("| %d\t|", (i + 1));
                 }
                 System.out.print(board[i][j] + "|");
                 if (j == 14) {
-                    System.out.print("\t  " + (i + 1));
+                    if (i > 8) {
+                        System.out.printf("\t %d|", (i + 1));
+                    } else {
+                        System.out.printf("\t %d |", (i + 1));
+                    }
                 }
             }
             printLine();
@@ -473,7 +477,7 @@ public class Board {
      */
     private void printLine() {
         System.out.println();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 76; i++) {
             System.out.print("-");
         }
         System.out.println();
@@ -483,10 +487,11 @@ public class Board {
      * Display the column indices 'A' - 'O' on the board.
      */
     private void printColumnIndices() {
-        System.out.print("\t|");
+        System.out.print("|\t|");
         for (char ch = 'A'; ch <= 'O'; ch++) {
-            System.out.print("  " + ch + "  |");
+            System.out.printf(" %c |", ch);
         }
+        System.out.print("\t   |");
         printLine();
     }
 

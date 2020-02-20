@@ -42,17 +42,17 @@ public class Square {
         if (tile == null) {
             switch (multiplier) {
                 case DOUBLE_LS:
-                    return "2x_LS";
+                    return "2xL";
                 case TRIPLE_LS:
-                    return "3x_LS";
+                    return "3xL";
                 case DOUBLE_WS:
-                    return "2x_WS";
+                    return "2xW";
                 case TRIPLE_WS:
-                    return "3x_WS";
+                    return "3xW";
                 case CENTRE:
-                    return "  *  ";
+                    return " * ";
                 default:
-                    return "     ";
+                    return "   ";
             }
         }
         return tile.toString();

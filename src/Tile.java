@@ -98,6 +98,6 @@ public class Tile {
     // each Tile is displayed as the type of Tile and the associated points
     @Override
     public String toString() {
-        return String.format("  %c  ", type);
+        return String.format(" %c ", type);
     }
 }
