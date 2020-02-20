@@ -146,4 +146,5 @@ public class Frame {
     public void setFrame(ArrayList<Tile> frame) {
         this.frame = frame;
     }
+
 }

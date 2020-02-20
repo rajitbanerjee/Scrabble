@@ -1,6 +1,3 @@
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Scanner;
 
 /**
@@ -268,7 +265,7 @@ public class Board {
      * @param word        the word to be placed
      * @return {@code true} if the word placement conflicts with existing words on board
      */
-    private boolean doesWordConflict(int column, int row, char orientation, @NotNull String word) {
+    private boolean doesWordConflict(int column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
         // Checks the horizontal direction
         if (orientation == 'A') {
@@ -300,8 +297,7 @@ public class Board {
      * @param frame       the players frame
      * @return {@code true} if the frame contains all tiles needed
      */
-    private boolean doesFrameContainTiles(int column, int row, char orientation, String word,
-                                          @NotNull Frame frame) {
+    private boolean doesFrameContainTiles(int column, int row, char orientation, String word, Frame frame) {
         StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
             sb.append(t.getType());
@@ -348,7 +344,7 @@ public class Board {
      * @param frame the players frame
      * @return {@code true} if at least one letter from the frame is used
      */
-    private boolean isFrameUsed(int column, int row, char orientation, @NotNull String word, Frame frame) {
+    private boolean isFrameUsed(int column, int row, char orientation, String word, Frame frame) {
         int i = 0;
         if (orientation == 'A') {
             for (char ch : word.toCharArray()) {
@@ -468,8 +464,7 @@ public class Board {
      * @param input give string
      * @return {@code true} if the given string only contains alphabetical characters
      */
-    @Contract(pure = true)
-    private boolean isAlphaString(@NotNull String input) {
+    private boolean isAlphaString(String input) {
         return input.matches("[A-Za-z]+");
     }
 
