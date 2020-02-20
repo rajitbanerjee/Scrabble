@@ -16,6 +16,26 @@ public class Square {
         this.multiplier = multiplier;
     }
 
+    /**
+     * Checks if a given square doesn't contain a tile.
+     *
+     * @return {@code true} if the given square is empty
+     */
+    public boolean isEmpty() {
+        return getTile() == null;
+    }
+
+    /**
+     * Checks if a specified square index is within the board.
+     *
+     * @param column integer between 0 - 14 to specify the real board column index
+     * @param row    integer between 0 - 14 to specify the real board row index
+     * @return {@code true} if the specified square index is valid
+     */
+    public static boolean isValid(int column, int row) {
+        return column >= 0 && column < Constants.BOARD_SIZE && row >= 0 && row < Constants.BOARD_SIZE;
+    }
+
     // Required setters and getters
     public Constants.MULTIPLIER getMultiplier() {
         return multiplier;

@@ -125,7 +125,7 @@ public class Board {
         // convert column and row to real indices(0 - 14)
         column -= 'A';
         row -= 1;
-        if (!isValidSquare(column, row)) {
+        if (!Square.isValid(column, row)) {
             throw new IllegalArgumentException("Square out of bounds.");
         }
         return board[row][column].getTile();
@@ -200,7 +200,7 @@ public class Board {
         column -= 'A';
         row -= 1;
         // Checks for input validity
-        if (!isValidSquare(column, row) || (orientation != 'A' && orientation != 'D') ||
+        if (!Square.isValid(column, row) || (orientation != 'A' && orientation != 'D') ||
                 word.length() < 2 || !isAlphaString(word) || frame == null) {
             return false;
         }
@@ -241,17 +241,6 @@ public class Board {
     }
 
     /**
-     * Checks if a specified square index is within the board.
-     *
-     * @param column integer between 0 - 14 to specify the real board column index
-     * @param row    integer between 0 - 14 to specify the real board row index
-     * @return {@code true} if the specified square index is valid
-     */
-    private boolean isValidSquare(int column, int row) {
-        return column >= 0 && column < Constants.BOARD_SIZE && row >= 0 && row < Constants.BOARD_SIZE;
-    }
-
-    /**
      * Checks if a word placement goes out of the board.
      *
      * @param column      the starting column index (0 - 14) of the word
@@ -284,7 +273,7 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column + i, row) &&
+                if (!board[row][column + i].isEmpty() &&
                         board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -292,7 +281,7 @@ public class Board {
         } else {
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
-                if (!isSquareEmpty(column, row + i) &&
+                if (!board[row + i][column].isEmpty() &&
                         board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
                 }
@@ -322,7 +311,7 @@ public class Board {
             for (int i = 0; i < word.length(); i++) {
                 String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column + i, row)) {
+                if (board[row][column + i].isEmpty()) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
                     } else if (tilesInFrame.contains("-")) {
@@ -337,7 +326,7 @@ public class Board {
             for (int i = 0; i < word.length(); i++) {
                 String character = Character.toString(word.charAt(i));
                 // return false if frame does not contain letter needed
-                if (isSquareEmpty(column, row + i)) {
+                if (board[row + i][column].isEmpty()) {
                     if (tilesInFrame.contains(character)) {
                         tilesInFrame = tilesInFrame.replaceFirst(character, "");
                     } else if (tilesInFrame.contains("-")) {
@@ -362,7 +351,7 @@ public class Board {
         int i = 0;
         if (orientation == 'A') {
             for (char ch : word.toCharArray()) {
-                if (isSquareEmpty(column + i, row)) {
+                if (board[row][column + i].isEmpty()) {
                     if (frame.contains(ch) || frame.contains('-')) {
                         return true;
                     }
@@ -371,7 +360,7 @@ public class Board {
             }
         } else {
             for (char ch : word.toCharArray()) {
-                if (isSquareEmpty(column, row + i)) {
+                if (board[row + i][column].isEmpty()) {
                     if (frame.contains(ch) || frame.contains('-')) {
                         return true;
                     }
@@ -417,20 +406,20 @@ public class Board {
         if (orientation == 'A') {
             for (int i = 0; i < wordLength; i++) {
                 // Check top
-                if (isValidSquare(column + i, row - 1)) {
-                    if (!isSquareEmpty(column + i, row - 1)) {
+                if (Square.isValid(column + i, row - 1)) {
+                    if (!board[row - 1][column + i].isEmpty()) {
                         return true;
                     }
                 }
                 // Check bottom
-                if (isValidSquare(column + i, row + 1)) {
-                    if (!isSquareEmpty(column + i, row + 1)) {
+                if (Square.isValid(column + i, row + 1)) {
+                    if (!board[row + 1][column + i].isEmpty()) {
                         return true;
                     }
                 }
                 //check if the word contains tiles already on the board
-                if (isValidSquare(column + i, row)) {
-                    if (!isSquareEmpty(column + i, row)) {
+                if (Square.isValid(column + i, row)) {
+                    if (!board[row][column + i].isEmpty()) {
                         return true;
                     }
                 }
@@ -439,37 +428,26 @@ public class Board {
             // Check the vertical direction
             for (int i = 0; i < wordLength; i++) {
                 // Check left
-                if (isValidSquare(column - 1, row + i)) {
-                    if (!isSquareEmpty(column - 1, row + i)) {
+                if (Square.isValid(column - 1, row + i)) {
+                    if (!board[row + i][column - 1].isEmpty()) {
                         return true;
                     }
                 }
                 // Check right
-                if (isValidSquare(column + 1, row + i)) {
-                    if (!isSquareEmpty(column + 1, row + i)) {
+                if (Square.isValid(column + 1, row + i)) {
+                    if (!board[row + i][column + 1].isEmpty()) {
                         return true;
                     }
                 }
                 //check if the word contains letter already on the board
-                if (isValidSquare(column, row + i)) {
-                    if (!isSquareEmpty(column, row + i)) {
+                if (Square.isValid(column, row + i)) {
+                    if (!board[row + i][column].isEmpty()) {
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
-
-    /**
-     * Checks if a given square doesn't contain a tile.
-     *
-     * @param column integer between 0 - 14 to specify the board column
-     * @param row    integer between 0 - 14 to specify the board row
-     * @return {@code true} if the given square is empty
-     */
-    private boolean isSquareEmpty(int column, int row) {
-        return board[row][column].getTile() == null;
     }
 
     /**
