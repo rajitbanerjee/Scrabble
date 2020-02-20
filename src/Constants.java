@@ -1,3 +1,12 @@
+/**
+ * Stores all the hard-coded constants used in multiple classes.
+ *
+ * @author Rajit Banerjee, 18202817
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
+
 public class Constants {
     static final int FRAME_LIMIT = 7;
 

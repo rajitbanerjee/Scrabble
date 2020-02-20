@@ -21,9 +21,11 @@ public class Board {
      */
     public Board() {
         board = new Square[15][15];
+        // IsFirstMove is true when a Board is created; set to false after first word is placed
         isFirstMove = true;
         // initialise multiplier squares on board
-        board[7][7] = new Square(Constants.MULTIPLIER.CENTRE);
+        int centre = Constants.BOARD_SIZE / 2; // 15/2 = 7
+        board[centre][centre] = new Square(Constants.MULTIPLIER.CENTRE);
         for (int[] index : Constants.NORMAL_SQ_ARRAY) {
             board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.NORMAL);
         }
@@ -252,7 +254,7 @@ public class Board {
             // Checks the horizontal direction
             return (column + wordLength - 1) >= Constants.BOARD_SIZE;
         } else {
-            // Check the vertical direction
+            // Checks the vertical direction
             return (row + wordLength - 1) >= Constants.BOARD_SIZE;
         }
     }
@@ -371,7 +373,7 @@ public class Board {
     }
 
     /**
-     * Checks if the word to be placed covers the centre square H8 (aka 7, 7)
+     * Checks if the word to be placed covers the centre square H8 (aka 7, 7).
      *
      * @param column      integer between 0 - 14 to specify the board column
      * @param row         integer between 0 - 14 to specify the board row
