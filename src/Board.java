@@ -336,8 +336,10 @@ public class Board {
         // Checks the horizontal direction
         if (orientation == 'A') {
             //check if the squares before and after the word are empty
-            if(!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()){
-                return true;
+            if(Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)){
+                if(!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()){
+                    return true;
+                }
             }
             for (int i = 0; i < word.length(); i++) {
                 // Conflict occurs if a square is filled but tile does not match letters in the placed word
@@ -348,8 +350,10 @@ public class Board {
             }
         } else {
             //check if the squares before and after the word are empty
-            if(!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()){
-                return true;
+            if(Square.isValid(column, row - 1) && Square.isValid(column, row + word.length())){
+                if(!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()){
+                    return true;
+                }
             }
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
