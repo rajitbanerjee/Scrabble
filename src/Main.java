@@ -21,10 +21,10 @@ public class Main {
             frame.printFrame();
             printHelperMessage();
             // Strip white space at both sides, convert argument string to uppercase
-            String move = sc.nextLine().trim().toUpperCase();
+            String move = sc.nextLine().strip().toUpperCase();
             while (!(move.equalsIgnoreCase("q") || isInputValid(move, board, frame))) {
                 System.out.println("Invalid word placement! Try again.");
-                move = sc.nextLine().trim().toUpperCase();
+                move = sc.nextLine().strip().toUpperCase();
             }
             // Press q/Q to quit
             if (move.equalsIgnoreCase("q")) {
