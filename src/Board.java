@@ -60,7 +60,7 @@ public class Board {
             frame.printFrame();
 
             System.out.print("Enter your move (E.g. \"H8 A HELLO\", (q/Q to exit): ");
-            String move = sc.nextLine().trim().toUpperCase();
+            String move = sc.nextLine().strip().toUpperCase();
             // Press q/Q to quit
             if (move.equalsIgnoreCase("q")) {
                 break;
@@ -74,9 +74,9 @@ public class Board {
             while (!b.isWordPlacementValid(column, row, ori, word, frame)) {
                 System.out.println("Invalid word placement! Try again.");
                 System.out.print("Enter your move (E.g. \"H8 A HELLO\"), (q/Q to QUIT): ");
-                move = sc.nextLine().trim().toUpperCase();
+                move = sc.nextLine().strip().toUpperCase();
 
-                if (move.trim().equalsIgnoreCase("q")) {
+                if (move.strip().equalsIgnoreCase("q")) {
                     break;
                 }
 
@@ -199,7 +199,7 @@ public class Board {
         setFirstMove(false);
         // Input standardisation
         orientation = Character.toUpperCase(orientation);
-        word = word.toUpperCase().trim();
+        word = word.toUpperCase().strip();
         // Convert column and row to real board indices (0 - 14)
         column -= 'A';
         row -= 1;
@@ -251,7 +251,7 @@ public class Board {
     public boolean isWordPlacementValid(char column, int row, char orientation, String word, Frame frame) {
         // Input standardisation
         orientation = Character.toUpperCase(orientation);
-        word = word.toUpperCase().trim();
+        word = word.toUpperCase().strip();
         // Convert column and row to real board indices (0 - 14)
         column -= 'A';
         row -= 1;
