@@ -44,16 +44,47 @@ public class Board {
     public static void main(String[] args) {
         Board b = new Board();
         Pool pool = new Pool();
-        Player player = new Player("name", new Frame(pool));
+        Frame frame = new Frame(pool);
 
-        player.getFrame().printFrame();
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter a word: ");
-        String s = in.nextLine();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nWelcome to Scrabble by DarkMode.");
+        System.out.print("Please enter you name: ");
+        String name = sc.nextLine();
+        System.out.printf("\nWelcome %s! This is Scrabble in single player mode.", name);
+        new Player(name, frame);
 
-        b.placeWord('H', 8, 'D', s, player.getFrame());
-        b.display();
-        player.getFrame().printFrame();
+        String move;
+        while (true) {
+            b.display();
+            System.out.print("\nFrame: ");
+            frame.printFrame();
+            System.out.print("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
+            move = sc.nextLine().trim().toUpperCase();
+
+            if (move.trim().equalsIgnoreCase("q")) {
+                break;
+            }
+
+            char column = move.charAt(0);
+            int row = (move.charAt(1)) - '0';
+            char ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
+            String word = move.substring(move.lastIndexOf(' ') + 1);
+            b.placeWord(column, row, ori, word, frame);
+            System.out.println("-------------------------");
+            System.out.println("Word placed: " + word);
+            System.out.println("-------------------------");
+            try {
+                System.out.print("Frame: ");
+                frame.printFrame();
+                System.out.print("Refilled frame: ");
+                frame.fillFrame();
+                frame.printFrame();
+                pool.printSize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("\nThanks for playing!");
     }
 
     /**
@@ -176,7 +207,7 @@ public class Board {
             } else {
                 // Checks the vertical direction
                 // Ignore filled squares
-                if (board[column][row + i].getTile() == null) {
+                if (board[column][row + i].isEmpty()) {
                     // Convert blank tile to a given letter if letter is not in the frame
                     if (!frame.contains(ch)) {
                         placeTile(column, row + i, Tile.makeTile(ch));
