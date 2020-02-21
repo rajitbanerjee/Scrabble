@@ -85,6 +85,7 @@ public class Board {
                 board[i][j].setTile(null);
             }
         }
+        isFirstMove = true;
     }
 
     /**
@@ -146,6 +147,10 @@ public class Board {
             throws IllegalArgumentException {
         if (!isWordPlacementValid(column, row, orientation, word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
+        }
+        // If isFirstMove is true, set it to false
+        if (isFirstMove) {
+            isFirstMove = false;
         }
         // Input standardisation
         orientation = Character.toUpperCase(orientation);
@@ -383,12 +388,14 @@ public class Board {
     private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
-            return row == Constants.BOARD_SIZE / 2 &&
-                    ((column + wordLength - 1) >= Constants.BOARD_SIZE / 2);
+            return (row == Constants.BOARD_SIZE / 2) &&
+                    ((column + wordLength - 1) >= Constants.BOARD_SIZE / 2) &&
+                    (column <= Constants.BOARD_SIZE / 2);
         } else {
             // Checks the vertical direction
-            return orientation == 'D' && column == Constants.BOARD_SIZE / 2 &&
-                    ((row + wordLength - 1) >= Constants.BOARD_SIZE / 2);
+            return (column == Constants.BOARD_SIZE / 2) &&
+                    ((row + wordLength - 1) >= Constants.BOARD_SIZE / 2) &&
+                    (row <= Constants.BOARD_SIZE / 2);
         }
     }
 

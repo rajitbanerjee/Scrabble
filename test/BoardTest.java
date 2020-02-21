@@ -210,17 +210,18 @@ class BoardTest {
         // Test usage of other letters when empty Tile not present
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
 
-        // TODO: Fix error in doesWordCoverCentre()
         // Check that first move covers the centre square
+        // Set isFirstMove back to true
+        board.setFirstMove(true);
         board.reset();
         // Horizontal placement
-        board.display();
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "CDE", frame));
         assertFalse(board.isWordPlacementValid('I', 8, 'A', "CDE", frame));
         assertFalse(board.isWordPlacementValid('A', 8, 'A', "CDE", frame));
         // Vertical placement
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "CDE", frame));
         assertTrue(board.isWordPlacementValid('H', 6, 'D', "CDE", frame));
+        assertFalse(board.isWordPlacementValid('H', 5, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 9, 'D', "CDE", frame));
     }
 
