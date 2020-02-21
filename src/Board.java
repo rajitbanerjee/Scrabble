@@ -193,7 +193,7 @@ public class Board {
             // Checks the horizontal direction
             if (orientation == 'A') {
                 // Ignore filled squares
-                if (board[column + i][row].isEmpty()) {
+                if (board[row][column + i].isEmpty()) {
                     // Convert blank tile to a given letter if letter is not in the frame
                     if (!frame.contains(ch)) {
                         placeTile(column + i, row, Tile.makeTile(ch));
@@ -207,7 +207,7 @@ public class Board {
             } else {
                 // Checks the vertical direction
                 // Ignore filled squares
-                if (board[column][row + i].isEmpty()) {
+                if (board[row + i][column].isEmpty()) {
                     // Convert blank tile to a given letter if letter is not in the frame
                     if (!frame.contains(ch)) {
                         placeTile(column, row + i, Tile.makeTile(ch));
