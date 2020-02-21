@@ -469,10 +469,10 @@ public class Board {
     private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
-            return column <= 7 && column + wordLength >= 7;
+            return row == 7 && column <= 7 && column + wordLength >= 7;
         } else {
             // Checks the vertical direction
-            return row <= 7 && row + wordLength >= 7;
+            return column == 7 && row <= 7 && row + wordLength >= 7;
         }
     }
 
