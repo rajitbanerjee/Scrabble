@@ -228,6 +228,7 @@ class BoardTest {
         // Places a tile at  ('H', 8)
         // TODO: Fix broken isWordJoined
         board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('X'));
+        board.setFirstMove(false);
         // Try top vertical connection
         assertTrue(board.isWordPlacementValid('H', 5, 'D', "CDEX", frame));
         // Try top horizontal connection
