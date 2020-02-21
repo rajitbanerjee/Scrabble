@@ -247,5 +247,4 @@ class BoardTest {
         // Try to place unconnected word
         assertFalse(board.isWordPlacementValid('J', 8, 'A', "CDE", frame));
     }
-
 }
