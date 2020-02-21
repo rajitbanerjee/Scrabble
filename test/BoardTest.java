@@ -190,12 +190,18 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "lleH", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'd', "Hello", frame));
 
-
         // Places a test Tile in the center of the board ('H', 8)
+        board.setFirstMove(false);
         board.getBoard()[Constants.BOARD_SIZE / 2][('H' - 'A')].setTile(Tile.makeTile('X'));
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "XlleH", frame));
-        assertTrue(board.isWordPlacementValid('H', 7, 'd', "HXllo", frame));
-
+        assertTrue(board.isWordPlacementValid('H', 7, 'D', "HXllo", frame));
+        assertTrue(board.isWordPlacementValid('H', 8, 'A', "XlleH", frame));
+        assertTrue(board.isWordPlacementValid('G', 8, 'A', "HXllo", frame));
+        assertTrue(board.isWordPlacementValid('F', 8, 'A', "HeX", frame));
+        board.getBoard()[12][('I' - 'A')].setTile(Tile.makeTile('X'));
+        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeX", frame));
+        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeXllo", frame));
+        //TODO fix doesFrameContainTiles()
 
         // Check if at least one tile from the frame is used for a word placement
         board.reset();
