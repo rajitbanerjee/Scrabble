@@ -226,7 +226,6 @@ class BoardTest {
 
         // Check that if not first move, word connects with at least one letter on the board
         // Places a tile at  ('H', 8)
-        // TODO: Fix broken isWordJoined
         board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('X'));
         board.setFirstMove(false);
         // Try top vertical connection
