@@ -51,7 +51,7 @@ public class Board {
         System.out.println("Please enter a word: ");
         String s = in.nextLine();
 
-        b.placeWord('H', 8, 'A', s, player.getFrame());
+        b.placeWord('H', 8, 'D', s, player.getFrame());
         b.display();
         player.getFrame().printFrame();
     }
