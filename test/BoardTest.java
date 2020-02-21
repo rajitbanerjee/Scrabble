@@ -223,6 +223,29 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 6, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 5, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 9, 'D', "CDE", frame));
+
+        // Check that if not first move, word connects with at least one letter on the board
+        // Places a tile at  ('H', 8)
+        // TODO: Fix broken isWordJoined
+        board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('X'));
+        // Try top vertical connection
+        assertTrue(board.isWordPlacementValid('H', 5, 'D', "CDEX", frame));
+        // Try top horizontal connection
+        assertTrue(board.isWordPlacementValid('G', 7, 'A', "CDE", frame));
+        // Try left vertical connection
+        assertTrue(board.isWordPlacementValid('G', 7, 'D', "CDE", frame));
+        // Try left horizontal connection
+        assertTrue(board.isWordPlacementValid('E', 8, 'A', "CDEX", frame));
+        // Try bottom vertical connection
+        assertTrue(board.isWordPlacementValid('H', 8, 'D', "XCDE", frame));
+        // Try bottom horizontal connection
+        assertTrue(board.isWordPlacementValid('G', 9, 'A', "CDE", frame));
+        // Try right vertical connection
+        assertTrue(board.isWordPlacementValid('I', 7, 'D', "CDE", frame));
+        // Try right horizontal connection
+        assertTrue(board.isWordPlacementValid('H', 8, 'A', "XCDE", frame));
+        // Try to place unconnected word
+        assertFalse(board.isWordPlacementValid('J', 8, 'A', "CDE", frame));
     }
 
 }
