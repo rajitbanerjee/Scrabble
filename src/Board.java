@@ -52,26 +52,28 @@ public class Board {
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
         System.out.printf("\nWelcome %s! This is Scrabble in Single Player Mode.", name);
-        Player p = new Player(name, frame);
+        new Player(name, frame);
 
         while (true) {
             b.display();
             System.out.print("\nFrame: ");
             frame.printFrame();
-            System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
-            String move = sc.nextLine().trim().toUpperCase();
 
+            System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
+            String move = sc.nextLine().trim().toUpperCase();
+            // Press q/Q to quit
             if (move.equalsIgnoreCase("q")) {
                 break;
             }
 
             char column = move.charAt(0);
-            int row = (move.charAt(1)) - '0';
+            int row = Integer.parseInt(move.substring(1, move.indexOf(' ')));
             char ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
             String word = move.substring(move.lastIndexOf(' ') + 1);
+
             while (!b.isWordPlacementValid(column, row, ori, word, frame)) {
                 System.out.println("Invalid word placement! Try again.");
-                System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
+                System.out.print("Enter your move (E.g. \"H8 A HELLO\"), (q/Q to QUIT): ");
                 move = sc.nextLine().trim().toUpperCase();
 
                 if (move.trim().equalsIgnoreCase("q")) {
@@ -79,14 +81,14 @@ public class Board {
                 }
 
                 column = move.charAt(0);
-                row = (move.charAt(1)) - '0';
+                row = Integer.parseInt(move.substring(1, move.indexOf(' ')));
                 ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
                 word = move.substring(move.lastIndexOf(' ') + 1);
             }
             b.placeWord(column, row, ori, word, frame);
-            System.out.println("-------------------------");
+            System.out.println("\n-------------------------");
             System.out.println("Word placed: " + word);
-            System.out.println("-------------------------");
+            System.out.println("-------------------------\n");
             try {
                 System.out.print("Frame: ");
                 frame.printFrame();
@@ -325,10 +327,6 @@ public class Board {
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed
      * @return {@code true} if the word placement conflicts with existing words on board
-     * FIXME
-     * Existing word GETS
-     * Extension input should be GETSET, not just SET
-     * Currently SET is allowed
      */
     private boolean doesWordConflict(int column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
@@ -468,10 +466,14 @@ public class Board {
     private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
-            return row == 7 && column <= 7 && column + wordLength - 1 >= 7;
+            return row == Constants.BOARD_SIZE / 2 &&
+                    column <= Constants.BOARD_SIZE / 2 &&
+                    column + wordLength - 1 >= Constants.BOARD_SIZE / 2;
         } else {
             // Checks the vertical direction
-            return column == 7 && row <= 7 && row + wordLength - 1 >= 7;
+            return column == Constants.BOARD_SIZE / 2 &&
+                    row <= Constants.BOARD_SIZE / 2 &&
+                    row + wordLength - 1 >= Constants.BOARD_SIZE / 2;
         }
     }
 
