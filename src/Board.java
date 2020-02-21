@@ -42,26 +42,26 @@ public class Board {
 
     // temporary tests
     public static void main(String[] args) {
+        // Initialise objects
         Board b = new Board();
         Pool pool = new Pool();
         Frame frame = new Frame(pool);
-
+        // Create Scanner instance for reading input
         Scanner sc = new Scanner(System.in);
         System.out.println("\nWelcome to Scrabble by DarkMode.");
-        System.out.print("Please enter you name: ");
+        System.out.print("Please enter your name: ");
         String name = sc.nextLine();
-        System.out.printf("\nWelcome %s! This is Scrabble in single player mode.", name);
-        new Player(name, frame);
+        System.out.printf("\nWelcome %s! This is Scrabble in Single Player Mode.", name);
+        Player p = new Player(name, frame);
 
-        String move;
         while (true) {
             b.display();
             System.out.print("\nFrame: ");
             frame.printFrame();
             System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
-            move = sc.nextLine().trim().toUpperCase();
+            String move = sc.nextLine().trim().toUpperCase();
 
-            if (move.trim().equalsIgnoreCase("q")) {
+            if (move.equalsIgnoreCase("q")) {
                 break;
             }
 
@@ -326,18 +326,17 @@ public class Board {
      * @param word        the word to be placed
      * @return {@code true} if the word placement conflicts with existing words on board
      * FIXME
-     *         Existing word GETS
-     *         Extension input should be GETSET, not just SET
-     *         Currently SET is allowed
-     *
+     * Existing word GETS
+     * Extension input should be GETSET, not just SET
+     * Currently SET is allowed
      */
     private boolean doesWordConflict(int column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
         // Checks the horizontal direction
         if (orientation == 'A') {
             //check if the squares before and after the word are empty
-            if(Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)){
-                if(!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()){
+            if (Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)) {
+                if (!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()) {
                     return true;
                 }
             }
@@ -350,8 +349,8 @@ public class Board {
             }
         } else {
             //check if the squares before and after the word are empty
-            if(Square.isValid(column, row - 1) && Square.isValid(column, row + word.length())){
-                if(!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()){
+            if (Square.isValid(column, row - 1) && Square.isValid(column, row + word.length())) {
+                if (!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()) {
                     return true;
                 }
             }
@@ -476,7 +475,8 @@ public class Board {
         }
     }
 
-    /**ā
+    /**
+     * ā
      * Checks if a word is joined with any existing tiles.
      *
      * @param column      integer between 0 - 14 to specify the board column
