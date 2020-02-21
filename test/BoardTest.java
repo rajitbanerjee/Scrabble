@@ -190,6 +190,11 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "lleH", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'd', "Hello", frame));
 
+        f2 = new ArrayList<>();
+        for (char ch : "HeLLo".toCharArray()) {
+            f2.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f2);
         // Places a test Tile in the center of the board ('H', 8)
         board.setFirstMove(false);
         board.getBoard()[Constants.BOARD_SIZE / 2][('H' - 'A')].setTile(Tile.makeTile('X'));
@@ -201,7 +206,6 @@ class BoardTest {
         board.getBoard()[12][('I' - 'A')].setTile(Tile.makeTile('X'));
         assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeX", frame));
         assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeXllo", frame));
-        //TODO fix doesFrameContainTiles()
 
         // Check if at least one tile from the frame is used for a word placement
         board.reset();
