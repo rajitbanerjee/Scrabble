@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 /**
  * The Board is a 15x15 matrix of Squares.
  *
@@ -38,69 +36,6 @@ public class Board {
         for (int[] index : Constants.TRIPLE_WS_ARRAY) {
             board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_WS);
         }
-    }
-
-    // temporary tests
-    public static void main(String[] args) {
-        // Initialise objects
-        Board b = new Board();
-        Pool pool = new Pool();
-        Frame frame = new Frame(pool);
-        // Create Scanner instance for reading input
-        Scanner sc = new Scanner(System.in);
-        System.out.println("\nWelcome to Scrabble by DarkMode.");
-        System.out.print("Please enter your name: ");
-        String name = sc.nextLine();
-        System.out.printf("\nWelcome %s! This is Scrabble in Single Player Mode.", name);
-        new Player(name, frame);
-
-        while (true) {
-            b.display();
-            System.out.print("\nFrame: ");
-            frame.printFrame();
-
-            System.out.print("Enter your move (E.g. \"H8 A HELLO\", (q/Q to exit): ");
-            String move = sc.nextLine().trim().toUpperCase();
-            // Press q/Q to quit
-            if (move.equalsIgnoreCase("q")) {
-                break;
-            }
-
-            char column = move.charAt(0);
-            int row = Integer.parseInt(move.substring(1, move.indexOf(' ')));
-            char ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
-            String word = move.substring(move.lastIndexOf(' ') + 1);
-
-            while (!b.isWordPlacementValid(column, row, ori, word, frame)) {
-                System.out.println("Invalid word placement! Try again.");
-                System.out.print("Enter your move (E.g. \"H8 A HELLO\"), (q/Q to QUIT): ");
-                move = sc.nextLine().trim().toUpperCase();
-
-                if (move.trim().equalsIgnoreCase("q")) {
-                    break;
-                }
-
-                column = move.charAt(0);
-                row = Integer.parseInt(move.substring(1, move.indexOf(' ')));
-                ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
-                word = move.substring(move.lastIndexOf(' ') + 1);
-            }
-            b.placeWord(column, row, ori, word, frame);
-            System.out.println("\n-------------------------");
-            System.out.println("Word placed: " + word);
-            System.out.println("-------------------------\n");
-            try {
-                System.out.print("Frame: ");
-                frame.printFrame();
-                System.out.print("Refilled frame: ");
-                frame.fillFrame();
-                frame.printFrame();
-                pool.printSize();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("\nThanks for playing!");
     }
 
     /**
