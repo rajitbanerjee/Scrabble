@@ -58,7 +58,7 @@ public class Board {
             b.display();
             System.out.print("\nFrame: ");
             frame.printFrame();
-            System.out.print("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
+            System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
             move = sc.nextLine().trim().toUpperCase();
 
             if (move.trim().equalsIgnoreCase("q")) {
@@ -69,6 +69,20 @@ public class Board {
             int row = (move.charAt(1)) - '0';
             char ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
             String word = move.substring(move.lastIndexOf(' ') + 1);
+            while (!b.isWordPlacementValid(column, row, ori, word, frame)) {
+                System.out.println("Invalid word placement! Try again.");
+                System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H8 D HI\"), (q/Q to exit): ");
+                move = sc.nextLine().trim().toUpperCase();
+
+                if (move.trim().equalsIgnoreCase("q")) {
+                    break;
+                }
+
+                column = move.charAt(0);
+                row = (move.charAt(1)) - '0';
+                ori = (move.substring(move.indexOf(' ') + 1, move.lastIndexOf(' '))).charAt(0);
+                word = move.substring(move.lastIndexOf(' ') + 1);
+            }
             b.placeWord(column, row, ori, word, frame);
             System.out.println("-------------------------");
             System.out.println("Word placed: " + word);
@@ -246,18 +260,22 @@ public class Board {
         }
         // Checks for overflow
         if (isOverflowed(column, row, orientation, word.length())) {
+            System.out.println("Overflowed");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(column, row, orientation, word)) {
+            System.out.println("Word conflicts");
             return false;
         }
         // Checks if frame contains the required tiles
         if (!doesFrameContainTiles(column, row, orientation, word, frame)) {
+            System.out.println("Frame doesn't contain tiles");
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(column, row, orientation, word, frame)) {
+            System.out.println("Frame not used");
             return false;
         }
         // If first move, checks if it covers the centre square
