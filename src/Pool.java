@@ -89,7 +89,7 @@ public class Pool {
     /**
      * Add given group of tiles to the pool, each with the given associated points.
      *
-     * @param tiles  group of tiles to be added
+     * @param tiles group of tiles to be added
      */
     private void addTiles(String tiles) {
         for (char ch : tiles.toCharArray()) {
