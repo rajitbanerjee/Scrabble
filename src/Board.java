@@ -476,7 +476,7 @@ public class Board {
         }
     }
 
-    /**
+    /**ā
      * Checks if a word is joined with any existing tiles.
      *
      * @param column      integer between 0 - 14 to specify the board column
