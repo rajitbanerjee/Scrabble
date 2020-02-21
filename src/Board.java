@@ -335,6 +335,10 @@ public class Board {
         char[] wordArray = word.toCharArray();
         // Checks the horizontal direction
         if (orientation == 'A') {
+            //check if the squares before and after the word are empty
+            if(!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()){
+                return true;
+            }
             for (int i = 0; i < word.length(); i++) {
                 // Conflict occurs if a square is filled but tile does not match letters in the placed word
                 if (!board[row][column + i].isEmpty() &&
@@ -343,6 +347,10 @@ public class Board {
                 }
             }
         } else {
+            //check if the squares before and after the word are empty
+            if(!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()){
+                return true;
+            }
             // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
                 // Conflict occurs if a square is filled but tile does not match letters in the placed word
