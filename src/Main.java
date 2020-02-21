@@ -21,8 +21,8 @@ public class Main {
             frame.printFrame();
             printHelperMessage();
             // Strip white space at both sides, convert argument string to uppercase
-            String move = sc.nextLine().strip().toUpperCase();
-            while (!(move.equalsIgnoreCase("q") || isInputValid(move, board, frame))) {
+            String move = sc.nextLine().toUpperCase().strip();
+            while (!(move.equalsIgnoreCase("q") || isMoveValid(move, board, frame))) {
                 System.out.println("Invalid word placement! Try again.");
                 move = sc.nextLine().strip().toUpperCase();
             }
@@ -30,7 +30,7 @@ public class Main {
             if (move.equalsIgnoreCase("q")) {
                 break;
             }
-            // If valid parse inputs
+            // If valid, parse inputs
             String[] inputArguments = move.split("\\s+");
             char column = inputArguments[0].charAt(0);
             int row = Integer.parseInt(inputArguments[0].substring(1));
@@ -60,13 +60,19 @@ public class Main {
         System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
     }
 
-    private static boolean isInputValid(String arguments, Board board, Frame frame) {
+    /**
+     * @param move  the player's move (starting index, orientation, word to place)
+     * @param board the 15x15 game Board of Squares
+     * @param frame the player's frame
+     * @return {@code true} if player's move is valid
+     */
+    private static boolean isMoveValid(String move, Board board, Frame frame) {
         // Simple regex check that ensures input parsing won't fail
-        if (arguments == null || !arguments.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
+        if (move == null || !move.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
             return false;
         }
-        // Parse arguments, and check validity
-        String[] inputArguments = arguments.split("\\s+");
+        // Parse move, and check validity
+        String[] inputArguments = move.split("\\s+");
         char column = inputArguments[0].charAt(0);
         int row = Integer.parseInt(inputArguments[0].substring(1));
         char orientation = inputArguments[1].charAt(0);
