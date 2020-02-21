@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
@@ -8,12 +10,12 @@
  * @team DarkMode
  */
 public class Tile {
-    // each tile has a type (blank/letter A-Z)
+    // Each tile has a type (blank/letter A-Z)
     private char type;
-    // points for each tile vary between 0 and 10.
+    // Points for each tile vary between 0 and 10.
     private int points;
 
-    // create a new Tile with given type (blank or A-Z) and assigned points
+    // Create a new Tile with given type (blank or A-Z) and assigned points
     public Tile(char type, int points) {
         setType(type);
         setPoints(points);
@@ -35,8 +37,8 @@ public class Tile {
                 break;
             }
         }
-        // every tile must have associated points
-        // if points remain -1 (initial), that means there's an error with type
+        // Every tile must have associated points
+        // If points remain -1 (initial), that means there's an error with type
         if (points == -1) {
             throw new IllegalArgumentException("Invalid type of tile given");
         }
@@ -61,7 +63,7 @@ public class Tile {
         }
     }
 
-    // getter and setter methods for points
+    // Getter and setter methods for points
     public int getPoints() {
         return points;
     }
@@ -95,7 +97,17 @@ public class Tile {
         }
     }
 
-    // each Tile is displayed as the type of Tile and the associated points
+    /**
+     * Overriding hashCode as equals is overridden
+     *
+     * @return hashCode value
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, points);
+    }
+
+    // Each Tile is displayed as the type of Tile and the associated points
     @Override
     public String toString() {
         return String.format(" %c ", type);
