@@ -260,22 +260,22 @@ public class Board {
         }
         // Checks for overflow
         if (isOverflowed(column, row, orientation, word.length())) {
-            System.out.println("Overflowed");
+            System.out.println("\nOverflowed");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(column, row, orientation, word)) {
-            System.out.println("Word conflicts");
+            System.out.println("\nWord conflicts");
             return false;
         }
         // Checks if frame contains the required tiles
         if (!doesFrameContainTiles(column, row, orientation, word, frame)) {
-            System.out.println("Frame doesn't contain tiles");
+            System.out.println("\nFrame doesn't contain tiles");
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(column, row, orientation, word, frame)) {
-            System.out.println("Frame not used");
+            System.out.println("\nFrame not used");
             return false;
         }
         // If first move, checks if it covers the centre square
@@ -325,6 +325,11 @@ public class Board {
      * @param orientation whether the word goes across or down
      * @param word        the word to be placed
      * @return {@code true} if the word placement conflicts with existing words on board
+     * FIXME
+     *         Existing word GETS
+     *         Extension input should be GETSET, not just SET
+     *         Currently SET is allowed
+     *
      */
     private boolean doesWordConflict(int column, int row, char orientation, String word) {
         char[] wordArray = word.toCharArray();
