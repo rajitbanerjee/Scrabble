@@ -198,7 +198,6 @@ class BoardTest {
             f3.add(Tile.makeTile(ch));
         }
         frame.setFrame(f3);
-        board.display();
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "ABC", frame));
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "AB", frame));
@@ -206,22 +205,20 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 7, 'D', "XAX", frame));
         assertTrue(board.isWordPlacementValid('H', 6, 'D', "XYA", frame));
         assertTrue(board.isWordPlacementValid('F', 8, 'A', "LGAB", frame));
+        frame.remove('-');
+        frame.remove('-');
+        // Test usage of other letters when empty Tile not present
+        assertFalse(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
 
         // TODO: Fix error in doesWordCoverCentre()
         // Check that first move covers the centre square
-        ArrayList<Tile> f4 = new ArrayList<>();
-        for (char ch : "CDE".toCharArray()) {
-            f4.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f4);
-        //assert false for when frame contains no '-' tiles
-        assertFalse(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
         board.reset();
-        //horizontal placement
+        // Horizontal placement
+        board.display();
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "CDE", frame));
         assertFalse(board.isWordPlacementValid('I', 8, 'A', "CDE", frame));
         assertFalse(board.isWordPlacementValid('A', 8, 'A', "CDE", frame));
-        //vertical placement
+        // Vertical placement
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "CDE", frame));
         assertTrue(board.isWordPlacementValid('H', 6, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 9, 'D', "CDE", frame));
