@@ -59,7 +59,7 @@ public class Board {
             System.out.print("\nFrame: ");
             frame.printFrame();
 
-            System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
+            System.out.print("Enter your move (E.g. \"H8 A HELLO\", (q/Q to exit): ");
             String move = sc.nextLine().trim().toUpperCase();
             // Press q/Q to quit
             if (move.equalsIgnoreCase("q")) {

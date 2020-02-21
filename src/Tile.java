@@ -15,7 +15,9 @@ public class Tile {
     // Points for each tile vary between 0 and 10.
     private int points;
 
-    // Create a new Tile with given type (blank or A-Z) and assigned points
+    /**
+     * Create a new Tile with given type (blank or A-Z) and assigned points.
+     */
     public Tile(char type, int points) {
         setType(type);
         setPoints(points);
@@ -98,7 +100,7 @@ public class Tile {
     }
 
     /**
-     * Overriding hashCode as equals is overridden
+     * Overriding hashCode as equals is overridden.
      *
      * @return hashCode value
      */
@@ -107,7 +109,9 @@ public class Tile {
         return Objects.hash(type, points);
     }
 
-    // Each Tile is displayed as the type of Tile and the associated points
+    /**
+     * Each Tile is displayed as the type of Tile and the associated points.
+     */
     @Override
     public String toString() {
         return String.format(" %c ", type);
