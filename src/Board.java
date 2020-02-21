@@ -227,7 +227,7 @@ public class Board {
         }
         // If first move, checks if it covers the centre square
         if (isFirstMove) {
-            return doesWordCoverCentre(column, row, orientation, word.length());
+            return doesWordCoverCenter(column, row, orientation, word.length());
         } else {
             // If not first move, checks if word connects with an existing word on board
             return isWordJoined(column, row, orientation, word.length());
@@ -353,24 +353,23 @@ public class Board {
      * @return {@code true} if at least one letter from the frame is used
      */
     private boolean isFrameUsed(int column, int row, char orientation, String word, Frame frame) {
-        int i = 0;
         if (orientation == 'A') {
-            for (char ch : word.toCharArray()) {
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
                 if (board[row][column + i].isEmpty()) {
                     if (frame.contains(ch) || frame.contains('-')) {
                         return true;
                     }
                 }
-                i++;
             }
         } else {
-            for (char ch : word.toCharArray()) {
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
                 if (board[row + i][column].isEmpty()) {
                     if (frame.contains(ch) || frame.contains('-')) {
                         return true;
                     }
                 }
-                i++;
             }
         }
         return false;
@@ -385,7 +384,7 @@ public class Board {
      * @param wordLength  the length of the word
      * @return {@code true} if the word being placed covers the centre square
      */
-    private boolean doesWordCoverCentre(int column, int row, char orientation, int wordLength) {
+    private boolean doesWordCoverCenter(int column, int row, char orientation, int wordLength) {
         if (orientation == 'A') {
             // Checks the horizontal direction
             return (row == Constants.BOARD_SIZE / 2) &&
@@ -424,7 +423,7 @@ public class Board {
                         return true;
                     }
                 }
-                //check if the word contains tiles already on the board
+                // Check if the word contains tiles already on the board
                 if (Square.isValid(column + i, row)) {
                     if (!board[row][column + i].isEmpty()) {
                         return true;
@@ -446,7 +445,7 @@ public class Board {
                         return true;
                     }
                 }
-                //check if the word contains letter already on the board
+                // Check if the word contains letter already on the board
                 if (Square.isValid(column, row + i)) {
                     if (!board[row + i][column].isEmpty()) {
                         return true;
