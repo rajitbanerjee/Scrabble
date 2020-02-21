@@ -268,4 +268,59 @@ class BoardTest {
         // Try to place unconnected word
         assertFalse(board.isWordPlacementValid('J', 8, 'A', "CDE", frame));
     }
+
+
+    @Test
+    void testPlaceWord() {
+        Pool pool = new Pool();
+        Frame frame = new Frame(pool);
+        //ArrayList containing the tiles to be placed
+        ArrayList<Tile> f1 = new ArrayList<>(); //arraylist containing the tiles to be placed
+        for (char ch : "HELLO".toCharArray()) {
+            f1.add(Tile.makeTile(ch));
+        }
+        //filling the frame
+        ArrayList<Tile> f2 = new ArrayList<>();
+        for (char ch : "HELLO".toCharArray()) {
+            f2.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f2);
+
+        //Testing first word placement
+        // Place word horizontally on H8
+        board.placeWord('H', 8, 'A', "Hello", frame);
+        for(int i = 0; i < 5; i++){
+            assertEquals(f1.get(i), board.getBoard()[7]['H'-'A' + i].getTile());
+        }
+        //Place word vertically on H8
+        board.reset();
+        for (char ch : "HELLO".toCharArray()) {
+            f2.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f2); //refill frame
+        board.placeWord('H', 8, 'D', "Hello", frame);
+        for(int i = 0; i < 5; i++){
+            assertEquals(f1.get(i), board.getBoard()[7 + i]['H'-'A'].getTile());
+        }
+        //Place word horizontally going through H8
+        board.reset();
+        for (char ch : "HELLO".toCharArray()) {
+            f2.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f2); //refill frame
+        board.placeWord('F', 8, 'A', "Hello", frame);
+        for(int i = 0; i < 5; i++){
+            assertEquals(f1.get(i), board.getBoard()[7]['F'-'A' + i].getTile());
+        }
+        //Place word vertically going through H8
+        board.reset();
+        for (char ch : "HELLO".toCharArray()) {
+            f2.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f2); //refill frame
+        board.placeWord('H', 6, 'D', "Hello", frame);
+        for(int i = 0; i < 5; i++){
+            assertEquals(f1.get(i), board.getBoard()[5 + i]['H'-'A'].getTile());
+        }
+    }
 }
