@@ -1,6 +1,10 @@
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class BoardTest {
+    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private static final PrintStream originalOut = System.out;
     private Board board;
     private Frame frame;
     ArrayList<Tile> f; // copy of frame
@@ -241,6 +247,7 @@ class BoardTest {
     void testIsWordJoined() { // If not first move, word connects with at least one letter on the board
         resetFrame("-CDE-", true);
         board.setFirstMove(false);
+
         // Places a tile at  ('H', 8)
         board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('X'));
         // Try top vertical connection
@@ -332,4 +339,50 @@ class BoardTest {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
         }
     }
+
+    @Test
+    void testBoardDisplay() {
+        System.setOut(new PrintStream(outContent));
+        String expected = "----------------------------------------------------------------------------\n" +
+                "|\t| A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |\t   |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 1\t|3xW|   |   |2xL|   |   |   |3xW|   |   |   |2xL|   |   |3xW|\t 1 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 2\t|   |2xW|   |   |   |3xL|   |   |   |3xL|   |   |   |2xW|   |\t 2 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 3\t|   |   |2xW|   |   |   |2xL|   |2xL|   |   |   |2xW|   |   |\t 3 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 4\t|2xL|   |   |2xW|   |   |   |2xL|   |   |   |2xW|   |   |2xL|\t 4 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 5\t|   |   |   |   |2xW|   |   |   |   |   |2xW|   |   |   |   |\t 5 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 6\t|   |3xL|   |   |   |3xL|   |   |   |3xL|   |   |   |3xL|   |\t 6 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 7\t|   |   |2xL|   |   |   |2xL|   |2xL|   |   |   |2xL|   |   |\t 7 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 8\t|3xW|   |   |2xL|   |   |   | * |   |   |   |2xL|   |   |3xW|\t 8 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 9\t|   |   |2xL|   |   |   |2xL|   |2xL|   |   |   |2xL|   |   |\t 9 |\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 10\t|   |3xL|   |   |   |3xL|   |   |   |3xL|   |   |   |3xL|   |\t 10|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 11\t|   |   |   |   |2xW|   |   |   |   |   |2xW|   |   |   |   |\t 11|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 12\t|2xL|   |   |2xW|   |   |   |2xL|   |   |   |2xW|   |   |2xL|\t 12|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 13\t|   |   |2xW|   |   |   |2xL|   |2xL|   |   |   |2xW|   |   |\t 13|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 14\t|   |2xW|   |   |   |3xL|   |   |   |3xL|   |   |   |2xW|   |\t 14|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "| 15\t|3xW|   |   |2xL|   |   |   |3xW|   |   |   |2xL|   |   |3xW|\t 15|\n" +
+                "----------------------------------------------------------------------------\n" +
+                "|\t| A | B | C | D | E | F | G | H | I | J | K | L | M | N | O |\t   |\n" +
+                "----------------------------------------------------------------------------";
+        board.reset();
+        board.display();
+        // change expected line endings from LF to CRLF before assertion
+        assertEquals(expected.replaceAll("\n", "\r\n"), outContent.toString().strip());
+        System.setOut(originalOut);
+    }
+
 }
