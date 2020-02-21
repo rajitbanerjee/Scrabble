@@ -16,10 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
+    private Frame frame;
+    ArrayList<Tile> f; // copy of frame
+
+    // helper function to reset frame, and board if required
+    private void resetFrame(String letters, boolean resetBoard) {
+        if (resetBoard) {
+            board.reset();
+        }
+        for (char ch : letters.toCharArray()) {
+            f.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f);
+    }
 
     @BeforeEach
     void setUp() {
         board = new Board();
+        frame = new Frame(new Pool());
+        f = new ArrayList<>();
     }
 
     @Test
@@ -38,7 +53,7 @@ class BoardTest {
     void testConstructor() {
         Square[][] b = board.getBoard();
 
-        // check if multipliers are set correctly
+        // Check if multipliers are set correctly
         for (int[] index : Constants.DOUBLE_LS_ARRAY) {
             assertEquals(Constants.MULTIPLIER.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
         }
@@ -88,7 +103,6 @@ class BoardTest {
                 assertEquals(tile, board.getTile(column, row));
             }
         }
-
         // test if exception is thrown for square out of bounds
         try {
             board.getTile('A', 16);
@@ -101,15 +115,8 @@ class BoardTest {
     }
 
     @Test
-    void testWordPlacementValidity() {
-        Pool pool = new Pool();
-        Frame frame = new Frame(pool);
-        ArrayList<Tile> f = new ArrayList<>();
-        for (char ch : "HELLO".toCharArray()) {
-            f.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f);
-
+    void testAreMoveParametersValid() {
+        resetFrame("HELLO", false);
         // Check if word is placed on a valid square
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "Hello", frame));
         assertFalse(board.isWordPlacementValid('R', 7, 'A', "HELLO", frame));
@@ -137,19 +144,17 @@ class BoardTest {
 
         // Check that appropriate measures are taken for a null frame object
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "123", null));
+    }
 
+    @Test
+    void testIsOverflowed() {
+        resetFrame("ABCD", false);
         // Check if word placement overflows out of the board
         // Place tile at edge of board ('O', 8)
         board.getBoard()[Constants.BOARD_SIZE / 2][('O' - 'A')].setTile(Tile.makeTile('X'));
         // Place tile at edge of board ('H', 15)
         board.getBoard()[Constants.BOARD_SIZE - 1][('H' - 'A')].setTile(Tile.makeTile('X'));
-        // New Frame for demo
-        ArrayList<Tile> f1 = new ArrayList<>();
-        for (char ch : "ABCD".toCharArray()) {
-            f1.add(Tile.makeTile(ch));
-        }
-        // Sets current frame to new Frame
-        frame.setFrame(f1);
+
         // Sets firstMove to false for debugging purposes
         board.setFirstMove(false);
         assertTrue(board.isWordPlacementValid('K', 8, 'A', "ABCDX", frame));
@@ -158,10 +163,13 @@ class BoardTest {
         assertFalse(board.isWordPlacementValid('N', 6, 'A', "ABCD", frame));
         assertFalse(board.isWordPlacementValid('I', 15, 'D', "ABCD", frame));
         assertFalse(board.isWordPlacementValid('G', 13, 'D', "ABCD", frame));
+    }
 
-        // Check if appropriate measures are taken for a word placement that conflicts with existing words
-        board.reset();
-        // Places a test Tile in the center of the board ('H', 8)
+    @Test
+    void testDoesWordConflict() {
+        resetFrame("ABCD", true);
+        // Check for word placement conflict with existing words
+        // Places a test Tile in the centre of the board ('H', 8)
         board.getBoard()[Constants.BOARD_SIZE / 2][('H' - 'A')].setTile(Tile.makeTile('X'));
         // Sets firstMove to false for debugging purposes
         board.setFirstMove(false);
@@ -176,49 +184,29 @@ class BoardTest {
         assertFalse(board.isWordPlacementValid('H', 8, 'D', "ABCD", frame));
         assertFalse(board.isWordPlacementValid('H', 6, 'D', "ABCD", frame));
 
+    }
+
+    @Test
+    void testDoesFrameContainTiles() {
+        resetFrame("H-LL", true);
         // Check if frame contains necessary tiles for word placement (ignores filled squares)
-        board.reset();
-        ArrayList<Tile> f2 = new ArrayList<>();
-        for (char ch : "H-LL".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2);
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "He", frame));
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "lleH", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "Hello", frame));
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "He", frame));
         assertTrue(board.isWordPlacementValid('H', 8, 'D', "lleH", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'd', "Hello", frame));
+    }
 
-        f2 = new ArrayList<>();
-        for (char ch : "HeLLo".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2);
-        // Places a test Tile in the center of the board ('H', 8)
+    @Test
+    void testIsFrameUsed() { // At least one tile from the frame is used for a word placement
+        resetFrame("-CDE-", true);
         board.setFirstMove(false);
-        board.getBoard()[Constants.BOARD_SIZE / 2][('H' - 'A')].setTile(Tile.makeTile('X'));
-        assertTrue(board.isWordPlacementValid('H', 8, 'D', "XlleH", frame));
-        assertTrue(board.isWordPlacementValid('H', 7, 'D', "HXllo", frame));
-        assertTrue(board.isWordPlacementValid('H', 8, 'A', "XlleH", frame));
-        assertTrue(board.isWordPlacementValid('G', 8, 'A', "HXllo", frame));
-        assertTrue(board.isWordPlacementValid('F', 8, 'A', "HeX", frame));
-        board.getBoard()[12][('I' - 'A')].setTile(Tile.makeTile('X'));
-        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeX", frame));
-        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeXllo", frame));
 
-        // Check if at least one tile from the frame is used for a word placement
-        board.reset();
         // Places a tile at  ('H', 8)
         board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('A'));
         // Places a tile at  ('I', 8)
         board.getBoard()[7][('I' - 'A')].setTile(Tile.makeTile('B'));
-        board.setFirstMove(false);
-        ArrayList<Tile> f3 = new ArrayList<>();
-        for (char ch : "-CDE-".toCharArray()) {
-            f3.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f3);
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "ABC", frame));
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "AB", frame));
@@ -231,10 +219,13 @@ class BoardTest {
         // Test usage of other letters when empty Tile not present
         assertFalse(board.isWordPlacementValid('H', 8, 'A', "ABX", frame));
 
-        // Check that first move covers the centre square
-        // Set isFirstMove back to true
+    }
+
+    @Test
+    void testDoesWordCoverCentre() {  // Check that first move covers the centre square
+        resetFrame("-CDE-", true);
         board.setFirstMove(true);
-        board.reset();
+
         // Horizontal placement
         assertTrue(board.isWordPlacementValid('H', 8, 'A', "CDE", frame));
         assertFalse(board.isWordPlacementValid('I', 8, 'A', "CDE", frame));
@@ -244,11 +235,14 @@ class BoardTest {
         assertTrue(board.isWordPlacementValid('H', 6, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 5, 'D', "CDE", frame));
         assertFalse(board.isWordPlacementValid('H', 9, 'D', "CDE", frame));
+    }
 
-        // Check that if not first move, word connects with at least one letter on the board
+    @Test
+    void testIsWordJoined() { // If not first move, word connects with at least one letter on the board
+        resetFrame("-CDE-", true);
+        board.setFirstMove(false);
         // Places a tile at  ('H', 8)
         board.getBoard()[7][('H' - 'A')].setTile(Tile.makeTile('X'));
-        board.setFirstMove(false);
         // Try top vertical connection
         assertTrue(board.isWordPlacementValid('H', 5, 'D', "CDEX", frame));
         // Try top horizontal connection
@@ -269,58 +263,73 @@ class BoardTest {
         assertFalse(board.isWordPlacementValid('J', 8, 'A', "CDE", frame));
     }
 
+    @Test
+    void testWordExtensions() {
+        resetFrame("HeLLo", false);
+        board.setFirstMove(false);
+
+        // Places a test Tile in the centre of the board ('H', 8)
+        board.getBoard()[Constants.BOARD_SIZE / 2][('H' - 'A')].setTile(Tile.makeTile('X'));
+        assertTrue(board.isWordPlacementValid('H', 8, 'D', "XlleH", frame));
+        assertTrue(board.isWordPlacementValid('H', 7, 'D', "HXllo", frame));
+        assertTrue(board.isWordPlacementValid('H', 8, 'A', "XlleH", frame));
+        assertTrue(board.isWordPlacementValid('G', 8, 'A', "HXllo", frame));
+        assertTrue(board.isWordPlacementValid('F', 8, 'A', "HeX", frame));
+
+        board.getBoard()[12][('I' - 'A')].setTile(Tile.makeTile('X'));
+        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeX", frame));
+        assertTrue(board.isWordPlacementValid('G', 13, 'A', "HeXllo", frame));
+    }
 
     @Test
-    void testPlaceWord() {
-        Pool pool = new Pool();
-        Frame frame = new Frame(pool);
-        //ArrayList containing the tiles to be placed
-        ArrayList<Tile> f1 = new ArrayList<>(); //arraylist containing the tiles to be placed
-        for (char ch : "HELLO".toCharArray()) {
-            f1.add(Tile.makeTile(ch));
-        }
-        //filling the frame
-        ArrayList<Tile> f2 = new ArrayList<>();
-        for (char ch : "HELLO".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2);
+    void testFirstMovePlaceWord() { // Testing first word placement
+        String word = "HELLO";
 
-        //Testing first word placement
+        resetFrame("HELLO", false);
         // Place word horizontally on H8
         board.placeWord('H', 8, 'A', "Hello", frame);
-        for(int i = 0; i < 5; i++){
-            assertEquals(f1.get(i), board.getBoard()[7]['H'-'A' + i].getTile());
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
         }
+
+        resetFrame("HELLO", true);
         //Place word vertically on H8
-        board.reset();
-        for (char ch : "HELLO".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2); //refill frame
         board.placeWord('H', 8, 'D', "Hello", frame);
-        for(int i = 0; i < 5; i++){
-            assertEquals(f1.get(i), board.getBoard()[7 + i]['H'-'A'].getTile());
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7 + i]['H' - 'A'].getTile());
         }
+
+        resetFrame("HELLO", true);
         //Place word horizontally going through H8
-        board.reset();
-        for (char ch : "HELLO".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2); //refill frame
         board.placeWord('F', 8, 'A', "Hello", frame);
-        for(int i = 0; i < 5; i++){
-            assertEquals(f1.get(i), board.getBoard()[7]['F'-'A' + i].getTile());
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['F' - 'A' + i].getTile());
         }
+
+        resetFrame("HELLO", true);
         //Place word vertically going through H8
-        board.reset();
-        for (char ch : "HELLO".toCharArray()) {
-            f2.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f2); //refill frame
         board.placeWord('H', 6, 'D', "Hello", frame);
-        for(int i = 0; i < 5; i++){
-            assertEquals(f1.get(i), board.getBoard()[5 + i]['H'-'A'].getTile());
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[5 + i]['H' - 'A'].getTile());
+        }
+    }
+
+    @Test
+    void testPlaceWordBlankTiles() {
+        String word = "HELLO";
+
+        resetFrame("H-LL-", true);
+        // Use blank tiles for word going down
+        board.placeWord('H', 8, 'D', word, frame);
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7 + i]['H' - 'A'].getTile());
+        }
+
+        resetFrame("H-LL-", true);
+        // Use blank tiles for words going across
+        board.placeWord('H', 8, 'A', word, frame);
+        for (int i = 0; i < 5; i++) {
+            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
         }
     }
 }
