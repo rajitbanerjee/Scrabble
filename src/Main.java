@@ -19,7 +19,7 @@ public class Main {
             board.display();
             System.out.print("\nFrame: ");
             frame.printFrame();
-            printHelperMessage();
+            promptUser();
             // Strip white space at both sides, convert argument string to uppercase
             String move = sc.nextLine().toUpperCase().strip();
             while (!(move.equalsIgnoreCase("q") || isMoveValid(move, board, frame))) {
@@ -56,7 +56,7 @@ public class Main {
         System.out.println("Thanks for playing.");
     }
 
-    private static void printHelperMessage() {
+    private static void promptUser() {
         System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
     }
 
