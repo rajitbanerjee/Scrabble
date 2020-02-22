@@ -189,6 +189,10 @@ class BoardTest {
         assertFalse(board.isWordPlacementValid('F', 8, 'A', "ABCD", frame));
         assertFalse(board.isWordPlacementValid('H', 8, 'D', "ABCD", frame));
         assertFalse(board.isWordPlacementValid('H', 6, 'D', "ABCD", frame));
+        assertFalse(board.isWordPlacementValid('H', 9, 'D', "ABCD", frame));
+        assertFalse(board.isWordPlacementValid('H', 5, 'D', "ABCD", frame));
+        assertFalse(board.isWordPlacementValid('I', 8, 'A', "ABCD", frame));
+        assertFalse(board.isWordPlacementValid('D', 8, 'A', "ABCD", frame));
 
     }
 
@@ -337,6 +341,28 @@ class BoardTest {
         board.placeWord('H', 8, 'A', word, frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
+        }
+    }
+
+    @Test
+    void testInvalidWordPlacement() {
+        resetFrame("HELLO", false);
+        //Illegal first word placements
+        try {
+            // Place first word horizontally on H9 (doesn't go through centre square)
+            board.placeWord('H', 9, 'A', "Hello", frame);
+        } catch (IllegalArgumentException e) {
+            for (int i = 0; i < 5; i++) {   //check the word was not placed
+                assertNull(board.getBoard()[8]['H' - 'A' + i].getTile());
+            }
+        }
+        try {
+            // Place first word word vertically on F5 (doesn't go through centre square)
+            board.placeWord('F', 5, 'D', "Hello", frame);
+        } catch (IllegalArgumentException e) {
+            for (int i = 0; i < 5; i++) {   //check the word was not placed
+                assertNull(board.getBoard()[4 + i]['F' - 'A'].getTile());
+            }
         }
     }
 
