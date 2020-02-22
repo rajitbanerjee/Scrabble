@@ -1,5 +1,3 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
     private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private static final PrintStream originalOut = System.out;
+    private ArrayList<Tile> f;
     private Board board;
     private Frame frame;
-    ArrayList<Tile> f; // copy of frame
 
-    // helper function to reset frame, and board if required
+    // Helper function to reset frame, and board if required
     private void resetFrame(String letters, boolean resetBoard) {
         if (resetBoard) {
             board.reset();
@@ -109,14 +107,14 @@ class BoardTest {
                 assertEquals(tile, board.getTile(column, row));
             }
         }
-        // test if exception is thrown for square out of bounds
+        // Test if exception is thrown for square out of bounds
         try {
             board.getTile('A', 16);
             board.getTile('P', 14);
             board.getTile('B', 0);
             fail("Queried tile out of bounds.");
         } catch (Exception ignored) {
-            // test passed
+            // Test passed
         }
     }
 
@@ -205,8 +203,9 @@ class BoardTest {
     }
 
     @Test
-    void testIsFrameUsed() { // At least one tile from the frame is used for a word placement
+    void testIsFrameUsed() {
         resetFrame("-CDE-", true);
+        // At least one tile from the frame is used for a word placement
         board.setFirstMove(false);
 
         // Places a tile at  ('H', 8)
@@ -228,8 +227,9 @@ class BoardTest {
     }
 
     @Test
-    void testDoesWordCoverCentre() {  // Check that first move covers the centre square
+    void testDoesWordCoverCentre() {
         resetFrame("-CDE-", true);
+        // Check that first move covers the centre square
         board.setFirstMove(true);
 
         // Horizontal placement
@@ -244,8 +244,9 @@ class BoardTest {
     }
 
     @Test
-    void testIsWordJoined() { // If not first move, word connects with at least one letter on the board
+    void testIsWordJoined() {
         resetFrame("-CDE-", true);
+        // If not first move, word connects with at least one letter on the board
         board.setFirstMove(false);
 
         // Places a tile at  ('H', 8)
@@ -273,6 +274,7 @@ class BoardTest {
     @Test
     void testWordExtensions() {
         resetFrame("HeLLo", false);
+        // Tests extension of words in both directions
         board.setFirstMove(false);
 
         // Places a test Tile in the centre of the board ('H', 8)
@@ -289,10 +291,10 @@ class BoardTest {
     }
 
     @Test
-    void testFirstMovePlaceWord() { // Testing first word placement
+    void testFirstMovePlaceWord() {
         String word = "HELLO";
-
         resetFrame("HELLO", false);
+        // Testing first word placement
         // Place word horizontally on H8
         board.placeWord('H', 8, 'A', "Hello", frame);
         for (int i = 0; i < 5; i++) {
@@ -300,21 +302,21 @@ class BoardTest {
         }
 
         resetFrame("HELLO", true);
-        //Place word vertically on H8
+        // Place word vertically on H8
         board.placeWord('H', 8, 'D', "Hello", frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7 + i]['H' - 'A'].getTile());
         }
 
         resetFrame("HELLO", true);
-        //Place word horizontally going through H8
+        // Place word horizontally going through H8
         board.placeWord('F', 8, 'A', "Hello", frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['F' - 'A' + i].getTile());
         }
 
         resetFrame("HELLO", true);
-        //Place word vertically going through H8
+        // Place word vertically going through H8
         board.placeWord('H', 6, 'D', "Hello", frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[5 + i]['H' - 'A'].getTile());
@@ -380,7 +382,7 @@ class BoardTest {
                 "----------------------------------------------------------------------------";
         board.reset();
         board.display();
-        // change expected line endings from LF to CRLF before assertion
+        // Change expected line endings from LF to CRLF before assertion
         assertEquals(expected.replaceAll("\n", "\r\n"), outContent.toString().strip());
         System.setOut(originalOut);
     }
