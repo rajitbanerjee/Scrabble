@@ -11,12 +11,11 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         // Initialise objects
         Board board = new Board();
         Pool pool = new Pool();
         Frame frame = new Frame(pool);
-        // Create Scanner instance for reading input
-        Scanner sc = new Scanner(System.in);
         // Print start message
         System.out.println("\nWelcome to Scrabble by DarkMode.");
         System.out.print("Please enter your name: ");
@@ -29,7 +28,7 @@ public class Main {
             System.out.print("\nFrame: ");
             frame.printFrame();
             promptUser();
-            // Strip white space at both sides, convert argument string to uppercase
+            // Strip white space at both sides, convert argument String to uppercase
             String move = sc.nextLine().toUpperCase().strip();
             while (!(move.equalsIgnoreCase("q") || isMoveValid(move, board, frame))) {
                 System.out.println("Invalid word placement! Try again.");
@@ -66,6 +65,7 @@ public class Main {
         System.out.println("\nThanks for playing!");
     }
 
+    // Helper message
     private static void promptUser() {
         System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
     }

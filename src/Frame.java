@@ -100,8 +100,8 @@ public class Frame {
     /**
      * Accessor to letters in the frame.
      *
-     * @param letter chosen by user to specify which tile from the frame is chosen
-     * @return the tile associated with the letter
+     * @param letter chosen by user to specify the selected tile from the frame
+     * @return the tile object for the given letter in frame
      * @throws NoSuchElementException if required letter is not in frame
      */
     public Tile getTile(char letter) throws NoSuchElementException {

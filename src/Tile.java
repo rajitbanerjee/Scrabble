@@ -65,7 +65,9 @@ public class Tile {
         }
     }
 
-    // Getter and setter methods for points
+    /**
+     * Accessor for tile's points.
+     */
     public int getPoints() {
         return points;
     }

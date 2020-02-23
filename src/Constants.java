@@ -9,6 +9,7 @@
 
 public class Constants {
     static final int FRAME_LIMIT = 7;
+    static final int BOARD_SIZE = 15;
 
     // different types of tiles ("-" represents the blank tile) grouped...
     // according to equality of associated points
@@ -57,8 +58,6 @@ public class Constants {
             {13, 4}, {13, 6}, {13, 7}, {13, 8}, {13, 10}, {13, 11}, {13, 12}, {13, 14}, {14, 1},
             {14, 2}, {14, 4}, {14, 5}, {14, 6}, {14, 8}, {14, 9}, {14, 10}, {14, 12}, {14, 13}
     };
-
-    static final int BOARD_SIZE = 15;
 
     // stores the different types of multipliers on a board
     // NOTE: Centre is also has a score multiplier of DOUBLE_WS

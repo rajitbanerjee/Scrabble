@@ -143,11 +143,11 @@ public class Board {
         for (int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
             if (orientation == 'A') {
-                // column index increases for word placed horizontally
+                // Column index increases for word placed horizontally
                 c = column + i;
                 r = row;
             } else {
-                // row index increases for word placed vertically
+                // Row index increases for word placed vertically
                 r = row + i;
                 c = column;
             }
@@ -260,7 +260,7 @@ public class Board {
         char[] wordArray = word.toCharArray();
         // Checks the horizontal direction
         if (orientation == 'A') {
-            //check if the squares before and after the word are empty
+            // Check if the squares before and after the word are empty
             if (Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)) {
                 if (!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()) {
                     return true;
@@ -274,7 +274,7 @@ public class Board {
                 }
             }
         } else {
-            //check if the squares before and after the word are empty
+            // Check if the squares before and after the word are empty
             if (Square.isValid(column, row - 1) && Square.isValid(column, row + word.length())) {
                 if (!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()) {
                     return true;
@@ -313,11 +313,11 @@ public class Board {
         int r, c;
         for (int i = 0; i < word.length(); i++) {
             if (orientation == 'A') {
-                // column index increases for word placed horizontally
+                // Column index increases for word placed horizontally
                 c = column + i;
                 r = row;
             } else {
-                // row index increases for word placed vertically
+                // Row index increases for word placed vertically
                 r = row + i;
                 c = column;
             }
@@ -349,16 +349,16 @@ public class Board {
         int r, c;
         for (int i = 0; i < word.length(); i++) {
             if (orientation == 'A') {
-                // column index increases for word placed horizontally
+                // Column index increases for word placed horizontally
                 c = column + i;
                 r = row;
             } else {
-                // row index increases for word placed vertically
+                // Row index increases for word placed vertically
                 r = row + i;
                 c = column;
             }
             char ch = word.charAt(i);
-            // If square is empty, check if frame contains the required Tile or a Blank Tile
+            // If square is empty, check if frame contains the required tile or a blank tile
             if (board[r][c].isEmpty()) {
                 if (frame.contains(ch) || frame.contains('-')) {
                     return true;
@@ -392,8 +392,8 @@ public class Board {
     }
 
     /**
-     * ā
-     * Checks if a word is joined with any existing tiles.
+     * Checks if a word placement connects with at least one other
+     * existing word on the board.
      *
      * @param column      integer between 0 - 14 to specify the board column
      * @param row         integer between 0 - 14 to specify the board row
@@ -454,8 +454,8 @@ public class Board {
     /**
      * Checks if a string only contains alphabetical characters.
      *
-     * @param input give string
-     * @return {@code true} if the given string only contains alphabetical characters
+     * @param input string to be checked
+     * @return {@code true} if the given string only contains letters A-Z/a-z
      */
     private boolean isAlphaString(String input) {
         return input.matches("[A-Za-z]+");

@@ -35,7 +35,7 @@ public class Player {
     }
 
     /**
-     * Increases the player score by dx.
+     * Increases the player score by given value.
      *
      * @param value increment value
      * @throws IllegalArgumentException if increment value is negative
@@ -48,7 +48,7 @@ public class Player {
     }
 
     /**
-     * Resets the player information to default, empty name and zero score.
+     * Resets the player information: empty name, zero score and remove frame.
      */
     public void reset() {
         name = "";
@@ -73,7 +73,8 @@ public class Player {
     }
 
     /**
-     * Mutator method for the score variable. (Might be useful for debugging purposes)
+     * Mutator method for the score variable.
+     * (Might be useful for debugging purposes).
      *
      * @param score player score
      * @throws IllegalArgumentException if given score is negative
@@ -86,7 +87,7 @@ public class Player {
     }
 
     /**
-     * Accessor method for the frame variable.
+     * Accessor method for the frame.
      *
      * @return player frame
      */
@@ -95,7 +96,7 @@ public class Player {
     }
 
     /**
-     * Mutator method for the frame variable.
+     * Mutator method for the frame.
      *
      * @param frame player frame
      */
@@ -104,7 +105,7 @@ public class Player {
     }
 
     /**
-     * Accessor method for the name variable.
+     * Accessor method for the name.
      *
      * @return player name
      */
@@ -113,7 +114,7 @@ public class Player {
     }
 
     /**
-     * Mutator method for the frame variable.
+     * Mutator method for the name.
      *
      * @param name player name
      * @throws NullPointerException if given name is null
@@ -126,14 +127,14 @@ public class Player {
     }
 
     /**
-     * Prints the player name to the CLI.
+     * Prints the player name to the command line.
      */
     public void printName() {
         System.out.println(name);
     }
 
     /**
-     * Override toString method to return player name.
+     * Get the String representation of a player.
      *
      * @return the player name (can be changed to include player score)
      */
