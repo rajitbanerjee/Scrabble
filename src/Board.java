@@ -139,35 +139,28 @@ public class Board {
         column -= 'A';
         row -= 1;
         // Place word
+        int r, c;
         for (int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
-            // Checks the horizontal direction
             if (orientation == 'A') {
-                // Ignore filled squares
-                if (board[row][column + i].isEmpty()) {
-                    // Convert blank tile to a given letter if letter is not in the frame
-                    if (!frame.contains(ch)) {
-                        placeTile(column + i, row, Tile.makeTile(ch));
-                        frame.remove('-');
-                    } else {
-                        // Place tile on the board and remove it from the frame
-                        placeTile(column + i, row, frame.getTile(ch));
-                        frame.remove(ch);
-                    }
-                }
+                // column index increases for word placed horizontally
+                c = column + i;
+                r = row;
             } else {
-                // Checks the vertical direction
-                // Ignore filled squares
-                if (board[row + i][column].isEmpty()) {
-                    // Convert blank tile to a given letter if letter is not in the frame
-                    if (!frame.contains(ch)) {
-                        placeTile(column, row + i, Tile.makeTile(ch));
-                        frame.remove('-');
-                    } else {
-                        // Place tile on the board and remove it from the frame
-                        placeTile(column, row + i, frame.getTile(ch));
-                        frame.remove(ch);
-                    }
+                // row index increases for word placed vertically
+                r = row + i;
+                c = column;
+            }
+            // Ignore filled squares
+            if (board[r][c].isEmpty()) {
+                // Convert blank tile to a given letter if letter is not in the frame
+                if (!frame.contains(ch)) {
+                    placeTile(c, r, Tile.makeTile(ch));
+                    frame.remove('-');
+                } else {
+                    // Place tile on the board and remove it from the frame
+                    placeTile(c, r, frame.getTile(ch));
+                    frame.remove(ch);
                 }
             }
         }
@@ -197,12 +190,12 @@ public class Board {
         }
         // Checks for overflow
         if (isOverflowed(column, row, orientation, word.length())) {
-            System.out.println("\nOverflowed");
+            System.out.println("\nWord goes out of the board!");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(column, row, orientation, word)) {
-            System.out.println("\nWord conflicts");
+            System.out.println("\nWord conflicts with existing word on board!");
             return false;
         }
         // Checks if frame contains the required tiles
@@ -212,7 +205,7 @@ public class Board {
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(column, row, orientation, word, frame)) {
-            System.out.println("\nFrame not used");
+            System.out.println("\nFrame not used!");
             return false;
         }
         // If first move, checks if it covers the centre square
@@ -317,38 +310,28 @@ public class Board {
             sb.append(t.getType());
         }
         String tilesInFrame = sb.toString();
-        // Checks the horizontal direction
-        if (orientation == 'A') {
-            for (int i = 0; i < word.length(); i++) {
-                String character = Character.toString(word.charAt(i));
-                // Return false if frame does not contain letter needed
-                if (board[row][column + i].isEmpty()) {
-                    // Check for the specified character from the frame
-                    if (tilesInFrame.contains(character)) {
-                        tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if (tilesInFrame.contains("-")) {
-                        // Else check for any blank characters from the frame
-                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    } else {
-                        return false;
-                    }
-                }
+        int r, c;
+        for (int i = 0; i < word.length(); i++) {
+            if (orientation == 'A') {
+                // column index increases for word placed horizontally
+                c = column + i;
+                r = row;
+            } else {
+                // row index increases for word placed vertically
+                r = row + i;
+                c = column;
             }
-        } else {
-            // Checks the vertical direction
-            for (int i = 0; i < word.length(); i++) {
-                String character = Character.toString(word.charAt(i));
-                // Return false if frame does not contain letter needed
-                if (board[row + i][column].isEmpty()) {
-                    // Check for the specified character from the frame
-                    if (tilesInFrame.contains(character)) {
-                        tilesInFrame = tilesInFrame.replaceFirst(character, "");
-                    } else if (tilesInFrame.contains("-")) {
-                        // Else check for any blank characters from the frame
-                        tilesInFrame = tilesInFrame.replaceFirst("-", "");
-                    } else {
-                        return false;
-                    }
+            String character = Character.toString(word.charAt(i));
+            // Return false if frame does not contain letter needed
+            if (board[r][c].isEmpty()) {
+                // Check for the specified character from the frame
+                if (tilesInFrame.contains(character)) {
+                    tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                } else if (tilesInFrame.contains("-")) {
+                    // Else check for any blank characters from the frame
+                    tilesInFrame = tilesInFrame.replaceFirst("-", "");
+                } else {
+                    return false;
                 }
             }
         }
@@ -363,26 +346,22 @@ public class Board {
      * @return {@code true} if at least one letter from the frame is used
      */
     private boolean isFrameUsed(int column, int row, char orientation, String word, Frame frame) {
-        // Checks for horizontal direction
-        if (orientation == 'A') {
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
-                // If square is empty, check if frame contains the required Tile or a Blank Tile
-                if (board[row][column + i].isEmpty()) {
-                    if (frame.contains(ch) || frame.contains('-')) {
-                        return true;
-                    }
-                }
+        int r, c;
+        for (int i = 0; i < word.length(); i++) {
+            if (orientation == 'A') {
+                // column index increases for word placed horizontally
+                c = column + i;
+                r = row;
+            } else {
+                // row index increases for word placed vertically
+                r = row + i;
+                c = column;
             }
-        } else {
-            // Checks for vertical direction
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
-                // If square is empty, check if frame contains the required Tile or a Blank Tile
-                if (board[row + i][column].isEmpty()) {
-                    if (frame.contains(ch) || frame.contains('-')) {
-                        return true;
-                    }
+            char ch = word.charAt(i);
+            // If square is empty, check if frame contains the required Tile or a Blank Tile
+            if (board[r][c].isEmpty()) {
+                if (frame.contains(ch) || frame.contains('-')) {
+                    return true;
                 }
             }
         }
@@ -468,6 +447,7 @@ public class Board {
                 }
             }
         }
+        System.out.println("\nWord needs to connect with an existing word on board!");
         return false;
     }
 

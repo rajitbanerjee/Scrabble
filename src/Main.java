@@ -1,5 +1,14 @@
 import java.util.Scanner;
 
+/**
+ * Allows the user to play Scrabble in Single Player Mode
+ * in the command line.
+ *
+ * @author Katarina Cvetkovic, 18347921
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class Main {
     public static void main(String[] args) {
         // Initialise objects
@@ -24,6 +33,7 @@ public class Main {
             String move = sc.nextLine().toUpperCase().strip();
             while (!(move.equalsIgnoreCase("q") || isMoveValid(move, board, frame))) {
                 System.out.println("Invalid word placement! Try again.");
+                promptUser();
                 move = sc.nextLine().strip().toUpperCase();
             }
             // Press q/Q to quit
@@ -38,9 +48,9 @@ public class Main {
             String word = inputArguments[2];
             // Place word
             board.placeWord(column, row, orientation, word, frame);
-            System.out.println("\n-------------------------");
+            System.out.println("\n----------------------------");
             System.out.println("Word placed: " + word);
-            System.out.println("-------------------------\n");
+            System.out.println("----------------------------\n");
             try {
                 System.out.print("Frame: ");
                 frame.printFrame();
@@ -53,14 +63,17 @@ public class Main {
             }
         } while (true);
         sc.close();
-        System.out.println("Thanks for playing.");
+        System.out.println("\nThanks for playing!");
     }
 
     private static void promptUser() {
-        System.out.println("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
+        System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
     }
 
     /**
+     * Check if the player enters a move in the correct format and
+     * that the word placement is valid.
+     *
      * @param move  the player's move (starting index, orientation, word to place)
      * @param board the 15x15 game Board of Squares
      * @param frame the player's frame

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
     private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private static final PrintStream originalOut = System.out;
-    private ArrayList<Tile> f;
+    private ArrayList<Tile> f; // Stores a copy of the frame for resetting purposes
     private Board board;
     private Frame frame;
 
