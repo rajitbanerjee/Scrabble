@@ -30,7 +30,7 @@ public class Main {
             promptUser();
             // Strip white space at both sides, convert argument String to uppercase
             String move = sc.nextLine().toUpperCase().strip();
-            while (!(move.equalsIgnoreCase("q") || isMoveValid(move, board, frame))) {
+            while (!(move.equalsIgnoreCase("q") || isMoveLegal(move, board, frame))) {
                 System.out.println("Invalid word placement! Try again.");
                 promptUser();
                 move = sc.nextLine().strip().toUpperCase();
@@ -44,11 +44,12 @@ public class Main {
             char column = inputArguments[0].charAt(0);
             int row = Integer.parseInt(inputArguments[0].substring(1));
             char orientation = inputArguments[1].charAt(0);
-            String word = inputArguments[2];
+            String letters = inputArguments[2];
+            Word word = new Word(letters, column, row, orientation);
             // Place word
-            board.placeWord(column, row, orientation, word, frame);
+            board.placeWord(word, frame);
             System.out.println("\n----------------------------");
-            System.out.println("Word placed: " + word);
+            System.out.println("Word placed: " + word.getLetters());
             System.out.println("----------------------------\n");
             try {
                 System.out.print("Frame: ");
@@ -79,7 +80,7 @@ public class Main {
      * @param frame the player's frame
      * @return {@code true} if player's move is valid
      */
-    private static boolean isMoveValid(String move, Board board, Frame frame) {
+    private static boolean isMoveLegal(String move, Board board, Frame frame) {
         // Simple regex check that ensures input parsing won't fail
         if (move == null || !move.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
             return false;
@@ -89,7 +90,8 @@ public class Main {
         char column = inputArguments[0].charAt(0);
         int row = Integer.parseInt(inputArguments[0].substring(1));
         char orientation = inputArguments[1].charAt(0);
-        String word = inputArguments[2];
-        return board.isWordPlacementValid(column, row, orientation, word, frame);
+        String letters = inputArguments[2];
+        Word word = new Word(letters, column, row, orientation);
+        return board.isWordLegal(word, frame);
     }
 }
