@@ -210,7 +210,11 @@ public class Board {
         }
         // If first move, checks if it covers the centre square
         if (isFirstMove) {
-            return doesWordCoverCentre(column, row, orientation, word.length());
+            boolean isCentreCovered = doesWordCoverCentre(column, row, orientation, word.length());
+            if (!isCentreCovered) {
+                System.out.println("\nFirst move must cover centre square!");
+            }
+            return isCentreCovered;
         } else {
             // If not first move, checks if word connects with an existing word on board
             return isWordJoined(column, row, orientation, word.length());
