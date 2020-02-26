@@ -37,7 +37,7 @@ public class Scrabble {
         do {
             move(player1, frame1);
             move(player2, frame2);
-        } while (true);
+        } while (!pool.isEmpty());
     }
 
     private static void move(Player player, Frame frame) {

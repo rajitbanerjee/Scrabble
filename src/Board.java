@@ -157,7 +157,8 @@ public class Board {
             if (board[row][column].isEmpty()) {
                 // Convert blank tile to a given letter if letter is not in the frame
                 if (!frame.contains(ch)) {
-                    placeTile((char) (column + 'A'), row + 1, Tile.makeTile(ch));
+                    Tile blankTile = new Tile(ch, 0);
+                    placeTile((char) (column + 'A'), row + 1, blankTile);
                     frame.remove('-');
                 } else {
                     // Place tile on the board and remove it from the frame
