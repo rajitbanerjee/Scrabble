@@ -39,11 +39,11 @@ public class Frame {
     /**
      * Method to fill/refill the frame if it has less than 7 tiles.
      *
-     * @throws RuntimeException if pool is empty, frame cannot be filled
+     * @throws IllegalStateException if pool is empty, frame cannot be filled
      */
-    public void fillFrame() throws RuntimeException {
+    public void fillFrame() throws IllegalStateException {
         if (pool.isEmpty()) {
-            throw new RuntimeException("Cannot fill frame, no tiles left in pool.");
+            throw new IllegalStateException("Cannot fill frame, no tiles left in pool.");
         }
         int numTilesToDraw = Math.min(pool.size(), Constants.FRAME_LIMIT - frame.size());
         for (int i = 0; i < numTilesToDraw; i++) {
@@ -97,7 +97,7 @@ public class Frame {
         if (contains(letter)) {
             frame.remove(getLetterIndex(letter));
         } else {
-            throw new NoSuchElementException("Letter can't be removed. Not in frame");
+            throw new NoSuchElementException("Letter can't be removed. Not in frame!");
         }
     }
 
@@ -112,7 +112,7 @@ public class Frame {
         if (contains(letter)) {
             return frame.get(getLetterIndex(letter));
         } else {
-            throw new NoSuchElementException("Letter can't be accessed. Not in frame");
+            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
         }
     }
 
@@ -151,4 +151,22 @@ public class Frame {
         this.frame = frame;
     }
 
+    /**
+     * Exchanges the given letters in the frame from the pool.
+     *
+     * @param letters to be exchanged e.g. "BCDE", "PA-T"
+     * @throws IllegalStateException if there are insufficient tiles in the pool
+     */
+    public void exchange(String letters) throws IllegalStateException {
+        if (letters.length() > pool.size()) {
+            throw new IllegalStateException("Pool doesn't contain sufficient tiles!");
+        }
+        for (char letter : letters.toCharArray()) {
+            remove(letter);
+        }
+        // Refill frame
+        fillFrame();
+        // Add removed letters back to the pool
+        pool.addTiles(letters);
+    }
 }

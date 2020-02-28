@@ -95,10 +95,19 @@ public class Pool {
      *
      * @param tiles group of tiles to be added
      */
-    private void addTiles(String tiles) {
+    public void addTiles(String tiles) {
         for (char ch : tiles.toCharArray()) {
             pool.add(Tile.makeTile(ch));
         }
+    }
+
+    /**
+     * Pool accessor required for testing.
+     *
+     * @return the ArrayList of Tile objects in the pool
+     */
+    public ArrayList<Tile> getPool() {
+        return pool;
     }
 
 }

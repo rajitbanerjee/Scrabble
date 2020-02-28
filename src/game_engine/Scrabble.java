@@ -54,50 +54,56 @@ public class Scrabble {
         promptUser();
         // Strip white space at both sides, convert argument String to uppercase
         String move = sc.nextLine().toUpperCase().trim();
-        while (!(move.equalsIgnoreCase("quit") || move.equalsIgnoreCase("pass")
-                || isMoveLegal(move, board, frame))) {
-            System.out.println("Invalid word placement! Try again.");
+        while (!(move.equalsIgnoreCase("quit") || move.equalsIgnoreCase("pass") ||
+                move.startsWith("EXCHANGE") || isMoveLegal(move, board, frame))) {
+            System.out.println("Invalid move placement! Try again.");
             promptUser();
             move = sc.nextLine().trim().toUpperCase();
         }
-        // Input quit to quit
+
         if (move.equalsIgnoreCase("quit")) {
+            // Quit game
             System.out.println("\nThanks for playing!");
             System.exit(0);
-        }
-        // Pass
-        if (move.equalsIgnoreCase("pass")) {
-            System.out.println(String.format("Turn passed for player %s", player.getName()));
-            return;
-        }
-
-        // If valid, parse inputs
-        String[] inputArguments = move.split("\\s+");
-        char column = inputArguments[0].charAt(0);
-        int row = Integer.parseInt(inputArguments[0].substring(1));
-        char orientation = inputArguments[1].charAt(0);
-        String letters = inputArguments[2];
-        Word word = new Word(letters, column, row, orientation);
-        // Place word
-        board.placeWord(word, frame);
-        System.out.println("\n----------------------------");
-        System.out.println("Word placed: " + word.getLetters());
-        System.out.println("----------------------------\n");
-        try {
-            System.out.printf("%s's frame: ", player.getName());
-            frame.printFrame();
-            System.out.print("Refilled frame: ");
-            frame.fillFrame();
-            frame.printFrame();
+        } else if (move.equalsIgnoreCase("pass")) {
+            // Pass turn
+            System.out.printf("\n\nTurn passed for %s!\n", player.getName());
+        } else if (move.startsWith("EXCHANGE")) {
+            // Exchange tiles
+            String to_exchange = move.substring(move.indexOf(' ')).trim();
+            System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
+            frame.exchange(to_exchange);
             pool.printSize();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            // If valid, parse inputs
+            String[] inputArguments = move.split("\\s+");
+            char column = inputArguments[0].charAt(0);
+            int row = Integer.parseInt(inputArguments[0].substring(1));
+            char orientation = inputArguments[1].charAt(0);
+            String letters = inputArguments[2];
+            Word word = new Word(letters, column, row, orientation);
+            // Place word
+            board.placeWord(word, frame);
+            System.out.println("\n----------------------------");
+            System.out.println("Word placed: " + word.getLetters());
+            System.out.println("----------------------------\n");
+            try {
+                System.out.printf("%s's frame: ", player.getName());
+                frame.printFrame();
+                System.out.print("Refilled frame: ");
+                frame.fillFrame();
+                frame.printFrame();
+                pool.printSize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     // Helper message
     private static void promptUser() {
-        System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\"), (q/Q to exit): ");
+        System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
+        System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>: ");
     }
 
     /**

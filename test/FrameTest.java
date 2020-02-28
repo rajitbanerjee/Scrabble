@@ -10,8 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Frame class tests.
@@ -149,6 +148,32 @@ class FrameTest {
         outContent.reset();
         frame.printFrame();
         assertEquals("[ Q ,  Z ]", outContent.toString().trim());
+    }
+
+    @Test
+    void testExchange() {
+        Pool pool = new Pool();
+        Frame frame = new Frame(pool);
+        frame.getFrame().clear();
+        for (char ch : "HELLOZQ".toCharArray()) {
+            frame.getFrame().add(Tile.makeTile(ch));
+        }
+        assertEquals(7, frame.getFrame().size());
+        assertEquals(93, pool.size());
+        frame.exchange("ZQ");
+        assertEquals(93, pool.size());
+        assertEquals(7, frame.getFrame().size());
+        assertFalse(frame.contains('Z'));
+        assertFalse(frame.contains('Q'));
+
+        // Try to exchange tiles from pool when it's insufficient
+        pool.getPool().clear();
+        pool.addTiles("A");
+        try {
+            frame.exchange("ABC");
+        } catch (Exception ignored) {
+            // test passed
+        }
     }
 
 }
