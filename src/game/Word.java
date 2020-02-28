@@ -25,7 +25,7 @@ public class Word {
      * @param orientation character 'A' - word going across / 'D' - down
      */
     public Word(String letters, char column, int row, char orientation) {
-        this.letters = letters.toUpperCase().strip();
+        this.letters = letters.toUpperCase().trim();
         // Convert column and row to real board indices (0 - 14)
         this.row = row - 1;
         this.column = column - 'A';

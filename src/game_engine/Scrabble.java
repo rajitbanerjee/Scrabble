@@ -52,11 +52,11 @@ public class Scrabble {
         frame.printFrame();
         promptUser();
         // Strip white space at both sides, convert argument String to uppercase
-        String move = sc.nextLine().toUpperCase().strip();
+        String move = sc.nextLine().toUpperCase().trim();
         while (!(move.equalsIgnoreCase("q") || isMoveLegal(move, board, frame))) {
             System.out.println("Invalid word placement! Try again.");
             promptUser();
-            move = sc.nextLine().strip().toUpperCase();
+            move = sc.nextLine().trim().toUpperCase();
         }
         // Press q/Q to quit
         if (move.equalsIgnoreCase("q")) {

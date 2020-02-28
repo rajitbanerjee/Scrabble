@@ -421,7 +421,7 @@ class BoardTest {
         board.reset();
         board.display();
         // Change expected line endings from LF to CRLF before assertion
-        assertEquals(expected.replaceAll("\n", "\r\n"), outContent.toString().strip());
+        assertEquals(expected.replaceAll("\n", "\r\n"), outContent.toString().trim());
         System.setOut(originalOut);
     }
 

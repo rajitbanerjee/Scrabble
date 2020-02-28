@@ -47,7 +47,7 @@ class PlayerTest {
         Player playerA = new Player("A", new Frame(new Pool()));
         // Test player name printing
         playerA.printName();
-        assertEquals("A", outContent.toString().strip());
+        assertEquals("A", outContent.toString().trim());
 
         // Name empty setter tests
         try {
