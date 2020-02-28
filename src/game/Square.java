@@ -1,3 +1,7 @@
+package game;
+
+import constants.Constants;
+
 /**
  * Each Square has an assigned multiplier and can have
  * a Tile placed on it.

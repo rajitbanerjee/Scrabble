@@ -1,3 +1,5 @@
+package game;
+
 /**
  * The Player class stores information about the player.
  *

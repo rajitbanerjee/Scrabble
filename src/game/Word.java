@@ -1,3 +1,5 @@
+package game;
+
 /**
  * A word represents a String, placed on the board at a starting
  * row and column, and with an orientation (across/down).

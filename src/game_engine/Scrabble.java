@@ -1,3 +1,7 @@
+package game_engine;
+
+import game.*;
+
 import java.util.Scanner;
 
 /**

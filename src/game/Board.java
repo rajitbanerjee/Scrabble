@@ -1,3 +1,7 @@
+package game;
+
+import constants.Constants;
+
 /**
  * The Board is a 15x15 matrix of Squares.
  *

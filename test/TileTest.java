@@ -1,3 +1,6 @@
+import constants.Constants;
+import game.Square;
+import game.Tile;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

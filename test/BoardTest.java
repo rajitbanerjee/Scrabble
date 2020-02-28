@@ -1,3 +1,5 @@
+import constants.Constants;
+import game.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -346,13 +348,13 @@ class BoardTest {
         // Use blank tiles for word going down
         board.placeWord(new Word(word, 'H', 8, 'D'), frame);
         for (int i = 0; i < 5; i++) {
-            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7 + i]['H' - 'A'].getTile());
+            assertEquals(word.charAt(i), board.getBoard()[7 + i]['H' - 'A'].getTile().getType());
         }
         resetFrame("H-LL-", true);
         // Use blank tiles for words going across
         board.placeWord(new Word(word, 'H', 8, 'A'), frame);
         for (int i = 0; i < 5; i++) {
-            assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
+            assertEquals(word.charAt(i), board.getBoard()[7]['H' - 'A' + i].getTile().getType());
         }
     }
 

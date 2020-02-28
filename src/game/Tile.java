@@ -1,3 +1,7 @@
+package game;
+
+import constants.Constants;
+
 import java.util.Objects;
 
 /**
