@@ -1,4 +1,6 @@
-package game;
+package game_engine;
+
+import game.Frame;
 
 /**
  * The Player class stores information about the player.
