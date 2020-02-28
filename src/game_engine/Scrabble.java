@@ -54,16 +54,23 @@ public class Scrabble {
         promptUser();
         // Strip white space at both sides, convert argument String to uppercase
         String move = sc.nextLine().toUpperCase().trim();
-        while (!(move.equalsIgnoreCase("q") || isMoveLegal(move, board, frame))) {
+        while (!(move.equalsIgnoreCase("quit") || move.equalsIgnoreCase("pass")
+                || isMoveLegal(move, board, frame))) {
             System.out.println("Invalid word placement! Try again.");
             promptUser();
             move = sc.nextLine().trim().toUpperCase();
         }
-        // Press q/Q to quit
-        if (move.equalsIgnoreCase("q")) {
+        // Input quit to quit
+        if (move.equalsIgnoreCase("quit")) {
             System.out.println("\nThanks for playing!");
             System.exit(0);
         }
+        // Pass
+        if (move.equalsIgnoreCase("pass")) {
+            System.out.println(String.format("Turn passed for player %s", player.getName()));
+            return;
+        }
+
         // If valid, parse inputs
         String[] inputArguments = move.split("\\s+");
         char column = inputArguments[0].charAt(0);
