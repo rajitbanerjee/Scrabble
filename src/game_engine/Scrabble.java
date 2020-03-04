@@ -1,5 +1,6 @@
 package game_engine;
 
+import constants.Constants;
 import game.*;
 
 import java.util.ArrayList;
@@ -83,17 +84,16 @@ public class Scrabble {
             frame.exchange(to_exchange);
             pool.printSize();
         } else {
-            // If valid, parse move
             Word word = parseMove(move);
-            // Place word
             board.placeWord(word, frame);
-            // Add word score
             int score = calculateScore(word);
             player.increaseScore(score);
+
             System.out.println("\n----------------------------");
             System.out.println("Word placed: " + word.getLetters());
             System.out.println("Points awarded: " + score);
             System.out.println("----------------------------\n");
+
             try {
                 System.out.printf("%s's frame: ", player.getName());
                 frame.printFrame();
@@ -128,7 +128,6 @@ public class Scrabble {
         if (move == null || !move.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
             return false;
         }
-        // Parse move, and check validity
         Word word = parseMove(move);
         return board.isWordLegal(word, frame);
     }
@@ -156,9 +155,8 @@ public class Scrabble {
      */
     private static int calculateScore(Word word) {
         ArrayList<Index> lastCoveredIndices = board.getLastCoveredIndices();
-        int bonus = (lastCoveredIndices.size() == 7) ? 50 : 0;
+        int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         int score = extensionScore(word, lastCoveredIndices) +
-                hookScore(word, lastCoveredIndices) +
                 parallelScore(word, lastCoveredIndices) + bonus;
         // reset recently covered indices after current score calculation
         lastCoveredIndices.clear();
@@ -168,6 +166,8 @@ public class Scrabble {
     /**
      * Partial score awarded due to simple extension of existing words
      * on the board.
+     * This type of play only scores the trivial (single)
+     * word placement on the board.
      *
      * @param word               being placed on the board
      * @param lastCoveredIndices list of recently covered board indices
@@ -203,23 +203,87 @@ public class Scrabble {
         return score * wordMultiplier;
     }
 
-    // TODO
-    private static int hookScore(Word word, ArrayList<Index> lastCoveredIndices) {
-        return 0;
-
-    }
-
-    // TODO
+    /**
+     * Partial score awarded due to extra words formed by a word placement,
+     * apart from the trivial (single) word itself.
+     *
+     * @param word               being placed on the board
+     * @param lastCoveredIndices list of recently covered board indices
+     * @return the score of parallel/hook words formed
+     */
     private static int parallelScore(Word word, ArrayList<Index> lastCoveredIndices) {
-        return 0;
-    }
+        int score = 0;
+        Square[][] b = board.getBoard();
 
+        if (word.isHorizontal()) {
+            for (Index index : lastCoveredIndices) {
+                int wordScore = 0;
+                int wordMultiplier = 1;
+                int startRow = index.getRow();
+                int endRow = index.getRow();
+                int column = index.getColumn();
+
+                // find the starting row index of the word
+                while (Square.isValid(startRow, column) && !b[startRow - 1][column].isEmpty()) {
+                    startRow--;
+                }
+                // find the tail row index of the word
+                while (Square.isValid(endRow, column) && !b[endRow + 1][column].isEmpty()) {
+                    endRow++;
+                }
+                // add word score for any extra words formed
+                if (startRow != endRow) {
+                    for (int i = startRow; i <= endRow; i++) {
+                        Square square = b[i][column];
+                        if (i == index.getRow()) {
+                            wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
+                            wordMultiplier *= square.getWordMultiplier();
+                        } else {
+                            wordScore += square.getTile().getPoints();
+                        }
+                    }
+                    score += wordScore * wordMultiplier;
+                }
+            }
+        } else {
+            for (Index index : lastCoveredIndices) {
+                int wordScore = 0;
+                int wordMultiplier = 1;
+                int startColumn = index.getColumn();
+                int endColumn = index.getColumn();
+                int row = index.getRow();
+
+                // find the starting column index of the word
+                while (Square.isValid(row, startColumn) && !b[row][startColumn - 1].isEmpty()) {
+                    startColumn--;
+                }
+                // find the tail column index of the word
+                while (Square.isValid(row, endColumn) && !b[row][endColumn + 1].isEmpty()) {
+                    endColumn++;
+                }
+                // add word score for any extra words formed
+                if (startColumn != endColumn) {
+                    for (int i = startColumn; i <= endColumn; i++) {
+                        Square square = b[row][i];
+                        if (i == index.getColumn()) {
+                            wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
+                            wordMultiplier *= square.getWordMultiplier();
+                        } else {
+                            wordScore += square.getTile().getPoints();
+                        }
+                    }
+                    score += wordScore * wordMultiplier;
+                }
+            }
+        }
+        return score;
+    }
 
     /**
      * Checks if a given board index (row, column) has been recently covered.
      *
-     * @param row integer between 0 - 14 specifying the board row
-     * @param column integer between 0 - 14 specifying the board column
+     * @param row                integer between 0 - 14 specifying the board row
+     * @param column             integer between 0 - 14 specifying the board column
      * @param lastCoveredIndices list of recently covered board indices
      * @return {@code true} if a provided index has indeed been recently covered
      */

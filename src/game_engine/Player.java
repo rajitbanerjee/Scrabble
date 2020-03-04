@@ -131,13 +131,6 @@ public class Player {
     }
 
     /**
-     * Prints the player name to the command line.
-     */
-    public void printName() {
-        System.out.println(name);
-    }
-
-    /**
      * Get the String representation of a player.
      *
      * @return the player name (can be changed to include player score)

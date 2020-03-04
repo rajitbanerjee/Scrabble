@@ -46,6 +46,7 @@ public class Board {
         setAllSquareIndices();
     }
 
+    // Sets the index object (pair of row, column) for every Square object
     private void setAllSquareIndices() {
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
@@ -135,6 +136,7 @@ public class Board {
 
     /**
      * Place a given Tile at a specified row and column on the Board.
+     * Add the index of the Tile to the list of last placed indices.
      *
      * @param column character between 'A' - 'O' to specify the board column
      * @param row    integer between 1 - 15 to specify the board row

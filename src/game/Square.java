@@ -62,6 +62,7 @@ public class Square {
         this.tile = tile;
     }
 
+    // Returns the integer value of a letter multiplier
     public int getLetterMultiplier() {
         switch (multiplier) {
             case DOUBLE_LS:
@@ -73,6 +74,7 @@ public class Square {
         }
     }
 
+    // Returns the integer value of a word multiplier
     public int getWordMultiplier() {
         switch (multiplier) {
             case CENTRE:

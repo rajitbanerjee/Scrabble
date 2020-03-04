@@ -20,19 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class PlayerTest {
-    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final PrintStream originalOut = System.out;
-
-    @BeforeAll
-    static void setUpStream() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @AfterAll
-    static void restoreStreams() {
-        System.setOut(originalOut);
-    }
-
     @Test
     void testPlayer() {
         // Empty name tests
@@ -45,9 +32,6 @@ class PlayerTest {
         }
 
         Player playerA = new Player("A", new Frame(new Pool()));
-        // Test player name printing
-        playerA.printName();
-        assertEquals("A", outContent.toString().trim());
 
         // Name empty setter tests
         try {
