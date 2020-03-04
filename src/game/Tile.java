@@ -96,9 +96,9 @@ public class Tile {
      * @return {@code true} if Tiles are equal, {@code false} otherwise
      */
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof Tile) {
-            Tile tile = (Tile) o;
+    public boolean equals(Object obj) {
+        if (obj instanceof Tile) {
+            Tile tile = (Tile) obj;
             return tile.getType() == getType() && tile.getPoints() == getPoints();
         } else {
             return false;

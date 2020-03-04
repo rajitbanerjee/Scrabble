@@ -2,6 +2,7 @@ package game_engine;
 
 import game.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -51,8 +52,9 @@ public class Scrabble {
         System.out.printf("\n%s, it's your turn!", player.getName());
         System.out.printf("\n%s's frame: ", player.getName());
         frame.printFrame();
+        System.out.printf("%s's score: %d\n", player.getName(), player.getScore());
         promptUser();
-        // Strip white space at both sides, convert argument String to uppercase
+
         String move = sc.nextLine().toUpperCase().trim();
         while (!(move.equalsIgnoreCase("quit") || move.equalsIgnoreCase("pass") ||
                 move.startsWith("EXCHANGE") || isMoveLegal(move, board, frame))) {
@@ -84,8 +86,12 @@ public class Scrabble {
             Word word = new Word(letters, column, row, orientation);
             // Place word
             board.placeWord(word, frame);
+            // Add word score
+            int score = calculateScore(word);
+            player.increaseScore(score);
             System.out.println("\n----------------------------");
             System.out.println("Word placed: " + word.getLetters());
+            System.out.println("Points awarded: " + score);
             System.out.println("----------------------------\n");
             try {
                 System.out.printf("%s's frame: ", player.getName());
@@ -93,6 +99,7 @@ public class Scrabble {
                 System.out.print("Refilled frame: ");
                 frame.fillFrame();
                 frame.printFrame();
+                System.out.printf("%s's score: %d\n", player.getName(), player.getScore());
                 pool.printSize();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,4 +136,61 @@ public class Scrabble {
         Word word = new Word(letters, column, row, orientation);
         return board.isWordLegal(word, frame);
     }
+
+    private static int calculateScore(Word word) {
+        ArrayList<Index> lastCoveredIndices = board.getLastCoveredIndices();
+        int bonus = (lastCoveredIndices.size() == 7) ? 50 : 0;
+        int score = extensionScore(word, lastCoveredIndices) +
+                hookScore(word, lastCoveredIndices) +
+                parallelScore(word, lastCoveredIndices) + bonus;
+        lastCoveredIndices.clear();
+        return score;
+    }
+
+    // WORKS!!
+    private static int extensionScore(Word word, ArrayList<Index> lastCoveredIndices) {
+        int score = 0;
+        int wordMultiplier = 1;
+        int row = word.getRow();
+        int column = word.getColumn();
+        if (word.isHorizontal()) {
+            for (int i = column; i < column + word.length(); i++) {
+                Square square = board.getBoard()[row][i];
+                if (isRecentlyCovered(row, i, lastCoveredIndices)) {
+                    score += square.getTile().getPoints() * square.getLetterMultiplier();
+                    wordMultiplier *= square.getWordMultiplier();
+                } else {
+                    score += square.getTile().getPoints();
+                }
+            }
+        } else {
+            for (int i = row; i < row + word.length(); i++) {
+                Square square = board.getBoard()[i][column];
+                if (isRecentlyCovered(i, column, lastCoveredIndices)) {
+                    score += square.getTile().getPoints() * square.getLetterMultiplier();
+                    wordMultiplier *= square.getWordMultiplier();
+                } else {
+                    score += square.getTile().getPoints();
+                }
+            }
+
+        }
+        return score * wordMultiplier;
+    }
+
+
+    private static boolean isRecentlyCovered(int row, int column, ArrayList<Index> lastCoveredIndices) {
+        return lastCoveredIndices.contains(new Index(row, column));
+    }
+
+    private static int hookScore(Word word, ArrayList<Index> lastCoveredIndices) {
+        return 0;
+
+    }
+
+    private static int parallelScore(Word word, ArrayList<Index> lastCoveredIndices) {
+        return 0;
+    }
+
+
 }

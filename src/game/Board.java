@@ -2,6 +2,8 @@ package game;
 
 import constants.Constants;
 
+import java.util.ArrayList;
+
 /**
  * The Board is a 15x15 matrix of Squares.
  *
@@ -13,6 +15,7 @@ import constants.Constants;
 public class Board {
     private Square[][] board;
     private boolean isFirstMove;
+    private ArrayList<Index> lastCoveredIndices = new ArrayList<>();
 
     /**
      * The constructor loops through every Square in the Board
@@ -40,11 +43,19 @@ public class Board {
         for (int[] index : Constants.TRIPLE_WS_ARRAY) {
             board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_WS);
         }
+        setAllSquareIndices();
+    }
+
+    private void setAllSquareIndices() {
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+                board[i][j].setIndex(i, j);
+            }
+        }
     }
 
     /**
      * Accessor for the board.
-     * Required for testing purposes.
      *
      * @return the 15x15 matrix of Squares representing the board
      */
@@ -60,6 +71,10 @@ public class Board {
      */
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
+    }
+
+    public ArrayList<Index> getLastCoveredIndices() {
+        return lastCoveredIndices;
     }
 
     /**
@@ -127,6 +142,7 @@ public class Board {
      */
     public void placeTile(char column, int row, Tile tile) {
         board[row - 1][column - 'A'].setTile(tile);
+        lastCoveredIndices.add(new Index(row - 1, column - 'A'));
     }
 
     /**

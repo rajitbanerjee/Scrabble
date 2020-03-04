@@ -15,9 +15,18 @@ import constants.Constants;
 public class Square {
     private Constants.MULTIPLIER multiplier;
     private Tile tile = null;
+    private Index index;
 
     public Square(Constants.MULTIPLIER multiplier) {
         this.multiplier = multiplier;
+    }
+
+    public void setIndex(int row, int column) {
+        index = new Index(row, column);
+    }
+
+    public Index getIndex() {
+        return index;
     }
 
     /**
@@ -51,6 +60,29 @@ public class Square {
 
     public void setTile(Tile tile) {
         this.tile = tile;
+    }
+
+    public int getLetterMultiplier() {
+        switch (multiplier) {
+            case DOUBLE_LS:
+                return 2;
+            case TRIPLE_LS:
+                return 3;
+            default:
+                return 1;
+        }
+    }
+
+    public int getWordMultiplier() {
+        switch (multiplier) {
+            case CENTRE:
+            case DOUBLE_WS:
+                return 2;
+            case TRIPLE_WS:
+                return 3;
+            default:
+                return 1;
+        }
     }
 
     /**
