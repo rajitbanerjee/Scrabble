@@ -46,6 +46,12 @@ public class Scrabble {
         sc.close();
     }
 
+    /**
+     * The given player makes a move.
+     *
+     * @param player the player making the move
+     * @param frame  the player's frame
+     */
     private static void move(Player player, Frame frame) {
         // Display board, print frame content and helper message
         board.display();
@@ -77,13 +83,8 @@ public class Scrabble {
             frame.exchange(to_exchange);
             pool.printSize();
         } else {
-            // If valid, parse inputs
-            String[] inputArguments = move.split("\\s+");
-            char column = inputArguments[0].charAt(0);
-            int row = Integer.parseInt(inputArguments[0].substring(1));
-            char orientation = inputArguments[1].charAt(0);
-            String letters = inputArguments[2];
-            Word word = new Word(letters, column, row, orientation);
+            // If valid, parse move
+            Word word = parseMove(move);
             // Place word
             board.placeWord(word, frame);
             // Add word score
@@ -128,26 +129,50 @@ public class Scrabble {
             return false;
         }
         // Parse move, and check validity
+        Word word = parseMove(move);
+        return board.isWordLegal(word, frame);
+    }
+
+    /**
+     * Parses the move from the expected String format to a word object.
+     *
+     * @param move the move to be parsed
+     * @return word placement object
+     */
+    private static Word parseMove(String move) {
         String[] inputArguments = move.split("\\s+");
         char column = inputArguments[0].charAt(0);
         int row = Integer.parseInt(inputArguments[0].substring(1));
         char orientation = inputArguments[1].charAt(0);
         String letters = inputArguments[2];
-        Word word = new Word(letters, column, row, orientation);
-        return board.isWordLegal(word, frame);
+        return new Word(letters, column, row, orientation);
     }
 
+    /**
+     * Finds the total score for move involving given word placement.
+     *
+     * @param word being placed on the board
+     * @return score that the word placement is awarded
+     */
     private static int calculateScore(Word word) {
         ArrayList<Index> lastCoveredIndices = board.getLastCoveredIndices();
         int bonus = (lastCoveredIndices.size() == 7) ? 50 : 0;
         int score = extensionScore(word, lastCoveredIndices) +
                 hookScore(word, lastCoveredIndices) +
                 parallelScore(word, lastCoveredIndices) + bonus;
+        // reset recently covered indices after current score calculation
         lastCoveredIndices.clear();
         return score;
     }
 
-    // WORKS!!
+    /**
+     * Partial score awarded due to simple extension of existing words
+     * on the board.
+     *
+     * @param word               being placed on the board
+     * @param lastCoveredIndices list of recently covered board indices
+     * @return the extension score
+     */
     private static int extensionScore(Word word, ArrayList<Index> lastCoveredIndices) {
         int score = 0;
         int wordMultiplier = 1;
@@ -178,19 +203,28 @@ public class Scrabble {
         return score * wordMultiplier;
     }
 
-
-    private static boolean isRecentlyCovered(int row, int column, ArrayList<Index> lastCoveredIndices) {
-        return lastCoveredIndices.contains(new Index(row, column));
-    }
-
+    // TODO
     private static int hookScore(Word word, ArrayList<Index> lastCoveredIndices) {
         return 0;
 
     }
 
+    // TODO
     private static int parallelScore(Word word, ArrayList<Index> lastCoveredIndices) {
         return 0;
     }
 
+
+    /**
+     * Checks if a given board index (row, column) has been recently covered.
+     *
+     * @param row integer between 0 - 14 specifying the board row
+     * @param column integer between 0 - 14 specifying the board column
+     * @param lastCoveredIndices list of recently covered board indices
+     * @return {@code true} if a provided index has indeed been recently covered
+     */
+    private static boolean isRecentlyCovered(int row, int column, ArrayList<Index> lastCoveredIndices) {
+        return lastCoveredIndices.contains(new Index(row, column));
+    }
 
 }
