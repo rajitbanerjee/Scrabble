@@ -20,6 +20,7 @@ public class Scrabble {
     private static Board board;
     private static Pool pool;
     private static Frame frame1, frame2;
+    private static ArrayList<String> wordsFormed = new ArrayList<>();
 
     public Scrabble() {
         board = new Board();
@@ -86,11 +87,12 @@ public class Scrabble {
         } else {
             Word word = parseMove(move);
             board.placeWord(word, frame);
+            wordsFormed.clear();
             int score = calculateScore(word);
             player.increaseScore(score);
 
             System.out.println("\n----------------------------");
-            System.out.println("Word placed: " + word.getLetters());
+            System.out.println("Word(s) placed: " + wordsFormed.toString());
             System.out.println("Points awarded: " + score);
             System.out.println("----------------------------\n");
 
@@ -155,6 +157,7 @@ public class Scrabble {
      */
     private static int calculateScore(Word word) {
         ArrayList<Index> lastCoveredIndices = board.getLastCoveredIndices();
+        wordsFormed.add(word.getLetters());
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         int score = extensionScore(word, lastCoveredIndices) +
                 parallelScore(word, lastCoveredIndices) + bonus;
@@ -243,6 +246,7 @@ public class Scrabble {
                         }
                     }
                     score += wordScore * wordMultiplier;
+                    wordsFormed.add(board.getVerticalWord(column, startRow, endRow));
                 }
             }
         } else {
@@ -273,6 +277,7 @@ public class Scrabble {
                         }
                     }
                     score += wordScore * wordMultiplier;
+                    wordsFormed.add(board.getHorizontalWord(row, startColumn, endColumn));
                 }
             }
         }

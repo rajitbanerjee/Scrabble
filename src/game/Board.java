@@ -74,8 +74,29 @@ public class Board {
         isFirstMove = firstMove;
     }
 
+    /**
+     * Accessor for the last covered indices list.
+     *
+     * @return the list of indices covered in the last move
+     */
     public ArrayList<Index> getLastCoveredIndices() {
         return lastCoveredIndices;
+    }
+
+    public String getHorizontalWord(int row, int startColumn, int endColumn) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = startColumn; i <= endColumn; i++) {
+            sb.append(board[row][i].getTile().getType());
+        }
+        return sb.toString();
+    }
+
+    public String getVerticalWord(int column, int startRow, int endRow) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = startRow; i <= endRow; i++) {
+            sb.append(board[i][column].getTile().getType());
+        }
+        return sb.toString();
     }
 
     /**
