@@ -3,8 +3,7 @@ package game_engine;
 import constants.Constants;
 import game.*;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Two-player Scrabble implementation
@@ -23,7 +22,9 @@ public class Scrabble {
     private static ArrayList<String> wordsFormed;
     private static ArrayList<Index> lastCoveredIndices;
     private static ArrayList<Index> challengeIndices;
+    private static ArrayDeque<Integer> lastSixScores;
     private static int opponentScore;
+    private static int numberOfTurns;
 
     public Scrabble() {
         board = new Board();
@@ -31,8 +32,10 @@ public class Scrabble {
         frame1 = new Frame(pool);
         frame2 = new Frame(pool);
         wordsFormed = new ArrayList<>();
-        opponentScore = 0;
         challengeIndices = new ArrayList<>();
+        lastSixScores = new ArrayDeque<>();
+        opponentScore = 0;
+        numberOfTurns = 0;
     }
 
     public static void main(String[] args) {
@@ -67,14 +70,13 @@ public class Scrabble {
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
-            pass(player);
+            pass(player, false);
         } else if (move.startsWith("EXCHANGE")) {
             exchangeTiles(move, frame);
         } else if (move.equalsIgnoreCase("CHALLENGE")) {
             boolean isChallengeSuccessful = challenge(opponent);
-            challengeIndices.clear();
             if (isChallengeSuccessful) {
-                pass(opponent);
+                pass(opponent, true);
                 displayFrameScore(opponent, opponent.getFrame());
 
                 move = askForMove(player, frame);
@@ -86,18 +88,37 @@ public class Scrabble {
                 if (move.equalsIgnoreCase("QUIT")) {
                     quit();
                 } else if (move.equalsIgnoreCase("PASS")) {
-                    pass(player);
+                    pass(player, false);
                 } else if (move.startsWith("EXCHANGE")) {
                     exchangeTiles(move, frame);
                 } else {
                     scoreMove(move, player, frame);
                 }
             } else {
-                pass(player);
+                pass(player, false);
             }
         } else {
             scoreMove(move, player, frame);
         }
+        numberOfTurns++;
+        if (lastSixScores.size() > 6) {
+            lastSixScores.removeFirst();
+        }
+        // TODO remove printing scores later, added only for testing
+        System.out.println("\nLast six scores: " + lastSixScores.toString());
+        if (numberOfTurns >= 6 && sumLastSixScores() == 0) {
+            System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
+            quit();
+        }
+    }
+
+    // add up the scores for the last six moves
+    private static int sumLastSixScores() {
+        int total = 0;
+        for (Integer score : lastSixScores) {
+            total += score;
+        }
+        return total;
     }
 
     /**
@@ -119,7 +140,7 @@ public class Scrabble {
                 move.startsWith("EXCHANGE") ||
                 move.equalsIgnoreCase("CHALLENGE") ||
                 isMoveLegal(move, board, frame))) {
-            System.out.println("Invalid move placement! Try again.");
+            System.out.println("\nInvalid move! Try again.");
             promptUser();
             move = sc.nextLine().trim().toUpperCase();
         }
@@ -178,8 +199,12 @@ public class Scrabble {
     }
 
     // Pass move
-    private static void pass(Player player) {
+    private static void pass(Player player, boolean removeLastScore) {
         System.out.printf("\n\nTurn passed for %s!\n", player.getName());
+        if (removeLastScore) {
+            lastSixScores.removeLast();
+        }
+        lastSixScores.addLast(0);
     }
 
     /**
@@ -193,6 +218,7 @@ public class Scrabble {
         System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
         frame.exchange(to_exchange);
         pool.printSize();
+        lastSixScores.addLast(0);
     }
 
     /**
@@ -221,6 +247,7 @@ public class Scrabble {
                 System.out.println("\nChallenge unsuccessful!");
             }
         }
+        challengeIndices.clear();
         return success;
     }
 
@@ -264,6 +291,7 @@ public class Scrabble {
         int score = calculateScore(word);
         player.increaseScore(score);
         opponentScore = score;
+        lastSixScores.addLast(score);
 
         System.out.println("\n----------------------------");
         System.out.println("Word(s) placed: " + wordsFormed.toString());
