@@ -23,7 +23,6 @@ public class Board {
      */
     public Board() {
         board = new Square[15][15];
-        // IsFirstMove is true when a Board is created; set to false after first word is placed
         setFirstMove(true);
         // initialise multiplier squares on board
         int centre = Constants.BOARD_SIZE / 2; // 15/2 = 7

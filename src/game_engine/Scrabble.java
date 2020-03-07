@@ -225,11 +225,11 @@ public class Scrabble {
                 int column = index.getColumn();
 
                 // find the starting row index of the word
-                while (Square.isValid(startRow, column) && !b[startRow - 1][column].isEmpty()) {
+                while (Square.isValid(startRow - 1, column) && !b[startRow - 1][column].isEmpty()) {
                     startRow--;
                 }
                 // find the tail row index of the word
-                while (Square.isValid(endRow, column) && !b[endRow + 1][column].isEmpty()) {
+                while (Square.isValid(endRow + 1, column) && !b[endRow + 1][column].isEmpty()) {
                     endRow++;
                 }
                 // add word score for any extra words formed
@@ -256,11 +256,11 @@ public class Scrabble {
                 int row = index.getRow();
 
                 // find the starting column index of the word
-                while (Square.isValid(row, startColumn) && !b[row][startColumn - 1].isEmpty()) {
+                while (Square.isValid(row, startColumn - 1) && !b[row][startColumn - 1].isEmpty()) {
                     startColumn--;
                 }
                 // find the tail column index of the word
-                while (Square.isValid(row, endColumn) && !b[row][endColumn + 1].isEmpty()) {
+                while (Square.isValid(row, endColumn + 1) && !b[row][endColumn + 1].isEmpty()) {
                     endColumn++;
                 }
                 // add word score for any extra words formed
