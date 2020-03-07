@@ -23,7 +23,7 @@ public class Scrabble {
     private static ArrayList<String> wordsFormed;
     private static ArrayList<Index> lastCoveredIndices;
     private static ArrayList<Index> challengeIndices;
-    private static int previousScore;
+    private static int opponentScore;
 
     public Scrabble() {
         board = new Board();
@@ -31,8 +31,7 @@ public class Scrabble {
         frame1 = new Frame(pool);
         frame2 = new Frame(pool);
         wordsFormed = new ArrayList<>();
-        previousScore = 0;
-        lastCoveredIndices = board.getLastCoveredIndices();
+        opponentScore = 0;
         challengeIndices = new ArrayList<>();
     }
 
@@ -65,7 +64,6 @@ public class Scrabble {
      */
     private static void makeMove(Player player, Frame frame, Player opponent) {
         String move = askForMove(player, frame);
-
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
@@ -94,7 +92,6 @@ public class Scrabble {
                 } else {
                     scoreMove(move, player, frame);
                 }
-
             } else {
                 pass(player);
             }
@@ -103,7 +100,13 @@ public class Scrabble {
         }
     }
 
-    // Ask player to enter move, and take and return valid input
+    /**
+     * Get the player's move via input.
+     *
+     * @param player the current player
+     * @param frame  player's frame
+     * @return the player's move (String)
+     */
     private static String askForMove(Player player, Frame frame) {
         board.display();
         System.out.printf("\n%s, it's your turn!", player.getName());
@@ -123,12 +126,6 @@ public class Scrabble {
         return move;
     }
 
-    // Helper message
-    private static void promptUser() {
-        System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
-        System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>: ");
-    }
-
     // Display frame and score
     private static void displayFrameScore(Player player, Frame frame) {
         System.out.printf("\n%s's frame: ", player.getName());
@@ -136,92 +133,10 @@ public class Scrabble {
         System.out.printf("%s's score: %d\n", player.getName(), player.getScore());
     }
 
-    // Quit game
-    private static void quit() {
-        System.out.println("\nThanks for playing!");
-        System.exit(0);
-    }
-
-    // Pass move
-    private static void pass(Player player) {
-        System.out.printf("\n\nTurn passed for %s!\n", player.getName());
-    }
-
-    // Exchange tiles
-    private static void exchangeTiles(String move, Frame frame) {
-        String to_exchange = move.substring(move.indexOf(' ')).trim();
-        System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
-        frame.exchange(to_exchange);
-        pool.printSize();
-    }
-
-    // Challenge previous move
-    private static boolean challenge(Player opponent) {
-        boolean success = false;
-        if (challengeIndices.isEmpty()) {
-            System.out.println("\nCannot challenge! No word placed by opponent.");
-        } else {
-            System.out.print("\n\nIs challenge successful? (y/n): ");
-            char op = sc.nextLine().toLowerCase().charAt(0);
-            if (op == 'y') {
-                // manually implement challenge for opponent's move
-                removeTiles(opponent.getFrame());
-                opponent.decreaseScore(previousScore);
-                System.out.println("\nOpponent's tiles removed!");
-                if (board.isEmpty()) {
-                    board.setFirstMove(true);
-                }
-                success = true;
-            } else {
-                System.out.println("\nChallenge unsuccessful!");
-            }
-        }
-        return success;
-    }
-
-    // Challenge successful - remove opponent's tiles
-    private static void removeTiles(Frame frame) {
-        StringBuilder addToPool = new StringBuilder();
-        int i = Constants.FRAME_LIMIT - challengeIndices.size();
-        for (Index index : challengeIndices) {
-            int row = index.getRow();
-            int column = index.getColumn();
-            Tile tile = board.getBoard()[row][column].getTile();
-            addToPool.append(tile.getType());
-            frame.getFrame().remove(i);
-            frame.getFrame().add(i, tile);
-            board.getBoard()[row][column].setTile(null);
-            i++;
-        }
-        pool.addTiles(addToPool.toString());
-    }
-
-    // Do the scoring for the player's move
-    private static void scoreMove(String move, Player player, Frame frame) {
-        Word word = parseMove(move);
-        board.placeWord(word, frame);
-        wordsFormed.clear();
-        previousScore = 0;
-        lastCoveredIndices = board.getLastCoveredIndices();
-        int score = calculateScore(word, lastCoveredIndices);
-        player.increaseScore(score);
-        previousScore = score;
-
-        System.out.println("\n----------------------------");
-        System.out.println("Word(s) placed: " + wordsFormed.toString());
-        System.out.println("Points awarded: " + score);
-        System.out.println("----------------------------\n");
-
-        try {
-            frame.fillFrame();
-            displayFrameScore(player, frame);
-            pool.printSize();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        challengeIndices.clear();
-        challengeIndices.addAll(lastCoveredIndices);
-        lastCoveredIndices.clear();
+    // Helper message
+    private static void promptUser() {
+        System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
+        System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>: ");
     }
 
     /**
@@ -256,36 +171,145 @@ public class Scrabble {
         return new Word(letters, column, row, orientation);
     }
 
+    // Quit game
+    private static void quit() {
+        System.out.println("\nThanks for playing!");
+        System.exit(0);
+    }
+
+    // Pass move
+    private static void pass(Player player) {
+        System.out.printf("\n\nTurn passed for %s!\n", player.getName());
+    }
+
+    /**
+     * Exchange tiles between frame and pool.
+     *
+     * @param move  the move to exchange tiles
+     * @param frame the player's frame
+     */
+    private static void exchangeTiles(String move, Frame frame) {
+        String to_exchange = move.substring(move.indexOf(' ')).trim();
+        System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
+        frame.exchange(to_exchange);
+        pool.printSize();
+    }
+
+    /**
+     * Challenge opponent's previous move and change scores accordingly.
+     *
+     * @param opponent being challenged
+     * @return {@code true} if challenge is successful
+     */
+    private static boolean challenge(Player opponent) {
+        boolean success = false;
+        if (challengeIndices.isEmpty()) {
+            System.out.println("\nCannot challenge! No word placed by opponent.");
+        } else {
+            System.out.print("\n\nIs challenge successful? (y/n): ");
+            char op = sc.nextLine().toLowerCase().charAt(0);
+            if (op == 'y') {
+                // manually implement challenge for opponent's move
+                removeTiles(opponent.getFrame());
+                opponent.decreaseScore(opponentScore);
+                System.out.println("\nOpponent's tiles removed!");
+                if (board.isEmpty()) {
+                    board.setFirstMove(true);
+                }
+                success = true;
+            } else {
+                System.out.println("\nChallenge unsuccessful!");
+            }
+        }
+        return success;
+    }
+
+    /**
+     * Remove tiles added to frame when it was refilled,
+     * since the successful challenge by opponent now
+     * means that tiles placed on the board now need
+     * to go back into the frame.
+     *
+     * @param frame challenger's opponent's frame
+     */
+    private static void removeTiles(Frame frame) {
+        StringBuilder addToPool = new StringBuilder();
+        int i = Constants.FRAME_LIMIT - challengeIndices.size();
+        for (Index index : challengeIndices) {
+            int row = index.getRow();
+            int column = index.getColumn();
+            Tile tile = board.getBoard()[row][column].getTile();
+            addToPool.append(tile.getType());
+            frame.getFrame().remove(i);
+            frame.getFrame().add(i, tile);
+            board.getBoard()[row][column].setTile(null);
+            i++;
+        }
+        pool.addTiles(addToPool.toString());
+    }
+
+    /**
+     * Do the scoring for the player's move.
+     *
+     * @param move   to be scored
+     * @param player whose move it is
+     * @param frame  player's frame
+     */
+    private static void scoreMove(String move, Player player, Frame frame) {
+        Word word = parseMove(move);
+        board.placeWord(word, frame);
+        wordsFormed.clear();
+        opponentScore = 0;
+        lastCoveredIndices = board.getLastCoveredIndices();
+        int score = calculateScore(word);
+        player.increaseScore(score);
+        opponentScore = score;
+
+        System.out.println("\n----------------------------");
+        System.out.println("Word(s) placed: " + wordsFormed.toString());
+        System.out.println("Points awarded: " + score);
+        System.out.println("----------------------------\n");
+
+        try {
+            frame.fillFrame();
+            displayFrameScore(player, frame);
+            pool.printSize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        challengeIndices.clear();
+        challengeIndices.addAll(lastCoveredIndices);
+        lastCoveredIndices.clear();
+    }
+
     /**
      * Finds the total score for move involving given word placement.
      *
      * @param word being placed on the board
      * @return score that the word placement is awarded
      */
-    private static int calculateScore(Word word, ArrayList<Index> lastCoveredIndices) {
-        wordsFormed.add(word.getLetters());
+    private static int calculateScore(Word word) {
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
-        return mainWordScore(word, lastCoveredIndices) +
-                parallelScore(word, lastCoveredIndices) + bonus;
+        return mainWordScore(word) + extraWordScore(word) + bonus;
     }
 
     /**
      * Partial score awarded to the main word (newly formed word
      * which contains the greatest number of newly placed tiles).
      *
-     * @param word               being placed on the board
-     * @param lastCoveredIndices list of recently covered board indices
+     * @param word being placed on the board
      * @return the extension score
      */
-    private static int mainWordScore(Word word, ArrayList<Index> lastCoveredIndices) {
+    private static int mainWordScore(Word word) {
         int score = 0;
         int wordMultiplier = 1;
         int row = word.getRow();
         int column = word.getColumn();
+        wordsFormed.add(word.getLetters());
         if (word.isHorizontal()) {
             for (int i = column; i < column + word.length(); i++) {
                 Square square = board.getBoard()[row][i];
-                if (isRecentlyCovered(row, i, lastCoveredIndices)) {
+                if (isRecentlyCovered(row, i)) {
                     score += square.getTile().getPoints() * square.getLetterMultiplier();
                     wordMultiplier *= square.getWordMultiplier();
                 } else {
@@ -295,7 +319,7 @@ public class Scrabble {
         } else {
             for (int i = row; i < row + word.length(); i++) {
                 Square square = board.getBoard()[i][column];
-                if (isRecentlyCovered(i, column, lastCoveredIndices)) {
+                if (isRecentlyCovered(i, column)) {
                     score += square.getTile().getPoints() * square.getLetterMultiplier();
                     wordMultiplier *= square.getWordMultiplier();
                 } else {
@@ -308,14 +332,24 @@ public class Scrabble {
     }
 
     /**
+     * Checks if a given board index (row, column) has been recently covered.
+     *
+     * @param row    integer between 0 - 14 specifying the board row
+     * @param column integer between 0 - 14 specifying the board column
+     * @return {@code true} if a provided index has indeed been recently covered
+     */
+    private static boolean isRecentlyCovered(int row, int column) {
+        return lastCoveredIndices.contains(new Index(row, column));
+    }
+
+    /**
      * Partial score awarded due to extra words formed by a word placement,
      * apart from the trivial (single) word itself.
      *
-     * @param word               being placed on the board
-     * @param lastCoveredIndices list of recently covered board indices
+     * @param word being placed on the board
      * @return the score of parallel/hook words formed
      */
-    private static int parallelScore(Word word, ArrayList<Index> lastCoveredIndices) {
+    private static int extraWordScore(Word word) {
         int score = 0;
         Square[][] b = board.getBoard();
 
@@ -383,18 +417,6 @@ public class Scrabble {
             }
         }
         return score;
-    }
-
-    /**
-     * Checks if a given board index (row, column) has been recently covered.
-     *
-     * @param row                integer between 0 - 14 specifying the board row
-     * @param column             integer between 0 - 14 specifying the board column
-     * @param lastCoveredIndices list of recently covered board indices
-     * @return {@code true} if a provided index has indeed been recently covered
-     */
-    private static boolean isRecentlyCovered(int row, int column, ArrayList<Index> lastCoveredIndices) {
-        return lastCoveredIndices.contains(new Index(row, column));
     }
 
 }
