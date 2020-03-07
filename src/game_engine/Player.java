@@ -52,6 +52,19 @@ public class Player {
     }
 
     /**
+     * Decreases the player score by given value.
+     *
+     * @param value decrement value
+     * @throws IllegalArgumentException if decrement value is negative
+     */
+    public void decreaseScore(int value) throws IllegalArgumentException {
+        if (value < 0) {
+            throw new IllegalArgumentException("Decrement value must be positive!");
+        }
+        score -= value;
+    }
+
+    /**
      * Resets the player information: empty name, zero score and remove frame.
      */
     public void reset() {

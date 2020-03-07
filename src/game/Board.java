@@ -64,6 +64,20 @@ public class Board {
     }
 
     /**
+     * Check if board contains no tiles.
+     */
+    public boolean isEmpty() {
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+                if (!board[i][j].isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Mutator for isFirstMove.
      * Should be used after first move is completed to change isFirstMove to false.
      *
