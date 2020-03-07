@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
  */
 
 public class Pool {
-    // the pool stores the tiles to be used by players
     private ArrayList<Tile> pool;
 
     public Pool() {
@@ -26,10 +25,10 @@ public class Pool {
 
     /**
      * Resets the pool to its initial state with 100 tiles.
+     * Adds required number of tiles of each type to the pool.
      */
     public void reset() {
         pool.clear();
-        // add required number of tiles of each type to the pool
         for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
             for (int j = 0; j < Constants.NUM_TILES_ARRAY[i]; j++) {
                 addTiles(Constants.TILE_TYPES_ARRAY[i]);

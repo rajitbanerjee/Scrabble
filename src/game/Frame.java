@@ -16,9 +16,7 @@ import java.util.NoSuchElementException;
  */
 
 public class Frame {
-    // Pool instance variable to store the pool for future method accesses
     private final Pool pool;
-    // frame holds the tiles each player has access to
     private ArrayList<Tile> frame;
 
     /**
@@ -164,9 +162,8 @@ public class Frame {
         for (char letter : letters.toCharArray()) {
             remove(letter);
         }
-        // Refill frame
         fillFrame();
-        // Add removed letters back to the pool
         pool.addTiles(letters);
     }
+
 }

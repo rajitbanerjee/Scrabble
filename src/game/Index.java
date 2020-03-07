@@ -34,7 +34,6 @@ public class Index {
         this.column = column;
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Index) {
@@ -44,4 +43,5 @@ public class Index {
             return false;
         }
     }
+
 }

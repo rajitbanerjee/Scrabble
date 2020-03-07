@@ -46,7 +46,8 @@ public class Square {
      * @return {@code true} if the specified square index is valid
      */
     public static boolean isValid(int column, int row) {
-        return column >= 0 && column < Constants.BOARD_SIZE && row >= 0 && row < Constants.BOARD_SIZE;
+        return column >= 0 && column < Constants.BOARD_SIZE &&
+                row >= 0 && row < Constants.BOARD_SIZE;
     }
 
     // Required setters and getters

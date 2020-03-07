@@ -126,7 +126,6 @@ public class Scrabble {
      * @return {@code true} if player's move is valid
      */
     private static boolean isMoveLegal(String move, Board board, Frame frame) {
-        // Simple regex check that ensures input parsing won't fail
         if (move == null || !move.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
             return false;
         }
@@ -161,7 +160,6 @@ public class Scrabble {
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         int score = extensionScore(word, lastCoveredIndices) +
                 parallelScore(word, lastCoveredIndices) + bonus;
-        // reset recently covered indices after current score calculation
         lastCoveredIndices.clear();
         return score;
     }

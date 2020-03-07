@@ -83,6 +83,14 @@ public class Board {
         return lastCoveredIndices;
     }
 
+    /**
+     * Gets the word on the board in given row, starting and ending at given columns.
+     *
+     * @param row         the board row in which the word is placed
+     * @param startColumn the starting board column of the word
+     * @param endColumn   the ending board column of the word
+     * @return the String representation of the word
+     */
     public String getHorizontalWord(int row, int startColumn, int endColumn) {
         StringBuilder sb = new StringBuilder();
         for (int i = startColumn; i <= endColumn; i++) {
@@ -91,6 +99,14 @@ public class Board {
         return sb.toString();
     }
 
+    /**
+     * Gets the word on the board in given row, starting and ending at given columns.
+     *
+     * @param column   the board column in which the word is placed
+     * @param startRow the starting board row of the word
+     * @param endRow   the ending board row of the word
+     * @return the String representation of the word
+     */
     public String getVerticalWord(int column, int startRow, int endRow) {
         StringBuilder sb = new StringBuilder();
         for (int i = startRow; i <= endRow; i++) {
@@ -181,9 +197,7 @@ public class Board {
         if (!isWordLegal(word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        // If isFirstMove is true, set it to false
         setFirstMove(false);
-        // Place word
         int row, column;
         for (int i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
@@ -268,10 +282,8 @@ public class Board {
      */
     private boolean isOverflowed(Word word) {
         if (word.isHorizontal()) {
-            // Checks the horizontal direction
             return (word.getColumn() + word.length() - 1) >= Constants.BOARD_SIZE;
         } else {
-            // Checks the vertical direction
             return (word.getRow() + word.length() - 1) >= Constants.BOARD_SIZE;
         }
     }
@@ -286,7 +298,6 @@ public class Board {
         char[] wordArray = word.getLetters().toCharArray();
         int column = word.getColumn();
         int row = word.getRow();
-        // Checks the horizontal direction
         if (word.isHorizontal()) {
             // Check if the squares before and after the word are empty
             if (Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)) {
@@ -308,7 +319,6 @@ public class Board {
                     return true;
                 }
             }
-            // Checks the vertical direction
             for (int i = 0; i < word.length(); i++) {
                 // Conflict occurs if a square is filled but tile does not match letters in the placed word
                 if (!board[row + i][column].isEmpty() &&
@@ -330,7 +340,6 @@ public class Board {
      */
     private boolean doesFrameContainTiles(Word word, Frame frame) {
         StringBuilder sb = new StringBuilder();
-        // Append every character in the frame to a String
         for (Tile t : frame.getFrame()) {
             sb.append(t.getType());
         }
@@ -403,12 +412,10 @@ public class Board {
         int row = word.getRow();
         int column = word.getColumn();
         if (word.isHorizontal()) {
-            // Checks the horizontal direction
             return row == Constants.BOARD_SIZE / 2 &&
                     column <= Constants.BOARD_SIZE / 2 &&
                     column + word.length() - 1 >= Constants.BOARD_SIZE / 2;
         } else {
-            // Checks the vertical direction
             return column == Constants.BOARD_SIZE / 2 &&
                     row <= Constants.BOARD_SIZE / 2 &&
                     row + word.length() - 1 >= Constants.BOARD_SIZE / 2;
@@ -425,7 +432,6 @@ public class Board {
     private boolean isWordJoined(Word word) {
         int row = word.getRow();
         int column = word.getColumn();
-        // Checks the horizontal direction
         if (word.isHorizontal()) {
             for (int i = 0; i < word.length(); i++) {
                 // Check top
@@ -448,7 +454,6 @@ public class Board {
                 }
             }
         } else {
-            // Check the vertical direction
             for (int i = 0; i < word.length(); i++) {
                 // Check left
                 if (Square.isValid(column - 1, row + i)) {

@@ -14,9 +14,7 @@ import java.util.Objects;
  * @team DarkMode
  */
 public class Tile {
-    // Each tile has a type (blank/letter A-Z)
     private char type;
-    // Points for each tile vary between 0 and 10.
     private int points;
 
     /**
@@ -43,7 +41,6 @@ public class Tile {
                 break;
             }
         }
-        // Every tile must have associated points
         // If points remain -1 (initial), that means there's an error with type
         if (points == -1) {
             throw new IllegalArgumentException("Invalid type of tile given");
@@ -92,7 +89,7 @@ public class Tile {
     /**
      * Tile equality checker.
      *
-     * @param o Object to be tested for equality against another Tile
+     * @param obj Object to be tested for equality against another Tile
      * @return {@code true} if Tiles are equal, {@code false} otherwise
      */
     @Override
@@ -122,4 +119,5 @@ public class Tile {
     public String toString() {
         return String.format(" %c ", type);
     }
+
 }
