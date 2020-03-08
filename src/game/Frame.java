@@ -50,78 +50,6 @@ public class Frame {
     }
 
     /**
-     * Check if frame is empty.
-     *
-     * @return {@code true} if frame is empty, {@code false} otherwise
-     */
-    public boolean isEmpty() {
-        return frame.isEmpty();
-    }
-
-    /**
-     * Returns the index of the first tile containing a specified letter.
-     * Returns -1 if the letter is not in the frame.
-     *
-     * @param letter chosen by user
-     * @return the index of the first tile containing this letter or -1 if the
-     * letter is not in the frame
-     */
-    private int getLetterIndex(char letter) {
-        for (int i = 0; i < frame.size(); i++) {
-            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Check if a letter is found inside the frame.
-     *
-     * @param letter the letter that is being searched
-     * @return {@code true} if letter is inside frame, {@code false} otherwise
-     */
-    public boolean contains(char letter) {
-        return getLetterIndex(letter) != -1;
-    }
-
-    /**
-     * Removes letter from the frame.
-     *
-     * @param letter to be removed from the frame
-     * @throws NoSuchElementException if specified letter isn't in frame
-     */
-    public void remove(char letter) throws NoSuchElementException {
-        if (contains(letter)) {
-            frame.remove(getLetterIndex(letter));
-        } else {
-            throw new NoSuchElementException("Letter can't be removed. Not in frame!");
-        }
-    }
-
-    /**
-     * Accessor to letters in the frame.
-     *
-     * @param letter chosen by user to specify the selected tile from the frame
-     * @return the tile object for the given letter in frame
-     * @throws NoSuchElementException if required letter is not in frame
-     */
-    public Tile getTile(char letter) throws NoSuchElementException {
-        if (contains(letter)) {
-            return frame.get(getLetterIndex(letter));
-        } else {
-            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
-        }
-    }
-
-    /**
-     * Prints the frame to the command line.
-     */
-    public void printFrame() {
-        System.out.println(frame);
-    }
-
-    /**
      * Accessor method for frame.
      *
      * @return the frame
@@ -164,6 +92,71 @@ public class Frame {
         }
         fillFrame();
         pool.addTiles(letters);
+    }
+
+    /**
+     * Check if frame is empty.
+     *
+     * @return {@code true} if frame is empty, {@code false} otherwise
+     */
+    public boolean isEmpty() {
+        return frame.isEmpty();
+    }
+
+    /**
+     * Check if a letter is found inside the frame.
+     *
+     * @param letter the letter that is being searched
+     * @return {@code true} if letter is inside frame, {@code false} otherwise
+     */
+    public boolean contains(char letter) {
+        return getLetterIndex(letter) != -1;
+    }
+
+    /**
+     * Prints the frame to the command line.
+     */
+    public void printFrame() {
+        System.out.println(frame);
+    }
+
+    /**
+     * Removes letter from the frame.
+     *
+     * @param letter to be removed from the frame
+     * @throws NoSuchElementException if specified letter isn't in frame
+     */
+    public void remove(char letter) throws NoSuchElementException {
+        if (contains(letter)) {
+            frame.remove(getLetterIndex(letter));
+        } else {
+            throw new NoSuchElementException("Letter can't be removed. Not in frame!");
+        }
+    }
+
+    /**
+     * Accessor to letters in the frame.
+     *
+     * @param letter chosen by user to specify the selected tile from the frame
+     * @return the tile object for the given letter in frame
+     * @throws NoSuchElementException if required letter is not in frame
+     */
+    public Tile getTile(char letter) throws NoSuchElementException {
+        if (contains(letter)) {
+            return frame.get(getLetterIndex(letter));
+        } else {
+            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
+        }
+    }
+
+    //  Find index of first tile containing some letter, -1 if not found
+    private int getLetterIndex(char letter) {
+        for (int i = 0; i < frame.size(); i++) {
+            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 }

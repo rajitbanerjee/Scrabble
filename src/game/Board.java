@@ -287,12 +287,7 @@ public class Board {
         }
     }
 
-    /**
-     * Checks if a word placement goes out of the board.
-     *
-     * @param word to be placed on the board
-     * @return {@code true} if the word placement goes out of the board
-     */
+    // Checks if a word placement goes out of the board
     private boolean isOverflowed(Word word) {
         if (word.isHorizontal()) {
             return (word.getColumn() + word.length() - 1) >= Constants.BOARD_SIZE;
@@ -301,19 +296,15 @@ public class Board {
         }
     }
 
-    /**
-     * Checks if a word conflicts with any existing words on the board.
-     *
-     * @param word to be placed on the board
-     * @return {@code true} if the word placement conflicts with existing words on board
-     */
+    // Checks if a word conflicts with any existing words on the board
     private boolean doesWordConflict(Word word) {
         char[] wordArray = word.getLetters().toCharArray();
         int column = word.getColumn();
         int row = word.getRow();
         if (word.isHorizontal()) {
             // Check if the squares before and after the word are empty
-            if (Square.isValid(column - 1, row) && Square.isValid(column + word.length(), row)) {
+            if (Square.isValid(column - 1, row) &&
+                    Square.isValid(column + word.length(), row)) {
                 if (!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()) {
                     return true;
                 }
@@ -343,14 +334,7 @@ public class Board {
         return false;
     }
 
-    /**
-     * Checks if the frame contains the letters necessary
-     * for word placement (ignores filled squares).
-     *
-     * @param word  to be placed on the board
-     * @param frame the players frame
-     * @return {@code true} if the frame contains all tiles needed
-     */
+    // Checks if the frame contains the letters necessary for word placement
     private boolean doesFrameContainTiles(Word word, Frame frame) {
         StringBuilder sb = new StringBuilder();
         for (Tile t : frame.getFrame()) {
@@ -385,13 +369,7 @@ public class Board {
         return true;
     }
 
-    /**
-     * Checks that at least one letter from the frame is used.
-     *
-     * @param word  to be placed
-     * @param frame the players frame
-     * @return {@code true} if at least one letter from the frame is used
-     */
+    // Checks that at least one letter from the frame is used
     private boolean isFrameUsed(Word word, Frame frame) {
         int row, column;
         for (int i = 0; i < word.length(); i++) {
@@ -415,12 +393,7 @@ public class Board {
         return false;
     }
 
-    /**
-     * Checks if the word to be placed covers the centre square H8 (aka 7, 7).
-     *
-     * @param word to be placed on the board
-     * @return {@code true} if the word covers the centre square
-     */
+    // Checks if the word to be placed covers the centre square H8 (aka 7, 7)
     private boolean doesWordCoverCentre(Word word) {
         int row = word.getRow();
         int column = word.getColumn();
@@ -435,13 +408,7 @@ public class Board {
         }
     }
 
-    /**
-     * Checks if a word placement connects with at least one other
-     * existing word on the board.
-     *
-     * @param word to be placed
-     * @return {@code true} if the word is joined with existing board tiles
-     */
+    // Checks if a word placement connects with another existing word on the board
     private boolean isWordJoined(Word word) {
         int row = word.getRow();
         int column = word.getColumn();
@@ -492,9 +459,7 @@ public class Board {
         return false;
     }
 
-    /**
-     * Display a line of dashes, used to display the Board.
-     */
+    // Display a line of dashes, used to display the Board.
     private void printLine() {
         System.out.println();
         for (int i = 0; i < 76; i++) {
@@ -503,9 +468,7 @@ public class Board {
         System.out.println();
     }
 
-    /**
-     * Display the column indices 'A' - 'O' on the board.
-     */
+    // Display the column indices 'A' - 'O' on the board
     private void printColumnIndices() {
         System.out.print("|\t|");
         for (char ch = 'A'; ch <= 'O'; ch++) {

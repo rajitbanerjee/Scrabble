@@ -58,13 +58,7 @@ public class Scrabble {
         sc.close();
     }
 
-    /**
-     * The given player makes a move.
-     *
-     * @param player   the player making the move
-     * @param frame    the player's frame
-     * @param opponent the opponent of the current player
-     */
+    // Current player makes a move against their opponent
     private static void makeMove(Player player, Frame frame, Player opponent) {
         String move = askForMove(player, frame);
         if (move.equalsIgnoreCase("QUIT")) {
@@ -101,33 +95,10 @@ public class Scrabble {
             scoreMove(move, player, frame);
         }
         numberOfTurns++;
-        if (lastSixScores.size() > 6) {
-            lastSixScores.removeFirst();
-        }
-        // TODO remove printing scores later, added only for testing
-        System.out.println("\nLast six scores: " + lastSixScores.toString());
-        if (numberOfTurns >= 6 && sumLastSixScores() == 0) {
-            System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
-            quit();
-        }
+        checkLastSixScores();
     }
 
-    // add up the scores for the last six moves
-    private static int sumLastSixScores() {
-        int total = 0;
-        for (Integer score : lastSixScores) {
-            total += score;
-        }
-        return total;
-    }
-
-    /**
-     * Get the player's move via input.
-     *
-     * @param player the current player
-     * @param frame  player's frame
-     * @return the player's move (String)
-     */
+    // Ask the current player to enter their move
     private static String askForMove(Player player, Frame frame) {
         board.display();
         System.out.printf("\n%s, it's your turn!", player.getName());
@@ -160,15 +131,7 @@ public class Scrabble {
         System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>: ");
     }
 
-    /**
-     * Check if the player enters a move in the correct format and
-     * that the word placement is valid.
-     *
-     * @param move  the player's move (starting index, orientation, word to place)
-     * @param board the 15x15 game Board of Squares
-     * @param frame the player's frame
-     * @return {@code true} if player's move is valid
-     */
+    // Check move input format validity and word placement validity
     private static boolean isMoveLegal(String move, Board board, Frame frame) {
         if (move == null || !move.matches("^[A-Z]\\d+\\s+[A-Z]\\s+[A-Z]+$")) {
             return false;
@@ -177,12 +140,7 @@ public class Scrabble {
         return board.isWordLegal(word, frame);
     }
 
-    /**
-     * Parses the move from the expected String format to a word object.
-     *
-     * @param move the move to be parsed
-     * @return word placement object
-     */
+    // Parses the move from the expected String format to a word object
     private static Word parseMove(String move) {
         String[] inputArguments = move.split("\\s+");
         char column = inputArguments[0].charAt(0);
@@ -207,12 +165,7 @@ public class Scrabble {
         lastSixScores.addLast(0);
     }
 
-    /**
-     * Exchange tiles between frame and pool.
-     *
-     * @param move  the move to exchange tiles
-     * @param frame the player's frame
-     */
+    // Exchange tiles between frame and pool
     private static void exchangeTiles(String move, Frame frame) {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
@@ -221,12 +174,7 @@ public class Scrabble {
         lastSixScores.addLast(0);
     }
 
-    /**
-     * Challenge opponent's previous move and change scores accordingly.
-     *
-     * @param opponent being challenged
-     * @return {@code true} if challenge is successful
-     */
+    // Challenge opponent's previous move and change scores accordingly
     private static boolean challenge(Player opponent) {
         boolean success = false;
         if (challengeIndices.isEmpty()) {
@@ -235,7 +183,7 @@ public class Scrabble {
             System.out.print("\n\nIs challenge successful? (y/n): ");
             char op = sc.nextLine().toLowerCase().charAt(0);
             if (op == 'y') {
-                // manually implement challenge for opponent's move
+                // manually implement "challenge" for opponent's move
                 removeTiles(opponent.getFrame());
                 opponent.decreaseScore(opponentScore);
                 System.out.println("\nOpponent's tiles removed!");
@@ -251,14 +199,7 @@ public class Scrabble {
         return success;
     }
 
-    /**
-     * Remove tiles added to frame when it was refilled,
-     * since the successful challenge by opponent now
-     * means that tiles placed on the board now need
-     * to go back into the frame.
-     *
-     * @param frame challenger's opponent's frame
-     */
+    // Remove tile from board and put them back into frame
     private static void removeTiles(Frame frame) {
         StringBuilder addToPool = new StringBuilder();
         int i = Constants.FRAME_LIMIT - challengeIndices.size();
@@ -275,13 +216,7 @@ public class Scrabble {
         pool.addTiles(addToPool.toString());
     }
 
-    /**
-     * Do the scoring for the player's move.
-     *
-     * @param move   to be scored
-     * @param player whose move it is
-     * @param frame  player's frame
-     */
+    // Award the score for a player's move
     private static void scoreMove(String move, Player player, Frame frame) {
         Word word = parseMove(move);
         board.placeWord(word, frame);
@@ -310,24 +245,13 @@ public class Scrabble {
         lastCoveredIndices.clear();
     }
 
-    /**
-     * Finds the total score for move involving given word placement.
-     *
-     * @param word being placed on the board
-     * @return score that the word placement is awarded
-     */
+    // Finds the total score for move involving given word placement
     private static int calculateScore(Word word) {
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         return mainWordScore(word) + extraWordScore(word) + bonus;
     }
 
-    /**
-     * Partial score awarded to the main word (newly formed word
-     * which contains the greatest number of newly placed tiles).
-     *
-     * @param word being placed on the board
-     * @return the extension score
-     */
+    // Main word score (newly formed word with greatest number of newly placed tiles)
     private static int mainWordScore(Word word) {
         int score = 0;
         int wordMultiplier = 1;
@@ -359,92 +283,114 @@ public class Scrabble {
         return score * wordMultiplier;
     }
 
-    /**
-     * Checks if a given board index (row, column) has been recently covered.
-     *
-     * @param row    integer between 0 - 14 specifying the board row
-     * @param column integer between 0 - 14 specifying the board column
-     * @return {@code true} if a provided index has indeed been recently covered
-     */
+    // Checks if a given board index (row, column) has been recently covered
     private static boolean isRecentlyCovered(int row, int column) {
         return lastCoveredIndices.contains(new Index(row, column));
     }
 
-    /**
-     * Partial score awarded due to extra words formed by a word placement,
-     * apart from the trivial (single) word itself.
-     *
-     * @param word being placed on the board
-     * @return the score of parallel/hook words formed
-     */
+    // Scores the extra words formed by a word placement
     private static int extraWordScore(Word word) {
+        if (word.isHorizontal()) {
+            return scoreVerticalExtraWords();
+        } else {
+            return scoreHorizontalExtraWords();
+        }
+    }
+
+    // Scores all the words hooked/parallel to a horizontally placed word
+    private static int scoreVerticalExtraWords() {
         int score = 0;
         Square[][] b = board.getBoard();
+        for (Index index : lastCoveredIndices) {
+            int wordScore = 0;
+            int wordMultiplier = 1;
+            int startRow = index.getRow();
+            int endRow = index.getRow();
+            int column = index.getColumn();
 
-        if (word.isHorizontal()) {
-            for (Index index : lastCoveredIndices) {
-                int wordScore = 0;
-                int wordMultiplier = 1;
-                int startRow = index.getRow();
-                int endRow = index.getRow();
-                int column = index.getColumn();
-
-                // find the starting row index of the word
-                while (Square.isValid(startRow - 1, column) && !b[startRow - 1][column].isEmpty()) {
-                    startRow--;
-                }
-                // find the tail row index of the word
-                while (Square.isValid(endRow + 1, column) && !b[endRow + 1][column].isEmpty()) {
-                    endRow++;
-                }
-                // add word score for any extra words formed
-                if (startRow != endRow) {
-                    for (int i = startRow; i <= endRow; i++) {
-                        Square square = b[i][column];
-                        if (i == index.getRow()) {
-                            wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
-                            wordMultiplier *= square.getWordMultiplier();
-                        } else {
-                            wordScore += square.getTile().getPoints();
-                        }
-                    }
-                    score += wordScore * wordMultiplier;
-                    wordsFormed.add(board.getVerticalWord(column, startRow, endRow));
-                }
+            // find the starting row index of the word
+            while (Square.isValid(startRow - 1, column) && !b[startRow - 1][column].isEmpty()) {
+                startRow--;
             }
-        } else {
-            for (Index index : lastCoveredIndices) {
-                int wordScore = 0;
-                int wordMultiplier = 1;
-                int startColumn = index.getColumn();
-                int endColumn = index.getColumn();
-                int row = index.getRow();
-
-                // find the starting column index of the word
-                while (Square.isValid(row, startColumn - 1) && !b[row][startColumn - 1].isEmpty()) {
-                    startColumn--;
-                }
-                // find the tail column index of the word
-                while (Square.isValid(row, endColumn + 1) && !b[row][endColumn + 1].isEmpty()) {
-                    endColumn++;
-                }
-                // add word score for any extra words formed
-                if (startColumn != endColumn) {
-                    for (int i = startColumn; i <= endColumn; i++) {
-                        Square square = b[row][i];
-                        if (i == index.getColumn()) {
-                            wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
-                            wordMultiplier *= square.getWordMultiplier();
-                        } else {
-                            wordScore += square.getTile().getPoints();
-                        }
+            // find the tail row index of the word
+            while (Square.isValid(endRow + 1, column) && !b[endRow + 1][column].isEmpty()) {
+                endRow++;
+            }
+            // add word score for any extra words formed
+            if (startRow != endRow) {
+                for (int i = startRow; i <= endRow; i++) {
+                    Square square = b[i][column];
+                    if (i == index.getRow()) {
+                        wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
+                        wordMultiplier *= square.getWordMultiplier();
+                    } else {
+                        wordScore += square.getTile().getPoints();
                     }
-                    score += wordScore * wordMultiplier;
-                    wordsFormed.add(board.getHorizontalWord(row, startColumn, endColumn));
                 }
+                score += wordScore * wordMultiplier;
+                wordsFormed.add(board.getVerticalWord(column, startRow, endRow));
             }
         }
         return score;
+    }
+
+    // Scores all the words hooked/parallel to a vertically placed word
+    private static int scoreHorizontalExtraWords() {
+        int score = 0;
+        Square[][] b = board.getBoard();
+        for (Index index : lastCoveredIndices) {
+            int wordScore = 0;
+            int wordMultiplier = 1;
+            int startColumn = index.getColumn();
+            int endColumn = index.getColumn();
+            int row = index.getRow();
+
+            // find the starting column index of the word
+            while (Square.isValid(row, startColumn - 1) && !b[row][startColumn - 1].isEmpty()) {
+                startColumn--;
+            }
+            // find the tail column index of the word
+            while (Square.isValid(row, endColumn + 1) && !b[row][endColumn + 1].isEmpty()) {
+                endColumn++;
+            }
+            // add word score for any extra words formed
+            if (startColumn != endColumn) {
+                for (int i = startColumn; i <= endColumn; i++) {
+                    Square square = b[row][i];
+                    if (i == index.getColumn()) {
+                        wordScore += square.getTile().getPoints() * square.getLetterMultiplier();
+                        wordMultiplier *= square.getWordMultiplier();
+                    } else {
+                        wordScore += square.getTile().getPoints();
+                    }
+                }
+                score += wordScore * wordMultiplier;
+                wordsFormed.add(board.getHorizontalWord(row, startColumn, endColumn));
+            }
+        }
+        return score;
+    }
+
+    // end game if six consecutive scoreless moves
+    private static void checkLastSixScores() {
+        if (lastSixScores.size() > 6) {
+            lastSixScores.removeFirst();
+        }
+        // TODO remove printing scores later, added only for testing
+        System.out.println("\nLast six scores: " + lastSixScores.toString());
+        if (numberOfTurns >= 6 && sumLastSixScores() == 0) {
+            System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
+            quit();
+        }
+    }
+
+    // add up the scores for the last six moves
+    private static int sumLastSixScores() {
+        int total = 0;
+        for (Integer score : lastSixScores) {
+            total += score;
+        }
+        return total;
     }
 
 }
