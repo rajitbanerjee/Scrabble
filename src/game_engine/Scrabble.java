@@ -411,26 +411,26 @@ public class Scrabble {
         return score;
     }
 
-    // end game if six consecutive scoreless moves
+    // End game if six consecutive scoreless moves
     private static void checkLastSixScores() {
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
         // TODO remove printing scores later, added only for testing
         System.out.println("\nLast six scores: " + lastSixScores.toString());
-        if (lastSixScores.size() == 6 && sumLastSixScores() == 0) {
+        if (lastSixScoresZero()) {
             System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
             quit();
         }
     }
 
-    // add up the scores for the last six moves
-    private static int sumLastSixScores() {
-        int total = 0;
+    // Checks if all of the last six scores were 0
+    private static boolean lastSixScoresZero() {
+        int zeroes = 0;
         for (Integer score : lastSixScores) {
-            total += score;
+            if (score == 0) zeroes++;
         }
-        return total;
+        return zeroes == 6;
     }
 
 }
