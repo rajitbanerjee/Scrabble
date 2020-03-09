@@ -14,6 +14,7 @@ public class BoardView extends GridPane {
     private Board board;
 
     public BoardView(Board board) {
+        super();
         this.board = board;
         init();
     }
