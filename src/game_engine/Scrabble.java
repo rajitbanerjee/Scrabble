@@ -26,6 +26,7 @@ public class Scrabble {
     private static ArrayDeque<Integer> lastSixScores;
     private static int opponentScore;
     private static int numberOfTurns;
+    private static HashSet<String> dictionary;
 
     public Scrabble() {
         board = new Board();
@@ -37,6 +38,17 @@ public class Scrabble {
         lastSixScores = new ArrayDeque<>();
         opponentScore = 0;
         numberOfTurns = 0;
+        fillDictionary();
+    }
+
+    // Scan the SOWPODS dictionary file and store the words
+    private static void fillDictionary() {
+        InputStream in = Scrabble.class.getResourceAsStream("sowpods.txt");
+        Scanner sc = new Scanner(in);
+        dictionary = new HashSet<>();
+        while (sc.hasNext()) {
+            dictionary.add(sc.next().toUpperCase());
+        }
     }
 
     public static void main(String[] args) {
@@ -199,18 +211,12 @@ public class Scrabble {
 
     // Look up all last formed words in the dictionary
     private static boolean wordsInDictionary() {
-        int count = 0;
-        InputStream dictionary = Scrabble.class.getResourceAsStream("sowpods.txt");
-        Scanner sc = new Scanner(dictionary);
         for (String word : wordsFormed) {
-            while (sc.hasNext()) {
-                if (sc.next().equalsIgnoreCase(word)) {
-                    count++;
-                }
+            if (!dictionary.contains(word)) {
+                return false;
             }
         }
-        sc.close();
-        return count == wordsFormed.size();
+        return true;
     }
 
     // Remove tile from board and put them back into frame
