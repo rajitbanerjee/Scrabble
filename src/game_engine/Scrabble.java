@@ -3,6 +3,7 @@ package game_engine;
 import constants.Constants;
 import game.*;
 
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -180,23 +181,36 @@ public class Scrabble {
         if (challengeIndices.isEmpty()) {
             System.out.println("\nCannot challenge! No word placed by opponent.");
         } else {
-            System.out.print("\n\nIs challenge successful? (y/n): ");
-            char op = sc.nextLine().toLowerCase().charAt(0);
-            if (op == 'y') {
-                // manually implement "challenge" for opponent's move
+            if (wordsInDictionary()) {
+                System.out.println("\nChallenge unsuccessful!");
+            } else {
                 removeTiles(opponent.getFrame());
                 opponent.decreaseScore(opponentScore);
-                System.out.println("\nOpponent's tiles removed!");
+                System.out.printf("\n\nChallenge successful! %s's tiles removed!", opponent.getName());
                 if (board.isEmpty()) {
                     board.setFirstMove(true);
                 }
                 success = true;
-            } else {
-                System.out.println("\nChallenge unsuccessful!");
             }
         }
         challengeIndices.clear();
         return success;
+    }
+
+    // Look up all last formed words in the dictionary
+    private static boolean wordsInDictionary() {
+        int count = 0;
+        InputStream dictionary = Scrabble.class.getResourceAsStream("sowpods.txt");
+        Scanner sc = new Scanner(dictionary);
+        for (String word : wordsFormed) {
+            while (sc.hasNext()) {
+                if (sc.next().equalsIgnoreCase(word)) {
+                    count++;
+                }
+            }
+        }
+        sc.close();
+        return count == wordsFormed.size();
     }
 
     // Remove tile from board and put them back into frame

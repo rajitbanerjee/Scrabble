@@ -24,7 +24,7 @@ public class Player {
         if (name == null || name.trim().equals("")) {
             throw new NullPointerException("Player name cannot be null");
         }
-        this.name = name;
+        this.name = name.trim();
         score = 0;
         frame = null;
     }
@@ -140,7 +140,7 @@ public class Player {
         if (name == null || name.trim().equals("")) {
             throw new NullPointerException("Player name cannot be null");
         }
-        this.name = name;
+        this.name = name.trim();
     }
 
     /**
