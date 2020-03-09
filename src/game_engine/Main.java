@@ -13,10 +13,11 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Board board = new Board();
-        Scene scene = new Scene(new CLIView());
-        stage.setScene(scene);
+        CLIView view = new CLIView();
+        CLIController controller = new CLIController(view.getInputView(), view.getHistoryView());
+        stage.setScene(new Scene(view));
         stage.show();
     }
 }
