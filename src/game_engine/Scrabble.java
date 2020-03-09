@@ -82,6 +82,7 @@ public class Scrabble {
                 boolean isChallengeSuccessful = challenge(opponent);
                 if (isChallengeSuccessful) {
                     pass(opponent, true);
+                    checkLastSixScores();
                     makeMove(player, frame, opponent, false);
                 } else {
                     pass(player, false);
@@ -93,6 +94,7 @@ public class Scrabble {
         } else {
             scoreMove(move, player, frame);
         }
+        checkLastSixScores();
     }
 
     // Ask the current player to enter their move
@@ -192,7 +194,6 @@ public class Scrabble {
         }
         lastSixScores.addLast(0);
         displayFrameScore(player, player.getFrame());
-        checkLastSixScores();
     }
 
     // Exchange tiles between frame and pool
@@ -203,7 +204,6 @@ public class Scrabble {
             lastSixScores.addLast(0);
             pool.printSize();
             System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
-            checkLastSixScores();
         }
     }
 
@@ -283,7 +283,6 @@ public class Scrabble {
         challengeIndices.clear();
         challengeIndices.addAll(lastCoveredIndices);
         lastCoveredIndices.clear();
-        checkLastSixScores();
     }
 
     // Finds the total score for move involving given word placement
