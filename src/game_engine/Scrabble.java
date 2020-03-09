@@ -20,22 +20,27 @@ import java.util.Scanner;
  */
 public class Scrabble {
     private static Scanner sc = new Scanner(System.in);
-    private static Board board;
     private static Pool pool;
-    private static Frame frame1, frame2;
+    private static Board board;
+    private static Player player1, player2;
     private static ArrayList<String> wordsFormed;
     private static ArrayList<Index> lastCoveredIndices;
     private static ArrayList<Index> challengeIndices;
     private static ArrayDeque<Integer> lastSixScores;
+    private static HashSet<String> dictionary;
     private static int opponentScore;
     private static int numberOfTurns;
-    private static HashSet<String> dictionary;
+
 
     public Scrabble() {
-        board = new Board();
         pool = new Pool();
-        frame1 = new Frame(pool);
-        frame2 = new Frame(pool);
+        board = new Board();
+        System.out.println("\nWelcome to Scrabble by DarkMode.");
+        System.out.print("Player #1, please enter your name: ");
+        player1 = new Player(sc.nextLine(), new Frame(pool));
+        System.out.print("Player #2, please enter your name: ");
+        player2 = new Player(sc.nextLine(), new Frame(pool));
+        System.out.printf("\nWelcome %s and %s!", player1.getName(), player2);
         wordsFormed = new ArrayList<>();
         challengeIndices = new ArrayList<>();
         lastSixScores = new ArrayDeque<>();
@@ -58,18 +63,9 @@ public class Scrabble {
     public static void main(String[] args) {
         // New game
         new Scrabble();
-        // Print start message
-        System.out.println("\nWelcome to Scrabble by DarkMode.");
-        System.out.print("Player #1, please enter your name: ");
-        Player player1 = new Player(sc.nextLine(), frame1);
-
-        System.out.print("Player #2, please enter your name: ");
-        Player player2 = new Player(sc.nextLine(), frame2);
-        System.out.printf("\nWelcome %s and %s!", player1.getName(), player2);
-
         do {
-            makeMove(player1, frame1, player2);
-            makeMove(player2, frame2, player1);
+            makeMove(player1, player1.getFrame(), player2);
+            makeMove(player2, player2.getFrame(), player1);
         } while (!(pool.isEmpty() &&
                 (player1.getFrame().isEmpty() || player2.getFrame().isEmpty())));
         sc.close();
@@ -88,17 +84,15 @@ public class Scrabble {
             boolean isChallengeSuccessful = challenge(opponent);
             if (isChallengeSuccessful) {
                 pass(opponent, true);
-                displayFrameScore(opponent, opponent.getFrame());
+                checkLastSixScores();
 
                 move = askForMove(player, frame);
-                while (move.startsWith("CHALLENGE")) {
-                    System.out.println("\nCannot challenge twice!");
-                    move = askForMove(player, frame);
-                }
-
                 if (move.equalsIgnoreCase("QUIT")) {
                     quit();
                 } else if (move.equalsIgnoreCase("PASS")) {
+                    pass(player, false);
+                }else if (move.equalsIgnoreCase("CHALLENGE")) {
+                    System.out.println("\nCannot challenge twice!");
                     pass(player, false);
                 } else if (move.startsWith("EXCHANGE")) {
                     exchangeTiles(move, frame);
@@ -111,7 +105,6 @@ public class Scrabble {
         } else {
             scoreMove(move, player, frame);
         }
-        numberOfTurns++;
         checkLastSixScores();
     }
 
@@ -125,7 +118,7 @@ public class Scrabble {
         String move = sc.nextLine().toUpperCase().trim();
         while (!(move.equalsIgnoreCase("QUIT") ||
                 move.equalsIgnoreCase("PASS") ||
-                move.startsWith("EXCHANGE") ||
+                (move.startsWith("EXCHANGE") && isExchangeLegal(move, frame)) ||
                 move.equalsIgnoreCase("CHALLENGE") ||
                 isMoveLegal(move, board, frame))) {
             System.out.println("\nInvalid move! Try again.");
@@ -145,7 +138,26 @@ public class Scrabble {
     // Helper message
     private static void promptUser() {
         System.out.println("\nEnter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
-        System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>: ");
+        System.out.print("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE: ");
+    }
+
+    // Check that tile exchange command is legal
+    private static boolean isExchangeLegal(String move, Frame frame) {
+        ArrayList<Tile> tempList = new ArrayList<>(frame.getFrame());
+        Frame tempFrame = new Frame(pool);
+        tempFrame.setFrame(tempList);
+        if (move.matches("EXCHANGE [A-Z-]+")) {
+            try {
+                exchangeTiles(move, tempFrame);
+                return true;
+            } catch (Exception e) {
+                System.out.println("\n" + e.getLocalizedMessage());
+                return false;
+            }
+        } else {
+            System.out.println("\nMove must of the format: EXCHANGE <letters (no spaces)>");
+            return false;
+        }
     }
 
     // Check move input format validity and word placement validity
@@ -169,26 +181,39 @@ public class Scrabble {
 
     // Quit game
     private static void quit() {
+        System.out.println("---------------------------------------------------------");
+        System.out.println("Final Scores:");
+        System.out.printf("\n%s's score: %d", player1.getName(), player1.getScore());
+        System.out.printf("\n%s's score: %d\n", player2.getName(), player2.getScore());
+        int difference = player1.getScore() - player2.getScore();
+        if (difference == 0) {
+            System.out.println("\nGame is a tie!");
+        } else {
+            Player winner = (difference > 0) ? player1 : player2;
+            System.out.printf("\n%s wins the game! Well done.\n", winner.getName());
+        }
+        System.out.println("---------------------------------------------------------");
         System.out.println("\nThanks for playing!");
         System.exit(0);
     }
 
     // Pass move
     private static void pass(Player player, boolean removeLastScore) {
-        System.out.printf("\n\nTurn passed for %s!\n", player.getName());
+        System.out.printf("\nTurn passed for %s!\n", player.getName());
         if (removeLastScore) {
             lastSixScores.removeLast();
         }
         lastSixScores.addLast(0);
+        displayFrameScore(player, player.getFrame());
     }
 
     // Exchange tiles between frame and pool
     private static void exchangeTiles(String move, Frame frame) {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
-        System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
         frame.exchange(to_exchange);
         pool.printSize();
         lastSixScores.addLast(0);
+        System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
     }
 
     // Challenge opponent's previous move and change scores accordingly
@@ -397,6 +422,7 @@ public class Scrabble {
 
     // end game if six consecutive scoreless moves
     private static void checkLastSixScores() {
+        numberOfTurns++;
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
