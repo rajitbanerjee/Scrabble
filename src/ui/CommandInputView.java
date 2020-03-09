@@ -21,6 +21,7 @@ public class CommandInputView extends TextField {
                 clear();
             }
         });
+        setMinWidth(300);
     }
 
     public List<String> getHistory() {

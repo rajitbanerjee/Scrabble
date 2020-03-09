@@ -4,7 +4,10 @@ import constants.Constants;
 import game.*;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
 
 /**
  * Two-player Scrabble implementation
@@ -49,6 +52,7 @@ public class Scrabble {
         while (sc.hasNext()) {
             dictionary.add(sc.next().toUpperCase());
         }
+        sc.close();
     }
 
     public static void main(String[] args) {
