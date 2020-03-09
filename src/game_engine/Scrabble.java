@@ -29,7 +29,6 @@ public class Scrabble {
     private static ArrayDeque<Integer> lastSixScores;
     private static HashSet<String> dictionary;
     private static int opponentScore;
-    private static int numberOfTurns;
 
     public Scrabble() {
         pool = new Pool();
@@ -44,7 +43,6 @@ public class Scrabble {
         challengeIndices = new ArrayList<>();
         lastSixScores = new ArrayDeque<>();
         opponentScore = 0;
-        numberOfTurns = 0;
         fillDictionary();
     }
 
@@ -63,42 +61,34 @@ public class Scrabble {
         // New game
         new Scrabble();
         do {
-            makeMove(player1, player1.getFrame(), player2);
-            makeMove(player2, player2.getFrame(), player1);
+            makeMove(player1, player1.getFrame(), player2, true);
+            makeMove(player2, player2.getFrame(), player1, true);
         } while (!(pool.isEmpty() &&
                 (player1.getFrame().isEmpty() || player2.getFrame().isEmpty())));
         sc.close();
     }
 
     // Current player makes a move against their opponent
-    private static void makeMove(Player player, Frame frame, Player opponent) {
+    private static void makeMove(Player player, Frame frame, Player opponent, boolean firstChallenge) {
         String move = askForMove(player, frame);
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
             pass(player, false);
         } else if (move.startsWith("EXCHANGE")) {
-            exchangeTiles(move, frame);
+            exchangeTiles(move, frame, false);
         } else if (move.equalsIgnoreCase("CHALLENGE")) {
-            boolean isChallengeSuccessful = challenge(opponent);
-            if (isChallengeSuccessful) {
-                pass(opponent, true);
-                checkLastSixScores();
-
-                move = askForMove(player, frame);
-                if (move.equalsIgnoreCase("QUIT")) {
-                    quit();
-                } else if (move.equalsIgnoreCase("PASS")) {
-                    pass(player, false);
-                }else if (move.equalsIgnoreCase("CHALLENGE")) {
-                    System.out.println("\nCannot challenge twice!");
-                    pass(player, false);
-                } else if (move.startsWith("EXCHANGE")) {
-                    exchangeTiles(move, frame);
+            if (firstChallenge) {
+                boolean isChallengeSuccessful = challenge(opponent);
+                if (isChallengeSuccessful) {
+                    pass(opponent, true);
+                    checkLastSixScores();
+                    makeMove(player, frame, opponent, false);
                 } else {
-                    scoreMove(move, player, frame);
+                    pass(player, false);
                 }
             } else {
+                System.out.println("\nCannot challenge twice!");
                 pass(player, false);
             }
         } else {
@@ -147,7 +137,7 @@ public class Scrabble {
         tempFrame.setFrame(tempList);
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
-                exchangeTiles(move, tempFrame);
+                exchangeTiles(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
                 System.out.println("\n" + e.getLocalizedMessage());
@@ -207,12 +197,14 @@ public class Scrabble {
     }
 
     // Exchange tiles between frame and pool
-    private static void exchangeTiles(String move, Frame frame) {
+    private static void exchangeTiles(String move, Frame frame, boolean isTest) {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
-        pool.printSize();
-        lastSixScores.addLast(0);
-        System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
+        if (!isTest) {
+            lastSixScores.addLast(0);
+            pool.printSize();
+            System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
+        }
     }
 
     // Challenge opponent's previous move and change scores accordingly
@@ -421,13 +413,12 @@ public class Scrabble {
 
     // end game if six consecutive scoreless moves
     private static void checkLastSixScores() {
-        numberOfTurns++;
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
         // TODO remove printing scores later, added only for testing
         System.out.println("\nLast six scores: " + lastSixScores.toString());
-        if (numberOfTurns >= 6 && sumLastSixScores() == 0) {
+        if (lastSixScores.size() == 6 && sumLastSixScores() == 0) {
             System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
             quit();
         }
