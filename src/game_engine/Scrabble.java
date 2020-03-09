@@ -31,7 +31,6 @@ public class Scrabble {
     private static int opponentScore;
     private static int numberOfTurns;
 
-
     public Scrabble() {
         pool = new Pool();
         board = new Board();
@@ -40,7 +39,7 @@ public class Scrabble {
         player1 = new Player(sc.nextLine(), new Frame(pool));
         System.out.print("Player #2, please enter your name: ");
         player2 = new Player(sc.nextLine(), new Frame(pool));
-        System.out.printf("\nWelcome %s and %s!", player1.getName(), player2);
+        System.out.printf("\nWelcome %s and %s!", player1.getName(), player2.getName());
         wordsFormed = new ArrayList<>();
         challengeIndices = new ArrayList<>();
         lastSixScores = new ArrayDeque<>();
@@ -143,8 +142,8 @@ public class Scrabble {
 
     // Check that tile exchange command is legal
     private static boolean isExchangeLegal(String move, Frame frame) {
-        ArrayList<Tile> tempList = new ArrayList<>(frame.getFrame());
         Frame tempFrame = new Frame(pool);
+        ArrayList<Tile> tempList = new ArrayList<>(frame.getFrame());
         tempFrame.setFrame(tempList);
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
@@ -155,7 +154,7 @@ public class Scrabble {
                 return false;
             }
         } else {
-            System.out.println("\nMove must of the format: EXCHANGE <letters (no spaces)>");
+            System.out.println("\nExchange must of the format: EXCHANGE <letters (no spaces)>");
             return false;
         }
     }
