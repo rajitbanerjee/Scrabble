@@ -42,16 +42,6 @@ public class Board {
         for (int[] index : Constants.TRIPLE_WS_ARRAY) {
             board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_WS);
         }
-        setAllSquareIndices();
-    }
-
-    // Sets the index object (pair of row, column) for every Square object
-    private void setAllSquareIndices() {
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
-                board[i][j].setIndex(i, j);
-            }
-        }
     }
 
     /**

@@ -15,18 +15,9 @@ import constants.Constants;
 public class Square {
     private Constants.MULTIPLIER multiplier;
     private Tile tile = null;
-    private Index index;
 
     public Square(Constants.MULTIPLIER multiplier) {
         this.multiplier = multiplier;
-    }
-
-    public void setIndex(int row, int column) {
-        index = new Index(row, column);
-    }
-
-    public Index getIndex() {
-        return index;
     }
 
     /**
