@@ -69,12 +69,12 @@ class FrameTest {
         if (!frame.isEmpty()) {
             fail("Error: Frame should be empty");
         }
-        // testing fillFrame()
+        // testing refillFrame()
         // draw tiles until pool is emptied
         while (frame.getPool().size() > 0) {
             // num of tiles in pool before drawing
             int tilesInPoolBefore = frame.getPool().size();
-            frame.fillFrame();
+            frame.refillFrame();
             // check that no more than 7 tiles are removed
             if (tilesInPoolBefore - frame.getPool().size() > 7) {
                 fail("Error: No more than 7 tiles should be drawn from the pool");
@@ -87,7 +87,7 @@ class FrameTest {
         }
         // restore pool to 100
         frame.getPool().reset();
-        frame.fillFrame();
+        frame.refillFrame();
 
         // test isLetterInFrame()
         for (int i = 0; i < frame.getFrame().size(); i++) {
@@ -119,7 +119,7 @@ class FrameTest {
         }
 
         // test getTile()
-        frame.fillFrame();
+        frame.refillFrame();
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // letter being accessed
             char letter = frame.getFrame().get(i).getType();

@@ -31,17 +31,17 @@ public class Frame {
         }
         frame = new ArrayList<>();
         this.pool = pool;
-        fillFrame();
+        refillFrame();
     }
 
     /**
-     * Method to fill/refill the frame if it has less than 7 tiles.
+     * Method to refill the frame if it has less than 7 tiles.
      *
-     * @throws IllegalStateException if pool is empty, frame cannot be filled
+     * @throws IllegalStateException if pool is empty, frame cannot be refilled
      */
-    public void fillFrame() throws IllegalStateException {
+    public void refillFrame() throws IllegalStateException {
         if (pool.isEmpty()) {
-            throw new IllegalStateException("Cannot fill frame, no tiles left in pool.");
+            throw new IllegalStateException("Cannot refill frame, no tiles left in pool.");
         }
         int numTilesToDraw = Math.min(pool.size(), Constants.FRAME_LIMIT - frame.size());
         for (int i = 0; i < numTilesToDraw; i++) {
@@ -90,34 +90,8 @@ public class Frame {
         for (char letter : letters.toCharArray()) {
             remove(letter);
         }
-        fillFrame();
+        refillFrame();
         pool.addTiles(letters);
-    }
-
-    /**
-     * Check if frame is empty.
-     *
-     * @return {@code true} if frame is empty, {@code false} otherwise
-     */
-    public boolean isEmpty() {
-        return frame.isEmpty();
-    }
-
-    /**
-     * Check if a letter is found inside the frame.
-     *
-     * @param letter the letter that is being searched
-     * @return {@code true} if letter is inside frame, {@code false} otherwise
-     */
-    public boolean contains(char letter) {
-        return getLetterIndex(letter) != -1;
-    }
-
-    /**
-     * Prints the frame to the command line.
-     */
-    public void printFrame() {
-        System.out.println(frame);
     }
 
     /**
@@ -135,6 +109,42 @@ public class Frame {
     }
 
     /**
+     * Check if a letter is found inside the frame.
+     *
+     * @param letter the letter that is being searched
+     * @return {@code true} if letter is inside frame, {@code false} otherwise
+     */
+    public boolean contains(char letter) {
+        return getLetterIndex(letter) != -1;
+    }
+
+    //  Find index of first tile containing some letter, -1 if not found
+    private int getLetterIndex(char letter) {
+        for (int i = 0; i < frame.size(); i++) {
+            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Check if frame is empty.
+     *
+     * @return {@code true} if frame is empty, {@code false} otherwise
+     */
+    public boolean isEmpty() {
+        return frame.isEmpty();
+    }
+
+    /**
+     * Prints the frame to the command line.
+     */
+    public void printFrame() {
+        System.out.println(frame);
+    }
+
+    /**
      * Accessor to letters in the frame.
      *
      * @param letter chosen by user to specify the selected tile from the frame
@@ -147,16 +157,6 @@ public class Frame {
         } else {
             throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
         }
-    }
-
-    //  Find index of first tile containing some letter, -1 if not found
-    private int getLetterIndex(char letter) {
-        for (int i = 0; i < frame.size(); i++) {
-            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
 }

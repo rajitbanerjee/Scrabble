@@ -155,6 +155,25 @@ public class Board {
         printColumnIndices();
     }
 
+    // Display a line of dashes, used to display the Board.
+    private void printLine() {
+        System.out.println();
+        for (int i = 0; i < 76; i++) {
+            System.out.print("-");
+        }
+        System.out.println();
+    }
+
+    // Display the column indices 'A' - 'O' on the board
+    private void printColumnIndices() {
+        System.out.print("|\t|");
+        for (char ch = 'A'; ch <= 'O'; ch++) {
+            System.out.printf(" %c |", ch);
+        }
+        System.out.print("\t   |");
+        printLine();
+    }
+
     /**
      * Retrieve a tile at a specified row and column on the board.
      *
@@ -295,12 +314,13 @@ public class Board {
             // Check if the squares before and after the word are empty
             if (Square.isValid(column - 1, row) &&
                     Square.isValid(column + word.length(), row)) {
-                if (!board[row][column - 1].isEmpty() || !board[row][column + word.length()].isEmpty()) {
+                if (!board[row][column - 1].isEmpty() ||
+                        !board[row][column + word.length()].isEmpty()) {
                     return true;
                 }
             }
             for (int i = 0; i < word.length(); i++) {
-                // Conflict occurs if a square is filled but tile does not match letters in the placed word
+                // Square is filled but tile does not match letters in the placed word
                 if (!board[row][column + i].isEmpty() &&
                         board[row][column + i].getTile().getType() != wordArray[i]) {
                     return true;
@@ -308,13 +328,15 @@ public class Board {
             }
         } else {
             // Check if the squares before and after the word are empty
-            if (Square.isValid(column, row - 1) && Square.isValid(column, row + word.length())) {
-                if (!board[row - 1][column].isEmpty() || !board[row + word.length()][column].isEmpty()) {
+            if (Square.isValid(column, row - 1) &&
+                    Square.isValid(column, row + word.length())) {
+                if (!board[row - 1][column].isEmpty() ||
+                        !board[row + word.length()][column].isEmpty()) {
                     return true;
                 }
             }
             for (int i = 0; i < word.length(); i++) {
-                // Conflict occurs if a square is filled but tile does not match letters in the placed word
+                // Square is filled but tile does not match letters in the placed word
                 if (!board[row + i][column].isEmpty() &&
                         board[row + i][column].getTile().getType() != wordArray[i]) {
                     return true;
@@ -447,25 +469,6 @@ public class Board {
         }
         System.out.println("\nWord needs to connect with an existing word on board!");
         return false;
-    }
-
-    // Display a line of dashes, used to display the Board.
-    private void printLine() {
-        System.out.println();
-        for (int i = 0; i < 76; i++) {
-            System.out.print("-");
-        }
-        System.out.println();
-    }
-
-    // Display the column indices 'A' - 'O' on the board
-    private void printColumnIndices() {
-        System.out.print("|\t|");
-        for (char ch = 'A'; ch <= 'O'; ch++) {
-            System.out.printf(" %c |", ch);
-        }
-        System.out.print("\t   |");
-        printLine();
     }
 
 }

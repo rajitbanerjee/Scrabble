@@ -53,12 +53,16 @@ public class Scrabble {
     public static void main(String[] args) {
         // New game
         new Scrabble();
-        do {
+        while (!isGameOver()) {
             makeMove(player1, player1.getFrame(), player2);
             makeMove(player2, player2.getFrame(), player1);
-        } while (!(pool.isEmpty() &&
-                (player1.getFrame().isEmpty() || player2.getFrame().isEmpty())));
+        }
         sc.close();
+    }
+
+    // Checks if the game is over
+    private static boolean isGameOver() {
+        return pool.isEmpty() && (player1.getFrame().isEmpty() || player2.getFrame().isEmpty());
     }
 
     // Current player makes a move against their opponent
@@ -80,6 +84,9 @@ public class Scrabble {
             }
         } else {
             scoreMove(move, player, frame);
+        }
+        if (isGameOver()) {
+            quit();
         }
     }
 
@@ -125,7 +132,7 @@ public class Scrabble {
                 exchangeTiles(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
-                System.out.println("\n" + e.getLocalizedMessage());
+                System.out.println(e.getMessage());
                 return false;
             }
         } else {
@@ -245,24 +252,20 @@ public class Scrabble {
         Word word = parseMove(move);
         board.placeWord(word, frame);
         Scoring.wordsFormed.clear();
-        opponentScore = 0;
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
-        opponentScore = score;
-
+        opponentScore = score; // current player is opponent for next player's move
         System.out.println("\n----------------------------");
         System.out.println("Word(s) placed: " + Scoring.wordsFormed.toString());
         System.out.println("Points awarded: " + score);
         System.out.println("----------------------------\n");
-
         try {
-            // TODO do something about this edge case instead of exception handling: end game?
-            frame.fillFrame();
-            displayFrameScore(player, frame);
-            pool.printSize();
+            frame.refillFrame();
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getMessage());
         }
+        displayFrameScore(player, frame);
+        pool.printSize();
         checkLastSixScores();
     }
 
