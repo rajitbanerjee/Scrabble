@@ -256,11 +256,12 @@ public class Scrabble {
         System.out.println("----------------------------\n");
 
         try {
+            // TODO do something about this edge case instead of exception handling: end game?
             frame.fillFrame();
             displayFrameScore(player, frame);
             pool.printSize();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         }
         checkLastSixScores();
     }

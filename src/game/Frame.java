@@ -84,8 +84,8 @@ public class Frame {
      * @throws IllegalStateException if there are insufficient tiles in the pool
      */
     public void exchange(String letters) throws IllegalStateException {
-        if (letters.length() > pool.size()) {
-            throw new IllegalStateException("Pool doesn't contain sufficient tiles!");
+        if (pool.size() < Constants.FRAME_LIMIT) {
+            throw new IllegalStateException("Cannot exchange, pool contains 6 tiles or less!");
         }
         for (char letter : letters.toCharArray()) {
             remove(letter);
