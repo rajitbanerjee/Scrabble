@@ -6,16 +6,51 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Scoring {
-    public static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
-    public static ArrayList<String> wordsFormed = new ArrayList<>();
     public static ArrayList<Index> lastCoveredIndices;
+    public static ArrayList<String> wordsFormed = new ArrayList<>();
+    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
+
+    /**
+     * Performs the operations required during a pass move.
+     *
+     * @param removeLastScore indicates whether the last score
+     *                        in the list needs to be removed
+     *                        before adding a 0 score for the pass move
+     */
+    public static void passMove(boolean removeLastScore) {
+        if (removeLastScore) {
+            lastSixScores.removeLast();
+        }
+        awardZeroScore();
+    }
+
+    /**
+     * Add 0 score to the last six scores list and clear the last
+     * covered indices.
+     */
+    public static void awardZeroScore() {
+        addScoreToList(0);
+        lastCoveredIndices.clear();
+    }
+
+    /**
+     * Adds a given score to the list of last six scores of the game.
+     *
+     * @param score to be added to the list
+     */
+    public static void addScoreToList(int score) {
+        if (lastSixScores.size() > 6) {
+            lastSixScores.removeFirst();
+        }
+        lastSixScores.addLast(score);
+    }
 
     /**
      * Checks if all of the last six scores were 0.
      *
      * @return {@code true} if last six scores in the game were all 0
      */
-    public static boolean lastSixScoresZero() {
+    public static boolean isLastSixZero() {
         int zeroes = 0;
         for (Integer score : lastSixScores) {
             if (score == 0) zeroes++;
@@ -23,6 +58,10 @@ public class Scoring {
         return zeroes == 6;
     }
 
+    // TODO remove this later
+    public static void printLastSixScores() {
+        System.out.println("\nLast six scores: " + lastSixScores.toString());
+    }
 
     /**
      * Finds the total score for move involving given word placement.
@@ -33,7 +72,9 @@ public class Scoring {
      */
     public static int calculateScore(Word word, Board board) {
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
-        return mainWordScore(word, board) + extraWordScore(word, board) + bonus;
+        int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
+        lastSixScores.addLast(score);
+        return score;
     }
 
     // Main word score (newly formed word with greatest number of newly placed tiles)

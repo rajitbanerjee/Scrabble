@@ -56,15 +56,15 @@ public class Scrabble {
         // New game
         new Scrabble();
         do {
-            makeMove(player1, player1.getFrame(), player2, true);
-            makeMove(player2, player2.getFrame(), player1, true);
+            makeMove(player1, player1.getFrame(), player2);
+            makeMove(player2, player2.getFrame(), player1);
         } while (!(pool.isEmpty() &&
                 (player1.getFrame().isEmpty() || player2.getFrame().isEmpty())));
         sc.close();
     }
 
     // Current player makes a move against their opponent
-    private static void makeMove(Player player, Frame frame, Player opponent, boolean firstChallenge) {
+    private static void makeMove(Player player, Frame frame, Player opponent) {
         String move = askForMove(player, frame);
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
@@ -73,16 +73,11 @@ public class Scrabble {
         } else if (move.startsWith("EXCHANGE")) {
             exchangeTiles(move, frame, false);
         } else if (move.equalsIgnoreCase("CHALLENGE")) {
-            if (firstChallenge) {
-                boolean isChallengeSuccessful = challenge(opponent);
-                if (isChallengeSuccessful) {
-                    pass(opponent, true);
-                    makeMove(player, frame, opponent, false);
-                } else {
-                    pass(player, false);
-                }
+            boolean isChallengeSuccessful = challenge(opponent);
+            if (isChallengeSuccessful) {
+                pass(opponent, true);
+                makeMove(player, frame, opponent);
             } else {
-                System.out.println("\nCannot challenge twice!");
                 pass(player, false);
             }
         } else {
@@ -181,10 +176,7 @@ public class Scrabble {
     // Pass move
     private static void pass(Player player, boolean removeLastScore) {
         System.out.printf("\nTurn passed for %s!\n", player.getName());
-        if (removeLastScore) {
-            Scoring.lastSixScores.removeLast();
-        }
-        Scoring.lastSixScores.addLast(0);
+        Scoring.passMove(removeLastScore);
         displayFrameScore(player, player.getFrame());
         checkLastSixScores();
     }
@@ -194,7 +186,7 @@ public class Scrabble {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
         if (!isTest) {
-            Scoring.lastSixScores.addLast(0);
+            Scoring.awardZeroScore();
             pool.printSize();
             System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
             checkLastSixScores();
@@ -260,7 +252,6 @@ public class Scrabble {
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score;
-        Scoring.lastSixScores.addLast(score);
 
         System.out.println("\n----------------------------");
         System.out.println("Word(s) placed: " + Scoring.wordsFormed.toString());
@@ -282,12 +273,9 @@ public class Scrabble {
 
     // End game if six consecutive scoreless moves occur
     public static void checkLastSixScores() {
-        if (Scoring.lastSixScores.size() > 6) {
-            Scoring.lastSixScores.removeFirst();
-        }
         // TODO remove printing scores later, added only for testing
-        System.out.println("\nLast six scores: " + Scoring.lastSixScores.toString());
-        if (Scoring.lastSixScoresZero()) {
+        Scoring.printLastSixScores();
+        if (Scoring.isLastSixZero()) {
             System.out.println("\nSix consecutive scoreless turns have occurred! Game over.");
             quit();
         }
