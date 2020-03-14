@@ -20,7 +20,7 @@ public class CommandHistoryView extends VBox {
         setPadding(new Insets(10));
     }
 
-    public void addRow(String text) {
+    public void printText(String text) {
         getChildren().add(new Label(text));
         history.add(text);
     }
