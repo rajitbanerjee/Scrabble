@@ -1,10 +1,6 @@
-package game_engine;
+package game;
 
 import constants.Constants;
-import game.Board;
-import game.Index;
-import game.Square;
-import game.Word;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
