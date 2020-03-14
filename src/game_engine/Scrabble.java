@@ -22,7 +22,6 @@ public class Scrabble {
     private static Pool pool;
     private static Board board;
     private static Player player1, player2;
-    private static ArrayList<Index> challengeIndices;
 
     private static HashSet<String> dictionary;
     private static int opponentScore;
@@ -36,7 +35,6 @@ public class Scrabble {
         System.out.print("Player #2, please enter your name: ");
         player2 = new Player(sc.nextLine(), new Frame(pool));
         System.out.printf("\nWelcome %s and %s!", player1.getName(), player2.getName());
-        challengeIndices = new ArrayList<>();
         opponentScore = 0;
         fillDictionary();
     }
@@ -196,7 +194,7 @@ public class Scrabble {
     // Challenge opponent's previous move and change scores accordingly
     private static boolean challenge(Player opponent) {
         boolean success = false;
-        if (challengeIndices.isEmpty()) {
+        if (Scoring.challengeIndices.isEmpty()) {
             System.out.println("\nCannot challenge! No word placed by opponent.");
         } else {
             if (wordsInDictionary()) {
@@ -211,7 +209,7 @@ public class Scrabble {
                 success = true;
             }
         }
-        challengeIndices.clear();
+        Scoring.challengeIndices.clear();
         return success;
     }
 
@@ -228,8 +226,8 @@ public class Scrabble {
     // Remove tile from board and put them back into frame
     private static void removeTiles(Frame frame) {
         StringBuilder addToPool = new StringBuilder();
-        int i = Constants.FRAME_LIMIT - challengeIndices.size();
-        for (Index index : challengeIndices) {
+        int i = Constants.FRAME_LIMIT - Scoring.challengeIndices.size();
+        for (Index index : Scoring.challengeIndices) {
             int row = index.getRow();
             int column = index.getColumn();
             Tile tile = board.getBoard()[row][column].getTile();
@@ -248,7 +246,6 @@ public class Scrabble {
         board.placeWord(word, frame);
         Scoring.wordsFormed.clear();
         opponentScore = 0;
-        Scoring.lastCoveredIndices = board.getLastCoveredIndices();
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score;
@@ -265,9 +262,6 @@ public class Scrabble {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        challengeIndices.clear();
-        challengeIndices.addAll(Scoring.lastCoveredIndices);
-        Scoring.lastCoveredIndices.clear();
         checkLastSixScores();
     }
 

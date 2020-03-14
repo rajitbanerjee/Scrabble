@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Scoring {
     public static ArrayList<Index> lastCoveredIndices;
+    public static ArrayList<Index> challengeIndices = new ArrayList<>();
     public static ArrayList<String> wordsFormed = new ArrayList<>();
     private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
@@ -39,10 +40,11 @@ public class Scoring {
      * @param score to be added to the list
      */
     public static void addScoreToList(int score) {
+        lastCoveredIndices = Board.getLastCoveredIndices();
+        lastSixScores.addLast(score);
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
-        lastSixScores.addLast(score);
     }
 
     /**
@@ -71,9 +73,13 @@ public class Scoring {
      * @return the score awarded after placing the given word
      */
     public static int calculateScore(Word word, Board board) {
+        lastCoveredIndices = Board.getLastCoveredIndices();
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
-        lastSixScores.addLast(score);
+        addScoreToList(score);
+        challengeIndices.clear();
+        challengeIndices.addAll(Scoring.lastCoveredIndices);
+        lastCoveredIndices.clear();
         return score;
     }
 

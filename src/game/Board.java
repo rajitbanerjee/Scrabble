@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Board {
     private Square[][] board;
     private boolean isFirstMove;
-    private ArrayList<Index> lastCoveredIndices = new ArrayList<>();
+    private static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
 
     /**
      * The constructor loops through every Square in the Board
@@ -82,7 +82,7 @@ public class Board {
      *
      * @return the list of indices covered in the last move
      */
-    public ArrayList<Index> getLastCoveredIndices() {
+    public static ArrayList<Index> getLastCoveredIndices() {
         return lastCoveredIndices;
     }
 
