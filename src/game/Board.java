@@ -45,6 +45,15 @@ public class Board {
     }
 
     /**
+     * Accessor for the last covered indices list.
+     *
+     * @return the list of indices covered in the last move
+     */
+    public static ArrayList<Index> getLastCoveredIndices() {
+        return lastCoveredIndices;
+    }
+
+    /**
      * Accessor for the board.
      *
      * @return the 15x15 matrix of Squares representing the board
@@ -75,15 +84,6 @@ public class Board {
      */
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
-    }
-
-    /**
-     * Accessor for the last covered indices list.
-     *
-     * @return the list of indices covered in the last move
-     */
-    public static ArrayList<Index> getLastCoveredIndices() {
-        return lastCoveredIndices;
     }
 
     /**

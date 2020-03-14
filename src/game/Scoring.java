@@ -6,7 +6,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class Scoring {
-    public static ArrayList<Index> lastCoveredIndices;
+    public static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
     public static ArrayList<Index> challengeIndices = new ArrayList<>();
     public static ArrayList<String> wordsFormed = new ArrayList<>();
     private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
@@ -22,29 +22,21 @@ public class Scoring {
         if (removeLastScore) {
             lastSixScores.removeLast();
         }
-        awardZeroScore();
-    }
-
-    /**
-     * Add 0 score to the last six scores list and clear the last
-     * covered indices.
-     */
-    public static void awardZeroScore() {
         addScoreToList(0);
-        lastCoveredIndices.clear();
     }
 
     /**
      * Adds a given score to the list of last six scores of the game.
+     * Also clear the last covered indices list.
      *
      * @param score to be added to the list
      */
     public static void addScoreToList(int score) {
-        lastCoveredIndices = Board.getLastCoveredIndices();
         lastSixScores.addLast(score);
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
+        lastCoveredIndices.clear();
     }
 
     /**
@@ -76,10 +68,9 @@ public class Scoring {
         lastCoveredIndices = Board.getLastCoveredIndices();
         int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
-        addScoreToList(score);
         challengeIndices.clear();
         challengeIndices.addAll(Scoring.lastCoveredIndices);
-        lastCoveredIndices.clear();
+        addScoreToList(score);
         return score;
     }
 

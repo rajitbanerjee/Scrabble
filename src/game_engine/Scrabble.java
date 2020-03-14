@@ -184,7 +184,7 @@ public class Scrabble {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
         if (!isTest) {
-            Scoring.awardZeroScore();
+            Scoring.addScoreToList(0);
             pool.printSize();
             System.out.printf("\nLetters (%s) have been exchanged!\n", to_exchange);
             checkLastSixScores();
