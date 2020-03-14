@@ -5,11 +5,19 @@ import constants.Constants;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+/**
+ * Implement the scoring logic for a Scrabble game.
+ *
+ * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
+ * @author Tee Chee Guan, 18202044
+ * @team DarkMode
+ */
 public class Scoring {
-    public static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
+    private static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
+    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
     public static ArrayList<Index> challengeIndices = new ArrayList<>();
     public static ArrayList<String> wordsFormed = new ArrayList<>();
-    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
     /**
      * Performs the operations required during a pass move.
@@ -37,24 +45,6 @@ public class Scoring {
             lastSixScores.removeFirst();
         }
         lastCoveredIndices.clear();
-    }
-
-    /**
-     * Checks if all of the last six scores were 0.
-     *
-     * @return {@code true} if last six scores in the game were all 0
-     */
-    public static boolean isLastSixZero() {
-        int zeroes = 0;
-        for (Integer score : lastSixScores) {
-            if (score == 0) zeroes++;
-        }
-        return zeroes == 6;
-    }
-
-    // TODO remove this later
-    public static void printLastSixScores() {
-        System.out.println("\nLast six scores: " + lastSixScores.toString());
     }
 
     /**
@@ -192,6 +182,24 @@ public class Scoring {
             }
         }
         return score;
+    }
+
+    // TODO remove this later
+    public static void printLastSixScores() {
+        System.out.println("\nLast six scores: " + lastSixScores.toString());
+    }
+
+    /**
+     * Checks if all of the last six scores were 0.
+     *
+     * @return {@code true} if last six scores in the game were all 0
+     */
+    public static boolean isLastSixZero() {
+        int zeroes = 0;
+        for (Integer score : lastSixScores) {
+            if (score == 0) zeroes++;
+        }
+        return zeroes == 6;
     }
 
 }
