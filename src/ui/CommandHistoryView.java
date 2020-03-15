@@ -15,7 +15,7 @@ public class CommandHistoryView extends VBox {
     public CommandHistoryView() {
         super();
         history = new ArrayList<>();
-        setMinHeight(350);
+        setMinHeight(800);
         setAlignment(Pos.BOTTOM_LEFT);
         setPadding(new Insets(10));
     }

@@ -94,6 +94,14 @@ public class CLIController {
         historyView.printText(text);
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoardController(BoardController boardController) {
+        this.boardController = boardController;
+    }
+
     public void setListeners() {
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -126,10 +134,10 @@ public class CLIController {
                 break;
             case P1_TURN:
                 if (isValidMove(command, player1.getFrame())) {
-                    // TODO: process move
-                    // Move to player2 move
+                    makeMove(command, player1, player1.getFrame(), player2);
                     gameState = Constants.STATUS_CODE.P2_TURN;
                     askForMove(player2);
+                    boardController.update();
                 } else {
                     printToOutput("Invalid move! Try again.");
                     askForMove(player1);
@@ -137,10 +145,10 @@ public class CLIController {
                 break;
             case P2_TURN:
                 if (isValidMove(command, player2.getFrame())) {
-                    // TODO: process move
-                    // Move to player1 move
+                    makeMove(command, player1, player1.getFrame(), player2);
                     gameState = Constants.STATUS_CODE.P1_TURN;
                     askForMove(player1);
+                    boardController.update();
                 } else {
                     printToOutput("Invalid move! Try again.");
                     askForMove(player2);
@@ -312,7 +320,7 @@ public class CLIController {
         try {
             frame.refillFrame();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            printToOutput(e.getMessage());
         }
         displayFrameScore(player, frame);
         printToOutput("Number of tiles in pool:" + pool.size());

@@ -19,7 +19,7 @@ public class BoardView extends GridPane {
         init();
     }
 
-    private static Node getSquareUI(Square square) {
+    public static Node getSquareUI(Square square) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(50, 50);
         switch (square.getMultiplier()) {

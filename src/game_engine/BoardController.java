@@ -1,7 +1,10 @@
 package game_engine;
 
+import constants.Constants;
 import game.Board;
+import game.Square;
 import javafx.scene.layout.GridPane;
+import ui.BoardView;
 
 public class BoardController {
     private GridPane grid;
@@ -13,6 +16,14 @@ public class BoardController {
     }
 
     public void update() {
-        //TODO: update board when changed
+        Square[][] boardArray = board.getBoard();
+        grid.getChildren().clear();
+        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
+            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+                grid.add(BoardView.getSquareUI(boardArray[i][j]), j, i);
+            }
+        }
+        grid.setHgap(5);
+        grid.setVgap(5);
     }
 }
