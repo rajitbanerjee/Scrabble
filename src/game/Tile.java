@@ -22,6 +22,29 @@ public class Tile {
         setPoints(points);
     }
 
+    /**
+     * Creates a Tile object of the specified type.
+     *
+     * @param type the type of Tile to be created A-Z or blank -
+     * @return Tile object for specified type
+     * @throws IllegalArgumentException if specified type is neither A-Z nor -
+     */
+    public static Tile makeTile(char type) throws IllegalArgumentException {
+        type = Character.toUpperCase(type);
+        int points = -1;
+        for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
+            if (Constants.TILE_TYPES_ARRAY[i].contains(type + "")) {
+                points = Constants.POINT_TYPES_ARRAY[i];
+                break;
+            }
+        }
+        // If points remain -1 (initial), that means there's an error with type
+        if (points == -1) {
+            throw new IllegalArgumentException("Invalid type of tile given");
+        }
+        return new Tile(type, points);
+    }
+
     public char getType() {
         return type;
     }
@@ -55,29 +78,6 @@ public class Tile {
             throw new IllegalArgumentException("Invalid tile points.");
         }
         this.points = points;
-    }
-
-    /**
-     * Creates a Tile object of the specified type.
-     *
-     * @param type the type of Tile to be created A-Z or blank -
-     * @return Tile object for specified type
-     * @throws IllegalArgumentException if specified type is neither A-Z nor -
-     */
-    public static Tile makeTile(char type) throws IllegalArgumentException {
-        type = Character.toUpperCase(type);
-        int points = -1;
-        for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
-            if (Constants.TILE_TYPES_ARRAY[i].contains(type + "")) {
-                points = Constants.POINT_TYPES_ARRAY[i];
-                break;
-            }
-        }
-        // If points remain -1 (initial), that means there's an error with type
-        if (points == -1) {
-            throw new IllegalArgumentException("Invalid type of tile given");
-        }
-        return new Tile(type, points);
     }
 
     /**

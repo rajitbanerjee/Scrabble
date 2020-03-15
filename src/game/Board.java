@@ -40,16 +40,16 @@ public class Board {
         }
     }
 
+    public static ArrayList<Index> getLastCoveredIndices() {
+        return lastCoveredIndices;
+    }
+
     public Square[][] getBoard() {
         return board;
     }
 
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
-    }
-
-    public static ArrayList<Index> getLastCoveredIndices() {
-        return lastCoveredIndices;
     }
 
     /**

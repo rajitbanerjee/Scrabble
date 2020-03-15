@@ -62,34 +62,6 @@ public class Frame {
     }
 
     /**
-     * Accessor method for frame.
-     *
-     * @return the frame
-     */
-    public ArrayList<Tile> getFrame() {
-        return frame;
-    }
-
-    /**
-     * Force the player's frame to a particular state.
-     * Required for testing purposes.
-     *
-     * @param frame the required frame
-     */
-    public void setFrame(ArrayList<Tile> frame) {
-        this.frame = frame;
-    }
-
-    /**
-     * Accessor method for pool.
-     *
-     * @return the pool which is used to refill the frame
-     */
-    public Pool getPool() {
-        return pool;
-    }
-
-    /**
      * Exchanges the given letters in the frame from the pool.
      *
      * @param letters to be exchanged e.g. "BCDE", "PA-T"
@@ -171,20 +143,6 @@ public class Frame {
         System.out.println(frame);
     }
 
-    /**
-     * Accessor to letters in the frame.
-     *
-     * @param letter chosen by user to specify the selected tile from the frame
-     * @return the tile object for the given letter in frame
-     * @throws NoSuchElementException if required letter is not in frame
-     */
-    public Tile getTile(char letter) throws NoSuchElementException {
-        if (contains(letter)) {
-            return frame.get(getLetterIndex(letter));
-        } else {
-            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
-        }
-    }
 
     /**
      * Override toString method

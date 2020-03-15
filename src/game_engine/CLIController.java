@@ -39,7 +39,7 @@ public class CLIController {
     }
 
     // End game if six consecutive scoreless moves occur
-    public void checkLastSixScores() {
+    public void checkLastSixScores() throws InterruptedException {
         // TODO remove printing scores later, added only for testing
         Scoring.printLastSixScores();
         if (Scoring.isLastSixZero()) {
@@ -49,7 +49,7 @@ public class CLIController {
     }
 
     // Exchange tiles between frame and pool
-    private void exchangeTiles(String move, Frame frame, boolean isTest) {
+    private void exchangeTiles(String move, Frame frame, boolean isTest) throws InterruptedException {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
         if (!isTest) {
@@ -61,7 +61,7 @@ public class CLIController {
     }
 
     // Quit game
-    private void quit() {
+    private void quit() throws InterruptedException {
         printToOutput("---------------------------------------------------------");
         printToOutput("Final Scores:");
         printToOutput(String.format("%s's score: %d", player1.getName(), player1.getScore()));
@@ -76,6 +76,8 @@ public class CLIController {
         }
         printToOutput("---------------------------------------------------------");
         printToOutput("Thanks for playing!");
+        // Pause 5 seconds before quiting
+        Thread.sleep(2000);
         System.exit(0);
     }
 
@@ -107,13 +109,17 @@ public class CLIController {
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 printToOutput(inputView.getText());
-                processCommand(inputView.getText(), gameState);
+                try {
+                    processCommand(inputView.getText(), gameState);
+                } catch (InterruptedException e) {
+                    System.exit(-1);
+                }
                 inputView.clear();
             }
         });
     }
 
-    private void processCommand(String command, Constants.STATUS_CODE statusCode) {
+    private void processCommand(String command, Constants.STATUS_CODE statusCode) throws InterruptedException {
         switch (statusCode) {
             case P1_NAME:
                 player1.setName(command);
@@ -167,7 +173,7 @@ public class CLIController {
     }
 
     // Makes a valid move
-    private void makeMove(String move, Player player, Frame frame, Player opponent) {
+    private void makeMove(String move, Player player, Frame frame, Player opponent) throws InterruptedException {
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
@@ -300,7 +306,7 @@ public class CLIController {
     }
 
     // Pass move
-    private void pass(Player player, boolean removeLastScore) {
+    private void pass(Player player, boolean removeLastScore) throws InterruptedException {
         printToOutput(String.format("Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
         displayFrameScore(player, player.getFrame());
@@ -308,7 +314,7 @@ public class CLIController {
     }
 
     // Award the score for a player's move
-    private void scoreMove(String move, Player player, Frame frame) {
+    private void scoreMove(String move, Player player, Frame frame) throws InterruptedException {
         Word word = Word.parseMove(move);
         board.placeWord(word, frame);
         Scoring.wordsFormed.clear();

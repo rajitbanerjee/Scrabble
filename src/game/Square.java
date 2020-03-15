@@ -20,18 +20,6 @@ public class Square {
         this.multiplier = multiplier;
     }
 
-    public Constants.MULTIPLIER getMultiplier() {
-        return multiplier;
-    }
-
-    public Tile getTile() {
-        return tile;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
-
     /**
      * Checks if a specified square index is within the board.
      *
@@ -42,6 +30,18 @@ public class Square {
     public static boolean isValid(int column, int row) {
         return column >= 0 && column < Constants.BOARD_SIZE &&
                 row >= 0 && row < Constants.BOARD_SIZE;
+    }
+
+    public Constants.MULTIPLIER getMultiplier() {
+        return multiplier;
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     /**
