@@ -169,7 +169,7 @@ public class CLIController {
     }
 
     private boolean isGameOver() {
-        return pool.isEmpty() && (player1.getFrame().isEmpty() || player2.getFrame().isEmpty());
+        return pool.isEmpty() || (player1.getFrame().isEmpty() || player2.getFrame().isEmpty());
     }
 
     // Makes a valid move
