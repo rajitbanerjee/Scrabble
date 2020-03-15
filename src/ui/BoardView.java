@@ -51,11 +51,51 @@ public class BoardView extends GridPane {
         return pane;
     }
 
+    public static Node getColumnUI(char ch) {
+        StackPane pane = new StackPane();
+        Rectangle rect = new Rectangle(50, 50);
+        rect.setFill(Color.GHOSTWHITE);
+        Text text = new Text(Character.toString(ch));
+        pane.getChildren().add(rect);
+        pane.getChildren().add(text);
+        return pane;
+    }
+
+    public static Node getRowUI(int i) {
+        StackPane pane = new StackPane();
+        Rectangle rect = new Rectangle(50, 50);
+        rect.setFill(Color.GHOSTWHITE);
+        Text text = new Text(Integer.toString(i));
+        pane.getChildren().add(rect);
+        pane.getChildren().add(text);
+        return pane;
+    }
+
+    public static Node getEmptyUI() {
+        StackPane pane = new StackPane();
+        Rectangle rect = new Rectangle(50, 50);
+        rect.setFill(Color.GHOSTWHITE);
+        pane.getChildren().add(rect);
+        return pane;
+    }
+
+    // add(column, row)
     private void init() {
         Square[][] boardArray = board.getBoard();
+        // Initialise top-left empty block
+        add(getEmptyUI(), 0, 0);
+        // Draws the first row (Column Names)
+        for (int k = 0; k < Constants.BOARD_SIZE; k++) {
+            add(getColumnUI((char) ('A' + k)), k + 1, 0);
+        }
+        // Draws the first column (Row Numbers)
+        for (int k = 0; k < Constants.BOARD_SIZE; k++) {
+            add(getRowUI(k + 1), 0, k + 1);
+        }
+        // Draws the rest of the board
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
-                add(getSquareUI(boardArray[i][j]), j, i);
+                add(getSquareUI(boardArray[i][j]), i + 1, j + 1);
             }
         }
         setHgap(5);
