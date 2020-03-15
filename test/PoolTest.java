@@ -77,8 +77,6 @@ class PoolTest {
             Tile t = pool.drawTile();
             if (!map.containsKey(t.getType()) || map.get(t.getType()) != t.getPoints()) {
                 fail("Error: Character " + t.getType() + " is invalid");
-            } else if (map.get(t.getType()) != pool.getTileValue(t)) {
-                fail("Error: getTileValue() returns incorrect values");
             } else {
                 correctTiles++;
             }

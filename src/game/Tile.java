@@ -17,12 +17,44 @@ public class Tile {
     private char type;
     private int points;
 
-    /**
-     * Create a new Tile with given type (blank or A-Z) and assigned points.
-     */
     public Tile(char type, int points) {
         setType(type);
         setPoints(points);
+    }
+
+    public char getType() {
+        return type;
+    }
+
+    /**
+     * Setter for tile type.
+     *
+     * @param type letter A-Z or blank type of tile
+     * @throws IllegalArgumentException if tile type is invalid
+     */
+    public void setType(char type) throws IllegalArgumentException {
+        if (!Character.isLetter(Character.toUpperCase(type)) && type != '-') {
+            throw new IllegalArgumentException("Invalid tile type.");
+        } else {
+            this.type = type;
+        }
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Setter for tile's associated points
+     *
+     * @param points assigned to each type of tile
+     * @throws IllegalArgumentException if points are negative or ore than 10
+     */
+    public void setPoints(int points) throws IllegalArgumentException {
+        if (points < 0 || points > 10) {
+            throw new IllegalArgumentException("Invalid tile points.");
+        }
+        this.points = points;
     }
 
     /**
@@ -46,44 +78,6 @@ public class Tile {
             throw new IllegalArgumentException("Invalid type of tile given");
         }
         return new Tile(type, points);
-    }
-
-    public char getType() {
-        return type;
-    }
-
-    /**
-     * Setter for tile type.
-     *
-     * @param type letter A-Z or blank type of tile
-     * @throws IllegalArgumentException if tile type is invalid
-     */
-    public void setType(char type) throws IllegalArgumentException {
-        if (!Character.isLetter(Character.toUpperCase(type)) && type != '-') {
-            throw new IllegalArgumentException("Invalid tile type.");
-        } else {
-            this.type = type;
-        }
-    }
-
-    /**
-     * Accessor for tile's points.
-     */
-    public int getPoints() {
-        return points;
-    }
-
-    /**
-     * Setter for tile's associated points
-     *
-     * @param points assigned to each type of tile
-     * @throws IllegalArgumentException if points are negative or ore than 10
-     */
-    public void setPoints(int points) throws IllegalArgumentException {
-        if (points < 0 || points > 10) {
-            throw new IllegalArgumentException("Invalid tile points.");
-        }
-        this.points = points;
     }
 
     /**

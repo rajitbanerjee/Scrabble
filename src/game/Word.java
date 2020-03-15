@@ -32,23 +32,16 @@ public class Word {
         this.orientation = Character.toUpperCase(orientation);
     }
 
-    /**
-     * Compute the number of letters in the word.
-     *
-     * @return number of letters in word
-     */
-    public int length() {
-        return letters.length();
+    public String getLetters() {
+        return letters;
     }
 
-    /**
-     * Gets the character at a specified word index.
-     *
-     * @param index required character's index in the word
-     * @return the character at the given index
-     */
-    public char charAt(int index) {
-        return letters.charAt(index);
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     /**
@@ -70,13 +63,24 @@ public class Word {
     }
 
     /**
-     * Accessor for the letters that form the word.
+     * Compute the number of letters in the word.
      *
-     * @return the String of letters in the word
+     * @return number of letters in word
      */
-    public String getLetters() {
-        return letters;
+    public int length() {
+        return letters.length();
     }
+
+    /**
+     * Gets the character at a specified word index.
+     *
+     * @param index required character's index in the word
+     * @return the character at the given index
+     */
+    public char charAt(int index) {
+        return letters.charAt(index);
+    }
+
 
     /**
      * Checks if the word contains alphabets only.
@@ -85,24 +89,6 @@ public class Word {
      */
     public boolean isAlphaString() {
         return letters.matches("[A-Za-z]+");
-    }
-
-    /**
-     * Returns the word's starting row.
-     *
-     * @return integer between 0 - 14 (real board row index)
-     */
-    public int getRow() {
-        return row;
-    }
-
-    /**
-     * Returns the word's starting column.
-     *
-     * @return integer between 0 - 14 (real board column index)
-     */
-    public int getColumn() {
-        return column;
     }
 
 }

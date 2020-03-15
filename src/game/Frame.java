@@ -34,6 +34,18 @@ public class Frame {
         refillFrame();
     }
 
+    public Pool getPool() {
+        return pool;
+    }
+
+    public ArrayList<Tile> getFrame() {
+        return frame;
+    }
+
+    public void setFrame(ArrayList<Tile> frame) {
+        this.frame = frame;
+    }
+
     /**
      * Method to refill the frame if it has less than 7 tiles.
      *
@@ -47,34 +59,6 @@ public class Frame {
         for (int i = 0; i < numTilesToDraw; i++) {
             frame.add(pool.drawTile());
         }
-    }
-
-    /**
-     * Accessor method for frame.
-     *
-     * @return the frame
-     */
-    public ArrayList<Tile> getFrame() {
-        return frame;
-    }
-
-    /**
-     * Accessor method for pool.
-     *
-     * @return the pool which is used to refill the frame
-     */
-    public Pool getPool() {
-        return pool;
-    }
-
-    /**
-     * Force the player's frame to a particular state.
-     * Required for testing purposes.
-     *
-     * @param frame the required frame
-     */
-    public void setFrame(ArrayList<Tile> frame) {
-        this.frame = frame;
     }
 
     /**
@@ -105,6 +89,21 @@ public class Frame {
             frame.remove(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be removed. Not in frame!");
+        }
+    }
+
+    /**
+     * Accessor to letters in the frame.
+     *
+     * @param letter chosen by user to specify the selected tile from the frame
+     * @return the tile object for the given letter in frame
+     * @throws NoSuchElementException if required letter is not in frame
+     */
+    public Tile getTile(char letter) throws NoSuchElementException {
+        if (contains(letter)) {
+            return frame.get(getLetterIndex(letter));
+        } else {
+            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
         }
     }
 
@@ -142,21 +141,6 @@ public class Frame {
      */
     public void printFrame() {
         System.out.println(frame);
-    }
-
-    /**
-     * Accessor to letters in the frame.
-     *
-     * @param letter chosen by user to specify the selected tile from the frame
-     * @return the tile object for the given letter in frame
-     * @throws NoSuchElementException if required letter is not in frame
-     */
-    public Tile getTile(char letter) throws NoSuchElementException {
-        if (contains(letter)) {
-            return frame.get(getLetterIndex(letter));
-        } else {
-            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
-        }
     }
 
 }

@@ -17,10 +17,6 @@ public class Board {
     private boolean isFirstMove;
     private static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
 
-    /**
-     * The constructor loops through every Square in the Board
-     * and sets the multiplier that a particular index may have.
-     */
     public Board() {
         board = new Square[15][15];
         setFirstMove(true);
@@ -44,22 +40,16 @@ public class Board {
         }
     }
 
-    /**
-     * Accessor for the last covered indices list.
-     *
-     * @return the list of indices covered in the last move
-     */
-    public static ArrayList<Index> getLastCoveredIndices() {
-        return lastCoveredIndices;
-    }
-
-    /**
-     * Accessor for the board.
-     *
-     * @return the 15x15 matrix of Squares representing the board
-     */
     public Square[][] getBoard() {
         return board;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
+    }
+
+    public static ArrayList<Index> getLastCoveredIndices() {
+        return lastCoveredIndices;
     }
 
     /**
@@ -74,48 +64,6 @@ public class Board {
             }
         }
         return true;
-    }
-
-    /**
-     * Mutator for isFirstMove.
-     * Should be used after first move is completed to change isFirstMove to false.
-     *
-     * @param firstMove false after first move has been made
-     */
-    public void setFirstMove(boolean firstMove) {
-        isFirstMove = firstMove;
-    }
-
-    /**
-     * Gets the word on the board in given row, starting and ending at given columns.
-     *
-     * @param row         the board row in which the word is placed
-     * @param startColumn the starting board column of the word
-     * @param endColumn   the ending board column of the word
-     * @return the String representation of the word
-     */
-    public String getHorizontalWord(int row, int startColumn, int endColumn) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = startColumn; i <= endColumn; i++) {
-            sb.append(board[row][i].getTile().getType());
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Gets the word on the board in given row, starting and ending at given columns.
-     *
-     * @param column   the board column in which the word is placed
-     * @param startRow the starting board row of the word
-     * @param endRow   the ending board row of the word
-     * @return the String representation of the word
-     */
-    public String getVerticalWord(int column, int startRow, int endRow) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = startRow; i <= endRow; i++) {
-            sb.append(board[i][column].getTile().getType());
-        }
-        return sb.toString();
     }
 
     /**
@@ -204,6 +152,38 @@ public class Board {
     public void placeTile(char column, int row, Tile tile) {
         board[row - 1][column - 'A'].setTile(tile);
         lastCoveredIndices.add(new Index(row - 1, column - 'A'));
+    }
+
+    /**
+     * Gets the word on the board in given row, starting and ending at given columns.
+     *
+     * @param row         the board row in which the word is placed
+     * @param startColumn the starting board column of the word
+     * @param endColumn   the ending board column of the word
+     * @return the String representation of the word
+     */
+    public String getHorizontalWord(int row, int startColumn, int endColumn) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = startColumn; i <= endColumn; i++) {
+            sb.append(board[row][i].getTile().getType());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Gets the word on the board in given row, starting and ending at given columns.
+     *
+     * @param column   the board column in which the word is placed
+     * @param startRow the starting board row of the word
+     * @param endRow   the ending board row of the word
+     * @return the String representation of the word
+     */
+    public String getVerticalWord(int column, int startRow, int endRow) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = startRow; i <= endRow; i++) {
+            sb.append(board[i][column].getTile().getType());
+        }
+        return sb.toString();
     }
 
     /**

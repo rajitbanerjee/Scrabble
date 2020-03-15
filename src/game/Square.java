@@ -20,13 +20,16 @@ public class Square {
         this.multiplier = multiplier;
     }
 
-    /**
-     * Checks if a given square doesn't contain a tile.
-     *
-     * @return {@code true} if the given square is empty
-     */
-    public boolean isEmpty() {
-        return getTile() == null;
+    public Constants.MULTIPLIER getMultiplier() {
+        return multiplier;
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     /**
@@ -41,20 +44,20 @@ public class Square {
                 row >= 0 && row < Constants.BOARD_SIZE;
     }
 
-    // Required setters and getters
-    public Constants.MULTIPLIER getMultiplier() {
-        return multiplier;
+    /**
+     * Checks if a given square doesn't contain a tile.
+     *
+     * @return {@code true} if the given square is empty
+     */
+    public boolean isEmpty() {
+        return getTile() == null;
     }
 
-    public Tile getTile() {
-        return tile;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
-
-    // Returns the integer value of a letter multiplier
+    /**
+     * Returns the integer value of a letter multiplier.
+     *
+     * @return integer representing the letter multiplier
+     */
     public int getLetterMultiplier() {
         switch (multiplier) {
             case DOUBLE_LS:
@@ -66,7 +69,11 @@ public class Square {
         }
     }
 
-    // Returns the integer value of a word multiplier
+    /**
+     * Returns the integer value of a word multiplier.
+     *
+     * @return integer representing the word multiplier
+     */
     public int getWordMultiplier() {
         switch (multiplier) {
             case CENTRE:
