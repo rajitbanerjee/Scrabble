@@ -3,6 +3,7 @@ package game_engine;
 import constants.Constants;
 import game.*;
 import javafx.scene.input.KeyCode;
+import resources.Resource;
 import ui.CommandHistoryView;
 import ui.CommandInputView;
 
@@ -288,7 +289,7 @@ public class CLIController {
     }
 
     private void fillDictionary() {
-        InputStream in = Scrabble.class.getResourceAsStream("sowpods.txt");
+        InputStream in = Resource.class.getResourceAsStream("sowpods.txt");
         Scanner sc = new Scanner(in);
         dictionary = new HashSet<>();
         while (sc.hasNext()) {
