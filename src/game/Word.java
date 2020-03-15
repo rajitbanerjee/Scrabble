@@ -33,6 +33,21 @@ public class Word {
     }
 
     /**
+     * Parses the move from the expected String format to a word, a factory method
+     *
+     * @param move move to be converted into a word
+     * @return a new Word instance
+     */
+    public static Word parseMove(String move) {
+        String[] inputArguments = move.split("\\s+");
+        char column = inputArguments[0].charAt(0);
+        int row = Integer.parseInt(inputArguments[0].substring(1));
+        char orientation = inputArguments[1].charAt(0);
+        String letters = inputArguments[2];
+        return new Word(letters, column, row, orientation);
+    }
+
+    /**
      * Compute the number of letters in the word.
      *
      * @return number of letters in word

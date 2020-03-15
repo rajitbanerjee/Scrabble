@@ -17,14 +17,12 @@ public class Player {
 
     /**
      * First Constructor for the player class, frame remains null if unspecified.
-     *
-     * @throws NullPointerException if the given name is null or empty
      */
-    public Player(String name) throws NullPointerException {
-        if (name == null || name.trim().equals("")) {
-            throw new NullPointerException("Player name cannot be null");
+    public Player(String name) {
+        this.name = name;
+        if (isValidName()) {
+            this.name = name.trim();
         }
-        this.name = name.trim();
         score = 0;
         frame = null;
     }
@@ -134,13 +132,9 @@ public class Player {
      * Mutator method for the name.
      *
      * @param name player name
-     * @throws NullPointerException if given name is null
      */
     public void setName(String name) throws NullPointerException {
-        if (name == null || name.trim().equals("")) {
-            throw new NullPointerException("Player name cannot be null");
-        }
-        this.name = name.trim();
+        this.name = name;
     }
 
     /**
@@ -153,4 +147,12 @@ public class Player {
         return name;
     }
 
+    /**
+     * Checks if player name is valid
+     *
+     * @return true if player name is valid (not null or empty)
+     */
+    public boolean isValidName() {
+        return name != null && !name.trim().equals("");
+    }
 }

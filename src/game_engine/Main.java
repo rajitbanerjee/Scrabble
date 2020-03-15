@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         CLIView view = new CLIView();
-        CLIController controller = new CLIController(view.getInputView(), view.getHistoryView());
+        CLIController controller = new CLIController(view.getInputView(), view.getHistoryView(), null);
         stage.setScene(new Scene(view));
         stage.setResizable(false);
         stage.show();

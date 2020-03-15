@@ -65,5 +65,5 @@ public class Constants {
     // NOTE: Centre is also has a score multiplier of DOUBLE_WS
     public enum MULTIPLIER {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
 
-    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN}
+    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 }

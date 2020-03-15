@@ -59,15 +59,6 @@ public class Frame {
     }
 
     /**
-     * Accessor method for pool.
-     *
-     * @return the pool which is used to refill the frame
-     */
-    public Pool getPool() {
-        return pool;
-    }
-
-    /**
      * Force the player's frame to a particular state.
      * Required for testing purposes.
      *
@@ -75,6 +66,15 @@ public class Frame {
      */
     public void setFrame(ArrayList<Tile> frame) {
         this.frame = frame;
+    }
+
+    /**
+     * Accessor method for pool.
+     *
+     * @return the pool which is used to refill the frame
+     */
+    public Pool getPool() {
+        return pool;
     }
 
     /**
@@ -159,4 +159,13 @@ public class Frame {
         }
     }
 
+    /**
+     * Override toString method
+     *
+     * @return Sting representation of Frame
+     */
+    @Override
+    public String toString() {
+        return frame.toString();
+    }
 }
