@@ -146,7 +146,7 @@ public class CLIController {
                 break;
             case P2_TURN:
                 if (isValidMove(command, player2.getFrame())) {
-                    makeMove(command, player1, player1.getFrame(), player2);
+                    makeMove(command, player2, player2.getFrame(), player2);
                     gameState = Constants.STATUS_CODE.P1_TURN;
                     askForMove(player1);
                     boardController.update();
@@ -178,6 +178,7 @@ public class CLIController {
             boolean isChallengeSuccessful = challenge(opponent);
             if (isChallengeSuccessful) {
                 pass(opponent, true);
+                // TODO: Broken needs to be fixed
                 //makeMove(player, frame, opponent);
             } else {
                 pass(player, false);

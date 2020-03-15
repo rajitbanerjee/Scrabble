@@ -16,7 +16,7 @@ public class BoardView extends GridPane {
     public BoardView(Board board) {
         super();
         this.board = board;
-        init();
+        redraw();
     }
 
     public static Node getSquareUI(Square square) {
@@ -45,6 +45,7 @@ public class BoardView extends GridPane {
             text = new Text(square.toString());
         } else {
             text = new Text(Character.toString(square.getTile().getType()));
+            rect.setFill(Color.LIGHTYELLOW);
         }
         pane.getChildren().add(rect);
         pane.getChildren().add(text);
@@ -80,7 +81,7 @@ public class BoardView extends GridPane {
     }
 
     // add(column, row)
-    private void init() {
+    public void redraw() {
         Square[][] boardArray = board.getBoard();
         // Initialise top-left empty block
         add(getEmptyUI(), 0, 0);

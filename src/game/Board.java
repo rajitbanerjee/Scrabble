@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * @team DarkMode
  */
 public class Board {
+    private static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
     private Square[][] board;
     private boolean isFirstMove;
-    private static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
 
     /**
      * The constructor loops through every Square in the Board

@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * @team DarkMode
  */
 public class Scoring {
-    private static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
-    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
     public static ArrayList<Index> challengeIndices = new ArrayList<>();
     public static ArrayList<String> wordsFormed = new ArrayList<>();
+    private static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
+    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
     /**
      * Performs the operations required during a pass move.
