@@ -30,7 +30,7 @@ public class BoardController {
         // Draws the rest of the board
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
-                grid.add(BoardView.getSquareUI(boardArray[i][j]), i + 1, j + 1);
+                grid.add(BoardView.getSquareUI(boardArray[i][j]), j + 1, i + 1);
             }
         }
         grid.setHgap(5);

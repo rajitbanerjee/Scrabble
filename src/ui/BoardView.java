@@ -95,7 +95,7 @@ public class BoardView extends GridPane {
         // Draws the rest of the board
         for (int i = 0; i < Constants.BOARD_SIZE; i++) {
             for (int j = 0; j < Constants.BOARD_SIZE; j++) {
-                add(getSquareUI(boardArray[i][j]), i + 1, j + 1);
+                add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
             }
         }
         setHgap(5);
