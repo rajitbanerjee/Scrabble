@@ -23,6 +23,19 @@ public class Pool {
         reset();
     }
 
+    public ArrayList<Tile> getPool() {
+        return pool;
+    }
+
+    /**
+     * Returns the current size of the pool.
+     *
+     * @return current number of tiles in the pool
+     */
+    public int size() {
+        return pool.size();
+    }
+
     /**
      * Resets the pool to its initial state with 100 tiles.
      * Adds required number of tiles of each type to the pool.
@@ -37,28 +50,14 @@ public class Pool {
     }
 
     /**
-     * Returns the current size of the pool.
+     * Add given group of tiles to the pool, each with the given associated points.
      *
-     * @return current number of tiles in the pool
+     * @param tiles group of tiles to be added
      */
-    public int size() {
-        return pool.size();
-    }
-
-    /**
-     * Display the number of tiles currently in the pool.
-     */
-    public void printSize() {
-        System.out.println("Number of tiles in pool: " + size());
-    }
-
-    /**
-     * Checks if the pool is empty.
-     *
-     * @return {@code true} if pool has 0 tiles, {@code false} otherwise
-     */
-    public boolean isEmpty() {
-        return pool.isEmpty();
+    public void addTiles(String tiles) {
+        for (char ch : tiles.toCharArray()) {
+            pool.add(Tile.makeTile(ch));
+        }
     }
 
     /**
@@ -80,33 +79,19 @@ public class Pool {
     }
 
     /**
-     * Gets the points associated with a given tile.
+     * Checks if the pool is empty.
      *
-     * @param t Tile object whose points are to be queried
-     * @return the points associated with the given Tile object
+     * @return {@code true} if pool has 0 tiles, {@code false} otherwise
      */
-    public int getTileValue(Tile t) {
-        return t.getPoints();
+    public boolean isEmpty() {
+        return pool.isEmpty();
     }
 
     /**
-     * Add given group of tiles to the pool, each with the given associated points.
-     *
-     * @param tiles group of tiles to be added
+     * Display the number of tiles currently in the pool.
      */
-    public void addTiles(String tiles) {
-        for (char ch : tiles.toCharArray()) {
-            pool.add(Tile.makeTile(ch));
-        }
-    }
-
-    /**
-     * Pool accessor required for testing.
-     *
-     * @return the ArrayList of Tile objects in the pool
-     */
-    public ArrayList<Tile> getPool() {
-        return pool;
+    public void printSize() {
+        System.out.println("Number of tiles in pool: " + size());
     }
 
 }

@@ -124,11 +124,10 @@ public class Scrabble {
 
     // Check that tile exchange command is legal
     private static boolean isExchangeLegal(String move, Frame frame) {
-        Frame tempFrame = new Frame(pool);
-        ArrayList<Tile> tempList = new ArrayList<>(frame.getFrame());
-        tempFrame.setFrame(tempList);
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
+                Frame tempFrame = new Frame(pool);
+                tempFrame.setFrame(new ArrayList<>(frame.getFrame()));
                 exchangeTiles(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
