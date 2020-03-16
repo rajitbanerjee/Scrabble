@@ -12,6 +12,8 @@ import javafx.scene.text.Text;
 
 public class BoardView extends GridPane {
     private Board board;
+    private static final int SQUARE_SIZE = 40;
+
 
     public BoardView(Board board) {
         super();
@@ -21,7 +23,7 @@ public class BoardView extends GridPane {
 
     public static Node getSquareUI(Square square) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(40, 40);
+        Rectangle rect = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
         switch (square.getMultiplier()) {
             case CENTRE:
             case DOUBLE_WS:
@@ -54,7 +56,7 @@ public class BoardView extends GridPane {
 
     public static Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(40, 40);
+        Rectangle rect = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Character.toString(ch));
         pane.getChildren().add(rect);
@@ -64,7 +66,7 @@ public class BoardView extends GridPane {
 
     public static Node getRowUI(int i) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(40, 40);
+        Rectangle rect = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Integer.toString(i));
         pane.getChildren().add(rect);
@@ -74,7 +76,7 @@ public class BoardView extends GridPane {
 
     public static Node getEmptyUI() {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(40, 40);
+        Rectangle rect = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
         rect.setFill(Color.GHOSTWHITE);
         pane.getChildren().add(rect);
         return pane;

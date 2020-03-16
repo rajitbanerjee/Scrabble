@@ -16,7 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         CLIView cliView = new CLIView();
-        CLIController controller = new CLIController(cliView.getInputView(), cliView.getHistoryView(), null);
+        CLIController controller = new CLIController(cliView.getInputView(),
+                cliView.getHistoryView(), null);
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView, controller.getBoard());
         controller.setBoardController(boardController);
