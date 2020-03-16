@@ -6,6 +6,6 @@ public class CommandInputView extends TextField {
     public CommandInputView() {
         super();
         setPromptText(">");
-        setMinWidth(600);
+        setMinWidth(500);
     }
 }

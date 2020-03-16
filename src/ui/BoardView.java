@@ -21,7 +21,7 @@ public class BoardView extends GridPane {
 
     public static Node getSquareUI(Square square) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(50, 50);
+        Rectangle rect = new Rectangle(40, 40);
         switch (square.getMultiplier()) {
             case CENTRE:
             case DOUBLE_WS:
@@ -54,7 +54,7 @@ public class BoardView extends GridPane {
 
     public static Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(50, 50);
+        Rectangle rect = new Rectangle(40, 40);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Character.toString(ch));
         pane.getChildren().add(rect);
@@ -64,7 +64,7 @@ public class BoardView extends GridPane {
 
     public static Node getRowUI(int i) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(50, 50);
+        Rectangle rect = new Rectangle(40, 40);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Integer.toString(i));
         pane.getChildren().add(rect);
@@ -74,7 +74,7 @@ public class BoardView extends GridPane {
 
     public static Node getEmptyUI() {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(50, 50);
+        Rectangle rect = new Rectangle(40, 40);
         rect.setFill(Color.GHOSTWHITE);
         pane.getChildren().add(rect);
         return pane;
