@@ -1,4 +1,4 @@
-import constants.Constants;
+import constants.GameConstants;
 import game.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,37 +60,37 @@ class BoardTest {
         Square[][] b = board.getBoard();
 
         // Check if multipliers are set correctly
-        for (int[] index : Constants.DOUBLE_LS_ARRAY) {
-            assertEquals(Constants.MULTIPLIER.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : GameConstants.DOUBLE_LS_ARRAY) {
+            assertEquals(GameConstants.MULTIPLIER.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.TRIPLE_LS_ARRAY) {
-            assertEquals(Constants.MULTIPLIER.TRIPLE_LS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : GameConstants.TRIPLE_LS_ARRAY) {
+            assertEquals(GameConstants.MULTIPLIER.TRIPLE_LS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.DOUBLE_WS_ARRAY) {
-            assertEquals(Constants.MULTIPLIER.DOUBLE_WS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : GameConstants.DOUBLE_WS_ARRAY) {
+            assertEquals(GameConstants.MULTIPLIER.DOUBLE_WS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.TRIPLE_WS_ARRAY) {
-            assertEquals(Constants.MULTIPLIER.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : GameConstants.TRIPLE_WS_ARRAY) {
+            assertEquals(GameConstants.MULTIPLIER.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
         }
-        for (int[] index : Constants.NORMAL_SQ_ARRAY) {
-            assertEquals(Constants.MULTIPLIER.NORMAL, b[index[0]][index[1]].getMultiplier());
+        for (int[] index : GameConstants.NORMAL_SQ_ARRAY) {
+            assertEquals(GameConstants.MULTIPLIER.NORMAL, b[index[0]][index[1]].getMultiplier());
         }
-        int centre = Constants.BOARD_SIZE / 2;
-        assertEquals(Constants.MULTIPLIER.CENTRE, b[centre][centre].getMultiplier());
+        int centre = GameConstants.BOARD_SIZE / 2;
+        assertEquals(GameConstants.MULTIPLIER.CENTRE, b[centre][centre].getMultiplier());
     }
 
     @Test
     void testReset() {
         Square[][] b = board.getBoard();
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
                 b[i][j].setTile(Tile.makeTile('Z'));
             }
         }
         board.reset();
         b = board.getBoard();
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
                 if (b[i][j].getTile() != null) {
                     fail("reset() doesn't work as expected");
                 }
@@ -103,7 +103,7 @@ class BoardTest {
         Square[][] b = board.getBoard();
         Tile tile = Tile.makeTile('Z');
         for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= Constants.BOARD_SIZE; row++) {
+            for (int row = 1; row <= GameConstants.BOARD_SIZE; row++) {
                 tile.setType((char) ((int) (Math.random() * 26) + 'A'));
                 b[row - 1][column - 'A'].setTile(tile);
                 assertEquals(tile, board.getTile(column, row));
@@ -125,7 +125,7 @@ class BoardTest {
         Square[][] b = board.getBoard();
         Tile tile = Tile.makeTile('Z');
         for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= Constants.BOARD_SIZE; row++) {
+            for (int row = 1; row <= GameConstants.BOARD_SIZE; row++) {
                 tile.setType((char) ((int) (Math.random() * 26) + 'A'));
                 board.placeTile(column, row, tile);
                 assertEquals(tile, b[row - 1][column - 'A'].getTile());
@@ -172,7 +172,7 @@ class BoardTest {
         // Place tile at edge of board ('O', 8)
         board.placeTile('O', 8, Tile.makeTile('X'));
         // Place tile at edge of board ('H', 15)
-        board.placeTile('H', Constants.BOARD_SIZE, Tile.makeTile('X'));
+        board.placeTile('H', GameConstants.BOARD_SIZE, Tile.makeTile('X'));
 
         // Sets firstMove to false for debugging purposes
         board.setFirstMove(false);

@@ -1,4 +1,4 @@
-import constants.Constants;
+import constants.GameConstants;
 import game.Square;
 import game.Tile;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ class TileTest {
         // Test equals()
         Tile t1 = Tile.makeTile('Z');
         Tile t2 = Tile.makeTile('Z');
-        Square s1 = new Square(Constants.MULTIPLIER.NORMAL);
+        Square s1 = new Square(GameConstants.MULTIPLIER.NORMAL);
         s1.setTile(t1);
         assertEquals(t1, t2);
         assertNotEquals(t1, s1);

@@ -9,7 +9,7 @@ package constants;
  * @team DarkMode
  */
 
-public class Constants {
+public class GameConstants {
     public static final int FRAME_LIMIT = 7;
     public static final int BOARD_SIZE = 15;
 
@@ -65,5 +65,4 @@ public class Constants {
     // NOTE: Centre is also has a score multiplier of DOUBLE_WS
     public enum MULTIPLIER {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
 
-    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 }

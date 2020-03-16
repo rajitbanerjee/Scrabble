@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class Scoring {
      */
     public static int calculateScore(Word word, Board board) {
         lastCoveredIndices = Board.getLastCoveredIndices();
-        int bonus = (lastCoveredIndices.size() == Constants.FRAME_LIMIT) ? 50 : 0;
+        int bonus = (lastCoveredIndices.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
         challengeIndices.clear();
         challengeIndices.addAll(Scoring.lastCoveredIndices);

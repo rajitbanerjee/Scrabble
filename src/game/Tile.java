@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 import java.util.Objects;
 
@@ -32,9 +32,9 @@ public class Tile {
     public static Tile makeTile(char type) throws IllegalArgumentException {
         type = Character.toUpperCase(type);
         int points = -1;
-        for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
-            if (Constants.TILE_TYPES_ARRAY[i].contains(type + "")) {
-                points = Constants.POINT_TYPES_ARRAY[i];
+        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
+            if (GameConstants.TILE_TYPES_ARRAY[i].contains(type + "")) {
+                points = GameConstants.POINT_TYPES_ARRAY[i];
                 break;
             }
         }

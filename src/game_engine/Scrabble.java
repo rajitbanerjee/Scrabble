@@ -1,6 +1,6 @@
 package game_engine;
 
-import constants.Constants;
+import constants.GameConstants;
 import game.*;
 
 import java.io.InputStream;
@@ -234,7 +234,7 @@ public class Scrabble {
     // Remove tile from board and put them back into frame
     private static void removeTiles(Frame frame) {
         StringBuilder addToPool = new StringBuilder();
-        int i = Constants.FRAME_LIMIT - Scoring.challengeIndices.size();
+        int i = GameConstants.FRAME_LIMIT - Scoring.challengeIndices.size();
         for (Index index : Scoring.challengeIndices) {
             int row = index.getRow();
             int column = index.getColumn();

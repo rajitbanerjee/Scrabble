@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -55,7 +55,7 @@ public class Frame {
         if (pool.isEmpty()) {
             throw new IllegalStateException("Cannot refill frame, no tiles left in pool.");
         }
-        int numTilesToDraw = Math.min(pool.size(), Constants.FRAME_LIMIT - frame.size());
+        int numTilesToDraw = Math.min(pool.size(), GameConstants.FRAME_LIMIT - frame.size());
         for (int i = 0; i < numTilesToDraw; i++) {
             frame.add(pool.drawTile());
         }
@@ -68,7 +68,7 @@ public class Frame {
      * @throws IllegalStateException if there are insufficient tiles in the pool
      */
     public void exchange(String letters) throws IllegalStateException {
-        if (pool.size() < Constants.FRAME_LIMIT) {
+        if (pool.size() < GameConstants.FRAME_LIMIT) {
             throw new IllegalStateException("Cannot exchange, pool contains 6 tiles or less!");
         }
         for (char letter : letters.toCharArray()) {

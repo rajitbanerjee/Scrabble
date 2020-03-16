@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -42,9 +42,9 @@ public class Pool {
      */
     public void reset() {
         pool.clear();
-        for (int i = 0; i < Constants.TILE_TYPES_ARRAY.length; i++) {
-            for (int j = 0; j < Constants.NUM_TILES_ARRAY[i]; j++) {
-                addTiles(Constants.TILE_TYPES_ARRAY[i]);
+        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
+            for (int j = 0; j < GameConstants.NUM_TILES_ARRAY[i]; j++) {
+                addTiles(GameConstants.TILE_TYPES_ARRAY[i]);
             }
         }
     }

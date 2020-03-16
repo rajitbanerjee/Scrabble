@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 import java.util.ArrayList;
 
@@ -21,22 +21,22 @@ public class Board {
         board = new Square[15][15];
         setFirstMove(true);
         // initialise multiplier squares on board
-        int centre = Constants.BOARD_SIZE / 2; // 15/2 = 7
-        board[centre][centre] = new Square(Constants.MULTIPLIER.CENTRE);
-        for (int[] index : Constants.NORMAL_SQ_ARRAY) {
-            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.NORMAL);
+        int centre = GameConstants.BOARD_SIZE / 2; // 15/2 = 7
+        board[centre][centre] = new Square(GameConstants.MULTIPLIER.CENTRE);
+        for (int[] index : GameConstants.NORMAL_SQ_ARRAY) {
+            board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.NORMAL);
         }
-        for (int[] index : Constants.DOUBLE_LS_ARRAY) {
-            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.DOUBLE_LS);
+        for (int[] index : GameConstants.DOUBLE_LS_ARRAY) {
+            board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.DOUBLE_LS);
         }
-        for (int[] index : Constants.TRIPLE_LS_ARRAY) {
-            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_LS);
+        for (int[] index : GameConstants.TRIPLE_LS_ARRAY) {
+            board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.TRIPLE_LS);
         }
-        for (int[] index : Constants.DOUBLE_WS_ARRAY) {
-            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.DOUBLE_WS);
+        for (int[] index : GameConstants.DOUBLE_WS_ARRAY) {
+            board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.DOUBLE_WS);
         }
-        for (int[] index : Constants.TRIPLE_WS_ARRAY) {
-            board[index[0]][index[1]] = new Square(Constants.MULTIPLIER.TRIPLE_WS);
+        for (int[] index : GameConstants.TRIPLE_WS_ARRAY) {
+            board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.TRIPLE_WS);
         }
     }
 
@@ -56,8 +56,8 @@ public class Board {
      * Check if board contains no tiles.
      */
     public boolean isEmpty() {
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
                 if (!board[i][j].isEmpty()) {
                     return false;
                 }
@@ -70,8 +70,8 @@ public class Board {
      * Reset the board so that it contains 0 Tiles.
      */
     public void reset() {
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
                 board[i][j].setTile(null);
             }
         }
@@ -84,8 +84,8 @@ public class Board {
     public void display() {
         printLine();
         printColumnIndices();
-        for (int i = 0; i < Constants.BOARD_SIZE; i++) {
-            for (int j = 0; j < Constants.BOARD_SIZE; j++) {
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
                 if (j == 0) {
                     System.out.printf("| %d\t|", (i + 1));
                 }
@@ -279,9 +279,9 @@ public class Board {
     // Checks if a word placement goes out of the board
     private boolean isOverflowed(Word word) {
         if (word.isHorizontal()) {
-            return (word.getColumn() + word.length() - 1) >= Constants.BOARD_SIZE;
+            return (word.getColumn() + word.length() - 1) >= GameConstants.BOARD_SIZE;
         } else {
-            return (word.getRow() + word.length() - 1) >= Constants.BOARD_SIZE;
+            return (word.getRow() + word.length() - 1) >= GameConstants.BOARD_SIZE;
         }
     }
 
@@ -390,13 +390,13 @@ public class Board {
         int row = word.getRow();
         int column = word.getColumn();
         if (word.isHorizontal()) {
-            return row == Constants.BOARD_SIZE / 2 &&
-                    column <= Constants.BOARD_SIZE / 2 &&
-                    column + word.length() - 1 >= Constants.BOARD_SIZE / 2;
+            return row == GameConstants.BOARD_SIZE / 2 &&
+                    column <= GameConstants.BOARD_SIZE / 2 &&
+                    column + word.length() - 1 >= GameConstants.BOARD_SIZE / 2;
         } else {
-            return column == Constants.BOARD_SIZE / 2 &&
-                    row <= Constants.BOARD_SIZE / 2 &&
-                    row + word.length() - 1 >= Constants.BOARD_SIZE / 2;
+            return column == GameConstants.BOARD_SIZE / 2 &&
+                    row <= GameConstants.BOARD_SIZE / 2 &&
+                    row + word.length() - 1 >= GameConstants.BOARD_SIZE / 2;
         }
     }
 

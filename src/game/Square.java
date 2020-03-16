@@ -1,6 +1,6 @@
 package game;
 
-import constants.Constants;
+import constants.GameConstants;
 
 /**
  * Each Square has an assigned multiplier and can have
@@ -13,10 +13,10 @@ import constants.Constants;
  * @team DarkMode
  */
 public class Square {
-    private Constants.MULTIPLIER multiplier;
+    private GameConstants.MULTIPLIER multiplier;
     private Tile tile = null;
 
-    public Square(Constants.MULTIPLIER multiplier) {
+    public Square(GameConstants.MULTIPLIER multiplier) {
         this.multiplier = multiplier;
     }
 
@@ -28,11 +28,11 @@ public class Square {
      * @return {@code true} if the specified square index is valid
      */
     public static boolean isValid(int column, int row) {
-        return column >= 0 && column < Constants.BOARD_SIZE &&
-                row >= 0 && row < Constants.BOARD_SIZE;
+        return column >= 0 && column < GameConstants.BOARD_SIZE &&
+                row >= 0 && row < GameConstants.BOARD_SIZE;
     }
 
-    public Constants.MULTIPLIER getMultiplier() {
+    public GameConstants.MULTIPLIER getMultiplier() {
         return multiplier;
     }
 

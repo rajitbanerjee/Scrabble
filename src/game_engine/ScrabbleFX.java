@@ -1,15 +1,16 @@
 package game_engine;
 
-import constants.Constants;
+import constants.*;
 import game.*;
 import ui.CommandHistoryView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
 
-import static constants.Constants.STATUS_CODE.*;
+import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Implement the scoring logic for a Scrabble game, supporting GUI.
@@ -24,7 +25,7 @@ public class ScrabbleFX {
     private Board board;
     private Player player1, player2;
     private int opponentScore;
-    private Constants.STATUS_CODE gameState;
+    private UIConstants.STATUS_CODE gameState;
     private boolean isChallengeSuccessful;
     private CommandHistoryView historyView;
     private HashSet<String> dictionary;
@@ -50,8 +51,7 @@ public class ScrabbleFX {
     private void fillDictionary() {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream in = classLoader.getResourceAsStream("resources/sowpods.txt");
-        assert in != null;
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(Objects.requireNonNull(in));
         dictionary = new HashSet<>();
         while (sc.hasNext()) {
             dictionary.add(sc.next().toUpperCase());
@@ -117,7 +117,7 @@ public class ScrabbleFX {
                     }
                     return true;
                 } else {
-                    printToOutput("--------------------------------------------------------------------------------");
+                    printDashes();
                     printToOutput("Invalid move! Try again.");
                     return false;
                 }
@@ -143,7 +143,7 @@ public class ScrabbleFX {
         printToOutput(String.format("%s's frame: ", player.getName()));
         printToOutput(frame.toString());
         printToOutput(String.format("%s's score: %d", player.getName(), player.getScore()));
-        printToOutput("---------------------------------------------------------------");
+        printDashes();
     }
 
     // Helper message
@@ -155,7 +155,7 @@ public class ScrabbleFX {
     // Makes a valid move
     private void makeMove(String move, Player player, Frame frame, Player opponent)
             throws InterruptedException {
-        printToOutput("--------------------------------------------------------------------------------");
+        printDashes();
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
@@ -226,7 +226,7 @@ public class ScrabbleFX {
 
     // Quit game
     public void quit() throws InterruptedException {
-        printToOutput("---------------------------------------------------------");
+        printDashes();
         printToOutput("Final Scores:");
         printToOutput(String.format("%s's score: %d", player1.getName(), player1.getScore()));
         printToOutput(String.format("%s's score: %d", player2.getName(), player2.getScore()));
@@ -237,10 +237,10 @@ public class ScrabbleFX {
             Player winner = (difference > 0) ? player1 : player2;
             printToOutput(String.format("%s wins the game! Well done.", winner.getName()));
         }
-        printToOutput("---------------------------------------------------------");
+        printDashes();
         printToOutput("Thanks for playing!");
-        // Pause 1000 milliseconds before quiting
-        Thread.sleep(1000 * 20);
+        // Pause 2000 millisecond before quiting
+        Thread.sleep(2000);
         System.exit(0);
     }
 
@@ -300,7 +300,7 @@ public class ScrabbleFX {
     // Remove tile from board and put them back into frame
     private void removeTiles(Frame frame) {
         StringBuilder addToPool = new StringBuilder();
-        int i = Constants.FRAME_LIMIT - Scoring.challengeIndices.size();
+        int i = GameConstants.FRAME_LIMIT - Scoring.challengeIndices.size();
         for (Index index : Scoring.challengeIndices) {
             int row = index.getRow();
             int column = index.getColumn();
@@ -322,10 +322,10 @@ public class ScrabbleFX {
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score; // current player is opponent for next player's move
-        printToOutput("----------------------------");
+        printDashes();
         printToOutput("Word(s) placed: " + Scoring.wordsFormed.toString());
         printToOutput("Points awarded: " + score);
-        printToOutput("----------------------------");
+        printDashes();
         try {
             frame.refillFrame();
         } catch (Exception e) {
@@ -353,5 +353,10 @@ public class ScrabbleFX {
             printToOutput("Six consecutive scoreless turns have occurred! Game over.");
             quit();
         }
+    }
+
+    // Print a line of dashes for design
+    private void printDashes() {
+        printToOutput("-".repeat(90));
     }
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import constants.UIConstants;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -12,8 +13,8 @@ import java.util.List;
  * Command history GUI design.
  *
  * @author Tee Chee Guan, 18202044
- * @author Katarina Cvetkovic, 18347921
  * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
 public class CommandHistoryView extends VBox {
@@ -23,7 +24,7 @@ public class CommandHistoryView extends VBox {
     public CommandHistoryView() {
         super();
         history = new ArrayList<>();
-        setMinHeight(700);
+        setMinHeight(UIConstants.getSceneHeight());
         setAlignment(Pos.BOTTOM_LEFT);
         setPadding(new Insets(10));
     }
