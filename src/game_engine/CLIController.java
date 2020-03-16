@@ -22,6 +22,7 @@ public class CLIController {
     private HashSet<String> dictionary;
     private BoardController boardController;
     private int opponentScore;
+    private boolean isChallengeSuccessful;
 
     public CLIController(CommandInputView inputView, CommandHistoryView historyView, BoardController boardController) {
         this.inputView = inputView;
@@ -33,6 +34,7 @@ public class CLIController {
         player2 = new Player("", new Frame(pool));
         gameState = Constants.STATUS_CODE.P1_NAME;
         opponentScore = 0;
+        isChallengeSuccessful = false;
         setListeners();
         fillDictionary();
         printWelcome();
@@ -142,8 +144,14 @@ public class CLIController {
             case P1_TURN:
                 if (isValidMove(command, player1.getFrame())) {
                     makeMove(command, player1, player1.getFrame(), player2);
-                    gameState = Constants.STATUS_CODE.P2_TURN;
-                    askForMove(player2);
+                    if (isChallengeSuccessful) {
+                        // Set variable back to false
+                        isChallengeSuccessful = false;
+                        askForMove(player1);
+                    } else {
+                        gameState = Constants.STATUS_CODE.P2_TURN;
+                        askForMove(player2);
+                    }
                     boardController.update();
                 } else {
                     printToOutput("Invalid move! Try again.");
@@ -152,9 +160,15 @@ public class CLIController {
                 break;
             case P2_TURN:
                 if (isValidMove(command, player2.getFrame())) {
-                    makeMove(command, player2, player2.getFrame(), player2);
-                    gameState = Constants.STATUS_CODE.P1_TURN;
-                    askForMove(player1);
+                    makeMove(command, player2, player2.getFrame(), player1);
+                    if (isChallengeSuccessful) {
+                        // Set variable back to false
+                        isChallengeSuccessful = false;
+                        askForMove(player2);
+                    } else {
+                        gameState = Constants.STATUS_CODE.P1_TURN;
+                        askForMove(player1);
+                    }
                     boardController.update();
                 } else {
                     printToOutput("Invalid move! Try again.");
@@ -181,13 +195,17 @@ public class CLIController {
         } else if (move.startsWith("EXCHANGE")) {
             exchangeTiles(move, frame, false);
         } else if (move.equalsIgnoreCase("CHALLENGE")) {
-            boolean isChallengeSuccessful = challenge(opponent);
-            if (isChallengeSuccessful) {
+            boolean success = challenge(opponent);
+            if (success) {
+                // If challenge is successful, pass opponent's turn
                 pass(opponent, true);
-                // TODO: Broken needs to be fixed
-                //makeMove(player, frame, opponent);
+                // Set instance variable to true
+                isChallengeSuccessful = true;
             } else {
+                // Pass player's turn
+                System.out.println("Challenge failed");
                 pass(player, false);
+                isChallengeSuccessful = false;
             }
         } else {
             scoreMove(move, player, frame);
