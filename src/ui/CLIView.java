@@ -2,6 +2,14 @@ package ui;
 
 import javafx.scene.layout.VBox;
 
+/**
+ * Command line panel GUI design.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class CLIView extends VBox {
     private CommandHistoryView historyView;
     private CommandInputView inputView;

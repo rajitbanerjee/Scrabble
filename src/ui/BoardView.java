@@ -10,6 +10,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * Board GUI design.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class BoardView extends GridPane {
     private Board board;
     private static final int SQUARE_SIZE = 40;
@@ -104,4 +112,5 @@ public class BoardView extends GridPane {
         setHgap(5);
         setVgap(5);
     }
+
 }

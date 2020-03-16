@@ -7,7 +7,14 @@ import ui.BoardView;
 import ui.CLIView;
 import ui.GameView;
 
-
+/**
+ *  Main class to run the JavaFX Application.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);

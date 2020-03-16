@@ -2,6 +2,14 @@ package ui;
 
 import javafx.scene.control.TextField;
 
+/**
+ * Command input text field GUI design.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class CommandInputView extends TextField {
     public CommandInputView() {
         super();

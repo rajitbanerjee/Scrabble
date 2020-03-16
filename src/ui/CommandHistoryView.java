@@ -8,6 +8,14 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Command history GUI design.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class CommandHistoryView extends VBox {
     // Might be changed to a Queue/LinkedList
     private ArrayList<String> history;

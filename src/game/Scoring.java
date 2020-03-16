@@ -35,7 +35,7 @@ public class Scoring {
 
     /**
      * Adds a given score to the list of last six scores of the game.
-     * Also clear the last covered indices list.
+     * Also clear the challenge indices list if score is 0.
      *
      * @param score to be added to the list
      */
@@ -44,7 +44,9 @@ public class Scoring {
         if (lastSixScores.size() > 6) {
             lastSixScores.removeFirst();
         }
-        lastCoveredIndices.clear();
+        if (score == 0) {
+            challengeIndices.clear();
+        }
     }
 
     /**
