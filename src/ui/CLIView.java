@@ -28,4 +28,5 @@ public class CLIView extends VBox {
     public CommandHistoryView getHistoryView() {
         return historyView;
     }
+
 }

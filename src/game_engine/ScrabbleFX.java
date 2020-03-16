@@ -357,6 +357,6 @@ public class ScrabbleFX {
 
     // Print a line of dashes for design
     private void printDashes() {
-        printToOutput("-".repeat(90));
+        printToOutput("-".repeat((int)(UIConstants.CMD_INPUT_WIDTH / 5)));
     }
 }

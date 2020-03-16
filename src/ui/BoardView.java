@@ -21,11 +21,11 @@ import javafx.scene.text.Text;
  */
 public class BoardView extends GridPane {
     private Board board;
-    private static double square_size;
+    private static double squareSize;
 
     public BoardView(Board board) {
         super();
-        square_size = UIConstants.SQUARE_SIZE;
+        squareSize = UIConstants.SQUARE_SIZE;
         this.board = board;
         setAlignment(Pos.TOP_LEFT);
         redraw();
@@ -33,7 +33,7 @@ public class BoardView extends GridPane {
 
     public static Node getSquareUI(Square square) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(square_size, square_size);
+        Rectangle rect = new Rectangle(squareSize, squareSize);
         switch (square.getMultiplier()) {
             case CENTRE:
             case DOUBLE_WS:
@@ -66,7 +66,7 @@ public class BoardView extends GridPane {
 
     public static Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(square_size, square_size);
+        Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Character.toString(ch));
         pane.getChildren().add(rect);
@@ -76,7 +76,7 @@ public class BoardView extends GridPane {
 
     public static Node getRowUI(int i) {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(square_size, square_size);
+        Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
         Text text = new Text(Integer.toString(i));
         pane.getChildren().add(rect);
@@ -86,7 +86,7 @@ public class BoardView extends GridPane {
 
     public static Node getEmptyUI() {
         StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(square_size, square_size);
+        Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
         pane.getChildren().add(rect);
         return pane;
@@ -111,8 +111,8 @@ public class BoardView extends GridPane {
                 add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
             }
         }
-        setHgap(UIConstants.getSceneWidth() / 200);
-        setVgap(UIConstants.getSceneHeight() / 200);
+        setHgap(UIConstants.BOARD_HGAP);
+        setVgap(UIConstants.BOARD_VGAP);
     }
 
 }
