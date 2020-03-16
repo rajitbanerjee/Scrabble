@@ -199,6 +199,7 @@ public class Board {
         if (!isWordLegal(word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
+        lastCoveredIndices.clear();
         setFirstMove(false);
         int row, column;
         for (int i = 0; i < word.length(); i++) {
