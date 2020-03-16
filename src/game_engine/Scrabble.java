@@ -271,7 +271,7 @@ public class Scrabble {
     }
 
     // End game if six consecutive scoreless moves occur
-    public static void checkLastSixScores() {
+    private static void checkLastSixScores() {
         // TODO remove printing scores later, added only for testing
         Scoring.printLastSixScores();
         if (Scoring.isLastSixZero()) {
