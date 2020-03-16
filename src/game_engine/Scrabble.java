@@ -41,7 +41,9 @@ public class Scrabble {
 
     // Scan the SOWPODS dictionary file and store the words
     private static void fillDictionary() {
-        InputStream in = Scrabble.class.getResourceAsStream("sowpods.txt");
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        InputStream in = classLoader.getResourceAsStream("resources/sowpods.txt");
+        assert in != null;
         Scanner sc = new Scanner(in);
         dictionary = new HashSet<>();
         while (sc.hasNext()) {

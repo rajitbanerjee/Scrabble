@@ -3,7 +3,6 @@ package game_engine;
 import constants.Constants;
 import game.*;
 import javafx.scene.input.KeyCode;
-import resources.Resource;
 import ui.CommandHistoryView;
 import ui.CommandInputView;
 
@@ -24,7 +23,8 @@ public class CLIController {
     private int opponentScore;
     private boolean isChallengeSuccessful;
 
-    public CLIController(CommandInputView inputView, CommandHistoryView historyView, BoardController boardController) {
+    public CLIController(CommandInputView inputView,
+                         CommandHistoryView historyView, BoardController boardController) {
         this.inputView = inputView;
         this.historyView = historyView;
         this.boardController = boardController;
@@ -121,7 +121,8 @@ public class CLIController {
         });
     }
 
-    private void processCommand(String command, Constants.STATUS_CODE statusCode) throws InterruptedException {
+    private void processCommand(String command, Constants.STATUS_CODE statusCode)
+            throws InterruptedException {
         switch (statusCode) {
             case P1_NAME:
                 player1.setName(command);
@@ -187,7 +188,8 @@ public class CLIController {
     }
 
     // Makes a valid move
-    private void makeMove(String move, Player player, Frame frame, Player opponent) throws InterruptedException {
+    private void makeMove(String move, Player player, Frame frame, Player opponent)
+            throws InterruptedException {
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
         } else if (move.equalsIgnoreCase("PASS")) {
@@ -238,11 +240,10 @@ public class CLIController {
     // Check if an exchange is Valid
     // TODO: needs to be changed, bad programming practice
     private boolean isExchangeLegal(String move, Frame frame) {
-        Frame tempFrame = new Frame(pool);
-        ArrayList<Tile> tempList = new ArrayList<>(frame.getFrame());
-        tempFrame.setFrame(tempList);
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
+                Frame tempFrame = new Frame(pool);
+                tempFrame.setFrame(new ArrayList<>(frame.getFrame()));
                 exchangeTiles(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
@@ -266,7 +267,8 @@ public class CLIController {
             } else {
                 removeTiles(opponent.getFrame());
                 opponent.decreaseScore(opponentScore);
-                printToOutput(String.format("\n\nChallenge successful! %s's tiles removed!", opponent.getName()));
+                printToOutput(String.format("\n\nChallenge successful! %s's tiles removed!",
+                        opponent.getName()));
                 if (board.isEmpty()) {
                     board.setFirstMove(true);
                 }
@@ -313,8 +315,11 @@ public class CLIController {
         return true;
     }
 
+    // Scan the SOWPODS dictionary file and store the words
     private void fillDictionary() {
-        InputStream in = Resource.class.getResourceAsStream("sowpods.txt");
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        InputStream in = classLoader.getResourceAsStream("resources/sowpods.txt");
+        assert in != null;
         Scanner sc = new Scanner(in);
         dictionary = new HashSet<>();
         while (sc.hasNext()) {
