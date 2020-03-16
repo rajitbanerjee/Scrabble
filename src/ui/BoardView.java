@@ -3,13 +3,15 @@ package ui;
 import constants.*;
 import game.Board;
 import game.Square;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Board GUI design.
@@ -33,36 +35,48 @@ public class BoardView extends GridPane {
     }
 
     public static Node getSquareUI(Square square) {
-        StackPane pane = new StackPane();
-        Rectangle rect = new Rectangle(squareSize, squareSize);
+        Color col = null;
         switch (square.getMultiplier()) {
             case CENTRE:
             case DOUBLE_WS:
-                rect.setFill(Color.LIGHTPINK);
+                col = Color.LIGHTPINK;
                 break;
             case DOUBLE_LS:
-                rect.setFill(Color.LIGHTBLUE);
+                col = Color.LIGHTBLUE;
                 break;
             case NORMAL:
-                rect.setFill(Color.GHOSTWHITE);
+                col = Color.GHOSTWHITE;
                 break;
             case TRIPLE_LS:
-                rect.setFill(Color.CADETBLUE);
+                col = Color.CADETBLUE;
                 break;
             case TRIPLE_WS:
-                rect.setFill(Color.INDIANRED);
+                col = Color.INDIANRED;
                 break;
         }
         Text text;
-        if (square.getTile() == null) {
+        if (square.isEmpty()) {
+            StackPane pane = new StackPane();
+            pane.setBackground(new Background(new BackgroundFill(col, CornerRadii.EMPTY, Insets.EMPTY)));
             text = new Text(square.toString());
+            pane.getChildren().add(text);
+            return pane;
         } else {
+            GridPane gridPane = new GridPane();
+            gridPane.setMinSize(squareSize, squareSize);
+            gridPane.setPadding(new Insets(6));
+            gridPane.setHgap(5);
+
             text = new Text(Character.toString(square.getTile().getType()));
-            rect.setFill(Color.LIGHTYELLOW);
+            Text points = new Text(Integer.toString((square.getTile().getPoints())));
+            points.setFont(Font.font("verdana", 6));
+            gridPane.add(text, 1, 1);
+            gridPane.add(points, 2, 2);
+
+            col = Color.LIGHTYELLOW;
+            gridPane.setBackground(new Background(new BackgroundFill(col, CornerRadii.EMPTY, Insets.EMPTY)));
+            return gridPane;
         }
-        pane.getChildren().add(rect);
-        pane.getChildren().add(text);
-        return pane;
     }
 
     public static Node getColumnUI(char ch) {
