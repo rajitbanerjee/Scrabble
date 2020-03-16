@@ -1,6 +1,8 @@
 package game;
 
 import constants.GameConstants;
+import game_engine.Scrabble;
+import game_engine.ScrabbleFX;
 
 import java.util.ArrayList;
 
@@ -247,21 +249,25 @@ public class Board {
         // Checks for overflow
         if (isOverflowed(word)) {
             System.out.println("\nWord goes out of the board!");
+            ScrabbleFX.printToOutput("Word goes out of the board!");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(word)) {
             System.out.println("\nWord conflicts with existing word on board!");
+            ScrabbleFX.printToOutput("Word conflicts with existing word on board!");
             return false;
         }
         // Checks if frame contains the required tiles
         if (!doesFrameContainTiles(word, frame)) {
             System.out.println("\nFrame doesn't contain tiles");
+            ScrabbleFX.printToOutput("Frame doesn't contain tiles");
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(word, frame)) {
             System.out.println("\nFrame not used!");
+            ScrabbleFX.printToOutput("Frame not used!");
             return false;
         }
         // If first move, checks if it covers the centre square
@@ -269,6 +275,7 @@ public class Board {
             boolean isCentreCovered = doesWordCoverCentre(word);
             if (!isCentreCovered) {
                 System.out.println("\nFirst move must cover centre square!");
+                ScrabbleFX.printToOutput("First move must cover centre square!");
             }
             return isCentreCovered;
         } else {
@@ -449,6 +456,7 @@ public class Board {
             }
         }
         System.out.println("\nWord needs to connect with an existing word on board!");
+        ScrabbleFX.printToOutput("Word needs to connect with an existing word on board!");
         return false;
     }
 

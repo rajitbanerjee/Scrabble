@@ -1,6 +1,7 @@
 package game;
 
 import constants.GameConstants;
+import game_engine.ScrabbleFX;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class Scoring {
         int bonus = (lastCoveredIndices.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
         challengeIndices.clear();
-        challengeIndices.addAll(Scoring.lastCoveredIndices);
+        challengeIndices.addAll(lastCoveredIndices);
         addScoreToList(score);
         return score;
     }
@@ -189,6 +190,7 @@ public class Scoring {
     // TODO remove this later
     public static void printLastSixScores() {
         System.out.println("\nLast six scores: " + lastSixScores.toString());
+        ScrabbleFX.printToOutput("Last six scores: " + lastSixScores.toString());
     }
 
     /**

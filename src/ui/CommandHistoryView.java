@@ -30,7 +30,9 @@ public class CommandHistoryView extends VBox {
     }
 
     public void printText(String text) {
-        getChildren().add(new Label(text));
+        Label label = new Label(text);
+        label.setFont(UIConstants.cliFont);
+        getChildren().add(label);
         history.add(text);
     }
 

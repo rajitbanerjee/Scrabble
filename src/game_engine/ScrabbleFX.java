@@ -27,7 +27,7 @@ public class ScrabbleFX {
     private int opponentScore;
     private UIConstants.STATUS_CODE gameState;
     private boolean isChallengeSuccessful;
-    private CommandHistoryView historyView;
+    private static CommandHistoryView historyView;
     private HashSet<String> dictionary;
 
     public ScrabbleFX(CommandHistoryView historyView) {
@@ -38,7 +38,7 @@ public class ScrabbleFX {
         opponentScore = 0;
         gameState = P1_NAME; // initial game state is to ask player 1 for name
         isChallengeSuccessful = false;
-        this.historyView = historyView;
+        ScrabbleFX.historyView = historyView;
         fillDictionary();
         printWelcome();
     }
@@ -70,7 +70,7 @@ public class ScrabbleFX {
      *
      * @param text to be displayed
      */
-    public void printToOutput(String text) {
+    public static void printToOutput(String text) {
         historyView.printText(text);
     }
 
@@ -240,6 +240,8 @@ public class ScrabbleFX {
         printDashes();
         printToOutput("Thanks for playing!");
         // Pause 2000 millisecond before quiting
+        // TODO NOT WORKING, FINAL SCORES AREN'T DISPLAYED
+        // TODO Maybe set up a pop up box to display final scores
         Thread.sleep(2000);
         System.exit(0);
     }
@@ -322,9 +324,8 @@ public class ScrabbleFX {
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score; // current player is opponent for next player's move
-        printDashes();
-        printToOutput("Word(s) placed: " + Scoring.wordsFormed.toString());
-        printToOutput("Points awarded: " + score);
+        printToOutput("WORD(S) PLACED: " + Scoring.wordsFormed.toString());
+        printToOutput("POINTS AWARDED: " + score);
         printDashes();
         try {
             frame.refillFrame();
@@ -332,7 +333,8 @@ public class ScrabbleFX {
             printToOutput(e.getMessage());
         }
         displayFrameScore(player, frame);
-        printToOutput("Number of tiles in pool: " + pool.size());
+        pool.printSize();
+        //printToOutput("Number of tiles in pool: " + pool.size());
         checkLastSixScores();
     }
 
@@ -357,6 +359,6 @@ public class ScrabbleFX {
 
     // Print a line of dashes for design
     private void printDashes() {
-        printToOutput("-".repeat((int)(UIConstants.CMD_INPUT_WIDTH / 5)));
+        printToOutput("-".repeat(UIConstants.DASH_LENGTH));
     }
 }

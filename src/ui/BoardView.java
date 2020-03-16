@@ -9,9 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 /**
  * Board GUI design.
@@ -65,11 +63,11 @@ public class BoardView extends GridPane {
             GridPane gridPane = new GridPane();
             gridPane.setMinSize(squareSize, squareSize);
             gridPane.setPadding(new Insets(6));
-            gridPane.setHgap(5);
+            gridPane.setHgap(UIConstants.BOARD_HGAP);
 
             text = new Text(Character.toString(square.getTile().getType()));
             Text points = new Text(Integer.toString((square.getTile().getPoints())));
-            points.setFont(Font.font("verdana", 6));
+            points.setFont(UIConstants.pointsFont);
             gridPane.add(text, 1, 1);
             gridPane.add(points, 2, 2);
 

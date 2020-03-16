@@ -37,7 +37,7 @@ public class CLIController {
     public void setListeners() {
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                game.printToOutput(inputView.getText());
+                ScrabbleFX.printToOutput(inputView.getText());
                 try {
                     boolean updateBoard = game.processCommand(inputView.getText());
                     if (updateBoard) {
