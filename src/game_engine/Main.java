@@ -31,7 +31,7 @@ public class Main extends Application {
         CLIController controller = new CLIController(cliView.getInputView(),
                 cliView.getHistoryView(), null);
         BoardView boardView = new BoardView(controller.getBoard());
-        BoardController boardController = new BoardController(boardView, controller.getBoard());
+        BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
         GameView view = new GameView(cliView, boardView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());

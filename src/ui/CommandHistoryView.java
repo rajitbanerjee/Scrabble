@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Command history GUI design.
- *
+ * TODO comments
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921

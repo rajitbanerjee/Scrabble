@@ -7,7 +7,7 @@ import ui.CommandInputView;
 
 /**
  * Controller for the GUI command panel.
- *
+ * TODO comments
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
@@ -17,7 +17,6 @@ public class CLIController {
     private CommandInputView inputView;
     private BoardController boardController;
     private ScrabbleFX game;
-
 
     public CLIController(CommandInputView inputView,
                          CommandHistoryView historyView, BoardController boardController) {

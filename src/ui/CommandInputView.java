@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 public class CommandInputView extends TextField {
     public CommandInputView() {
         super();
-        setPromptText(">");
+        setPromptText(">"); // TODO this doesn't do anything?
         setMinWidth(UIConstants.CMD_INPUT_WIDTH);
     }
 
