@@ -12,7 +12,7 @@ import javafx.stage.Screen;
  * @team DarkMode
  */
 public class UIConstants {
-    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN}
+    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 
     public static double getSceneWidth() {
         return Screen.getPrimary().getBounds().getWidth() * 0.75;

@@ -47,6 +47,10 @@ public class ScrabbleFX {
         return board;
     }
 
+    public UIConstants.STATUS_CODE getGameState() {
+        return gameState;
+    }
+
     // Scan the SOWPODS dictionary file and store the words
     private void fillDictionary() {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
@@ -152,35 +156,6 @@ public class ScrabbleFX {
         printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE: ");
     }
 
-    // Makes a valid move
-    private void makeMove(String move, Player player, Frame frame, Player opponent)
-            throws InterruptedException {
-        printDashes();
-        if (move.equalsIgnoreCase("QUIT")) {
-            quit();
-        } else if (move.equalsIgnoreCase("PASS")) {
-            pass(player, false);
-        } else if (move.startsWith("EXCHANGE")) {
-            exchangeTiles(move, frame, false);
-        } else if (move.equalsIgnoreCase("CHALLENGE")) {
-            isChallengeSuccessful = challenge(opponent);
-            if (isChallengeSuccessful) {
-                // If challenge is successful, pass opponent's turn
-                pass(opponent, true);
-                changeTurns();
-                return;
-            } else {
-                // Pass player's turn
-                pass(player, false);
-            }
-        } else {
-            scoreMove(move, player, frame);
-        }
-        if (isGameOver()) {
-            quit();
-        }
-    }
-
     // Check if a move is valid
     private boolean isValidMove(String move, Frame frame) {
         return move.equalsIgnoreCase("QUIT") ||
@@ -218,6 +193,34 @@ public class ScrabbleFX {
         return board.isWordLegal(word, frame);
     }
 
+    // Makes a valid move
+    private void makeMove(String move, Player player, Frame frame, Player opponent)
+            throws InterruptedException {
+        printDashes();
+        if (move.equalsIgnoreCase("QUIT")) {
+            quit();
+        } else if (move.equalsIgnoreCase("PASS")) {
+            pass(player, false);
+        } else if (move.startsWith("EXCHANGE")) {
+            exchangeTiles(move, frame, false);
+        } else if (move.equalsIgnoreCase("CHALLENGE")) {
+            isChallengeSuccessful = challenge(opponent);
+            if (isChallengeSuccessful) {
+                // If challenge is successful, pass opponent's turn
+                pass(opponent, true);
+                changeTurns();
+                return;
+            } else {
+                // Pass player's turn
+                pass(player, false);
+            }
+        } else {
+            scoreMove(move, player, frame);
+        }
+        if (isGameOver()) {
+            quit();
+        }
+    }
 
     // Checks if the game is over
     private boolean isGameOver() {
@@ -225,7 +228,8 @@ public class ScrabbleFX {
     }
 
     // Quit game
-    public void quit() throws InterruptedException {
+    // TODO Maybe set up a pop up box to display final scores
+    private void quit() throws InterruptedException {
         printDashes();
         printToOutput("Final Scores:");
         printToOutput(String.format("%s's score: %d", player1.getName(), player1.getScore()));
@@ -239,15 +243,13 @@ public class ScrabbleFX {
         }
         printDashes();
         printToOutput("Thanks for playing!");
-        // Pause 2000 millisecond before quiting
-        // TODO NOT WORKING, FINAL SCORES AREN'T DISPLAYED
-        // TODO Maybe set up a pop up box to display final scores
-        Thread.sleep(2000);
-        System.exit(0);
+        // TODO wait() not best way to do this, idk how else to display final scores
+        gameState = GAME_OVER;
+        wait();
     }
 
     // Pass move
-    public void pass(Player player, boolean removeLastScore) throws InterruptedException {
+    private void pass(Player player, boolean removeLastScore) throws InterruptedException {
         printToOutput(String.format("Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
         displayFrameScore(player, player.getFrame());
@@ -255,7 +257,7 @@ public class ScrabbleFX {
     }
 
     // Exchange tiles between frame and pool
-    public void exchangeTiles(String move, Frame frame, boolean isTest) throws InterruptedException {
+    private void exchangeTiles(String move, Frame frame, boolean isTest) throws InterruptedException {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
         if (!isTest) {
@@ -267,7 +269,7 @@ public class ScrabbleFX {
     }
 
     // Challenge opponent's previous move and change scores accordingly
-    public boolean challenge(Player opponent) {
+    private boolean challenge(Player opponent) {
         boolean success = false;
         if (Scoring.challengeIndices.isEmpty()) {
             printToOutput("Cannot challenge! No word placed by opponent.");

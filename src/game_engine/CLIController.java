@@ -5,9 +5,12 @@ import javafx.scene.input.KeyCode;
 import ui.CommandHistoryView;
 import ui.CommandInputView;
 
+import static constants.UIConstants.STATUS_CODE.*;
+
 /**
  * Controller for the GUI command panel.
  * TODO comments
+ *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
@@ -37,16 +40,21 @@ public class CLIController {
     public void setListeners() {
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                ScrabbleFX.printToOutput(inputView.getText());
-                try {
-                    boolean updateBoard = game.processCommand(inputView.getText());
-                    if (updateBoard) {
-                        boardController.update();
+                if (game.getGameState() != GAME_OVER) {
+                    ScrabbleFX.printToOutput(inputView.getText());
+                    try {
+                        boolean updateBoard = game.processCommand(inputView.getText());
+                        if (updateBoard) {
+                            boardController.update();
+                        }
+                        inputView.clear();
+                    } catch (InterruptedException e) {
+                        System.exit(-1);
+                    } catch (RuntimeException e) {
+                        // FIXME Exception thrown by wait() in ScrabbleFX
+                        inputView.clear();
                     }
-                } catch (InterruptedException e) {
-                    System.exit(-1);
                 }
-                inputView.clear();
             }
         });
     }
