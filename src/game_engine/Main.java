@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import ui.BoardView;
 import ui.CLIView;
 import ui.GameView;
+import ui.OptionsView;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -33,7 +34,8 @@ public class Main extends Application {
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
-        GameView view = new GameView(cliView, boardView);
+        OptionsView optionsView = new OptionsView();
+        GameView view = new GameView(cliView, boardView, optionsView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();

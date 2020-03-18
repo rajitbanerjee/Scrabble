@@ -24,7 +24,8 @@ public class CommandHistoryView extends VBox {
     public CommandHistoryView() {
         super();
         history = new ArrayList<>();
-        setMinHeight(UIConstants.getSceneHeight());
+        setMinHeight(UIConstants.getSceneHeight() * 0.70);
+        setMaxHeight(UIConstants.getSceneHeight() * 0.70);
         setAlignment(Pos.BOTTOM_LEFT);
         setPadding(new Insets(10));
     }

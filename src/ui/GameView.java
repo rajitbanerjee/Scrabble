@@ -1,7 +1,7 @@
 package ui;
 
 import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 
 /**
  * Integrate board and CLI views into a single window.
@@ -11,12 +11,13 @@ import javafx.scene.layout.HBox;
  * @author Rajit Banerjee, 18202817
  * @team DarkMode
  */
-public class GameView extends HBox {
-    public GameView(CLIView cliView, BoardView boardView) {
+public class GameView extends GridPane {
+    public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {
         super();
-        setAlignment(Pos.BOTTOM_CENTER);
-        getChildren().add(boardView);
-        getChildren().add(cliView);
+        setAlignment(Pos.TOP_LEFT);
+        add(boardView, 0, 0, 4, 4);
+        add(optionsView, 4, 0, 1, 1);
+        add(cliView, 4, 1, 3, 1);
     }
 
 }
