@@ -125,7 +125,7 @@ public class ScrabbleFX {
                         isChallengeSuccessful = false;
                         askForMove(player);
                     } else {
-                        changeTurns();
+                        gameState = (gameState == P1_TURN ? P2_TURN: P1_TURN);
                         askForMove(opponent);
                     }
                     return true;
@@ -217,7 +217,6 @@ public class ScrabbleFX {
             if (isChallengeSuccessful) {
                 // If challenge is successful, pass opponent's turn
                 pass(opponent, true);
-                changeTurns();
                 return;
             } else {
                 // Pass player's turn
@@ -347,15 +346,6 @@ public class ScrabbleFX {
         pool.printSize();
         //printToOutput("Number of tiles in pool: " + pool.size());
         checkLastSixScores();
-    }
-
-    // Change game turns
-    private void changeTurns() {
-        if (gameState == P1_TURN) {
-            gameState = P2_TURN;
-        } else {
-            gameState = P1_TURN;
-        }
     }
 
     // End game if six consecutive scoreless moves occur
