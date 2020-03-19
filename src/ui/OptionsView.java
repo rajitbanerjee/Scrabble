@@ -14,8 +14,7 @@ public class OptionsView extends GridPane {
     public OptionsView() {
         super();
         this.frameView = new FrameView();
-        setMinHeight(UIConstants.getSceneHeight() * 0.25);
-        setMaxHeight(UIConstants.getSceneHeight() * 0.25);
+        setPrefHeight(UIConstants.getSceneHeight() * 0.25);
         setAlignment(Pos.CENTER);
         add(frameView, 0, 0);
     }
