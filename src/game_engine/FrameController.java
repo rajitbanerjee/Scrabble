@@ -1,5 +1,6 @@
 package game_engine;
 
+import game.Frame;
 import ui.FrameView;
 
 public class FrameController {
@@ -9,7 +10,7 @@ public class FrameController {
         this.view = view;
     }
 
-    public void update() {
-        view.redraw();
+    public void update(Frame frame) {
+        view.redraw(frame);
     }
 }

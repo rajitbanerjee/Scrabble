@@ -32,10 +32,9 @@ public class FrameView extends GridPane {
         setMinWidth(UIConstants.CMD_INPUT_WIDTH);
         setHgap(UIConstants.BOARD_HGAP);
         setVgap(UIConstants.BOARD_VGAP);
-        redraw();
     }
 
-    public void redraw() {
+    public void redraw(Frame frame) {
         for (int i = 0; i < frame.getFrame().size(); i++) {
             GridPane tile = new GridPane();
             tile.setMinSize(tileSize, tileSize);

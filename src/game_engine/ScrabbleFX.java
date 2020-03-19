@@ -1,6 +1,7 @@
 package game_engine;
 
-import constants.*;
+import constants.GameConstants;
+import constants.UIConstants;
 import game.*;
 import ui.CommandHistoryView;
 
@@ -45,6 +46,14 @@ public class ScrabbleFX {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Frame getPlayer1Frame() {
+        return player1.getFrame();
+    }
+
+    public Frame getPlayer2Frame() {
+        return player2.getFrame();
     }
 
     public UIConstants.STATUS_CODE getGameState() {

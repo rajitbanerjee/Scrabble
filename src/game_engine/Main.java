@@ -5,10 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import ui.BoardView;
-import ui.CLIView;
-import ui.GameView;
-import ui.OptionsView;
+import ui.*;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -28,13 +25,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        FrameView frameView = new FrameView();
+        FrameController frameController = new FrameController(frameView);
         CLIView cliView = new CLIView();
         CLIController controller = new CLIController(cliView.getInputView(),
-                cliView.getHistoryView(), null);
+                cliView.getHistoryView(), null, frameController);
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
-        OptionsView optionsView = new OptionsView();
+        OptionsView optionsView = new OptionsView(frameView);
         GameView view = new GameView(cliView, boardView, optionsView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
 

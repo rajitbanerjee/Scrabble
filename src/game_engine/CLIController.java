@@ -1,6 +1,6 @@
 package game_engine;
 
-import game.*;
+import game.Board;
 import javafx.scene.input.KeyCode;
 import ui.CommandHistoryView;
 import ui.CommandInputView;
@@ -19,12 +19,15 @@ import static constants.UIConstants.STATUS_CODE.*;
 public class CLIController {
     private CommandInputView inputView;
     private BoardController boardController;
+    private FrameController frameController;
     private ScrabbleFX game;
 
     public CLIController(CommandInputView inputView,
-                         CommandHistoryView historyView, BoardController boardController) {
+                         CommandHistoryView historyView, BoardController boardController,
+                         FrameController frameController) {
         this.inputView = inputView;
         this.boardController = boardController;
+        this.frameController = frameController;
         game = new ScrabbleFX(historyView);
         setListeners();
     }
@@ -46,6 +49,12 @@ public class CLIController {
                         boolean updateBoard = game.processCommand(inputView.getText());
                         if (updateBoard) {
                             boardController.update();
+                        }
+                        //updating the frame
+                        if (game.getGameState() == P1_TURN) {
+                            frameController.update(game.getPlayer1Frame());
+                        } else if (game.getGameState() != P2_NAME) {
+                            frameController.update(game.getPlayer2Frame());
                         }
                         inputView.clear();
                     } catch (InterruptedException e) {

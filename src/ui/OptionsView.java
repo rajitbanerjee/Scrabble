@@ -11,11 +11,11 @@ import javafx.scene.layout.GridPane;
 public class OptionsView extends GridPane {
     private FrameView frameView;
 
-    public OptionsView() {
+    public OptionsView(FrameView frameView) {
         super();
-        this.frameView = new FrameView();
+        this.frameView = frameView;
         setPrefHeight(UIConstants.getSceneHeight() * 0.25);
         setAlignment(Pos.CENTER);
-        add(frameView, 0, 0);
+        add(this.frameView, 0, 0);
     }
 }
