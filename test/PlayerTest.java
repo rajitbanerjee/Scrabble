@@ -17,16 +17,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     @Test
     void testPlayer() {
+        Player playerA = new Player("A", new Frame(new Pool()));
+
         // Empty name tests
         try {
-            new Player(null);
-            new Player(" ");
+            playerA.setName(null);
+            playerA.setName(" ");
             fail("Error: Player name cannot be empty.");
         } catch (Exception ignored) {
             // test passed
         }
-
-        Player playerA = new Player("A", new Frame(new Pool()));
 
         // Name empty setter tests
         try {

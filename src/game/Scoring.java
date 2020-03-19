@@ -1,7 +1,7 @@
 package game;
 
 import constants.GameConstants;
-import game_engine.ScrabbleFX;
+import game_engine.Scrabble;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -190,7 +190,7 @@ public class Scoring {
     // TODO remove this later
     public static void printLastSixScores() {
         System.out.println("\nLast six scores: " + lastSixScores.toString());
-        ScrabbleFX.printToOutput("Last six scores: " + lastSixScores.toString());
+        Scrabble.printToOutput("Last six scores: " + lastSixScores.toString());
     }
 
     /**

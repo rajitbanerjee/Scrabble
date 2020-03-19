@@ -1,7 +1,7 @@
 package game;
 
 import constants.GameConstants;
-import game_engine.ScrabbleFX;
+import game_engine.Scrabble;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -93,7 +93,7 @@ public class Pool {
      */
     public void printSize() {
         System.out.println("Number of tiles in pool: " + size());
-        ScrabbleFX.printToOutput("Number of tiles in pool: " + size());
+        Scrabble.printToOutput("Number of tiles in pool: " + size());
     }
 
 }

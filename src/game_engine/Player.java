@@ -3,7 +3,7 @@ package game_engine;
 import game.Frame;
 
 /**
- * The Player class stores information about the player.
+ * The Player is a Scrabble player with a name, score and frame.
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -15,25 +15,14 @@ public class Player {
     private int score;
     private Frame frame;
 
-    /**
-     * First Constructor for the player class, frame remains null if unspecified.
-     */
-    public Player(String name) {
-        this.name = name;
-        if (isValidName()) {
-            this.name = name.trim();
-        }
-        score = 0;
-        frame = null;
+    public Player(String name, Frame frame) throws IllegalArgumentException {
+        this(frame);
+        setName(name);
     }
 
-    /**
-     * Second Constructor for the player class.
-     * Call to first Constructor throws an exception if the given name is null.
-     */
-    public Player(String name, Frame frame) {
-        this(name);
-        this.frame = frame;
+    public Player(Frame frame) {
+        setFrame(frame);
+        score = 0;
     }
 
     /**
@@ -133,8 +122,11 @@ public class Player {
      *
      * @param name player name
      */
-    public void setName(String name) throws NullPointerException {
-        this.name = name;
+    public void setName(String name) throws IllegalArgumentException {
+        if (name == null || name.trim().equals("")) {
+            throw new IllegalArgumentException("Player name cannot be null");
+        }
+        this.name = name.trim();
     }
 
     /**
@@ -147,12 +139,4 @@ public class Player {
         return name;
     }
 
-    /**
-     * Checks if player name is valid
-     *
-     * @return true if player name is valid (not null or empty)
-     */
-    public boolean isValidName() {
-        return name != null && !name.trim().equals("");
-    }
 }

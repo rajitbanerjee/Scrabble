@@ -22,22 +22,24 @@ import java.util.List;
 public class CommandHistoryView extends ScrollPane {
     // Might be changed to a Queue/LinkedList
     private ArrayList<String> history;
-    private VBox vbox;  //VBox to be placed inside the ScrollPane
+    private VBox vbox;  // placed inside the ScrollPane
 
     public CommandHistoryView() {
         super();
         history = new ArrayList<>();
         vbox = new VBox();
         vbox.setAlignment(Pos.BOTTOM_LEFT);
-        vbox.setMinHeight(UIConstants.getSceneHeight() * 0.70 - 20);
+        vbox.setMinHeight(UIConstants.getSceneHeight() * 0.75 - 20);
 
-        setPrefHeight(UIConstants.getSceneHeight() * 0.70);
+        setPrefHeight(UIConstants.getSceneHeight() * 0.75);
         setPadding(new Insets(5));
         setStyle("-fx-background-color:transparent;");
         setHbarPolicy(ScrollBarPolicy.NEVER);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
-        setPannable(true); //allows user to pan using mouse
-        vvalueProperty().bind(vbox.heightProperty());   //automatically scrolls the scrollbar to the bottom
+        // allows user to pan using mouse
+        setPannable(true);
+        // automatically scrolls the scrollbar to the bottom
+        vvalueProperty().bind(vbox.heightProperty());
         setContent(vbox);
     }
 

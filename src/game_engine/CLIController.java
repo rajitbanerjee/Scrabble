@@ -20,7 +20,7 @@ public class CLIController {
     private CommandInputView inputView;
     private BoardController boardController;
     private FrameController frameController;
-    private ScrabbleFX game;
+    private Scrabble game;
 
     public CLIController(CommandInputView inputView,
                          CommandHistoryView historyView, BoardController boardController,
@@ -28,7 +28,7 @@ public class CLIController {
         this.inputView = inputView;
         this.boardController = boardController;
         this.frameController = frameController;
-        game = new ScrabbleFX(historyView);
+        game = new Scrabble(historyView);
         setListeners();
     }
 
@@ -44,13 +44,14 @@ public class CLIController {
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 if (game.getGameState() != GAME_OVER) {
-                    ScrabbleFX.printToOutput(inputView.getText());
+                    Scrabble.printToOutput(inputView.getText());
                     try {
                         boolean updateBoard = game.processCommand(inputView.getText());
+                        // update the board display
                         if (updateBoard) {
                             boardController.update();
                         }
-                        //updating the frame
+                        // update the frame display
                         if (game.getGameState() == P1_TURN) {
                             frameController.update(game.getPlayer1Frame());
                         } else if (game.getGameState() != P2_NAME) {
@@ -60,7 +61,7 @@ public class CLIController {
                     } catch (InterruptedException e) {
                         System.exit(-1);
                     } catch (RuntimeException e) {
-                        // FIXME Exception thrown by wait() in ScrabbleFX
+                        // FIXME Exception thrown by wait() in Scrabble
                         inputView.clear();
                     }
                 }

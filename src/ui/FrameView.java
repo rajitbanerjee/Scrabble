@@ -16,15 +16,13 @@ import javafx.scene.text.Text;
 /**
  * Frame GUI design.
  *
+ * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
- * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
 public class FrameView extends GridPane {
     private static double tileSize;
-    Pool pool = new Pool();
-    Frame frame = new Frame(pool);
 
     public FrameView() {
         tileSize = UIConstants.SQUARE_SIZE;
@@ -52,4 +50,5 @@ public class FrameView extends GridPane {
             add(tile, i, 1);
         }
     }
+
 }

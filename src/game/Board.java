@@ -2,7 +2,6 @@ package game;
 
 import constants.GameConstants;
 import game_engine.Scrabble;
-import game_engine.ScrabbleFX;
 
 import java.util.ArrayList;
 
@@ -78,50 +77,6 @@ public class Board {
             }
         }
         setFirstMove(true);
-    }
-
-    /**
-     * Displays the board and tiles (if any) on the command line.
-     */
-    public void display() {
-        printLine();
-        printColumnIndices();
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                if (j == 0) {
-                    System.out.printf("| %d\t|", (i + 1));
-                }
-                System.out.print(board[i][j] + "|");
-                if (j == 14) {
-                    if (i > 8) {
-                        System.out.printf("\t %d|", (i + 1));
-                    } else {
-                        System.out.printf("\t %d |", (i + 1));
-                    }
-                }
-            }
-            printLine();
-        }
-        printColumnIndices();
-    }
-
-    // Display a line of dashes, used to display the Board.
-    private void printLine() {
-        System.out.println();
-        for (int i = 0; i < 76; i++) {
-            System.out.print("-");
-        }
-        System.out.println();
-    }
-
-    // Display the column indices 'A' - 'O' on the board
-    private void printColumnIndices() {
-        System.out.print("|\t|");
-        for (char ch = 'A'; ch <= 'O'; ch++) {
-            System.out.printf(" %c |", ch);
-        }
-        System.out.print("\t   |");
-        printLine();
     }
 
     /**
@@ -248,34 +203,29 @@ public class Board {
         }
         // Checks for overflow
         if (isOverflowed(word)) {
-            System.out.println("\nWord goes out of the board!");
-            ScrabbleFX.printToOutput("Word goes out of the board!");
+            Scrabble.printToOutput("Word goes out of the board!");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(word)) {
-            System.out.println("\nWord conflicts with existing word on board!");
-            ScrabbleFX.printToOutput("Word conflicts with existing word on board!");
+            Scrabble.printToOutput("Word conflicts with existing word on board!");
             return false;
         }
         // Checks if frame contains the required tiles
         if (!doesFrameContainTiles(word, frame)) {
-            System.out.println("\nFrame doesn't contain tiles");
-            ScrabbleFX.printToOutput("Frame doesn't contain tiles");
+            Scrabble.printToOutput("Frame doesn't contain tiles");
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(word, frame)) {
-            System.out.println("\nFrame not used!");
-            ScrabbleFX.printToOutput("Frame not used!");
+            Scrabble.printToOutput("Frame not used!");
             return false;
         }
         // If first move, checks if it covers the centre square
         if (isFirstMove) {
             boolean isCentreCovered = doesWordCoverCentre(word);
             if (!isCentreCovered) {
-                System.out.println("\nFirst move must cover centre square!");
-                ScrabbleFX.printToOutput("First move must cover centre square!");
+                Scrabble.printToOutput("First move must cover centre square!");
             }
             return isCentreCovered;
         } else {
@@ -455,8 +405,7 @@ public class Board {
                 }
             }
         }
-        System.out.println("\nWord needs to connect with an existing word on board!");
-        ScrabbleFX.printToOutput("Word needs to connect with an existing word on board!");
+        Scrabble.printToOutput("Word needs to connect with an existing word on board!");
         return false;
     }
 

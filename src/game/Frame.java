@@ -19,12 +19,6 @@ public class Frame {
     private final Pool pool;
     private ArrayList<Tile> frame;
 
-    /**
-     * Constructor method for frame. Fills the frame with tiles.
-     *
-     * @param pool the game's shared pool
-     * @throws IllegalArgumentException if given pool object is null
-     */
     public Frame(Pool pool) throws IllegalArgumentException {
         if (pool == null) {
             throw new IllegalArgumentException("Pool cannot be null");
@@ -143,7 +137,6 @@ public class Frame {
         System.out.println(frame);
     }
 
-
     /**
      * Override toString method
      *
@@ -153,4 +146,5 @@ public class Frame {
     public String toString() {
         return frame.toString();
     }
+
 }

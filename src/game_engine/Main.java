@@ -27,12 +27,15 @@ public class Main extends Application {
     public void start(Stage stage) {
         FrameView frameView = new FrameView();
         FrameController frameController = new FrameController(frameView);
+
         CLIView cliView = new CLIView();
         CLIController controller = new CLIController(cliView.getInputView(),
                 cliView.getHistoryView(), null, frameController);
+
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
+
         OptionsView optionsView = new OptionsView(frameView);
         GameView view = new GameView(cliView, boardView, optionsView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());

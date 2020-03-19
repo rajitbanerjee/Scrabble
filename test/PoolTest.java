@@ -36,9 +36,8 @@ class PoolTest {
     @Test
     void testPool() {
         Pool pool = new Pool();
-        // Tests the size printer method
-        pool.printSize();
-        assertEquals("Number of tiles in pool: 100", outContent.toString().trim());
+        // Tests the pool size
+        assertEquals(100, pool.size());
 
         // Create a HashMap to test the score of each letter
         HashMap<Character, Integer> map = new HashMap<>();

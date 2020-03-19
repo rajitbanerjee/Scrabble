@@ -4,9 +4,8 @@
 * Developed using IntelliJ IDEA.
 
 ### Dependencies:
-* Java 13.0.2
+* Java 1.8.0 
 * JUnit 5.4
-* JavaFX 11.0.2
 
 ### Authors:
 * [Katarina Cvetkovic](https://github.com/katarinac)
