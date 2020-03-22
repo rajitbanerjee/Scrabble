@@ -2,6 +2,14 @@ package game_engine;
 
 import ui.ScoreView;
 
+/**
+ * Controller for the GUI score display.
+ *
+ * @author Katarina Cvetkovic, 18347921
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class ScoreController {
     ScoreView view;
     Boolean namesInitialised = false;
@@ -10,12 +18,13 @@ public class ScoreController {
         this.view = view;
     }
 
-    public void setNames(String name1, String name2) {
-        view.initialiseNames(name1, name2);
+    public void setNames(String playerOneName, String playerTwoName) {
+        view.initialiseNames(playerOneName, playerTwoName);
         namesInitialised = true;
     }
 
     public void update(int score1, int score2) {
         view.refreshScores(score1, score2);
     }
+
 }

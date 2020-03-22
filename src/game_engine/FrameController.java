@@ -21,4 +21,5 @@ public class FrameController {
     public void update(Frame frame) {
         view.redraw(frame);
     }
+
 }
