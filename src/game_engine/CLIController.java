@@ -2,6 +2,7 @@ package game_engine;
 
 import game.Board;
 import javafx.scene.input.KeyCode;
+import ui.ButtonsView;
 import ui.CommandHistoryView;
 import ui.CommandInputView;
 
@@ -18,15 +19,17 @@ import static constants.UIConstants.STATUS_CODE.*;
  */
 public class CLIController {
     private CommandInputView inputView;
+    private ButtonsView buttonsView;
     private BoardController boardController;
     private FrameController frameController;
     private ScoreController scoreController;
     private Scrabble game;
 
     public CLIController(CommandInputView inputView,
-                         CommandHistoryView historyView, BoardController boardController,
+                         CommandHistoryView historyView, ButtonsView buttonsView, BoardController boardController,
                          FrameController frameController, ScoreController scoreController) {
         this.inputView = inputView;
+        this.buttonsView = buttonsView;
         this.boardController = boardController;
         this.frameController = frameController;
         this.scoreController = scoreController;
@@ -43,6 +46,27 @@ public class CLIController {
     }
 
     public void setListeners() {
+        //TODO move these two button actions to a ButtonController class
+        buttonsView.pass.setOnAction(event -> {
+            try {
+                game.processCommand("PASS");
+            } catch (InterruptedException e) {
+                System.exit(-1);
+            }
+        });
+        buttonsView.challenge.setOnAction(event -> {
+            try {
+                boolean updateBoard = game.processCommand("CHALLENGE");
+                // update the board display
+                if (updateBoard) {
+                    boardController.update();
+                }
+
+            } catch (InterruptedException e) {
+                System.exit(-1);
+            }
+        });
+
         inputView.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 if (game.getGameState() != GAME_OVER) {
@@ -77,5 +101,4 @@ public class CLIController {
             }
         });
     }
-
 }

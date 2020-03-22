@@ -31,16 +31,18 @@ public class Main extends Application {
         ScoreView scoreView = new ScoreView();
         ScoreController scoreController = new ScoreController(scoreView);
 
+        ButtonsView buttonsView = new ButtonsView();
+
         CLIView cliView = new CLIView();
         CLIController controller = new CLIController(cliView.getInputView(),
-                cliView.getHistoryView(), null, frameController,
+                cliView.getHistoryView(), buttonsView, null, frameController,
                 scoreController);
 
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
 
-        OptionsView optionsView = new OptionsView(frameView, scoreView);
+        OptionsView optionsView = new OptionsView(frameView, scoreView, buttonsView);
         GameView view = new GameView(cliView, boardView, optionsView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
 

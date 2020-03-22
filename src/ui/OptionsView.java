@@ -9,12 +9,12 @@ import javafx.scene.layout.GridPane;
  * score and have buttons for pass, exchange, challenge
  */
 public class OptionsView extends GridPane {
-    public OptionsView(FrameView frameView, ScoreView scoreView) {
+    public OptionsView(FrameView frameView, ScoreView scoreView, ButtonsView buttonsView) {
         super();
         setPrefHeight(UIConstants.getSceneHeight() * 0.25);
         setAlignment(Pos.CENTER);
         add(scoreView, 0, 0);
         add(frameView, 0, 1);
+        add(buttonsView, 0, 2);
     }
-
 }
