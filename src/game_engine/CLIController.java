@@ -20,14 +20,16 @@ public class CLIController {
     private CommandInputView inputView;
     private BoardController boardController;
     private FrameController frameController;
+    private ScoreController scoreController;
     private Scrabble game;
 
     public CLIController(CommandInputView inputView,
                          CommandHistoryView historyView, BoardController boardController,
-                         FrameController frameController) {
+                         FrameController frameController, ScoreController scoreController) {
         this.inputView = inputView;
         this.boardController = boardController;
         this.frameController = frameController;
+        this.scoreController = scoreController;
         game = new Scrabble(historyView);
         setListeners();
     }
@@ -51,10 +53,17 @@ public class CLIController {
                         if (updateBoard) {
                             boardController.update();
                         }
-                        // update the frame display
+                        //set the players names for the scoreView(only needs to be done once)
+                        if (!scoreController.namesInitialised && game.getGameState() != P1_NAME
+                                && game.getGameState() != P2_NAME) {
+                            scoreController.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
+                        }
+                        // update the frame and score display
                         if (game.getGameState() == P1_TURN) {
+                            scoreController.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                             frameController.update(game.getPlayer1Frame());
                         } else if (game.getGameState() != P2_NAME) {
+                            scoreController.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                             frameController.update(game.getPlayer2Frame());
                         }
                         inputView.clear();

@@ -64,6 +64,14 @@ public class Scrabble {
         }
     }
 
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
     public UIConstants.STATUS_CODE getGameState() {
         return gameState;
     }

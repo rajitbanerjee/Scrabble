@@ -28,15 +28,19 @@ public class Main extends Application {
         FrameView frameView = new FrameView();
         FrameController frameController = new FrameController(frameView);
 
+        ScoreView scoreView = new ScoreView();
+        ScoreController scoreController = new ScoreController(scoreView);
+
         CLIView cliView = new CLIView();
         CLIController controller = new CLIController(cliView.getInputView(),
-                cliView.getHistoryView(), null, frameController);
+                cliView.getHistoryView(), null, frameController,
+                scoreController);
 
         BoardView boardView = new BoardView(controller.getBoard());
         BoardController boardController = new BoardController(boardView);
         controller.setBoardController(boardController);
 
-        OptionsView optionsView = new OptionsView(frameView);
+        OptionsView optionsView = new OptionsView(frameView, scoreView);
         GameView view = new GameView(cliView, boardView, optionsView);
         Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
 
