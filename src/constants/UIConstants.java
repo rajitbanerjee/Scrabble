@@ -1,7 +1,6 @@
 package constants;
 
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 
 /**
  * Stores all the hard-coded constants used in JavaFX related classes.
@@ -15,11 +14,11 @@ public class UIConstants {
     public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 
     public static double getSceneWidth() {
-        return Screen.getPrimary().getBounds().getWidth() * 0.75;
+        return 1200;
     }
 
     public static double getSceneHeight() {
-        return Screen.getPrimary().getBounds().getHeight() * 0.70;
+        return 620;
     }
 
     public static final double SQUARE_SIZE = getSceneWidth() * 0.03;

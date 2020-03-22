@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -14,6 +15,7 @@ import javafx.scene.layout.VBox;
 public class GameView extends HBox {
     public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {
         super();
+        setAlignment(Pos.BOTTOM_CENTER);
         // Add board view to the left
         getChildren().add(boardView);
         // Create VBox for right side
