@@ -1,6 +1,7 @@
 package ui;
 
-import constants.*;
+import constants.GameConstants;
+import constants.UIConstants;
 import game.Board;
 import game.Square;
 import javafx.geometry.Insets;
@@ -29,6 +30,8 @@ public class BoardView extends GridPane {
         squareSize = UIConstants.SQUARE_SIZE;
         this.board = board;
         setAlignment(Pos.TOP_LEFT);
+        setHgap(UIConstants.BOARD_HGAP);
+        setVgap(UIConstants.BOARD_VGAP);
         redraw();
     }
 
@@ -124,8 +127,6 @@ public class BoardView extends GridPane {
                 add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
             }
         }
-        setHgap(UIConstants.BOARD_HGAP);
-        setVgap(UIConstants.BOARD_VGAP);
     }
 
 }

@@ -17,15 +17,14 @@ public class UIConstants {
         return 1200;
     }
 
-    public static double getSceneHeight() {
-        return 620;
-    }
+    public static final double CMD_INPUT_WIDTH = getSceneWidth() * 0.484;
 
     public static final double SQUARE_SIZE = getSceneWidth() * 0.03;
+    public static final double BOARD_HGAP = getSceneHeight() * 0.005;
 
-    public static final double CMD_INPUT_WIDTH = getSceneWidth() * 0.435;
-
-    public static final double BOARD_HGAP = getSceneWidth() * 0.005;
+    public static double getSceneHeight() {
+        return 621;
+    }
 
     public static final double BOARD_VGAP = getSceneHeight() * 0.005;
 
