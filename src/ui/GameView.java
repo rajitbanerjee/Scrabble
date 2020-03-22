@@ -4,7 +4,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Integrate board and CLI views into a single window.
+ * Integrate Board, CLI and Options into a single window.
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
