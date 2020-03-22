@@ -42,6 +42,7 @@ public class Main extends Application {
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
+
         stage.getIcons().add(new Image(Objects.requireNonNull(icon)));
         stage.setTitle("Scrabble by DarkMode.");
         stage.setScene(scene);
