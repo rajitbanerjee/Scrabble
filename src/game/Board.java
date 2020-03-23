@@ -197,29 +197,29 @@ public class Board {
         }
         // Checks for overflow
         if (isOverflowed(word)) {
-            Scrabble.printToOutput("Word goes out of the board!");
+            Scrabble.printToOutput("> Word goes out of the board!");
             return false;
         }
         // Checks for conflicts with existing letters on the board
         if (doesWordConflict(word)) {
-            Scrabble.printToOutput("Word conflicts with existing word on board!");
+            Scrabble.printToOutput("> Word conflicts with existing word on board!");
             return false;
         }
         // Checks if frame contains the required tiles
         if (!doesFrameContainTiles(word, frame)) {
-            Scrabble.printToOutput("Frame doesn't contain tiles");
+            Scrabble.printToOutput("> Frame doesn't contain tiles");
             return false;
         }
         // Checks whether the placement uses at least one letter from frame
         if (!isFrameUsed(word, frame)) {
-            Scrabble.printToOutput("Frame not used!");
+            Scrabble.printToOutput("> Frame not used!");
             return false;
         }
         // If first move, checks if it covers the centre square
         if (isFirstMove) {
             boolean isCentreCovered = doesWordCoverCentre(word);
             if (!isCentreCovered) {
-                Scrabble.printToOutput("First move must cover centre square!");
+                Scrabble.printToOutput("> First move must cover centre square!");
             }
             return isCentreCovered;
         } else {
@@ -399,7 +399,7 @@ public class Board {
                 }
             }
         }
-        Scrabble.printToOutput("Word needs to connect with an existing word on board!");
+        Scrabble.printToOutput("> Word needs to connect with an existing word on board!");
         return false;
     }
 

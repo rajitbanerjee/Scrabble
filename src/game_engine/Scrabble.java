@@ -96,8 +96,8 @@ public class Scrabble {
 
     // Display the welcome message
     private void printWelcome() {
-        printToOutput("[Console] Welcome to Scrabble by DarkMode.");
-        printToOutput("[Console] Player #1, please enter your name: ");
+        printToOutput("> Welcome to Scrabble by DarkMode.");
+        printToOutput("> Player #1, please enter your name: ");
     }
 
     /**
@@ -112,9 +112,9 @@ public class Scrabble {
                 try {
                     player1.setName(command);
                     gameState = P2_NAME;
-                    printToOutput("[Console] Player #2, please enter your name: ");
+                    printToOutput("> Player #2, please enter your name: ");
                 } catch (IllegalArgumentException e) {
-                    printToOutput("[Console] Player #1, please enter your name: ");
+                    printToOutput("> Player #1, please enter your name: ");
                 }
                 return false;
             case P2_NAME:
@@ -123,7 +123,7 @@ public class Scrabble {
                     gameState = P1_TURN;
                     startGame();
                 } catch (IllegalArgumentException e) {
-                    printToOutput("[Console] Player #2, please enter your name: ");
+                    printToOutput("> Player #2, please enter your name: ");
                 }
                 return false;
             default:
@@ -143,7 +143,8 @@ public class Scrabble {
                     return true;
                 } else {
                     printDashes();
-                    printToOutput("Invalid move! Try again.");
+                    printToOutput("> Invalid move! Try again.");
+                    promptUser();
                     return false;
                 }
         }
@@ -151,29 +152,20 @@ public class Scrabble {
 
     // Another welcome message and prompt user to enter move
     private void startGame() {
-        printToOutput(String.format("Welcome %s and %s!", player1.getName(), player2.getName()));
+        printToOutput(String.format("> Welcome %s and %s!", player1.getName(), player2.getName()));
         askForMove(player1);
     }
 
     // Prompt user to enter move
     private void askForMove(Player player) {
-        Frame frame = player.getFrame();
-        printToOutput(String.format("%s, it's your turn!", player.getName()));
-        displayFrameScore(player, frame);
-        promptUser();
-    }
-
-    // Display frame and score
-    private void displayFrameScore(Player player, Frame frame) {
-        printToOutput(String.format("%s's frame: ", player.getName()));
-        printToOutput(frame.toString());
-        printToOutput(String.format("%s's score: %d", player.getName(), player.getScore()));
         printDashes();
+        printToOutput(String.format("> %s, it's your turn!", player.getName()));
+        promptUser();
     }
 
     // Helper message
     private void promptUser() {
-        printToOutput("Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
+        printToOutput("> Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
         printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE: ");
     }
 
@@ -196,11 +188,11 @@ public class Scrabble {
                 exchangeTiles(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
-                printToOutput(e.getMessage());
+                printToOutput("> " + e.getMessage());
                 return false;
             }
         } else {
-            printToOutput("Exchange must of the format: EXCHANGE <letters (no spaces)>");
+            printToOutput("> Exchange must of the format: EXCHANGE <letters (no spaces)>");
             return false;
         }
     }
@@ -255,9 +247,8 @@ public class Scrabble {
 
     // Pass move
     private void pass(Player player, boolean removeLastScore) {
-        printToOutput(String.format("Turn passed for %s!", player.getName()));
+        printToOutput(String.format("> Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
-        displayFrameScore(player, player.getFrame());
         checkLastSixScores();
     }
 
@@ -267,8 +258,8 @@ public class Scrabble {
         frame.exchange(to_exchange);
         if (!isTest) {
             Scoring.addScoreToList(0);
-            Scrabble.printToOutput("Number of tiles in pool: " + pool.size());
-            printToOutput(String.format("Letters (%s) have been exchanged!", to_exchange));
+            Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
+            printToOutput(String.format("> Letters (%s) have been exchanged!", to_exchange));
             checkLastSixScores();
         }
     }
@@ -277,14 +268,14 @@ public class Scrabble {
     private boolean challenge(Player opponent) {
         boolean success = false;
         if (Scoring.challengeIndices.isEmpty()) {
-            printToOutput("Cannot challenge! No word placed by opponent.");
+            printToOutput("> Cannot challenge! No word placed by opponent.");
         } else {
             if (wordsInDictionary()) {
-                printToOutput("Challenge unsuccessful!");
+                printToOutput("> Challenge unsuccessful!");
             } else {
                 removeTiles(opponent.getFrame());
                 opponent.decreaseScore(opponentScore);
-                printToOutput(String.format("Challenge successful! %s's tiles removed!",
+                printToOutput(String.format("> Challenge successful! %s's tiles removed!",
                         opponent.getName()));
                 if (board.isEmpty()) {
                     board.setFirstMove(true);
@@ -331,16 +322,15 @@ public class Scrabble {
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score; // current player is opponent for next player's move
-        printToOutput("WORD(S) PLACED: " + Scoring.wordsFormed.toString());
+        printToOutput("WORD(S) FORMED: " + Scoring.wordsFormed.toString());
         printToOutput("POINTS AWARDED: " + score);
         printDashes();
         try {
             frame.refillFrame();
         } catch (Exception e) {
-            printToOutput(e.getMessage());
+            printToOutput("> " + e.getMessage());
         }
-        displayFrameScore(player, frame);
-        Scrabble.printToOutput("Number of tiles in pool: " + pool.size());
+        Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
         checkLastSixScores();
     }
 
@@ -349,7 +339,7 @@ public class Scrabble {
         // TODO remove printing scores later, added only for testing
         Scoring.printLastSixScores();
         if (Scoring.isLastSixZero()) {
-            printToOutput("Six consecutive scoreless turns have occurred! Game over.");
+            printToOutput("> Six consecutive scoreless turns have occurred! Game over.");
             quit();
         }
     }
@@ -362,4 +352,5 @@ public class Scrabble {
         }
         printToOutput(dash.toString());
     }
+
 }

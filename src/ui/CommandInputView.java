@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 public class CommandInputView extends TextField {
     public CommandInputView() {
         super();
+        setFont(UIConstants.cliFont);
         setPromptText("Enter your move here...");
         setMinWidth(UIConstants.CMD_INPUT_WIDTH);
     }

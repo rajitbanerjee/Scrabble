@@ -1,5 +1,6 @@
 package ui;
 
+import constants.UIConstants;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -29,6 +30,8 @@ public class ScoreView extends TextFlow {
         getChildren().clear();
         Text p1Text = new Text(playerOneName + ": " + score1 + " points\t\t");
         Text p2Text = new Text(playerTwoName + ": " + score2 + " points");
+        p1Text.setFont(UIConstants.cliFont);
+        p2Text.setFont(UIConstants.cliFont);
         getChildren().add(p1Text);
         getChildren().add(p2Text);
     }

@@ -1,5 +1,6 @@
 package ui;
 
+import constants.UIConstants;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,11 +15,14 @@ import javafx.scene.layout.HBox;
  * @team DarkMode
  */
 public class ButtonsView extends HBox {
-    private Button pass = new Button("PASS");
-    private Button challenge = new Button("CHALLENGE");
-    private Button quit = new Button("QUIT");
+    private Button pass = new Button("Pass");
+    private Button challenge = new Button("Challenge");
+    private Button quit = new Button("Quit");
 
     public ButtonsView() {
+        pass.setFont(UIConstants.cliFont);
+        challenge.setFont(UIConstants.cliFont);
+        quit.setFont(UIConstants.cliFont);
         getChildren().addAll(pass, challenge, quit);
         setAlignment(Pos.CENTER);
         setSpacing(30);
