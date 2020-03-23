@@ -25,27 +25,25 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Set up game and Views
         FrameView frameView = new FrameView();
-        FrameController frameController = new FrameController(frameView);
-
         ScoreView scoreView = new ScoreView();
-        ScoreController scoreController = new ScoreController(scoreView);
-
         ButtonsView buttonsView = new ButtonsView();
-
         CLIView cliView = new CLIView();
-        CLIController controller = new CLIController(cliView.getInputView(),
-                cliView.getHistoryView(), buttonsView, null, frameController,
-                scoreController);
-
-        BoardView boardView = new BoardView(controller.getBoard());
-        BoardController boardController = new BoardController(boardView);
-        controller.setBoardController(boardController);
-
+        Scrabble game = new Scrabble(cliView.getHistoryView());
+        BoardView boardView = new BoardView(game.getBoard());
         OptionsView optionsView = new OptionsView(frameView, scoreView, buttonsView);
         GameView view = new GameView(cliView, boardView, optionsView);
-        Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
+        // Setup controllers
+        FrameController frameController = new FrameController(frameView);
+        ScoreController scoreController = new ScoreController(scoreView);
+        BoardController boardController = new BoardController(boardView);
+        GameController gameController = new GameController(boardController, frameController, scoreController, game);
+        ButtonsController buttonsController = new ButtonsController(buttonsView, gameController);
+        CLIController cliController = new CLIController(cliView.getInputView(), gameController);
 
+        // Setup scene
+        Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
 

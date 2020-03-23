@@ -100,9 +100,7 @@ public class Scrabble {
      * @param text to be displayed
      */
     public static void printToOutput(String text) {
-        if (historyView != null) {
             historyView.printText(text);
-        }
     }
 
     /**
