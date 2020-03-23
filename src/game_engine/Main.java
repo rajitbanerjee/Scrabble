@@ -28,22 +28,19 @@ public class Main extends Application {
         // Set up game and Views
         FrameView frameView = new FrameView();
         ScoreView scoreView = new ScoreView();
-        ButtonsView buttonsView = new ButtonsView();
         CLIView cliView = new CLIView();
+        ButtonsView buttonsView = new ButtonsView();
+
         Scrabble game = new Scrabble(cliView.getHistoryView());
         BoardView boardView = new BoardView(game.getBoard());
         OptionsView optionsView = new OptionsView(frameView, scoreView, buttonsView);
-        GameView view = new GameView(cliView, boardView, optionsView);
-        // Setup controllers
-        FrameController frameController = new FrameController(frameView);
-        ScoreController scoreController = new ScoreController(scoreView);
-        BoardController boardController = new BoardController(boardView);
-        GameController gameController = new GameController(boardController, frameController, scoreController, game);
-        ButtonsController buttonsController = new ButtonsController(buttonsView, gameController);
-        CLIController cliController = new CLIController(cliView.getInputView(), gameController);
+        GameView gameView = new GameView(cliView, boardView, optionsView);
 
-        // Setup scene
-        Scene scene = new Scene(view, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
+        // Set up game controller
+        new GameController(frameView, scoreView, cliView, buttonsView, boardView, game);
+
+        // Set up scene
+        Scene scene = new Scene(gameView, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
 

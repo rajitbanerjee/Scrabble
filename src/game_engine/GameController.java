@@ -1,19 +1,46 @@
 package game_engine;
 
+import javafx.scene.input.KeyCode;
+import ui.*;
+
 import static constants.UIConstants.STATUS_CODE.*;
 
+/**
+ * Main controller to manage all the GUI components.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Katarina Cvetkovic, 18347921
+ * @author Rajit Banerjee, 18202817
+ * @team DarkMode
+ */
 public class GameController {
-    private BoardController boardController;
-    private FrameController frameController;
-    private ScoreController scoreController;
+    private FrameView frameView;
+    private ScoreView scoreView;
+    private CLIView cliView;
+    private ButtonsView buttonsView;
+    private BoardView boardView;
     private Scrabble game;
 
-    public GameController(BoardController boardController, FrameController frameController,
-                          ScoreController scoreController, Scrabble game) {
-        this.boardController = boardController;
-        this.frameController = frameController;
-        this.scoreController = scoreController;
+    public GameController(FrameView frameView, ScoreView scoreView,
+                          CLIView cliView, ButtonsView buttonsView,
+                          BoardView boardView, Scrabble game) {
+        this.frameView = frameView;
+        this.scoreView = scoreView;
+        this.cliView = cliView;
+        this.buttonsView = buttonsView;
+        this.boardView = boardView;
         this.game = game;
+        setListeners();
+        setButtons();
+    }
+
+    public void setListeners() {
+        cliView.getInputView().setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                updateGame(cliView.getInputView().getText());
+                cliView.clearInputView();
+            }
+        });
     }
 
     public void updateGame(String command) {
@@ -21,27 +48,35 @@ public class GameController {
             Scrabble.printToOutput(command);
             try {
                 boolean updateBoard = game.processCommand(command);
-                // update the board display
+                // Update the board display
                 if (updateBoard) {
-                    boardController.update();
+                    boardView.update();
                 }
-                //set the players names for the scoreView (only needs to be done once), once names are set
-                if (!scoreController.namesInitialised && game.getGameState() != P1_NAME
+                // Set the players' names
+                if (!scoreView.areNamesInitialised() && game.getGameState() != P1_NAME
                         && game.getGameState() != P2_NAME) {
-                    scoreController.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
+                    scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
                 }
-                // update the frame and score display
+                // Update the frame and score display
                 if (game.getGameState() == P1_TURN) {
-                    scoreController.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
-                    frameController.update(game.getPlayer1Frame());
+                    scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
+                    frameView.update(game.getPlayer1Frame());
                 } else if (game.getGameState() != P2_NAME) {
-                    scoreController.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
-                    frameController.update(game.getPlayer2Frame());
+                    scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
+                    frameView.update(game.getPlayer2Frame());
                 }
-            } catch (InterruptedException | RuntimeException e) {
-                // quit game when exception encountered
+            } catch (InterruptedException e) {
+                // Quit game when exception encountered
                 System.exit(-1);
+            } catch (RuntimeException e) {
+                cliView.clearInputView();
             }
         }
+    }
+
+    public void setButtons() {
+        buttonsView.getPassButton().setOnAction(event -> updateGame("PASS"));
+        buttonsView.getChallengeButton().setOnAction(event -> updateGame("CHALLENGE"));
+        buttonsView.getQuitButton().setOnAction(event -> updateGame("QUIT"));
     }
 }

@@ -1,6 +1,6 @@
 import game.Frame;
 import game.Pool;
-import game_engine.Player;
+import game.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

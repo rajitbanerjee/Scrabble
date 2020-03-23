@@ -16,15 +16,26 @@ import javafx.scene.text.TextFlow;
 public class ScoreView extends TextFlow {
     private String playerOneName;
     private String playerTwoName;
+    private boolean namesInitialised;
 
     public ScoreView() {
         setTextAlignment(TextAlignment.CENTER);
         setPadding(new Insets(10));
+        namesInitialised = false;
     }
 
-    public void initialiseNames(String playerOneName, String playerTwoName) {
+    public void setNames(String playerOneName, String playerTwoName) {
         this.playerOneName = playerOneName;
         this.playerTwoName = playerTwoName;
+        namesInitialised = true;
+    }
+
+    public boolean areNamesInitialised () {
+        return namesInitialised;
+    }
+
+    public void update(int score1, int score2) {
+        refreshScores(score1, score2);
     }
 
     public void refreshScores(int score1, int score2) {

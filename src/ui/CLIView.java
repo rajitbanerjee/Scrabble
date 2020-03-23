@@ -1,5 +1,7 @@
 package ui;
 
+import game_engine.GameController;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 /**
@@ -27,6 +29,10 @@ public class CLIView extends VBox {
 
     public CommandHistoryView getHistoryView() {
         return historyView;
+    }
+
+    public void clearInputView() {
+        inputView.clear();
     }
 
 }

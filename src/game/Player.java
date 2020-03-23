@@ -1,6 +1,4 @@
-package game_engine;
-
-import game.Frame;
+package game;
 
 /**
  * The Player is a Scrabble player with a name, score and frame.

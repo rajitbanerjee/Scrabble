@@ -32,6 +32,10 @@ public class FrameView extends GridPane {
         setVgap(UIConstants.BOARD_VGAP);
     }
 
+    public void update(Frame frame) {
+        redraw(frame);
+    }
+
     public void redraw(Frame frame) {
         for (int i = 0; i < frame.getFrame().size(); i++) {
             GridPane tile = new GridPane();
