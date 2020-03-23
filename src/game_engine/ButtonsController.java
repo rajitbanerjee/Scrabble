@@ -1,10 +1,6 @@
 package game_engine;
 
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import ui.ButtonsView;
-
-import java.util.List;
 
 public class ButtonsController {
     private ButtonsView buttonsView;
@@ -17,16 +13,8 @@ public class ButtonsController {
     }
 
     public void initControllers() {
-        List<Node> nodeList = buttonsView.getChildren();
-        if (nodeList.get(0) instanceof Button && nodeList.get(1) instanceof Button) {
-            // Safe casts
-            Button passButton = (Button) nodeList.get(0);
-            Button challengeButton = (Button) nodeList.get(1);
-            passButton.setOnAction(event -> gameController.updateGame("PASS"));
-            challengeButton.setOnAction(event -> gameController.updateGame("CHALLENGE"));
-
-        } else {
-            throw new RuntimeException("Cannot setup button controllers");
-        }
+        buttonsView.getPassButton().setOnAction(event -> gameController.updateGame("PASS"));
+        buttonsView.getChallengeButton().setOnAction(event -> gameController.updateGame("CHALLENGE"));
+        buttonsView.getQuitButton().setOnAction(event -> gameController.updateGame("QUIT"));
     }
 }

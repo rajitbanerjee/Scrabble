@@ -6,15 +6,30 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 public class ButtonsView extends HBox {
-    public Button pass;
-    public Button challenge;
+    private Button pass;
+    private Button challenge;
+    private Button quit;
+
 
     public ButtonsView() {
         pass = new Button("PASS");
         challenge = new Button("CHALLENGE");
-        getChildren().addAll(pass, challenge);
+        quit = new Button("QUIT");
+        getChildren().addAll(pass, challenge, quit);
         setAlignment(Pos.CENTER);
         setSpacing(30);
         setPadding(new Insets(10));
+    }
+
+    public Button getPassButton() {
+        return pass;
+    }
+
+    public Button getChallengeButton() {
+        return challenge;
+    }
+
+    public Button getQuitButton() {
+        return quit;
     }
 }
