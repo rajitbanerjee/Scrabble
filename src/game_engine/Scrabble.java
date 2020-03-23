@@ -3,7 +3,7 @@ package game_engine;
 import constants.GameConstants;
 import constants.UIConstants;
 import game.*;
-import ui.CommandHistoryView;
+import ui.CLIView;
 import ui.PopupView;
 
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import java.util.Scanner;
 import static constants.UIConstants.STATUS_CODE.*;
 
 /**
- * Implement the scoring logic for a Scrabble game, supporting GUI.
+ * Integrates all game components to create a 2 player Scrabble game.
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
@@ -23,24 +23,16 @@ import static constants.UIConstants.STATUS_CODE.*;
  * @team DarkMode
  */
 public class Scrabble {
-    private static CommandHistoryView historyView;
-    private Pool pool;
-    private Board board;
-    private Player player1, player2;
-    private int opponentScore;
-    private UIConstants.STATUS_CODE gameState;
-    private boolean isChallengeSuccessful;
+    private Pool pool = new Pool();
+    private Board board = new Board();
+    private Player player1 = new Player(new Frame(pool));
+    private Player player2 = new Player(new Frame(pool));
+    private int opponentScore = 0;
+    private UIConstants.STATUS_CODE gameState = P1_NAME;
+    private boolean isChallengeSuccessful = false;
     private HashSet<String> dictionary;
 
-    public Scrabble(CommandHistoryView historyView) {
-        Scrabble.historyView = historyView;
-        pool = new Pool();
-        board = new Board();
-        player1 = new Player(new Frame(pool));
-        player2 = new Player(new Frame(pool));
-        opponentScore = 0;
-        gameState = P1_NAME; // initial game state is to ask player 1 for name
-        isChallengeSuccessful = false;
+    public Scrabble() {
         fillDictionary();
         printWelcome();
     }
@@ -51,8 +43,10 @@ public class Scrabble {
      * @param text to be displayed
      */
     public static void printToOutput(String text) {
-        if (historyView != null) {
-            historyView.printText(text);
+        try {
+            CLIView.historyView.printText(text);
+        } catch (Error ignored) {
+            // Ignore printing errors that occur in unit testing
         }
     }
 

@@ -21,16 +21,13 @@ import java.util.List;
  */
 public class CommandHistoryView extends ScrollPane {
     // Might be changed to a Queue/LinkedList
-    private ArrayList<String> history;
-    private VBox vbox;  // placed inside the ScrollPane
+    private ArrayList<String> history = new ArrayList<>();
+    private VBox vbox = new VBox(); // placed inside the ScrollPane
 
     public CommandHistoryView() {
         super();
-        history = new ArrayList<>();
-        vbox = new VBox();
         vbox.setAlignment(Pos.BOTTOM_LEFT);
         vbox.setMinHeight(UIConstants.getSceneHeight() * 0.75 - 20);
-
         setPrefHeight(UIConstants.getSceneHeight() * 0.75);
         setPadding(new Insets(5));
         setStyle("-fx-background-color:transparent;");

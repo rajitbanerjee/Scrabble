@@ -8,7 +8,6 @@ package constants;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 public class GameConstants {
     public static final int FRAME_LIMIT = 7;
     public static final int BOARD_SIZE = 15;

@@ -25,13 +25,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Set up game and Views
+        // Set up game and views
         FrameView frameView = new FrameView();
         ScoreView scoreView = new ScoreView();
         CLIView cliView = new CLIView();
         ButtonsView buttonsView = new ButtonsView();
 
-        Scrabble game = new Scrabble(cliView.getHistoryView());
+        Scrabble game = new Scrabble();
         BoardView boardView = new BoardView(game.getBoard());
         OptionsView optionsView = new OptionsView(frameView, scoreView, buttonsView);
         GameView gameView = new GameView(cliView, boardView, optionsView);

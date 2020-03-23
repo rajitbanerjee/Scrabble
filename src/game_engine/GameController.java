@@ -1,13 +1,12 @@
 package game_engine;
 
-import constants.UIConstants;
 import javafx.scene.input.KeyCode;
 import ui.*;
 
 import static constants.UIConstants.STATUS_CODE.*;
 
 /**
- * Main controller to manage all the GUI components.
+ * Main controller to manage all the UI view components.
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
@@ -74,24 +73,24 @@ public class GameController {
 
     public void setButtons() {
         buttonsView.getPassButton().setOnAction(event -> {
-            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
-                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+            if (game.getGameState() == P1_NAME ||
+                    game.getGameState() == P2_NAME) {
                 PopupView.displayUnsupportedActionPopup();
             } else {
                 updateGame("PASS");
             }
         });
         buttonsView.getChallengeButton().setOnAction(event -> {
-            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
-                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+            if (game.getGameState() == P1_NAME ||
+                    game.getGameState() == P2_NAME) {
                 PopupView.displayUnsupportedActionPopup();
             } else {
                 updateGame("CHALLENGE");
             }
         });
         buttonsView.getQuitButton().setOnAction(event -> {
-            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
-                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+            if (game.getGameState() == P1_NAME ||
+                    game.getGameState() == P2_NAME) {
                 PopupView.displayQuitPopup();
                 System.exit(0);
             } else {

@@ -5,16 +5,20 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
+/**
+ * Buttons GUI design.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
 public class ButtonsView extends HBox {
-    private Button pass;
-    private Button challenge;
-    private Button quit;
-
+    private Button pass = new Button("PASS");
+    private Button challenge = new Button("CHALLENGE");
+    private Button quit = new Button("QUIT");
 
     public ButtonsView() {
-        pass = new Button("PASS");
-        challenge = new Button("CHALLENGE");
-        quit = new Button("QUIT");
         getChildren().addAll(pass, challenge, quit);
         setAlignment(Pos.CENTER);
         setSpacing(30);

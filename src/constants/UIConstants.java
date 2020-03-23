@@ -15,7 +15,7 @@ public class UIConstants {
     public static final double SQUARE_SIZE = getSceneWidth() * 0.03;
     public static final double BOARD_HGAP = getSceneHeight() * 0.005;
     public static final double BOARD_VGAP = getSceneHeight() * 0.005;
-    public static final int DASH_LENGTH = (int) (UIConstants.CMD_INPUT_WIDTH * 0.175);
+    public static final int DASH_LENGTH = (int) (CMD_INPUT_WIDTH * 0.175);
     // TODO move these to CSS stylesheet later, with other style options
     public static final Font pointsFont = new Font("verdana", 6);
     public static final Font cliFont = new Font("verdana", 12);

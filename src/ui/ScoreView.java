@@ -19,9 +19,18 @@ public class ScoreView extends TextFlow {
     private boolean namesInitialised;
 
     public ScoreView() {
+        super();
         setTextAlignment(TextAlignment.CENTER);
         setPadding(new Insets(10));
         namesInitialised = false;
+    }
+
+    public void update(int score1, int score2) {
+        getChildren().clear();
+        Text p1Text = new Text(playerOneName + ": " + score1 + " points\t\t");
+        Text p2Text = new Text(playerTwoName + ": " + score2 + " points");
+        getChildren().add(p1Text);
+        getChildren().add(p2Text);
     }
 
     public void setNames(String playerOneName, String playerTwoName) {
@@ -32,18 +41,6 @@ public class ScoreView extends TextFlow {
 
     public boolean areNamesInitialised() {
         return namesInitialised;
-    }
-
-    public void update(int score1, int score2) {
-        refreshScores(score1, score2);
-    }
-
-    public void refreshScores(int score1, int score2) {
-        getChildren().clear();
-        Text p1Text = new Text(playerOneName + ": " + score1 + " points\t\t");
-        Text p2Text = new Text(playerTwoName + ": " + score2 + " points");
-        getChildren().add(p1Text);
-        getChildren().add(p2Text);
     }
 
 }

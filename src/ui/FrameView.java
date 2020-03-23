@@ -21,10 +21,10 @@ import javafx.scene.text.Text;
  * @team DarkMode
  */
 public class FrameView extends GridPane {
-    private static double tileSize;
+    private double tileSize = UIConstants.SQUARE_SIZE;
 
     public FrameView() {
-        tileSize = UIConstants.SQUARE_SIZE;
+        super();
         setAlignment(Pos.CENTER);
         setMinWidth(UIConstants.CMD_INPUT_WIDTH);
         setHgap(UIConstants.BOARD_HGAP);
@@ -32,10 +32,6 @@ public class FrameView extends GridPane {
     }
 
     public void update(Frame frame) {
-        redraw(frame);
-    }
-
-    public void redraw(Frame frame) {
         for (int i = 0; i < frame.getFrame().size(); i++) {
             GridPane tile = new GridPane();
             tile.setMinSize(tileSize, tileSize);

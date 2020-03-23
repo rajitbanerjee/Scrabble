@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
- * Frame holds the 7 tiles each player has in their possession. When tiles are
- * removed from the frame, the frame is refilled with tiles from the pool.
+ * Frame holds the 7 tiles each player has in their possession.
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044

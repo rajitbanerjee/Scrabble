@@ -22,20 +22,40 @@ import javafx.scene.text.Text;
  * @team DarkMode
  */
 public class BoardView extends GridPane {
-    private static double squareSize;
+    private double squareSize = UIConstants.SQUARE_SIZE;
     private Board board;
 
     public BoardView(Board board) {
         super();
-        squareSize = UIConstants.SQUARE_SIZE;
         this.board = board;
         setAlignment(Pos.TOP_LEFT);
         setHgap(UIConstants.BOARD_HGAP);
         setVgap(UIConstants.BOARD_VGAP);
-        redraw();
+        update();
     }
 
-    public static Node getSquareUI(Square square) {
+    // add(column, row)
+    public void update() {
+        Square[][] boardArray = board.getBoard();
+        // Initialise top-left empty block
+        add(getEmptyUI(), 0, 0);
+        // Draws the first row (Column Names)
+        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+            add(getColumnUI((char) ('A' + k)), k + 1, 0);
+        }
+        // Draws the first column (Row Numbers)
+        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+            add(getRowUI(k + 1), 0, k + 1);
+        }
+        // Draws the rest of the board
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
+                add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
+            }
+        }
+    }
+
+    public Node getSquareUI(Square square) {
         Color col = null;
         switch (square.getMultiplier()) {
             case CENTRE:
@@ -80,7 +100,7 @@ public class BoardView extends GridPane {
         }
     }
 
-    public static Node getColumnUI(char ch) {
+    public Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
@@ -90,7 +110,7 @@ public class BoardView extends GridPane {
         return pane;
     }
 
-    public static Node getRowUI(int i) {
+    public Node getRowUI(int i) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
@@ -100,37 +120,12 @@ public class BoardView extends GridPane {
         return pane;
     }
 
-    public static Node getEmptyUI() {
+    public Node getEmptyUI() {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setFill(Color.GHOSTWHITE);
         pane.getChildren().add(rect);
         return pane;
-    }
-
-    public void update() {
-        redraw();
-    }
-
-    // add(column, row)
-    public void redraw() {
-        Square[][] boardArray = board.getBoard();
-        // Initialise top-left empty block
-        add(getEmptyUI(), 0, 0);
-        // Draws the first row (Column Names)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getColumnUI((char) ('A' + k)), k + 1, 0);
-        }
-        // Draws the first column (Row Numbers)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getRowUI(k + 1), 0, k + 1);
-        }
-        // Draws the rest of the board
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
-            }
-        }
     }
 
 }

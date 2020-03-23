@@ -1,8 +1,8 @@
 package game;
 
 /**
- * A word represents a String, placed on the board at a starting
- * row and column, and with an orientation (across/down).
+ * A Word is represented by a String of letters, placed on the board
+ * at a starting row and column, and with an orientation (across/down).
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
