@@ -1,6 +1,6 @@
 package ui;
 
-import game_engine.Player;
+import game.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,13 +9,21 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Pop-up window on button click.
+ *
+ * @author Tee Chee Guan, 18202044
+ * @author Rajit Banerjee, 18202817
+ * @author Katarina Cvetkovic, 18347921
+ * @team DarkMode
+ */
 public class PopupView {
     public static void displayUnsupportedActionPopup() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Unsupported action");
 
-        Label label = new Label("This action is unsupported.");
+        Label label = new Label("Cannot pass or challenge now!");
         Button button = new Button("Close");
         button.setOnAction(event -> window.close());
 

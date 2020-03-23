@@ -1,5 +1,6 @@
 package game_engine;
 
+import constants.UIConstants;
 import javafx.scene.input.KeyCode;
 import ui.*;
 
@@ -65,18 +66,37 @@ public class GameController {
                     scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                     frameView.update(game.getPlayer2Frame());
                 }
-            } catch (InterruptedException e) {
-                // Quit game when exception encountered
-                System.exit(-1);
             } catch (RuntimeException e) {
-                cliView.clearInputView();
+                System.exit(-1);
             }
         }
     }
 
     public void setButtons() {
-        buttonsView.getPassButton().setOnAction(event -> updateGame("PASS"));
-        buttonsView.getChallengeButton().setOnAction(event -> updateGame("CHALLENGE"));
-        buttonsView.getQuitButton().setOnAction(event -> updateGame("QUIT"));
+        buttonsView.getPassButton().setOnAction(event -> {
+            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
+                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+                PopupView.displayUnsupportedActionPopup();
+            } else {
+                updateGame("PASS");
+            }
+        });
+        buttonsView.getChallengeButton().setOnAction(event -> {
+            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
+                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+                PopupView.displayUnsupportedActionPopup();
+            } else {
+                updateGame("CHALLENGE");
+            }
+        });
+        buttonsView.getQuitButton().setOnAction(event -> {
+            if (game.getGameState() == UIConstants.STATUS_CODE.P1_NAME ||
+                    game.getGameState() == UIConstants.STATUS_CODE.P2_NAME) {
+                PopupView.displayQuitPopup();
+                System.exit(0);
+            } else {
+                updateGame("QUIT");
+            }
+        });
     }
 }
