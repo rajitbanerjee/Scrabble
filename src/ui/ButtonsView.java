@@ -32,4 +32,5 @@ public class ButtonsView extends HBox {
     public Button getQuitButton() {
         return quit;
     }
+
 }

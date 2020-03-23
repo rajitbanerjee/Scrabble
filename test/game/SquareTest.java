@@ -1,6 +1,6 @@
+package game;
+
 import constants.GameConstants;
-import game.Square;
-import game.Tile;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Rajit Banerjee, 18202817
  * @team DarkMode
  */
-
 class SquareTest {
     @Test
     void testMultiplier() {
@@ -57,6 +56,38 @@ class SquareTest {
         Square square = new Square(GameConstants.MULTIPLIER.NORMAL);
         square.setTile(Tile.makeTile('Z'));
         assertEquals(Tile.makeTile('Z'), square.getTile());
+    }
+
+    @Test
+    void testGetLetterMultiplier() {
+        Square square = new Square(GameConstants.MULTIPLIER.NORMAL);
+        assertEquals(1, square.getLetterMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.CENTRE);
+        assertEquals(1, square.getLetterMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.DOUBLE_WS);
+        assertEquals(1, square.getLetterMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.TRIPLE_WS);
+        assertEquals(1, square.getLetterMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.DOUBLE_LS);
+        assertEquals(2, square.getLetterMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.TRIPLE_LS);
+        assertEquals(3, square.getLetterMultiplier());
+    }
+
+    @Test
+    void testGetWordMultiplier() {
+        Square square = new Square(GameConstants.MULTIPLIER.NORMAL);
+        assertEquals(1, square.getWordMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.DOUBLE_LS);
+        assertEquals(1, square.getWordMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.TRIPLE_LS);
+        assertEquals(1, square.getWordMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.CENTRE);
+        assertEquals(2, square.getWordMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.DOUBLE_WS);
+        assertEquals(2, square.getWordMultiplier());
+        square = new Square(GameConstants.MULTIPLIER.TRIPLE_WS);
+        assertEquals(3, square.getWordMultiplier());
     }
 
     @Test

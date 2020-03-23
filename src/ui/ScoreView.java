@@ -30,7 +30,7 @@ public class ScoreView extends TextFlow {
         namesInitialised = true;
     }
 
-    public boolean areNamesInitialised () {
+    public boolean areNamesInitialised() {
         return namesInitialised;
     }
 

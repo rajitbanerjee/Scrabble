@@ -1,14 +1,11 @@
-import game.Pool;
-import game.Tile;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+package game;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Pool class tests.
@@ -18,21 +15,7 @@ import java.util.HashMap;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 class PoolTest {
-    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final PrintStream originalOut = System.out;
-
-    @BeforeAll
-    static void setUpStream() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @AfterAll
-    static void restoreStreams() {
-        System.setOut(originalOut);
-    }
-
     @Test
     void testPool() {
         Pool pool = new Pool();

@@ -22,8 +22,8 @@ import javafx.scene.text.Text;
  * @team DarkMode
  */
 public class BoardView extends GridPane {
-    private Board board;
     private static double squareSize;
+    private Board board;
 
     public BoardView(Board board) {
         super();
@@ -33,31 +33,6 @@ public class BoardView extends GridPane {
         setHgap(UIConstants.BOARD_HGAP);
         setVgap(UIConstants.BOARD_VGAP);
         redraw();
-    }
-
-    public void update() {
-        redraw();
-    }
-
-    // add(column, row)
-    public void redraw() {
-        Square[][] boardArray = board.getBoard();
-        // Initialise top-left empty block
-        add(getEmptyUI(), 0, 0);
-        // Draws the first row (Column Names)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getColumnUI((char) ('A' + k)), k + 1, 0);
-        }
-        // Draws the first column (Row Numbers)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getRowUI(k + 1), 0, k + 1);
-        }
-        // Draws the rest of the board
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
-            }
-        }
     }
 
     public static Node getSquareUI(Square square) {
@@ -131,6 +106,31 @@ public class BoardView extends GridPane {
         rect.setFill(Color.GHOSTWHITE);
         pane.getChildren().add(rect);
         return pane;
+    }
+
+    public void update() {
+        redraw();
+    }
+
+    // add(column, row)
+    public void redraw() {
+        Square[][] boardArray = board.getBoard();
+        // Initialise top-left empty block
+        add(getEmptyUI(), 0, 0);
+        // Draws the first row (Column Names)
+        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+            add(getColumnUI((char) ('A' + k)), k + 1, 0);
+        }
+        // Draws the first column (Row Numbers)
+        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+            add(getRowUI(k + 1), 0, k + 1);
+        }
+        // Draws the rest of the board
+        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
+            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
+                add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
+            }
+        }
     }
 
 }

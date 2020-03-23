@@ -3,7 +3,6 @@ package ui;
 
 import constants.UIConstants;
 import game.Frame;
-import game.Pool;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Background;

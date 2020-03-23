@@ -1,6 +1,6 @@
+package game;
+
 import constants.GameConstants;
-import game.Square;
-import game.Tile;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 class TileTest {
     @Test
     void testTile() {
@@ -72,7 +71,6 @@ class TileTest {
         assertEquals(t1.hashCode(), t2.hashCode());
         assertNotEquals(t1.hashCode(), s1.hashCode());
 
-
         // Test makeTile()
         // Create a HashMap to test the score of each letter
         HashMap<Character, Integer> map = new HashMap<>();
@@ -104,7 +102,7 @@ class TileTest {
         // 0 point
         map.put('-', 0);
 
-        // check if all the tiles have the correct number of points
+        // Check if all the tiles have the correct number of points
         for (HashMap.Entry<Character, Integer> entry : map.entrySet()) {
             assertEquals(entry.getValue(), Tile.makeTile(entry.getKey()).getPoints());
         }
@@ -113,7 +111,7 @@ class TileTest {
             Tile.makeTile('*');
             fail("Invalid tile type");
         } catch (Exception ignored) {
-            // test passed
+            // Test passed
         }
     }
 

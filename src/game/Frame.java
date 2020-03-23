@@ -131,13 +131,6 @@ public class Frame {
     }
 
     /**
-     * Prints the frame to the command line.
-     */
-    public void printFrame() {
-        System.out.println(frame);
-    }
-
-    /**
      * Override toString method
      *
      * @return Sting representation of Frame

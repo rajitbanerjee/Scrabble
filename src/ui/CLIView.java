@@ -1,7 +1,5 @@
 package ui;
 
-import game_engine.GameController;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 /**

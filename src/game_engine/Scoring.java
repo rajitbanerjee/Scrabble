@@ -1,7 +1,10 @@
-package game;
+package game_engine;
 
 import constants.GameConstants;
-import game_engine.Scrabble;
+import game.Board;
+import game.Index;
+import game.Square;
+import game.Word;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 public class Scoring {
     public static ArrayList<Index> challengeIndices = new ArrayList<>();
     public static ArrayList<String> wordsFormed = new ArrayList<>();
-    private static ArrayList<Index> lastCoveredIndices = Board.getLastCoveredIndices();
+    public static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
     private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
     /**
@@ -58,7 +61,6 @@ public class Scoring {
      * @return the score awarded after placing the given word
      */
     public static int calculateScore(Word word, Board board) {
-        lastCoveredIndices = Board.getLastCoveredIndices();
         int bonus = (lastCoveredIndices.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
         challengeIndices.clear();

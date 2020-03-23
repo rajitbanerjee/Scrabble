@@ -1,4 +1,5 @@
-import game.Word;
+package game;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +49,19 @@ public class WordTest {
         assertTrue(word.isAlphaString());
     }
 
-    @Test void testGetPosition() {
+    @Test
+    void testGetPosition() {
         assertEquals(7, word.getRow());
         assertEquals(7, word.getColumn());
     }
+
+    @Test
+    void testParseMove() {
+        Word word = new Word("HELLO", 'H', 8, 'A');
+        Word parsed = Word.parseMove("H8     A  HELLO");
+        assertEquals(word, parsed);
+        String test = "H8 A HELLO";
+        assertNotEquals(parsed, test);
+    }
+
 }

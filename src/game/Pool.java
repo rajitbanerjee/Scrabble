@@ -1,7 +1,6 @@
 package game;
 
 import constants.GameConstants;
-import game_engine.Scrabble;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -86,14 +85,6 @@ public class Pool {
      */
     public boolean isEmpty() {
         return pool.isEmpty();
-    }
-
-    /**
-     * Display the number of tiles currently in the pool.
-     */
-    public void printSize() {
-        System.out.println("Number of tiles in pool: " + size());
-        Scrabble.printToOutput("Number of tiles in pool: " + size());
     }
 
 }

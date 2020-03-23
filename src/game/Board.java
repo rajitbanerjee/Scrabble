@@ -1,9 +1,8 @@
 package game;
 
 import constants.GameConstants;
+import game_engine.Scoring;
 import game_engine.Scrabble;
-
-import java.util.ArrayList;
 
 /**
  * The Board is a 15x15 matrix of Squares.
@@ -14,7 +13,6 @@ import java.util.ArrayList;
  * @team DarkMode
  */
 public class Board {
-    private static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
     private Square[][] board;
     private boolean isFirstMove;
 
@@ -39,10 +37,6 @@ public class Board {
         for (int[] index : GameConstants.TRIPLE_WS_ARRAY) {
             board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.TRIPLE_WS);
         }
-    }
-
-    public static ArrayList<Index> getLastCoveredIndices() {
-        return lastCoveredIndices;
     }
 
     public Square[][] getBoard() {
@@ -108,7 +102,7 @@ public class Board {
      */
     public void placeTile(char column, int row, Tile tile) {
         board[row - 1][column - 'A'].setTile(tile);
-        lastCoveredIndices.add(new Index(row - 1, column - 'A'));
+        Scoring.lastCoveredIndices.add(new Index(row - 1, column - 'A'));
     }
 
     /**
@@ -156,7 +150,7 @@ public class Board {
         if (!isWordLegal(word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        lastCoveredIndices.clear();
+        Scoring.lastCoveredIndices.clear();
         setFirstMove(false);
         int row, column;
         for (int i = 0; i < word.length(); i++) {

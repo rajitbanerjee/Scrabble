@@ -11,28 +11,23 @@ import javafx.scene.text.Font;
  * @team DarkMode
  */
 public class UIConstants {
-    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
+    public static final double CMD_INPUT_WIDTH = getSceneWidth() * 0.484;
+    public static final double SQUARE_SIZE = getSceneWidth() * 0.03;
+    public static final double BOARD_HGAP = getSceneHeight() * 0.005;
+    public static final double BOARD_VGAP = getSceneHeight() * 0.005;
+    public static final int DASH_LENGTH = (int) (UIConstants.CMD_INPUT_WIDTH * 0.175);
+    // TODO move these to CSS stylesheet later, with other style options
+    public static final Font pointsFont = new Font("verdana", 6);
+    public static final Font cliFont = new Font("verdana", 12);
 
     public static double getSceneWidth() {
         return 1200;
     }
 
-    public static final double CMD_INPUT_WIDTH = getSceneWidth() * 0.484;
-
-    public static final double SQUARE_SIZE = getSceneWidth() * 0.03;
-    public static final double BOARD_HGAP = getSceneHeight() * 0.005;
-
     public static double getSceneHeight() {
         return 621;
     }
 
-    public static final double BOARD_VGAP = getSceneHeight() * 0.005;
-
-    public static final int DASH_LENGTH = (int) (UIConstants.CMD_INPUT_WIDTH * 0.175);
-
-    // TODO move these to CSS stylesheet later, with other style options
-    public static final Font pointsFont = new Font("verdana", 6);
-
-    public static final Font cliFont = new Font("verdana", 12);
+    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 
 }

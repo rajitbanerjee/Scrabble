@@ -1,13 +1,7 @@
-import game.Frame;
-import game.Pool;
-import game.Tile;
-import game.Player;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+package game;
+
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,21 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 class FrameTest {
-    private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private static final PrintStream originalOut = System.out;
-
-    @BeforeAll
-    static void setUpStream() {
-        System.setOut(new PrintStream(outContent));
-    }
-
-    @AfterAll
-    static void restoreStreams() {
-        System.setOut(originalOut);
-    }
-
     @Test
     void testFrame() {
         Pool pool = new Pool();
@@ -89,7 +69,7 @@ class FrameTest {
         frame.getPool().reset();
         frame.refillFrame();
 
-        // test isLetterInFrame()
+        // test contains()
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // check if each drawn tile is in the frame
             if (!frame.contains(frame.getFrame().get(i).getType())) {
@@ -139,15 +119,6 @@ class FrameTest {
         } catch (Exception ignored) {
             // test passed
         }
-
-        // test frame printing to command line
-        frame.printFrame();
-        assertEquals("[ Q ]", outContent.toString().trim());
-        newFrame.add(Tile.makeTile('Z'));
-        frame.setFrame(newFrame);
-        outContent.reset();
-        frame.printFrame();
-        assertEquals("[ Q ,  Z ]", outContent.toString().trim());
     }
 
     @Test
@@ -174,6 +145,17 @@ class FrameTest {
         } catch (Exception ignored) {
             // test passed
         }
+    }
+
+    @Test
+    void testToString() {
+        ArrayList<Tile> f = new ArrayList<>(); // Stores a copy of the frame for resetting purposes
+        Frame frame = new Frame(new Pool());
+        for (char ch : "HELLO".toCharArray()) {
+            f.add(Tile.makeTile(ch));
+        }
+        frame.setFrame(f);
+        assertEquals("[ H ,  E ,  L ,  L ,  O ]", frame.toString());
     }
 
 }

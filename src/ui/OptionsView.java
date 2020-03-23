@@ -22,4 +22,5 @@ public class OptionsView extends GridPane {
         add(frameView, 0, 1);
         add(buttonsView, 0, 2);
     }
+
 }

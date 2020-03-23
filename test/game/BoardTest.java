@@ -1,10 +1,9 @@
+package game;
+
 import constants.GameConstants;
-import game.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 class BoardTest {
     private ArrayList<Tile> f; // Stores a copy of the frame for resetting purposes
     private Board board;
@@ -78,6 +76,13 @@ class BoardTest {
     }
 
     @Test
+    void testIsEmpty() {
+        assertTrue(board.isEmpty());
+        board.placeTile('H', 8, Tile.makeTile('X'));
+        assertFalse(board.isEmpty());
+    }
+
+    @Test
     void testReset() {
         Square[][] b = board.getBoard();
         for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
@@ -129,6 +134,23 @@ class BoardTest {
                 assertEquals(tile, b[row - 1][column - 'A'].getTile());
             }
         }
+    }
+
+    @Test
+    void testGetHorizontalWord() {
+        Word word = new Word("HELLO", 'H', 8, 'A');
+        resetFrame("HELLO", false);
+        board.placeWord(word, frame);
+        assertEquals("HELLO", board.getHorizontalWord(7, 7, 11));
+    }
+
+
+    @Test
+    void testGetVerticalWord() {
+        Word word = new Word("HELLO", 'H', 8, 'D');
+        resetFrame("HELLO", false);
+        board.placeWord(word, frame);
+        assertEquals("HELLO", board.getVerticalWord(7, 7, 11));
     }
 
     @Test

@@ -23,16 +23,17 @@ import static constants.UIConstants.STATUS_CODE.*;
  * @team DarkMode
  */
 public class Scrabble {
+    private static CommandHistoryView historyView;
     private Pool pool;
     private Board board;
     private Player player1, player2;
     private int opponentScore;
     private UIConstants.STATUS_CODE gameState;
     private boolean isChallengeSuccessful;
-    private static CommandHistoryView historyView;
     private HashSet<String> dictionary;
 
     public Scrabble(CommandHistoryView historyView) {
+        Scrabble.historyView = historyView;
         pool = new Pool();
         board = new Board();
         player1 = new Player(new Frame(pool));
@@ -40,9 +41,19 @@ public class Scrabble {
         opponentScore = 0;
         gameState = P1_NAME; // initial game state is to ask player 1 for name
         isChallengeSuccessful = false;
-        Scrabble.historyView = historyView;
         fillDictionary();
         printWelcome();
+    }
+
+    /**
+     * Display the given to the command panel.
+     *
+     * @param text to be displayed
+     */
+    public static void printToOutput(String text) {
+        if (historyView != null) {
+            historyView.printText(text);
+        }
     }
 
     public Board getBoard() {
@@ -93,15 +104,6 @@ public class Scrabble {
     private void printWelcome() {
         printToOutput("[Console] Welcome to Scrabble by DarkMode.");
         printToOutput("[Console] Player #1, please enter your name: ");
-    }
-
-    /**
-     * Display the given to the command panel.
-     *
-     * @param text to be displayed
-     */
-    public static void printToOutput(String text) {
-            historyView.printText(text);
     }
 
     /**
@@ -271,7 +273,7 @@ public class Scrabble {
         frame.exchange(to_exchange);
         if (!isTest) {
             Scoring.addScoreToList(0);
-            pool.printSize();
+            Scrabble.printToOutput("Number of tiles in pool: " + pool.size());
             printToOutput(String.format("Letters (%s) have been exchanged!", to_exchange));
             checkLastSixScores();
         }
@@ -295,8 +297,8 @@ public class Scrabble {
                 }
                 success = true;
             }
+            Scoring.challengeIndices.clear();
         }
-        Scoring.challengeIndices.clear();
         return success;
     }
 
@@ -344,7 +346,7 @@ public class Scrabble {
             printToOutput(e.getMessage());
         }
         displayFrameScore(player, frame);
-        pool.printSize();
+        Scrabble.printToOutput("Number of tiles in pool: " + pool.size());
         checkLastSixScores();
     }
 

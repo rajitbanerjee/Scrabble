@@ -106,4 +106,21 @@ public class Word {
         return letters.matches("[A-Za-z]+");
     }
 
+    /**
+     * Word equality checker.
+     *
+     * @param obj Object to be tested for equality against another Word
+     * @return {@code true} if Tiles are equal, {@code false} otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Word) {
+            Word word = (Word) obj;
+            return word.getLetters().equals(letters) && word.getColumn() == getColumn() &&
+                    word.getRow() == getRow() && word.orientation == orientation;
+        } else {
+            return false;
+        }
+    }
+
 }

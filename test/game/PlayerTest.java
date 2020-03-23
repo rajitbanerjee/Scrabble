@@ -1,9 +1,8 @@
-import game.Frame;
-import game.Pool;
-import game.Player;
+package game;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Player class tests.
@@ -13,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 class PlayerTest {
     @Test
     void testPlayer() {
@@ -56,6 +54,21 @@ class PlayerTest {
         if (playerA.getScore() != 100) {
             fail("Error: increaseScore() does not work as expected.");
         }
+
+        // Try to decrease score by a negative value
+        try {
+            playerA.decreaseScore(-1);
+            fail("Error: decreaseScore() should not accept negative values.");
+        } catch (Exception ignored) {
+            // Test passed
+        }
+        // Try to increase score by a positive value
+        playerA.decreaseScore(100);
+        if (playerA.getScore() != 0) {
+            fail("Error: decreaseScore() does not work as expected.");
+        }
+
+
         // Try to set score to a negative value
         try {
             playerA.setScore(-1);
