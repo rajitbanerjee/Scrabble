@@ -39,7 +39,7 @@ public class Main extends Application {
         ScoreController scoreController = new ScoreController(scoreView);
         BoardController boardController = new BoardController(boardView);
         GameController gameController = new GameController(boardController, frameController, scoreController, game);
-        ButtonsController buttonsController = new ButtonsController(buttonsView, gameController);
+        ButtonsController buttonsController = new ButtonsController(buttonsView, gameController, game);
         CLIController cliController = new CLIController(cliView.getInputView(), gameController);
 
         // Setup scene

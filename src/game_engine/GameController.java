@@ -38,7 +38,7 @@ public class GameController {
                     scoreController.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                     frameController.update(game.getPlayer2Frame());
                 }
-            } catch (InterruptedException | RuntimeException e) {
+            } catch (RuntimeException e) {
                 // quit game when exception encountered
                 System.exit(-1);
             }

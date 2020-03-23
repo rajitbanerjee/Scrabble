@@ -4,6 +4,7 @@ import constants.GameConstants;
 import constants.UIConstants;
 import game.*;
 import ui.CommandHistoryView;
+import ui.PopupView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -108,9 +109,8 @@ public class Scrabble {
      *
      * @param command user's command in the text box
      * @return {@code true} if the board needs to be updated after the command processing
-     * @throws InterruptedException if thread is interrupted while waiting, sleeping or occupied
      */
-    public boolean processCommand(String command) throws InterruptedException {
+    public boolean processCommand(String command) {
         switch (gameState) {
             case P1_NAME:
                 try {
@@ -219,8 +219,7 @@ public class Scrabble {
     }
 
     // Makes a valid move
-    private void makeMove(String move, Player player, Frame frame, Player opponent)
-            throws InterruptedException {
+    private void makeMove(String move, Player player, Frame frame, Player opponent) {
         printDashes();
         if (move.equalsIgnoreCase("QUIT")) {
             quit();
@@ -252,8 +251,7 @@ public class Scrabble {
     }
 
     // Quit game
-    // TODO Maybe set up a pop up box to display final scores
-    private void quit() throws InterruptedException {
+    private void quit() {
         printDashes();
         printToOutput("Final Scores:");
         printToOutput(String.format("%s's score: %d", player1.getName(), player1.getScore()));
@@ -267,13 +265,13 @@ public class Scrabble {
         }
         printDashes();
         printToOutput("Thanks for playing!");
-        // TODO wait() not best way to do this, idk how else to display final scores
         gameState = GAME_OVER;
-        wait();
+        PopupView.displayQuitPopup(player1, player2);
+        System.exit(0);
     }
 
     // Pass move
-    private void pass(Player player, boolean removeLastScore) throws InterruptedException {
+    private void pass(Player player, boolean removeLastScore) {
         printToOutput(String.format("Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
         displayFrameScore(player, player.getFrame());
@@ -281,7 +279,7 @@ public class Scrabble {
     }
 
     // Exchange tiles between frame and pool
-    private void exchangeTiles(String move, Frame frame, boolean isTest) throws InterruptedException {
+    private void exchangeTiles(String move, Frame frame, boolean isTest) {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
         frame.exchange(to_exchange);
         if (!isTest) {
@@ -343,7 +341,7 @@ public class Scrabble {
     }
 
     // Award the score for a player's move
-    private void scoreMove(String move, Player player, Frame frame) throws InterruptedException {
+    private void scoreMove(String move, Player player, Frame frame) {
         Word word = Word.parseMove(move);
         board.placeWord(word, frame);
         Scoring.wordsFormed.clear();
@@ -364,7 +362,7 @@ public class Scrabble {
     }
 
     // End game if six consecutive scoreless moves occur
-    private void checkLastSixScores() throws InterruptedException {
+    private void checkLastSixScores() {
         // TODO remove printing scores later, added only for testing
         Scoring.printLastSixScores();
         if (Scoring.isLastSixZero()) {
