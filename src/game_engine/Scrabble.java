@@ -252,17 +252,6 @@ public class Scrabble {
 
     // Quit game
     private void quit() {
-        printToOutput("Final Scores:");
-        printToOutput(String.format("%s's score: %d", player1.getName(), player1.getScore()));
-        printToOutput(String.format("%s's score: %d", player2.getName(), player2.getScore()));
-        int difference = player1.getScore() - player2.getScore();
-        if (difference == 0) {
-            printToOutput("Game is a tie!");
-        } else {
-            Player winner = (difference > 0) ? player1 : player2;
-            printToOutput(String.format("%s wins the game! Well done.", winner.getName()));
-        }
-        printToOutput("Thanks for playing!");
         gameState = GAME_OVER;
         PopupView.displayQuitPopup(player1, player2);
         System.exit(0);

@@ -21,7 +21,7 @@ public class PopupView {
     public static void displayUnsupportedActionPopup() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Unsupported action");
+        window.setTitle("Invalid!");
 
         Label label = new Label("Cannot pass or challenge now!");
         Button button = new Button("Close");
@@ -38,7 +38,6 @@ public class PopupView {
     public static void displayQuitPopup() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Thanks for playing!");
         Label label = new Label("Thanks for playing!");
         Button button = new Button("Close");
         button.setOnAction(event -> window.close());
@@ -51,18 +50,18 @@ public class PopupView {
         window.showAndWait();
     }
 
-    public static void displayQuitPopup(Player p1, Player p2) {
+    public static void displayQuitPopup(Player player1, Player player2) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Thanks for playing!");
-        Label label = new Label("Thanks for playing!\nFinal Scores:");
-        Label p1Score = new Label(String.format("%s's score: %d", p1.getName(), p1.getScore()));
-        Label p2Score = new Label(String.format("%s's score: %d", p2.getName(), p2.getScore()));
+        window.setTitle("Game over!");
+        Label label = new Label("Thanks for playing!\n");
+        Label p1Score = new Label(String.format("%s's score: %d", player1.getName(), player1.getScore()));
+        Label p2Score = new Label(String.format("%s's score: %d", player2.getName(), player2.getScore()));
 
-        int difference = p1.getScore() - p2.getScore();
+        int difference = player1.getScore() - player2.getScore();
         Label gameResult = new Label("Game is a tie!");
         if (difference != 0) {
-            Player winner = (difference > 0) ? p1 : p2;
+            Player winner = (difference > 0) ? player1 : player2;
             gameResult = new Label(String.format("%s wins the game! Well done.", winner.getName()));
         }
 
