@@ -11,8 +11,11 @@ import javafx.scene.text.Font;
  * @team DarkMode
  */
 public class UIConstants {
-    public static final double CMD_INPUT_WIDTH = getSceneWidth() * 0.484;
-    public static final double SQUARE_SIZE = getSceneWidth() * 0.03;
+    public static final double BOARD_DIMENSION = getSceneHeight();  //width and height of board
+    public static final double OPTIONS_HEIGHT = getSceneHeight() * 0.25;
+    public static final double CMD_INPUT_HEIGHT = getSceneHeight() - OPTIONS_HEIGHT;
+    public static final double CMD_INPUT_WIDTH = getSceneWidth() - BOARD_DIMENSION - 2;
+    public static final double SQUARE_SIZE = getSceneHeight() * 0.0578125;
     public static final double BOARD_HGAP = getSceneHeight() * 0.005;
     public static final double BOARD_VGAP = getSceneHeight() * 0.005;
     public static final int DASH_LENGTH = (int) (CMD_INPUT_WIDTH * 0.175);
@@ -24,7 +27,7 @@ public class UIConstants {
     }
 
     public static double getSceneHeight() {
-        return 621;
+        return 610;
     }
 
     public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}

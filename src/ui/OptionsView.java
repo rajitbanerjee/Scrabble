@@ -16,7 +16,7 @@ import javafx.scene.layout.GridPane;
 public class OptionsView extends GridPane {
     public OptionsView(FrameView frameView, ScoreView scoreView, ButtonsView buttonsView) {
         super();
-        setPrefHeight(UIConstants.getSceneHeight() * 0.25);
+        setPrefHeight(UIConstants.OPTIONS_HEIGHT);
         setAlignment(Pos.CENTER);
         add(scoreView, 0, 0);
         add(frameView, 0, 1);
