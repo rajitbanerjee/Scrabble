@@ -189,10 +189,9 @@ public class Scoring {
         return score;
     }
 
-    // TODO remove this later
+    // TODO remove this later?
     public static void printLastSixScores() {
-        System.out.println("\nLast six scores: " + lastSixScores.toString());
-        Scrabble.printToOutput("Last six scores: " + lastSixScores.toString());
+        Scrabble.printToOutput("> Last six scores: " + lastSixScores.toString());
     }
 
     /**
