@@ -20,9 +20,9 @@
     -fx-cursor: text;
     -fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
 }
-/*styles the textfield when it is in focus*/
+/*styles the text field when it is in focus*/
 .text-input:focused {
-    -fx-font: 10pt;
+    -fx-font-size: 10pt;
     -fx-highlight-fill: -fx-accent;
     -fx-highlight-text-fill: white;
     -fx-background-color:
