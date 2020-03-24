@@ -42,7 +42,6 @@ public class CommandHistoryView extends ScrollPane {
 
     public void printText(String text) {
         Label label = new Label(text);
-        label.setFont(UIConstants.cliFont);
         vbox.getChildren().add(label);
         history.add(text);
     }

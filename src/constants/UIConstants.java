@@ -18,7 +18,6 @@ public class UIConstants {
     public static final int DASH_LENGTH = (int) (CMD_INPUT_WIDTH * 0.175);
     // TODO move these to CSS stylesheet later, with other style options
     public static final Font pointsFont = new Font("verdana", 8);
-    public static final Font cliFont = new Font("verdana", 15);
 
     public static double getSceneWidth() {
         return 1200;

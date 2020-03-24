@@ -41,6 +41,7 @@ public class Main extends Application {
 
         // Set up scene
         Scene scene = new Scene(gameView, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
+        scene.getStylesheets().add("game_engine/stylesheet.css");
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
 

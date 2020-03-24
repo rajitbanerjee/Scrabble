@@ -1,6 +1,5 @@
 package ui;
 
-import constants.UIConstants;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,9 +19,6 @@ public class ButtonsView extends HBox {
     private Button quit = new Button("Quit");
 
     public ButtonsView() {
-        pass.setFont(UIConstants.cliFont);
-        challenge.setFont(UIConstants.cliFont);
-        quit.setFont(UIConstants.cliFont);
         getChildren().addAll(pass, challenge, quit);
         setAlignment(Pos.CENTER);
         setSpacing(30);
