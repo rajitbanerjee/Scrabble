@@ -1,0 +1,162 @@
+.root {
+    -fx-base: #1f1f1f;
+    -fx-accent: white;
+    -fx-focus-color: -fx-accent;
+    -fx-background: derive(-fx-base, 20%);
+    -fx-control-inner-background: derive(-fx-base, 50%);
+
+	-fx-font-size: 10pt;
+	-fx-font-color: white
+	-fx-font-family: Verdana;
+}
+/*****************************************************************************/
+/*CLI textfield*/
+.text-input {
+	-fx-font-size: 10pt;
+	-fx-text-fill: -fx-accent;
+	-fx-highlight-fill: derive(-fx-control-inner-background, -20%);
+	-fx-highlight-text-fill: #c7001e;
+	-fx-prompt-text-fill: derive(-fx-control-inner-background, 100%);
+	-fx-background-color: linear-gradient(
+			to bottom,
+			derive(-fx-base, -10%),
+			-fx-text-box-border
+		),
+		linear-gradient(
+			from 0px 0px to 0px 5px,
+			derive(-fx-control-inner-background, -9%),
+			-fx-control-inner-background
+		);
+	-fx-background-insets: 0, 1;
+	-fx-background-radius: 3, 2;
+	-fx-cursor: text;
+	-fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
+}
+/* Styles the text field when it is in focus */
+.text-input:focused {
+	-fx-font-size: 10pt;
+	-fx-highlight-fill: -fx-accent;
+	-fx-highlight-text-fill: -fx-base;
+	-fx-background-color: -fx-focus-color, -fx-control-inner-background,
+		-fx-faint-focus-color,
+		linear-gradient(
+			from 0px 0px to 0px 5px,
+			derive(-fx-control-inner-background, -9%),
+			-fx-control-inner-background
+		);
+	-fx-background-insets: -0.2, 1, -1.4, 3;
+	-fx-background-radius: 3, 2, 4, 0;
+	-fx-border-color: transparent;
+	-fx-prompt-text-fill: transparent;
+}
+/*****************************************************************************/
+.button{
+    -fx-background-color: derive(-fx-base, 10%);
+    -fx-background-radius: 0
+}
+.button:focused{
+    -fx-border-color: -fx-accent;
+    -fx-focus-text-color: -fx-accent;
+    -fx-background-radius: 0
+}
+/*****************************************************************************/
+#tile-points {
+	-fx-font-size: 6pt;
+	-fx-font-family: Verdana;
+}
+
+#player-scores{
+    -fx-font-size: 10pt;
+    -fx-fill: white;
+	-fx-font-family: Verdana;
+}
+/*****************************************************************************/
+#board-view {
+	-fx-alignment: top_left;
+	-fx-hgap: 3;
+	-fx-vgap: 3;
+}
+
+#buttons-view {
+	-fx-spacing: 30;
+    -fx-padding: 10, 10, 10, 10;
+    -fx-alignment: center;
+}
+
+#cli-view {
+	/* CLI view pref height is 610 (scene height) * 0.75 */
+	-fx-min-height: 457.5;
+}
+
+#history-view {
+	/* Pref height is 610 (scene height) * 0.75 */
+	-fx-pref-height: 475.5;
+	-fx-padding: 5, 5, 5, 5;
+	-fx-background-color: transparent;
+}
+
+#history-view-box {
+	/* history-view height - 20 */
+	-fx-min-height: 455.5;
+}
+
+#input-view {
+	/* input-view min width is scene width - scene heigtht (- 2 ?) */
+	-fx-min-width: 590;
+}
+
+#frame-view {
+	-fx-alignment: center;
+	-fx-min-width: 590;
+	-fx-hgap: 3;
+	-fx-vgap: 3;
+}
+
+#options-view {
+	/* Options view pref height is 610 (scene height) * 0.25 */
+    -fx-pref-height: 152.5;
+    -fx-alignment: center;
+}
+
+#options-view-separator {
+	-fx-stroke-width: 0.25;
+}
+
+#score-view {
+	-fx-text-alignment: center;
+	-fx-padding: 10, 10, 10, 10;
+}
+/*****************************************************************************/
+/* Square fill and background colours */
+#square-blank {
+	-fx-fill: derive(-fx-base, 40%);
+}
+
+#square-double-ws {
+	-fx-background-color: #ff6188;
+}
+
+#square-double-ls {
+	-fx-background-color: #507eb3;
+}
+#square-normal {
+	-fx-background-color: derive(-fx-base, 30%);
+}
+
+#square-triple-ls {
+	-fx-background-color: #164c6e;
+}
+
+#square-triple-ws {
+	-fx-background-color: #962d47;
+}
+
+#square-with-tile {
+	-fx-background-color: #ffffe0;
+	-fx-min-height: 35.266, 35.266;
+	-fx-max-height: 35.266, 35.266;
+	-fx-padding: 6, 6, 6, 6;
+    -fx-hgap: 3;
+    -fx-vgap: 3;
+	-fx-alignment: center;
+}

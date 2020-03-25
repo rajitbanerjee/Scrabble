@@ -34,7 +34,7 @@ public class PopupView {
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 250, 150);
-        scene.getStylesheets().add("game_engine/stylesheet.css");
+        scene.getStylesheets().add("game_engine/darktheme.css");
         window.setScene(scene);
         window.showAndWait();
     }
@@ -60,7 +60,7 @@ public class PopupView {
         layout.setCenter(helpMessage);
         layout.setBottom(wrapper);
         Scene scene = new Scene(layout, 750, 250);
-        scene.getStylesheets().add("game_engine/stylesheet.css");
+        scene.getStylesheets().add("game_engine/darktheme.css");
         window.setScene(scene);
         window.showAndWait();
     }
@@ -76,7 +76,7 @@ public class PopupView {
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 250, 150);
-        scene.getStylesheets().add("game_engine/stylesheet.css");
+        scene.getStylesheets().add("game_engine/darktheme.css");
         window.setScene(scene);
         window.showAndWait();
     }
@@ -103,7 +103,7 @@ public class PopupView {
         layout.getChildren().addAll(label, p1Score, p2Score, gameResult, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 250, 250);
-        scene.getStylesheets().add("game_engine/stylesheet.css");
+        scene.getStylesheets().add("game_engine/darktheme.css");
         window.setScene(scene);
         window.showAndWait();
     }
