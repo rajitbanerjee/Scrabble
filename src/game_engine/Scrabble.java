@@ -142,6 +142,9 @@ public class Scrabble {
                         askForMove(opponent);
                     }
                     return true;
+                } else if (isHelpCommand(command)) {
+                    makeMove(command, player, player.getFrame(), opponent);
+                    return true;
                 } else {
                     printDashes();
                     printToOutput("> Invalid move! Try again.");
@@ -167,7 +170,7 @@ public class Scrabble {
     // Helper message
     private void promptUser() {
         printToOutput("> Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
-        printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE: ");
+        printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE/HELP: ");
     }
 
     // Check if a move is valid
@@ -177,6 +180,10 @@ public class Scrabble {
                 ((move.startsWith("EXCHANGE") && isExchangeLegal(move, frame))) ||
                 move.equalsIgnoreCase("CHALLENGE") ||
                 isPlacementLegal(move, frame);
+    }
+
+    private boolean isHelpCommand(String command) {
+        return command.equalsIgnoreCase("HELP");
     }
 
     // Check if an exchange is Valid
@@ -224,6 +231,15 @@ public class Scrabble {
                 // Pass player's turn
                 pass(player, false);
             }
+        } else if (move.equalsIgnoreCase("HELP")) {
+            String helpMessage = "Here are some supported operations:\n" + "HELP: Displays the help message.\n" +
+                    "PASS: Passes your current turn.\n" +
+                    "QUIT: Exits the game.\n" +
+                    "EXCHANGE [TILES]: Exchange tiles with new ones from the pool. (Replace [TILES] with the tiles)\n" +
+                    "CHALLENGE: Challenge the move made by the opponent in the previous turn.\n" +
+                    "[ROW][COLUMN] [DIRECTION] [WORD]: Places a word at a " +
+                    "certain location of the board\n with a specific orientation.";
+            printToOutput(helpMessage);
         } else {
             scoreMove(move, player, frame);
         }

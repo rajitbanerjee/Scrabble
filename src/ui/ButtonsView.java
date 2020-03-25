@@ -15,12 +15,13 @@ import javafx.scene.layout.HBox;
  * @team DarkMode
  */
 public class ButtonsView extends HBox {
+    private Button help = new Button("Help");
     private Button pass = new Button("Pass");
     private Button challenge = new Button("Challenge");
     private Button quit = new Button("Quit");
 
     public ButtonsView() {
-        getChildren().addAll(pass, challenge, quit);
+        getChildren().addAll(help, pass, challenge, quit);
         setAlignment(Pos.CENTER);
         setSpacing(30);
         setPadding(new Insets(10));
@@ -36,6 +37,10 @@ public class ButtonsView extends HBox {
 
     public Button getQuitButton() {
         return quit;
+    }
+
+    public Button getHelpButton() {
+        return help;
     }
 
 }

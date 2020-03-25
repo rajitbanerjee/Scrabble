@@ -98,6 +98,15 @@ public class GameController {
                 updateGame("QUIT");
             }
         });
+        buttonsView.getHelpButton().setOnAction(event -> {
+            if (game.getGameState() == P1_NAME ||
+                    game.getGameState() == P2_NAME) {
+                PopupView.displayHelpPopup();
+            } else {
+                PopupView.displayHelpPopup();
+                game.processCommand("HELP");
+            }
+        });
     }
 
 }
