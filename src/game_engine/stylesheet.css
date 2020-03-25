@@ -146,9 +146,10 @@
 
 #square-with-tile {
 	-fx-background-color: #ffffe0;
-	-fx-min-size: 35.266, 35.266;
-	-fx-max-size: 35.266, 35.266;
+	-fx-min-height: 35.266, 35.266;
+	-fx-max-height: 35.266, 35.266;
 	-fx-padding: 6, 6, 6, 6;
-	-fx-hgap: 3;
+    -fx-hgap: 3;
+    -fx-vgap: 3;
 	-fx-alignment: center;
 }
