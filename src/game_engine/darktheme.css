@@ -83,37 +83,37 @@
 }
 
 #cli-view {
-	/* CLI view pref height is 610 (scene height) * 0.75 */
-	-fx-min-height: 457.5;
+	/* CLI view pref height = scene height* 0.75 */
+	-fx-pref-height: 450;
 }
 
 #history-view {
-	/* Pref height is 610 (scene height) * 0.75 */
-	-fx-pref-height: 475.5;
+	/* Pref height is scene height * 0.75 */
+	-fx-pref-height: 450;
 	-fx-padding: 5, 5, 5, 5;
 	-fx-background-color: transparent;
 }
 
 #history-view-box {
 	/* history-view height - 20 */
-	-fx-min-height: 455.5;
+	-fx-pref-height: 450;
 }
 
 #input-view {
-	/* input-view min width is scene width - scene heigtht (- 2 ?) */
-	-fx-min-width: 590;
+	/* input-view min width is scene width - scene heigtht  */
+	-fx-pref-width: 600;
 }
 
 #frame-view {
 	-fx-alignment: center;
-	-fx-min-width: 590;
+	-fx-pref-width: 600;
 	-fx-hgap: 3;
 	-fx-vgap: 3;
 }
 
 #options-view {
-	/* Options view pref height is 610 (scene height) * 0.25 */
-	-fx-pref-height: 152.5;
+	/* Options view pref height is (scene height) * 0.25 */
+	-fx-pref-height: 155;
 	-fx-alignment: center;
 }
 
@@ -153,8 +153,8 @@
 #square-with-tile {
 	-fx-background-color: #ffc401;
 	/* -fx-background-radius: 5, 5, 0, 0; */
-	-fx-min-height: 35.266, 35.266;
-	-fx-max-height: 35.266, 35.266;
+	-fx-min-height: 34.688, 34.688;
+	-fx-max-height: 34.688, 34.688;
 	-fx-padding: 6, 6, 6, 6;
 	-fx-hgap: 3;
 	-fx-vgap: 3;
