@@ -7,7 +7,6 @@ import javafx.scene.text.Text;
 
 /**
  * Frame GUI design.
- * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
@@ -20,6 +19,11 @@ public class FrameView extends GridPane {
         setId("frame-view");
     }
 
+    /**
+     * Updates the frame being displayed.
+     *
+     * @param frame the Frame to be displayed(frame currently in use).
+     */
     public void update(Frame frame) {
         for (int i = 0; i < GameConstants.FRAME_LIMIT; i++) {
             Text text = new Text();

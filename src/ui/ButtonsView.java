@@ -5,7 +5,6 @@ import javafx.scene.layout.HBox;
 
 /**
  * Buttons GUI design.
- * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -23,18 +22,38 @@ public class ButtonsView extends HBox {
         getChildren().addAll(help, pass, challenge, quit);
     }
 
+    /**
+     * Accessor for pass.
+     *
+     * @return pass button.
+     */
     public Button getPassButton() {
         return pass;
     }
 
+    /**
+     * Accessor for challenge.
+     *
+     * @return challenge button.
+     */
     public Button getChallengeButton() {
         return challenge;
     }
 
+    /**
+     * Accessor for quit.
+     *
+     * @return quit button.
+     */
     public Button getQuitButton() {
         return quit;
     }
 
+    /**
+     * Accessor for help.
+     *
+     * @return help button.
+     */
     public Button getHelpButton() {
         return help;
     }

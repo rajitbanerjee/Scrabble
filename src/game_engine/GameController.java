@@ -7,7 +7,6 @@ import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Main controller to manage all the UI view components.
- * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
@@ -36,6 +35,9 @@ public class GameController {
         setButtons();
     }
 
+    /**
+     * Sets the listeners for GameController
+     */
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
             CommandInputView inputView = cliView.getInputView();
@@ -63,6 +65,7 @@ public class GameController {
         });
     }
 
+    //corrects the variable nLastCommand
     private void correctNLast() {
         CommandHistoryView historyView = cliView.getHistoryView();
         if (nLastCommand > historyView.getHistorySize()) {
@@ -72,6 +75,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Updates the game display according to the last command entered by the user.
+     *
+     * @param command the command entered by the player
+     */
     public void updateGame(String command) {
         if (game.getGameState() != GAME_OVER) {
             Scrabble.printToOutput(command);
@@ -100,6 +108,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Sets actions for buttons; PASS, CHALLENGE, QUIT, HELP
+     */
     public void setButtons() {
         buttonsView.getPassButton().setOnAction(event -> {
             if (game.getGameState() == P1_NAME ||
@@ -136,5 +147,4 @@ public class GameController {
             }
         });
     }
-
 }

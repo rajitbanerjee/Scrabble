@@ -16,7 +16,6 @@ import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Integrates all game components to create a 2 player Scrabble game.
- * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
@@ -39,7 +38,7 @@ public class Scrabble {
     }
 
     /**
-     * Display the given to the command panel.
+     * Display the given string to the command panel.
      *
      * @param text to be displayed
      */
@@ -51,10 +50,20 @@ public class Scrabble {
         }
     }
 
+    /**
+     * Accessor for board
+     *
+     * @return the board
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Accessor for Player1's frame
+     *
+     * @return Player 1's frame, null if player1 has not been initalised
+     */
     public Frame getPlayer1Frame() {
         if (player1.getName() != null) {
             return player1.getFrame();
@@ -63,6 +72,11 @@ public class Scrabble {
         }
     }
 
+    /**
+     * Accessor for Player2's frame
+     *
+     * @return Player2's frame, null if player2 has not been initalised
+     */
     public Frame getPlayer2Frame() {
         if (player2.getName() != null) {
             return player2.getFrame();
@@ -71,14 +85,29 @@ public class Scrabble {
         }
     }
 
+    /**
+     * Accessor for player1
+     *
+     * @return player1
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * Accessor for player2
+     *
+     * @return player2
+     */
     public Player getPlayer2() {
         return player2;
     }
 
+    /**
+     * Accessor for the game's state
+     *
+     * @return gameState
+     */
     public UIConstants.STATUS_CODE getGameState() {
         return gameState;
     }

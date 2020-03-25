@@ -39,10 +39,20 @@ public class Board {
         }
     }
 
+    /**
+     * Accessor for board.
+     *
+     * @return the board
+     */
     public Square[][] getBoard() {
         return board;
     }
 
+    /**
+     * Setter for firstMove.
+     *
+     * @param firstMove boolean value indicating whether the first move has been played.
+     */
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
     }

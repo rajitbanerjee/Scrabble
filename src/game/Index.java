@@ -3,7 +3,6 @@ package game;
 /**
  * An Index is a pair composed of row and column index.
  * It is useful to store the last covered indices after a move.
- * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
@@ -19,22 +18,48 @@ public class Index {
         setColumn(column);
     }
 
+    /**
+     * Accessor for row
+     *
+     * @return row
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Setter for row
+     *
+     * @param row integer 1-15
+     */
     public void setRow(int row) {
         this.row = row;
     }
 
+    /**
+     * Accessor for column
+     *
+     * @return column
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Setter for column
+     *
+     * @param column integer 1 - 15
+     */
     public void setColumn(int column) {
         this.column = column;
     }
 
+    /**
+     * Checks if object is an instance of Index
+     *
+     * @param obj to be compared to Index
+     * @return true if object is an index of Index
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Index) {

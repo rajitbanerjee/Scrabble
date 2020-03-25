@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 /**
  * Pop-up window on button click.
- * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -42,6 +41,9 @@ public class PopupView {
         window.showAndWait();
     }
 
+    /**
+     * Displays a help dialog.
+     */
     public static void displayHelpPopup() {
         Stage window = new Stage();
         window.setTitle("Welcome to Scrabble!");
@@ -74,6 +76,9 @@ public class PopupView {
         window.showAndWait();
     }
 
+    /**
+     * Displays the rules of scarbble.
+     */
     private static void displayScrabbleRules() {
         Stage window = new Stage();
         window.setTitle("Wikipedia: Scrabble");
@@ -91,6 +96,9 @@ public class PopupView {
         window.showAndWait();
     }
 
+    /**
+     * Displays a quit popup for when players have 0 points.
+     */
     public static void displayQuitPopup() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -107,6 +115,12 @@ public class PopupView {
         window.showAndWait();
     }
 
+    /**
+     * Displays a quit popup.
+     *
+     * @param player1 player 1
+     * @param player2 player 2
+     */
     public static void displayQuitPopup(Player player1, Player player2) {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

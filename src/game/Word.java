@@ -3,7 +3,6 @@ package game;
 /**
  * A Word is represented by a String of letters, placed on the board
  * at a starting row and column, and with an orientation (across/down).
- * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
@@ -48,14 +47,29 @@ public class Word {
         return new Word(letters, column, row, orientation);
     }
 
+    /**
+     * Accessor for letters.
+     *
+     * @return string of letters
+     */
     public String getLetters() {
         return letters;
     }
 
+    /**
+     * Accessor for column of word.
+     *
+     * @return column - Integer 1-15
+     */
     public int getColumn() {
         return column;
     }
 
+    /**
+     * Accessor for row of word.
+     *
+     * @return row - Integer 1 - 15
+     */
     public int getRow() {
         return row;
     }

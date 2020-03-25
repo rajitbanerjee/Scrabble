@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Frame holds the 7 tiles each player has in their possession.
- * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
@@ -27,14 +26,29 @@ public class Frame {
         refillFrame();
     }
 
+    /**
+     * Accessor for pool.
+     *
+     * @return pool
+     */
     public Pool getPool() {
         return pool;
     }
 
+    /**
+     * Accessor for frame.
+     *
+     * @return the frame, an ArrayList of Tiles
+     */
     public ArrayList<Tile> getFrame() {
         return frame;
     }
 
+    /**
+     * Setter for frame.
+     *
+     * @param frame ArrayList of tiles
+     */
     public void setFrame(ArrayList<Tile> frame) {
         this.frame = frame;
     }

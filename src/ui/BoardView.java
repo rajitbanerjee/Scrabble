@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 
 /**
  * Board GUI design.
- * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -31,6 +30,9 @@ public class BoardView extends GridPane {
         update();
     }
 
+    /**
+     * Updates the board display.
+     */
     public void update() {
         Square[][] boardArray = board.getBoard();
         // Initialise top-left empty block
@@ -51,6 +53,12 @@ public class BoardView extends GridPane {
         }
     }
 
+    /**
+     * Generates a node for each playable square on the board.
+     *
+     * @param square of board
+     * @return the node created
+     */
     public Node getSquareUI(Square square) {
         String squareType = "";
         switch (square.getMultiplier()) {
@@ -84,6 +92,12 @@ public class BoardView extends GridPane {
         }
     }
 
+    /**
+     * Generates a node for to represent a square from the first column of the board
+     *
+     * @param ch the letter of the square to be displayed in the node
+     * @return square StackPane containing a character(ch)
+     */
     public Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
@@ -94,6 +108,12 @@ public class BoardView extends GridPane {
         return pane;
     }
 
+    /**
+     * Generates a node to represent a square from the first column of the board.
+     *
+     * @param i the index of the square to be displayed in the node
+     * @return square StackPane containing an index(i)
+     */
     public Node getRowUI(int i) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
@@ -104,6 +124,11 @@ public class BoardView extends GridPane {
         return pane;
     }
 
+    /**
+     * Generates a node to represent an empty square on the board.
+     *
+     * @return square Stackpane
+     */
     public Node getEmptyUI() {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);

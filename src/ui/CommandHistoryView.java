@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * Command history GUI design.
- * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -36,20 +35,39 @@ public class CommandHistoryView extends ScrollPane {
         setContent(vbox);
     }
 
+    /**
+     * Prints text to the VBox.
+     *
+     * @param text to be printed.
+     */
     public void printText(String text) {
         Label label = new Label(text);
         vbox.getChildren().add(label);
     }
 
 
+    /**
+     * Accesses the command entered n commands ago.
+     *
+     * @param n position of command relative to current command.
+     * @return returns the requested command.
+     */
     public String getNLastCommand(int n) {
         return history.get(history.size() - n);
     }
 
+    /**
+     * Adds a command to the history.
+     *
+     * @param command to be added.
+     */
     public void addCommand(String command) {
         history.add(command);
     }
 
+    /**
+     * @return the size of history.
+     */
     public int getHistorySize() {
         return history.size();
     }

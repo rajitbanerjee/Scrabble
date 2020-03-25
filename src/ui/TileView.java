@@ -5,7 +5,6 @@ import javafx.scene.text.Text;
 
 /**
  * Filled Tile GUI design.
- * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921

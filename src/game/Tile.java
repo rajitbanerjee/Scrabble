@@ -7,7 +7,6 @@ import java.util.Objects;
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
- * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
@@ -46,6 +45,11 @@ public class Tile {
         return new Tile(type, points);
     }
 
+    /**
+     * Accessor for tile type
+     *
+     * @return type letter A-Z or blank type of tile
+     */
     public char getType() {
         return type;
     }
@@ -64,6 +68,11 @@ public class Tile {
         }
     }
 
+    /**
+     * Accessor for the points associated to a tile
+     *
+     * @return points integer
+     */
     public int getPoints() {
         return points;
     }

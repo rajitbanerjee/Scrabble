@@ -6,7 +6,6 @@ import constants.GameConstants;
  * Each Square has an assigned multiplier and can have
  * a Tile placed on it.
  * The Board is comprised of 15x15 Squares.
- * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
@@ -33,14 +32,29 @@ public class Square {
                 row >= 0 && row < GameConstants.BOARD_SIZE;
     }
 
+    /**
+     * Accessor for multiplier
+     *
+     * @return GameConstants.MULTIPLIER mulitplier
+     */
     public GameConstants.MULTIPLIER getMultiplier() {
         return multiplier;
     }
 
+    /**
+     * Accessor for tile in a square
+     *
+     * @return tile
+     */
     public Tile getTile() {
         return tile;
     }
 
+    /**
+     * Places a tile in a square
+     *
+     * @param tile to be placed in square
+     */
     public void setTile(Tile tile) {
         this.tile = tile;
     }

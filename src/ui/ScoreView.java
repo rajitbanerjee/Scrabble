@@ -5,7 +5,6 @@ import javafx.scene.text.TextFlow;
 
 /**
  * TextFlow containing scores.
- * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
@@ -23,6 +22,12 @@ public class ScoreView extends TextFlow {
         namesInitialised = false;
     }
 
+    /**
+     * Updates the scoreView.
+     *
+     * @param score1 player1's score
+     * @param score2 player2's score
+     */
     public void update(int score1, int score2) {
         getChildren().clear();
         Text p1Text = new Text(playerOneName + ": " + score1 + " points\t\t");
@@ -33,12 +38,23 @@ public class ScoreView extends TextFlow {
         getChildren().add(p2Text);
     }
 
+    /**
+     * Sets the names of both players.
+     *
+     * @param playerOneName player1's name
+     * @param playerTwoName player2's name
+     */
     public void setNames(String playerOneName, String playerTwoName) {
         this.playerOneName = playerOneName;
         this.playerTwoName = playerTwoName;
         namesInitialised = true;
     }
 
+    /**
+     * Checks if names are initalised.
+     *
+     * @return true if names are initialised.
+     */
     public boolean areNamesInitialised() {
         return namesInitialised;
     }
