@@ -8,13 +8,13 @@ import java.util.NoSuchElementException;
 /**
  * The Pool holds 100 tiles initially, and players refill their
  * frames by drawing tiles at random from the Pool.
+ * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-
 public class Pool {
     private ArrayList<Tile> pool;
 

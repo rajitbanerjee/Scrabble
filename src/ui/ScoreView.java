@@ -6,7 +6,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 /**
- * TextFlow containing scores
+ * TextFlow containing scores.
+ * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044

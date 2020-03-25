@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Katarina Cvetkovic, 18347921
  * @team DarkMode
  */
-public class WordTest {
+class WordTest {
     private Word word;
 
     @BeforeEach

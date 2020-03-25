@@ -16,6 +16,7 @@ import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Integrates all game components to create a 2 player Scrabble game.
+ * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044

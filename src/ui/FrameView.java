@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 
 /**
  * Frame GUI design.
+ * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044

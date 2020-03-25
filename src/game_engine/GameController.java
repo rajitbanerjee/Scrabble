@@ -7,6 +7,7 @@ import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Main controller to manage all the UI view components.
+ * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921

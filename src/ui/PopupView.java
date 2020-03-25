@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 /**
  * Pop-up window on button click.
+ * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817

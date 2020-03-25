@@ -3,6 +3,7 @@ package game;
 /**
  * An Index is a pair composed of row and column index.
  * It is useful to store the last covered indices after a move.
+ * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921

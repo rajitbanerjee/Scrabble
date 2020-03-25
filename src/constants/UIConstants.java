@@ -4,6 +4,7 @@ import javafx.scene.text.Font;
 
 /**
  * Stores all the hard-coded constants used in JavaFX related classes.
+ * TODO most of these to CSS stylesheet, with other style options
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
@@ -19,7 +20,7 @@ public class UIConstants {
     public static final double BOARD_HGAP = getSceneHeight() * 0.005;
     public static final double BOARD_VGAP = getSceneHeight() * 0.005;
     public static final int DASH_LENGTH = (int) (CMD_INPUT_WIDTH * 0.175);
-    // TODO move these to CSS stylesheet later, with other style options
+
     public static final Font pointsFont = new Font("verdana", 8);
 
     public static double getSceneWidth() {

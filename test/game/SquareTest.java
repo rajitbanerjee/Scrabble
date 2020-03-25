@@ -112,4 +112,5 @@ class SquareTest {
             fail("Square multipliers cannot be set properly.");
         }
     }
+
 }

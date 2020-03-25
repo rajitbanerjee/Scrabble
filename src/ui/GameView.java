@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 
 /**
  * Integrate Board, CLI and Options into a single window.
+ * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921

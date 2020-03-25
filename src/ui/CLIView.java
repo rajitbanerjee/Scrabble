@@ -5,6 +5,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * Command line panel GUI design.
+ * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817

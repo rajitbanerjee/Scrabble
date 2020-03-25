@@ -3,6 +3,7 @@ package game;
 /**
  * A Word is represented by a String of letters, placed on the board
  * at a starting row and column, and with an orientation (across/down).
+ * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044

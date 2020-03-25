@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 
 /**
  * Board GUI design.
- * TODO comments
+ * TODO javadoc comments
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817

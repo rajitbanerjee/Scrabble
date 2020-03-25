@@ -6,6 +6,7 @@ import constants.GameConstants;
  * Each Square has an assigned multiplier and can have
  * a Tile placed on it.
  * The Board is comprised of 15x15 Squares.
+ * TODO javadoc comments
  *
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
