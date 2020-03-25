@@ -44,31 +44,37 @@ public class Frame {
      *
      * @throws IllegalStateException if pool is empty, frame cannot be refilled
      */
-    public void refillFrame() throws IllegalStateException {
+    public String refillFrame() throws IllegalStateException {
         if (pool.isEmpty()) {
             throw new IllegalStateException("Cannot refill frame, no tiles left in pool.");
         }
         int numTilesToDraw = Math.min(pool.size(), GameConstants.FRAME_LIMIT - frame.size());
+        StringBuilder drawnTiles = new StringBuilder();
         for (int i = 0; i < numTilesToDraw; i++) {
-            frame.add(pool.drawTile());
+            Tile draw = pool.drawTile();
+            drawnTiles.append(draw.getType());
+            frame.add(draw);
         }
+        return drawnTiles.toString();
     }
 
     /**
      * Exchanges the given letters in the frame from the pool.
      *
      * @param letters to be exchanged e.g. "BCDE", "PA-T"
+     * @return the newly drawn tiles from the pool
      * @throws IllegalStateException if there are insufficient tiles in the pool
      */
-    public void exchange(String letters) throws IllegalStateException {
+    public String exchange(String letters) throws IllegalStateException {
         if (pool.size() < GameConstants.FRAME_LIMIT) {
             throw new IllegalStateException("Cannot exchange, pool contains 6 tiles or less!");
         }
         for (char letter : letters.toCharArray()) {
             remove(letter);
         }
-        refillFrame();
+        String newLetters = refillFrame();
         pool.addTiles(letters);
+        return newLetters;
     }
 
     /**
@@ -94,10 +100,24 @@ public class Frame {
      */
     public Tile getTile(char letter) throws NoSuchElementException {
         if (contains(letter)) {
-            return frame.get(getLetterIndex(letter));
+            return getTile(getLetterIndex(letter));
         } else {
             throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
         }
+    }
+
+    /**
+     * Returns the Tile at a given index in the frame.
+     *
+     * @param index from which Tile is to be queried
+     * @return the Tile at given index
+     * @throws IllegalArgumentException if index is out of bounds
+     */
+    public Tile getTile(int index) throws IllegalArgumentException {
+        if (index < 0 || index >= frame.size()) {
+            throw new IllegalArgumentException("Index out of bounds!");
+        }
+        return frame.get(index);
     }
 
     /**
@@ -113,7 +133,7 @@ public class Frame {
     //  Find index of first tile containing some letter, -1 if not found
     private int getLetterIndex(char letter) {
         for (int i = 0; i < frame.size(); i++) {
-            if (frame.get(i).getType() == Character.toUpperCase(letter)) {
+            if (getTile(i).getType() == Character.toUpperCase(letter)) {
                 return i;
             }
         }

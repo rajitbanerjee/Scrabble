@@ -55,7 +55,7 @@ class TileTest {
         }
 
         // Test toString()
-        if (!t.toString().equals(" Z ")) {
+        if (!t.toString().equals("Z")) {
             fail("Error: toString() doesn't work as expected.");
         }
 

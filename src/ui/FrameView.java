@@ -42,8 +42,8 @@ public class FrameView extends GridPane {
             Text text = new Text();
             Text points = new Text();
             if (i < frame.getFrame().size()) {
-                text = new Text(Character.toString(frame.getFrame().get(i).getType()));
-                points = new Text(Integer.toString((frame.getFrame().get(i).getPoints())));
+                text = new Text(frame.getTile(i).toString());
+                points = new Text(Integer.toString((frame.getTile(i).getPoints())));
             }
             points.setFont(UIConstants.pointsFont);
             tile.setAlignment(Pos.CENTER);

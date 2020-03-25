@@ -108,11 +108,11 @@ public class Tile {
     }
 
     /**
-     * Each Tile is displayed as the type of Tile and the associated points.
+     * Each Tile is displayed as the type of Tile.
      */
     @Override
     public String toString() {
-        return String.format(" %c ", type);
+        return Character.toString(type);
     }
 
 }

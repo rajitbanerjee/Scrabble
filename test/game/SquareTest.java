@@ -107,7 +107,7 @@ class SquareTest {
             assertEquals(" * ", s6.toString());
             Square s7 = new Square(GameConstants.MULTIPLIER.CENTRE);
             s7.setTile(Tile.makeTile('Z'));
-            assertEquals(" Z ", s7.toString());
+            assertEquals("Z", s7.toString());
         } catch (Exception e) {
             fail("Square multipliers cannot be set properly.");
         }

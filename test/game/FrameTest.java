@@ -99,6 +99,12 @@ class FrameTest {
         }
 
         // test getTile()
+        try {
+            frame.getTile(7);
+            fail("Index out of bounds");
+        } catch (Exception ignored) {
+            // test passes
+        }
         frame.refillFrame();
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // letter being accessed
@@ -155,7 +161,7 @@ class FrameTest {
             f.add(Tile.makeTile(ch));
         }
         frame.setFrame(f);
-        assertEquals("[ H ,  E ,  L ,  L ,  O ]", frame.toString());
+        assertEquals("[H, E, L, L, O]", frame.toString());
     }
 
 }

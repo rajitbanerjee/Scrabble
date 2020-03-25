@@ -180,13 +180,12 @@ public class Scrabble {
     }
 
     // Check if an exchange is Valid
-    // TODO: needs to be changed, bad programming practice
     private boolean isExchangeLegal(String move, Frame frame) {
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
                 Frame tempFrame = new Frame(pool);
                 tempFrame.setFrame(new ArrayList<>(frame.getFrame()));
-                exchangeTiles(move, tempFrame, true);
+                exchange(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
                 printToOutput("> " + e.getMessage());
@@ -215,7 +214,7 @@ public class Scrabble {
         } else if (move.equalsIgnoreCase("PASS")) {
             pass(player, false);
         } else if (move.startsWith("EXCHANGE")) {
-            exchangeTiles(move, frame, false);
+            exchange(move, frame, false);
         } else if (move.equalsIgnoreCase("CHALLENGE")) {
             isChallengeSuccessful = challenge(opponent);
             if (isChallengeSuccessful) {
@@ -233,11 +232,6 @@ public class Scrabble {
         }
     }
 
-    // Checks if the game is over
-    private boolean isGameOver() {
-        return (player1.getFrame().isEmpty() || player2.getFrame().isEmpty()) && pool.isEmpty();
-    }
-
     // Quit game
     private void quit() {
         gameState = GAME_OVER;
@@ -249,18 +243,16 @@ public class Scrabble {
     private void pass(Player player, boolean removeLastScore) {
         printToOutput(String.format("> Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
-        checkLastSixScores();
     }
 
     // Exchange tiles between frame and pool
-    private void exchangeTiles(String move, Frame frame, boolean isTest) {
+    private void exchange(String move, Frame frame, boolean isTest) {
         String to_exchange = move.substring(move.indexOf(' ')).trim();
-        frame.exchange(to_exchange);
+        String newLetters = frame.exchange(to_exchange);
         if (!isTest) {
             Scoring.addScoreToList(0);
             Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
-            printToOutput(String.format("> Letters (%s) have been exchanged!", to_exchange));
-            checkLastSixScores();
+            printToOutput(String.format("> Letters (%s) exchanged with (%s)!", to_exchange, newLetters));
         }
     }
 
@@ -331,7 +323,12 @@ public class Scrabble {
             printToOutput("> " + e.getMessage());
         }
         Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
+    }
+
+    // Checks if the game is over
+    private boolean isGameOver() {
         checkLastSixScores();
+        return (player1.getFrame().isEmpty() || player2.getFrame().isEmpty()) && pool.isEmpty();
     }
 
     // End game if six consecutive scoreless moves occur

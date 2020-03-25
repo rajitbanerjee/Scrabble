@@ -75,11 +75,10 @@ public class BoardView extends GridPane {
                 col = Color.INDIANRED;
                 break;
         }
-        Text text;
+        Text text = new Text(square.toString());
         if (square.isEmpty()) {
             StackPane pane = new StackPane();
             pane.setBackground(new Background(new BackgroundFill(col, CornerRadii.EMPTY, Insets.EMPTY)));
-            text = new Text(square.toString());
             pane.getChildren().add(text);
             return pane;
         } else {
@@ -88,7 +87,6 @@ public class BoardView extends GridPane {
             gridPane.setPadding(new Insets(6));
             gridPane.setHgap(UIConstants.BOARD_HGAP);
 
-            text = new Text(Character.toString(square.getTile().getType()));
             Text points = new Text(Integer.toString((square.getTile().getPoints())));
             points.setFont(UIConstants.pointsFont);
             gridPane.add(text, 1, 1);
