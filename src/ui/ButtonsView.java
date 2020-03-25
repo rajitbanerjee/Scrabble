@@ -1,7 +1,5 @@
 package ui;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
@@ -21,10 +19,8 @@ public class ButtonsView extends HBox {
     private Button quit = new Button("Quit");
 
     public ButtonsView() {
+        setId("buttons-view");
         getChildren().addAll(help, pass, challenge, quit);
-        setAlignment(Pos.CENTER);
-        setSpacing(30);
-        setPadding(new Insets(10));
     }
 
     public Button getPassButton() {

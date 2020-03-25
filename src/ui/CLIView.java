@@ -1,6 +1,5 @@
 package ui;
 
-import constants.UIConstants;
 import javafx.scene.layout.VBox;
 
 /**
@@ -18,7 +17,7 @@ public class CLIView extends VBox {
 
     public CLIView() {
         super();
-        setMinHeight(UIConstants.CMD_INPUT_HEIGHT);
+        setId("cli-view");
         getChildren().addAll(historyView, inputView);
     }
 

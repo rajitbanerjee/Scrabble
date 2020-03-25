@@ -1,7 +1,5 @@
 package ui;
 
-import constants.UIConstants;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -21,17 +19,16 @@ import java.util.ArrayList;
 public class CommandHistoryView extends ScrollPane {
     // Might be changed to a Queue/LinkedList
     private ArrayList<String> history = new ArrayList<>();
-    private VBox vbox = new VBox(); // placed inside the ScrollPane
+    private VBox vbox = new VBox(); // Placed inside the ScrollPane
 
     public CommandHistoryView() {
         super();
+        vbox.setId("history-view-box");
         vbox.setAlignment(Pos.BOTTOM_LEFT);
-        vbox.setMinHeight(UIConstants.getSceneHeight() * 0.75 - 20);
-        setPrefHeight(UIConstants.getSceneHeight() * 0.75);
-        setPadding(new Insets(5));
-        setStyle("-fx-background-color:transparent;");
+        setId("history-view");
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
         // Allows user to pan using mouse
         setPannable(true);
         // Automatically scrolls the scrollbar to the bottom

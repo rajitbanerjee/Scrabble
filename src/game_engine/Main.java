@@ -40,7 +40,7 @@ public class Main extends Application {
         new GameController(frameView, scoreView, cliView, buttonsView, boardView, game);
 
         // Set up scene
-        Scene scene = new Scene(gameView, UIConstants.getSceneWidth(), UIConstants.getSceneHeight());
+        Scene scene = new Scene(gameView, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
         scene.getStylesheets().add("game_engine/stylesheet.css");
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");

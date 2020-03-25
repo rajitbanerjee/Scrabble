@@ -1,7 +1,5 @@
 package ui;
 
-import constants.UIConstants;
-import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -17,8 +15,7 @@ import javafx.scene.layout.GridPane;
 public class OptionsView extends GridPane {
     public OptionsView(FrameView frameView, ScoreView scoreView, ButtonsView buttonsView) {
         super();
-        setPrefHeight(UIConstants.OPTIONS_HEIGHT);
-        setAlignment(Pos.CENTER);
+        setId("options-view");
         add(scoreView, 0, 0);
         add(frameView, 0, 1);
         add(buttonsView, 0, 2);

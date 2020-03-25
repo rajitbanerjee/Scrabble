@@ -4,11 +4,9 @@ import constants.GameConstants;
 import constants.UIConstants;
 import game.Board;
 import game.Square;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -27,14 +25,11 @@ public class BoardView extends GridPane {
 
     public BoardView(Board board) {
         super();
+        setId("board-view");
         this.board = board;
-        setAlignment(Pos.TOP_LEFT);
-        setHgap(UIConstants.BOARD_HGAP);
-        setVgap(UIConstants.BOARD_VGAP);
         update();
     }
 
-    // add(column, row)
     public void update() {
         Square[][] boardArray = board.getBoard();
         // Initialise top-left empty block
@@ -56,52 +51,42 @@ public class BoardView extends GridPane {
     }
 
     public Node getSquareUI(Square square) {
-        Color col = null;
+        String squareType = "";
         switch (square.getMultiplier()) {
             case CENTRE:
             case DOUBLE_WS:
-                col = Color.LIGHTPINK;
+                squareType = "square-double-ws";
                 break;
             case DOUBLE_LS:
-                col = Color.LIGHTBLUE;
+                squareType = "square-double-ls";
                 break;
             case NORMAL:
-                col = Color.GHOSTWHITE;
+                squareType = "square-normal";
                 break;
             case TRIPLE_LS:
-                col = Color.CADETBLUE;
+                squareType = "square-triple-ls";
                 break;
             case TRIPLE_WS:
-                col = Color.INDIANRED;
+                squareType = "square-triple-ws";
                 break;
         }
         Text text = new Text(square.toString());
         if (square.isEmpty()) {
             StackPane pane = new StackPane();
-            pane.setBackground(new Background(new BackgroundFill(col, CornerRadii.EMPTY, Insets.EMPTY)));
+            pane.setId(squareType);
             pane.getChildren().add(text);
             return pane;
         } else {
-            GridPane gridPane = new GridPane();
-            gridPane.setMinSize(squareSize, squareSize);
-            gridPane.setPadding(new Insets(6));
-            gridPane.setHgap(UIConstants.BOARD_HGAP);
-
             Text points = new Text(Integer.toString((square.getTile().getPoints())));
-            points.setFont(UIConstants.pointsFont);
-            gridPane.add(text, 1, 1);
-            gridPane.add(points, 2, 2);
-
-            col = Color.LIGHTYELLOW;
-            gridPane.setBackground(new Background(new BackgroundFill(col, CornerRadii.EMPTY, Insets.EMPTY)));
-            return gridPane;
+            points.setId("tile-points");
+            return new TileView(text, points);
         }
     }
 
     public Node getColumnUI(char ch) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
-        rect.setFill(Color.GHOSTWHITE);
+        rect.setId("square-blank");
         Text text = new Text(Character.toString(ch));
         pane.getChildren().add(rect);
         pane.getChildren().add(text);
@@ -111,7 +96,7 @@ public class BoardView extends GridPane {
     public Node getRowUI(int i) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
-        rect.setFill(Color.GHOSTWHITE);
+        rect.setId("square-blank");
         Text text = new Text(Integer.toString(i));
         pane.getChildren().add(rect);
         pane.getChildren().add(text);
@@ -121,7 +106,7 @@ public class BoardView extends GridPane {
     public Node getEmptyUI() {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
-        rect.setFill(Color.GHOSTWHITE);
+        rect.setId("square-blank");
         pane.getChildren().add(rect);
         return pane;
     }

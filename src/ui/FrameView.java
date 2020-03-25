@@ -1,15 +1,8 @@
 package ui;
 
 import constants.GameConstants;
-import constants.UIConstants;
 import game.Frame;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -22,34 +15,21 @@ import javafx.scene.text.Text;
  * @team DarkMode
  */
 public class FrameView extends GridPane {
-    private double tileSize = UIConstants.SQUARE_SIZE;
-
     public FrameView() {
         super();
-        setAlignment(Pos.CENTER);
-        setMinWidth(UIConstants.CMD_INPUT_WIDTH);
-        setHgap(UIConstants.BOARD_HGAP);
-        setVgap(UIConstants.BOARD_VGAP);
+        setId("frame-view");
     }
 
     public void update(Frame frame) {
         for (int i = 0; i < GameConstants.FRAME_LIMIT; i++) {
-            GridPane tile = new GridPane();
-            tile.setMinSize(tileSize, tileSize);
-            tile.setMaxSize(tileSize, tileSize);
-            tile.setPadding(new Insets(6, 6, 6, 6));
-
             Text text = new Text();
             Text points = new Text();
             if (i < frame.getFrame().size()) {
                 text = new Text(frame.getTile(i).toString());
                 points = new Text(Integer.toString((frame.getTile(i).getPoints())));
             }
-            points.setFont(UIConstants.pointsFont);
-            tile.setAlignment(Pos.CENTER);
-            tile.add(text, 1, 1);
-            tile.add(points, 2, 2);
-            tile.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            points.setId("tile-points");
+            TileView tile = new TileView(text, points);
             add(tile, i, 1);
         }
     }

@@ -1,8 +1,6 @@
 package ui;
 
-import javafx.geometry.Insets;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
 /**
@@ -21,8 +19,7 @@ public class ScoreView extends TextFlow {
 
     public ScoreView() {
         super();
-        setTextAlignment(TextAlignment.CENTER);
-        setPadding(new Insets(10));
+        setId("score-view");
         namesInitialised = false;
     }
 

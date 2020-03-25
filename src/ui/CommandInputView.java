@@ -1,6 +1,5 @@
 package ui;
 
-import constants.UIConstants;
 import javafx.scene.control.TextField;
 
 /**
@@ -15,8 +14,8 @@ import javafx.scene.control.TextField;
 public class CommandInputView extends TextField {
     public CommandInputView() {
         super();
+        setId("input-view");
         setPromptText("Enter your move here...");
-        setMinWidth(UIConstants.CMD_INPUT_WIDTH);
     }
 
 }

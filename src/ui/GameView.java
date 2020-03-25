@@ -23,9 +23,10 @@ public class GameView extends HBox {
         VBox vbox = new VBox();
         // Add children
         vbox.getChildren().add(optionsView);
+        // TODO move separator creation to CSS?
         Line separator = new Line(optionsView.getLayoutX(), optionsView.getLayoutY(),
                 optionsView.getLayoutX() + UIConstants.CMD_INPUT_WIDTH, optionsView.getLayoutY());
-        separator.setStrokeWidth(0.25);
+        separator.setId("options-view-separator");
         vbox.getChildren().add(separator);
         vbox.getChildren().add(cliView);
         // Add right view to HBox
