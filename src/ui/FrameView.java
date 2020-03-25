@@ -1,6 +1,6 @@
 package ui;
 
-
+import constants.GameConstants;
 import constants.UIConstants;
 import game.Frame;
 import javafx.geometry.Insets;
@@ -33,20 +33,23 @@ public class FrameView extends GridPane {
     }
 
     public void update(Frame frame) {
-        for (int i = 0; i < frame.getFrame().size(); i++) {
+        for (int i = 0; i < GameConstants.FRAME_LIMIT; i++) {
             GridPane tile = new GridPane();
             tile.setMinSize(tileSize, tileSize);
             tile.setMaxSize(tileSize, tileSize);
             tile.setPadding(new Insets(6, 6, 6, 6));
 
-            Text text = new Text(Character.toString(frame.getFrame().get(i).getType()));
-            Text points = new Text(Integer.toString((frame.getFrame().get(i).getPoints())));
+            Text text = new Text();
+            Text points = new Text();
+            if (i < frame.getFrame().size()) {
+                text = new Text(Character.toString(frame.getFrame().get(i).getType()));
+                points = new Text(Integer.toString((frame.getFrame().get(i).getPoints())));
+            }
             points.setFont(UIConstants.pointsFont);
             tile.setAlignment(Pos.CENTER);
             tile.add(text, 1, 1);
             tile.add(points, 2, 2);
             tile.setBackground(new Background(new BackgroundFill(Color.LIGHTYELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
-
             add(tile, i, 1);
         }
     }

@@ -4,7 +4,7 @@
 * Developed using IntelliJ IDEA.
 
 ### Dependencies:
-* Java 1.8.0 
+* Java 8
 * JUnit 5.4
 
 ### Authors:

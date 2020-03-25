@@ -221,7 +221,6 @@ public class Scrabble {
             if (isChallengeSuccessful) {
                 // If challenge is successful, pass opponent's turn
                 pass(opponent, true);
-                return;
             } else {
                 // Pass player's turn
                 pass(player, false);
@@ -236,7 +235,7 @@ public class Scrabble {
 
     // Checks if the game is over
     private boolean isGameOver() {
-        return pool.isEmpty() || (player1.getFrame().isEmpty() || player2.getFrame().isEmpty());
+        return (player1.getFrame().isEmpty() || player2.getFrame().isEmpty()) && pool.isEmpty();
     }
 
     // Quit game
