@@ -132,7 +132,7 @@ public class GameController {
                 PopupView.displayHelpPopup();
             } else {
                 PopupView.displayHelpPopup();
-                game.processCommand("HELP");
+                updateGame("HELP");
             }
         });
     }

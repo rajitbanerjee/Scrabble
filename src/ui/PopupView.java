@@ -1,13 +1,16 @@
 package ui;
 
+import constants.UIConstants;
 import game.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,26 +44,48 @@ public class PopupView {
 
     public static void displayHelpPopup() {
         Stage window = new Stage();
+        window.setTitle("Welcome to Scrabble!");
         window.initModality(Modality.APPLICATION_MODAL);
-        Label label = new Label("Welcome to Scrabble!");
-        String help = "Here are some supported operations:\n" + "HELP: Displays the help message.\n" +
-                "PASS: Passes your current turn.\n" +
-                "QUIT: Exits the game.\n" +
-                "EXCHANGE [TILES]: Exchange tiles with new ones from the pool. (Replace [TILES] with the tiles)\n" +
-                "CHALLENGE: Challenge the move made by the opponent in the previous turn.\n" +
-                "[ROW][COLUMN] [DIRECTION] [WORD]: Places a word at a " +
-                "certain location of the board\n with a specific orientation.";
-        Label helpMessage = new Label(help);
+        String help = "How to play?\n" +
+                "HELP:\t\t\t\tDisplays the help message.\n" +
+                "PASS:\t\t\t\tPasses your current turn.\n" +
+                "QUIT:\t\t\t\tExits the game.\n" +
+                "EXCHANGE <letters>:\tExchange letters with random ones from the pool.\n" +
+                "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
+                "\nValid move format (place a word starting at specified grid reference):\n" +
+                "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
+                "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n";
+        Label text = new Label(help);
+
+        Hyperlink link = new Hyperlink();
+        link.setText("Click here to see the rules of Scrabble!");
+        link.setOnAction(e -> displayScrabbleRules());
+
         Button button = new Button("Close");
-        HBox wrapper = new HBox(button);
-        wrapper.setAlignment(Pos.CENTER);
         button.setOnAction(event -> window.close());
-        BorderPane layout = new BorderPane();
-        layout.setTop(label);
-        layout.setCenter(helpMessage);
-        layout.setBottom(wrapper);
-        Scene scene = new Scene(layout, 750, 250);
+
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(text, link, button);
+
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout, 750, 300);
         scene.getStylesheets().add("game_engine/darktheme.css");
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    private static void displayScrabbleRules() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        final WebView browser = new WebView();
+        final WebEngine webEngine = browser.getEngine();
+        webEngine.load("https://en.wikipedia.org/wiki/Scrabble#Rules");
+
+        VBox layout = new VBox(10);
+        VBox.setVgrow(browser, Priority.ALWAYS);
+        layout.getChildren().addAll(browser);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
         window.setScene(scene);
         window.showAndWait();
     }

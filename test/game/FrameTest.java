@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Frame class tests.
@@ -140,8 +141,6 @@ class FrameTest {
         frame.exchange("ZQ");
         assertEquals(93, pool.size());
         assertEquals(7, frame.getFrame().size());
-        assertFalse(frame.contains('Z'));
-        assertFalse(frame.contains('Q'));
 
         // Try to exchange tiles from pool when it's insufficient
         pool.getPool().clear();

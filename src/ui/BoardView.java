@@ -5,6 +5,7 @@ import constants.UIConstants;
 import game.Board;
 import game.Square;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -87,7 +88,7 @@ public class BoardView extends GridPane {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setId("square-blank");
-        Text text = new Text(Character.toString(ch));
+        Label text = new Label(Character.toString(ch));
         pane.getChildren().add(rect);
         pane.getChildren().add(text);
         return pane;
@@ -97,7 +98,7 @@ public class BoardView extends GridPane {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setId("square-blank");
-        Text text = new Text(Integer.toString(i));
+        Label text = new Label(Integer.toString(i));
         pane.getChildren().add(rect);
         pane.getChildren().add(text);
         return pane;

@@ -1,16 +1,16 @@
 .root {
-    -fx-base: #1f1f1f;
-    -fx-accent: white;
-    -fx-focus-color: -fx-accent;
-    -fx-background: derive(-fx-base, 20%);
-    -fx-control-inner-background: derive(-fx-base, 50%);
+	-fx-base: #1f1f1f;
+	-fx-accent: white;
+	-fx-focus-color: -fx-accent;
+	-fx-background: derive(-fx-base, 20%);
+	-fx-control-inner-background: derive(-fx-base, 50%);
 
 	-fx-font-size: 10pt;
 	-fx-font-color: white;
 	-fx-font-family: Verdana;
 }
 /*****************************************************************************/
-/*CLI textfield*/
+/*CLI text field*/
 .text-input {
 	-fx-font-size: 10pt;
 	-fx-text-fill: -fx-accent;
@@ -50,25 +50,23 @@
 	-fx-prompt-text-fill: transparent;
 }
 /*****************************************************************************/
-.button{
-    -fx-background-color: derive(-fx-base, 10%);
-    -fx-background-radius: 0
+.button {
+	-fx-background-color: derive(-fx-base, 10%);
+	-fx-background-radius: 15;
 }
-.button:focused{
-    -fx-border-color: -fx-accent;
-    -fx-focus-text-color: -fx-accent;
-    -fx-background-radius: 0
+.button:focused {
+	-fx-border-color: -fx-accent;
+	-fx-focus-text-color: -fx-accent;
+	-fx-background-radius: 15;
 }
 /*****************************************************************************/
 #tile-points {
 	-fx-font-size: 6pt;
-	-fx-font-family: Verdana;
 }
 
-#player-scores{
-    -fx-font-size: 10pt;
-    -fx-fill: white;
-	-fx-font-family: Verdana;
+#player-scores {
+	-fx-font-size: 10pt;
+	-fx-fill: white;
 }
 /*****************************************************************************/
 #board-view {
@@ -79,8 +77,8 @@
 
 #buttons-view {
 	-fx-spacing: 30;
-    -fx-padding: 10, 10, 10, 10;
-    -fx-alignment: center;
+	-fx-padding: 10, 10, 10, 10;
+	-fx-alignment: center;
 }
 
 #cli-view {
@@ -114,8 +112,8 @@
 
 #options-view {
 	/* Options view pref height is 610 (scene height) * 0.25 */
-    -fx-pref-height: 152.5;
-    -fx-alignment: center;
+	-fx-pref-height: 152.5;
+	-fx-alignment: center;
 }
 
 #options-view-separator {
@@ -153,10 +151,11 @@
 
 #square-with-tile {
 	-fx-background-color: #ffffe0;
+	/* -fx-background-radius: 5, 5, 0, 0; */
 	-fx-min-height: 35.266, 35.266;
 	-fx-max-height: 35.266, 35.266;
 	-fx-padding: 6, 6, 6, 6;
-    -fx-hgap: 3;
-    -fx-vgap: 3;
+	-fx-hgap: 3;
+	-fx-vgap: 3;
 	-fx-alignment: center;
 }

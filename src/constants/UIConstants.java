@@ -10,7 +10,7 @@ package constants;
  */
 public class UIConstants {
     public static final int SCENE_WIDTH = 1200;
-    public static final int SCENE_HEIGHT = 610;
+    public static final int SCENE_HEIGHT = 613;
     // Scene height is the board's size as well
     public static final int CMD_INPUT_WIDTH = SCENE_WIDTH - SCENE_HEIGHT - 2;
     public static final double SQUARE_SIZE = SCENE_HEIGHT * 0.0578125;
