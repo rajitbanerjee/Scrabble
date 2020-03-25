@@ -1,8 +1,5 @@
 package constants;
 
-
-import java.awt.*;
-
 /**
  * Stores all the hard-coded constants used in JavaFX related classes.
  *
@@ -12,9 +9,8 @@ import java.awt.*;
  * Team 15: DarkMode
  */
 public class UIConstants {
-    private static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    public static final int SCENE_WIDTH = (int) (gd.getDisplayMode().getWidth() * 0.85);
-    public static final int SCENE_HEIGHT = (int) (gd.getDisplayMode().getHeight() * 0.62);
+    public static final int SCENE_WIDTH = 1200;
+    public static final int SCENE_HEIGHT = 613;
     // Scene height is the board's size as well
     public static final int CMD_INPUT_WIDTH = SCENE_WIDTH - SCENE_HEIGHT - 2;
     public static final double SQUARE_SIZE = SCENE_HEIGHT * 0.0578125;
