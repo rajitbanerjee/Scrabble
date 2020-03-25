@@ -9,7 +9,7 @@ import javafx.scene.text.TextFlow;
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class ScoreView extends TextFlow {
     private String playerOneName;

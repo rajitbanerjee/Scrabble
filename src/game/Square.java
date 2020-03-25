@@ -10,7 +10,7 @@ import constants.GameConstants;
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class Square {
     private GameConstants.MULTIPLIER multiplier;

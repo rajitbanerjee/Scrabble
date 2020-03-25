@@ -11,7 +11,7 @@ import javafx.scene.shape.Line;
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
  * @author Rajit Banerjee, 18202817
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class GameView extends HBox {
     public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {

@@ -11,7 +11,7 @@ import static constants.UIConstants.STATUS_CODE.*;
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
  * @author Rajit Banerjee, 18202817
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class GameController {
     private FrameView frameView;

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
- * @team DarkMode
+ * Team 15: DarkMode
  */
 class BoardTest {
     private ArrayList<Tile> f; // Stores a copy of the frame for resetting purposes

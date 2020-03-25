@@ -6,7 +6,7 @@ package constants;
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class GameConstants {
     public static final int FRAME_LIMIT = 7;

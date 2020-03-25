@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class BoardView extends GridPane {
     private double squareSize = UIConstants.SQUARE_SIZE;

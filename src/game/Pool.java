@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  * @author Rajit Banerjee, 18202817
  * @author Tee Chee Guan, 18202044
  * @author Katarina Cvetkovic, 18347921
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class Pool {
     private ArrayList<Tile> pool;

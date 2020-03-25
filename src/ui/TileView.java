@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class TileView extends GridPane {
     public TileView(Text type, Text points) {

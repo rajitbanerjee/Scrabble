@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class Frame {
     private final Pool pool;
@@ -56,6 +56,7 @@ public class Frame {
     /**
      * Method to refill the frame if it has less than 7 tiles.
      *
+     * @return the newly drawn tiles from the pool
      * @throws IllegalStateException if pool is empty, frame cannot be refilled
      */
     public String refillFrame() throws IllegalStateException {

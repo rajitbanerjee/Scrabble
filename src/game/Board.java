@@ -10,7 +10,7 @@ import game_engine.Scrabble;
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class Board {
     private Square[][] board;
@@ -59,6 +59,8 @@ public class Board {
 
     /**
      * Check if board contains no tiles.
+     *
+     * @return {@code true} if board is empty
      */
     public boolean isEmpty() {
         for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {

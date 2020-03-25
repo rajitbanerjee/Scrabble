@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
- * @team DarkMode
+ * Team 15: DarkMode
  */
 public class Scoring {
     public static ArrayList<Index> challengeIndices = new ArrayList<>();
