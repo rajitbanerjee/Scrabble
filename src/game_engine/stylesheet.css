@@ -44,25 +44,10 @@
 	-fx-prompt-text-fill: transparent;
 }
 /*****************************************************************************/
-/* #tile {
-    scene height (610) * 0.0578125 
-    -fx-min-size: 35.266, 35.266;
-    -fx-max-size: 35.266, 35.266;
-    -fx-padding: 6, 6, 6, 6;
-    -fx-hgap: 3.05; 
-} */
-
 #tile-points {
 	-fx-font-size: 6pt;
 	-fx-font-family: Verdana;
 }
-
-/* #tile .tile .GridPane {
-    -fx-min-size: calc(610 * 0.0578125, 610 * 0.0578125);
-    -fx-max-size: calc(610 * 0.0578125, 610 * 0.0578125);
-    -fx-padding: 6;
-    -fx-hgap: calc(610 * 0.005);
-} */
 /*****************************************************************************/
 #board-view {
 	-fx-alignment: top_left;
