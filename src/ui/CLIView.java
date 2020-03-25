@@ -30,4 +30,8 @@ public class CLIView extends VBox {
         inputView.clear();
     }
 
+    public CommandHistoryView getHistoryView() {
+        return historyView;
+    }
+
 }

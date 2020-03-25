@@ -8,7 +8,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Command history GUI design.
@@ -43,11 +42,19 @@ public class CommandHistoryView extends ScrollPane {
     public void printText(String text) {
         Label label = new Label(text);
         vbox.getChildren().add(label);
-        history.add(text);
     }
 
-    public List<String> getHistory() {
-        return history;
+
+    public String getNLastCommand(int n) {
+        return history.get(history.size() - n);
+    }
+
+    public void addCommand(String command) {
+        history.add(command);
+    }
+
+    public int getHistorySize() {
+        return history.size();
     }
 
 }

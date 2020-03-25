@@ -21,6 +21,7 @@ public class GameController {
     private ButtonsView buttonsView;
     private BoardView boardView;
     private Scrabble game;
+    private int nLastCommand;
 
     public GameController(FrameView frameView, ScoreView scoreView,
                           CLIView cliView, ButtonsView buttonsView,
@@ -37,11 +38,38 @@ public class GameController {
 
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
+            CommandInputView inputView = cliView.getInputView();
+            CommandHistoryView historyView = cliView.getHistoryView();
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                updateGame(cliView.getInputView().getText());
+                updateGame(inputView.getText());
+                historyView.addCommand(inputView.getText());
+                nLastCommand = 1;
                 cliView.clearInputView();
+            } else if (keyEvent.getCode() == KeyCode.UP) {
+                if (historyView.getHistorySize() != 0) {
+                    correctNLast();
+                    inputView.setText(historyView.getNLastCommand(nLastCommand));
+                    nLastCommand++;
+                }
+            } else if (keyEvent.getCode() == KeyCode.DOWN) {
+                if (nLastCommand == 0) {
+                    cliView.clearInputView();
+                } else if (historyView.getHistorySize() != 0) {
+                    correctNLast();
+                    inputView.setText(historyView.getNLastCommand(nLastCommand));
+                    nLastCommand--;
+                }
             }
         });
+    }
+
+    private void correctNLast() {
+        CommandHistoryView historyView = cliView.getHistoryView();
+        if (nLastCommand > historyView.getHistorySize()) {
+            nLastCommand = historyView.getHistorySize();
+        } else if (nLastCommand < 1) {
+            nLastCommand = 1;
+        }
     }
 
     public void updateGame(String command) {
