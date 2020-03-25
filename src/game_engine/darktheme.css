@@ -7,7 +7,7 @@
 
 	-fx-font-size: 10pt;
 	-fx-font-color: white;
-	-fx-font-family: Verdana;
+	-fx-font-family: Open Sans;
 }
 /*****************************************************************************/
 /*CLI textfield*/
@@ -62,13 +62,11 @@
 /*****************************************************************************/
 #tile-points {
 	-fx-font-size: 6pt;
-	-fx-font-family: Verdana;
 }
 
 #player-scores{
     -fx-font-size: 10pt;
     -fx-fill: white;
-	-fx-font-family: Verdana;
 }
 /*****************************************************************************/
 #board-view {
