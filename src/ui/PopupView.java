@@ -77,7 +77,7 @@ public class PopupView {
     }
 
     /**
-     * Displays the rules of scarbble.
+     * Displays the rules of Scrabble.
      */
     private static void displayScrabbleRules() {
         Stage window = new Stage();
@@ -118,8 +118,8 @@ public class PopupView {
     /**
      * Displays a quit popup.
      *
-     * @param player1 player 1
-     * @param player2 player 2
+     * @param player1 Scrabble player 1
+     * @param player2 Scrabble player 2
      */
     public static void displayQuitPopup(Player player1, Player player2) {
         Stage window = new Stage();

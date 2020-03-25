@@ -36,7 +36,7 @@ public class GameController {
     }
 
     /**
-     * Sets the listeners for GameController
+     * Sets the listeners for GameController.
      */
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
@@ -65,7 +65,7 @@ public class GameController {
         });
     }
 
-    //corrects the variable nLastCommand
+    // Corrects the variable nLastCommand
     private void correctNLast() {
         CommandHistoryView historyView = cliView.getHistoryView();
         if (nLastCommand > historyView.getHistorySize()) {
@@ -109,7 +109,7 @@ public class GameController {
     }
 
     /**
-     * Sets actions for buttons; PASS, CHALLENGE, QUIT, HELP
+     * Sets actions for buttons: PASS, CHALLENGE, QUIT, HELP
      */
     public void setButtons() {
         buttonsView.getPassButton().setOnAction(event -> {

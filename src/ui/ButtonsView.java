@@ -25,7 +25,7 @@ public class ButtonsView extends HBox {
     /**
      * Accessor for pass.
      *
-     * @return pass button.
+     * @return pass button
      */
     public Button getPassButton() {
         return pass;
@@ -34,7 +34,7 @@ public class ButtonsView extends HBox {
     /**
      * Accessor for challenge.
      *
-     * @return challenge button.
+     * @return challenge button
      */
     public Button getChallengeButton() {
         return challenge;
@@ -43,7 +43,7 @@ public class ButtonsView extends HBox {
     /**
      * Accessor for quit.
      *
-     * @return quit button.
+     * @return quit button
      */
     public Button getQuitButton() {
         return quit;
@@ -52,7 +52,7 @@ public class ButtonsView extends HBox {
     /**
      * Accessor for help.
      *
-     * @return help button.
+     * @return help button
      */
     public Button getHelpButton() {
         return help;

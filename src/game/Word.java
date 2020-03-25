@@ -59,7 +59,7 @@ public class Word {
     /**
      * Accessor for column of word.
      *
-     * @return column - Integer 1-15
+     * @return column
      */
     public int getColumn() {
         return column;
@@ -68,7 +68,7 @@ public class Word {
     /**
      * Accessor for row of word.
      *
-     * @return row - Integer 1 - 15
+     * @return row
      */
     public int getRow() {
         return row;

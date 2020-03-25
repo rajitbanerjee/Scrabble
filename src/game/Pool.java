@@ -23,7 +23,7 @@ public class Pool {
     }
 
     /**
-     * Accessor for pool
+     * Accessor for pool.
      *
      * @return pool
      */
@@ -42,7 +42,6 @@ public class Pool {
 
     /**
      * Resets the pool to its initial state with 100 tiles.
-     * Adds required number of tiles of each type to the pool.
      */
     public void reset() {
         pool.clear();
@@ -74,7 +73,7 @@ public class Pool {
         if (isEmpty()) {
             throw new NoSuchElementException("Pool has no tiles!");
         }
-        // returns a random index between [0, pool.size())
+        // Returns a random index between [0, pool.size())
         int index = (int) (Math.random() * pool.size());
 
         Tile t = pool.get(index);

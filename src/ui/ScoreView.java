@@ -23,7 +23,7 @@ public class ScoreView extends TextFlow {
     }
 
     /**
-     * Updates the scoreView.
+     * Updates the score display.
      *
      * @param score1 player1's score
      * @param score2 player2's score

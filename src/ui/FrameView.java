@@ -22,7 +22,7 @@ public class FrameView extends GridPane {
     /**
      * Updates the frame being displayed.
      *
-     * @param frame the Frame to be displayed(frame currently in use).
+     * @param frame the Frame to be displayed (frame currently in use)
      */
     public void update(Frame frame) {
         for (int i = 0; i < GameConstants.FRAME_LIMIT; i++) {

@@ -38,7 +38,7 @@ public class Scrabble {
     }
 
     /**
-     * Display the given string to the command panel.
+     * Display the given String to the command panel.
      *
      * @param text to be displayed
      */
@@ -51,7 +51,7 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for board
+     * Accessor for board.
      *
      * @return the board
      */
@@ -60,9 +60,9 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for Player1's frame
+     * Accessor for player 1's frame.
      *
-     * @return Player 1's frame, null if player1 has not been initalised
+     * @return Player 1's frame, null if player1 has not been initialised
      */
     public Frame getPlayer1Frame() {
         if (player1.getName() != null) {
@@ -73,9 +73,9 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for Player2's frame
+     * Accessor for Player 2's frame.
      *
-     * @return Player2's frame, null if player2 has not been initalised
+     * @return Player2's frame, null if player2 has not been initialised
      */
     public Frame getPlayer2Frame() {
         if (player2.getName() != null) {
@@ -86,7 +86,7 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for player1
+     * Accessor for player1.
      *
      * @return player1
      */
@@ -95,7 +95,7 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for player2
+     * Accessor for player2.
      *
      * @return player2
      */
@@ -104,9 +104,9 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for the game's state
+     * Accessor for the game's state.
      *
-     * @return gameState
+     * @return the status code of the game at present
      */
     public UIConstants.STATUS_CODE getGameState() {
         return gameState;
@@ -366,7 +366,6 @@ public class Scrabble {
 
     // End game if six consecutive scoreless moves occur
     private void checkLastSixScores() {
-        // TODO remove printing scores later, added only for testing
         Scoring.printLastSixScores();
         if (Scoring.isLastSixZero()) {
             printToOutput("> Six consecutive scoreless turns have occurred! Game over.");

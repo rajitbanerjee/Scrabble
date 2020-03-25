@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * @team DarkMode
  */
 public class CommandHistoryView extends ScrollPane {
-    // Might be changed to a Queue/LinkedList
     private ArrayList<String> history = new ArrayList<>();
     private VBox vbox = new VBox(); // Placed inside the ScrollPane
 
@@ -27,7 +26,6 @@ public class CommandHistoryView extends ScrollPane {
         setId("history-view");
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
-
         // Allows user to pan using mouse
         setPannable(true);
         // Automatically scrolls the scrollbar to the bottom

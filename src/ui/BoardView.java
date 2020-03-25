@@ -39,11 +39,11 @@ public class BoardView extends GridPane {
         add(getEmptyUI(), 0, 0);
         // Draws the first row (Column Names)
         for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getColumnUI((char) ('A' + k)), k + 1, 0);
+            add(getFirstColumnUI((char) ('A' + k)), k + 1, 0);
         }
         // Draws the first column (Row Numbers)
         for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
-            add(getRowUI(k + 1), 0, k + 1);
+            add(getFirstRowUI(k + 1), 0, k + 1);
         }
         // Draws the rest of the board
         for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
@@ -93,12 +93,12 @@ public class BoardView extends GridPane {
     }
 
     /**
-     * Generates a node for to represent a square from the first column of the board
+     * Generates a node for to represent a square from the first column of the board.
      *
      * @param ch the letter of the square to be displayed in the node
-     * @return square StackPane containing a character(ch)
+     * @return the node representing the required square
      */
-    public Node getColumnUI(char ch) {
+    public Node getFirstColumnUI(char ch) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setId("square-blank");
@@ -112,9 +112,9 @@ public class BoardView extends GridPane {
      * Generates a node to represent a square from the first column of the board.
      *
      * @param i the index of the square to be displayed in the node
-     * @return square StackPane containing an index(i)
+     * @return the node representing the required square
      */
-    public Node getRowUI(int i) {
+    public Node getFirstRowUI(int i) {
         StackPane pane = new StackPane();
         Rectangle rect = new Rectangle(squareSize, squareSize);
         rect.setId("square-blank");
@@ -127,7 +127,7 @@ public class BoardView extends GridPane {
     /**
      * Generates a node to represent an empty square on the board.
      *
-     * @return square Stackpane
+     * @return node representing empty square
      */
     public Node getEmptyUI() {
         StackPane pane = new StackPane();

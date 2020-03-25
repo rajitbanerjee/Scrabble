@@ -69,16 +69,16 @@ public class Tile {
     }
 
     /**
-     * Accessor for the points associated to a tile
+     * Accessor for the points associated with a tile.
      *
-     * @return points integer
+     * @return points associated with a tile
      */
     public int getPoints() {
         return points;
     }
 
     /**
-     * Setter for tile's associated points
+     * Setter for tile's associated points.
      *
      * @param points assigned to each type of tile
      * @throws IllegalArgumentException if points are negative or ore than 10

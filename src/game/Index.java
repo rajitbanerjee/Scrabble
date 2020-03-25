@@ -19,7 +19,7 @@ public class Index {
     }
 
     /**
-     * Accessor for row
+     * Accessor for row.
      *
      * @return row
      */
@@ -28,16 +28,16 @@ public class Index {
     }
 
     /**
-     * Setter for row
+     * Setter for row.
      *
-     * @param row integer 1-15
+     * @param row integer 0 - 14
      */
     public void setRow(int row) {
         this.row = row;
     }
 
     /**
-     * Accessor for column
+     * Accessor for column.
      *
      * @return column
      */
@@ -46,19 +46,19 @@ public class Index {
     }
 
     /**
-     * Setter for column
+     * Setter for column.
      *
-     * @param column integer 1 - 15
+     * @param column integer 0 - 14
      */
     public void setColumn(int column) {
         this.column = column;
     }
 
     /**
-     * Checks if object is an instance of Index
+     * Index equality checker.
      *
-     * @param obj to be compared to Index
-     * @return true if object is an index of Index
+     * @param obj to be compared to calling Index object
+     * @return {@code true} if two Index objects are equal
      */
     @Override
     public boolean equals(Object obj) {

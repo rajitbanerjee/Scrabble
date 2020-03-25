@@ -189,7 +189,9 @@ public class Scoring {
         return score;
     }
 
-    // TODO remove this later?
+    /**
+     * Display the last six scores of the game.
+     */
     public static void printLastSixScores() {
         Scrabble.printToOutput("> Last six scores: " + lastSixScores.toString());
     }

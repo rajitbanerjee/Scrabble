@@ -33,9 +33,9 @@ public class Square {
     }
 
     /**
-     * Accessor for multiplier
+     * Accessor for multiplier.
      *
-     * @return GameConstants.MULTIPLIER mulitplier
+     * @return GameConstants.MULTIPLIER multiplier
      */
     public GameConstants.MULTIPLIER getMultiplier() {
         return multiplier;
