@@ -57,8 +57,8 @@
 
 #buttons-view {
 	-fx-spacing: 30;
-    -fx-padding: 10, 10, 10, 10;
-    -fx-alignment: center;
+	-fx-padding: 10, 10, 10, 10;
+	-fx-alignment: center;
 }
 
 #cli-view {
@@ -92,8 +92,8 @@
 
 #options-view {
 	/* Options view pref height is 610 (scene height) * 0.25 */
-    -fx-pref-height: 152.5;
-    -fx-alignment: center;
+	-fx-pref-height: 152.5;
+	-fx-alignment: center;
 }
 
 #options-view-separator {
@@ -134,7 +134,7 @@
 	-fx-min-height: 35.266, 35.266;
 	-fx-max-height: 35.266, 35.266;
 	-fx-padding: 6, 6, 6, 6;
-    -fx-hgap: 3;
-    -fx-vgap: 3;
+	-fx-hgap: 3;
+	-fx-vgap: 3;
 	-fx-alignment: center;
 }

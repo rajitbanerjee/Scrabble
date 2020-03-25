@@ -76,6 +76,7 @@ public class PopupView {
 
     private static void displayScrabbleRules() {
         Stage window = new Stage();
+        window.setTitle("Wikipedia: Scrabble");
         window.initModality(Modality.APPLICATION_MODAL);
         final WebView browser = new WebView();
         final WebEngine webEngine = browser.getEngine();

@@ -146,11 +146,11 @@
 }
 
 #square-triple-ws {
-	-fx-background-color: #962d47;
+	-fx-background-color: #db1647;
 }
 
 #square-with-tile {
-	-fx-background-color: #ffffe0;
+	-fx-background-color: #ffc401;
 	/* -fx-background-radius: 5, 5, 0, 0; */
 	-fx-min-height: 35.266, 35.266;
 	-fx-max-height: 35.266, 35.266;
