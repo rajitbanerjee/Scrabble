@@ -142,7 +142,6 @@ public class GameController {
                     game.getGameState() == P2_NAME) {
                 PopupView.displayHelpPopup();
             } else {
-                PopupView.displayHelpPopup();
                 updateGame("HELP");
             }
         });
