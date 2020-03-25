@@ -31,11 +31,11 @@ public class CommandHistoryView extends ScrollPane {
         setPrefHeight(UIConstants.getSceneHeight() * 0.75);
         setPadding(new Insets(5));
         setStyle("-fx-background-color:transparent;");
-        setHbarPolicy(ScrollBarPolicy.NEVER);
+        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
-        // allows user to pan using mouse
+        // Allows user to pan using mouse
         setPannable(true);
-        // automatically scrolls the scrollbar to the bottom
+        // Automatically scrolls the scrollbar to the bottom
         vvalueProperty().bind(vbox.heightProperty());
         setContent(vbox);
     }
