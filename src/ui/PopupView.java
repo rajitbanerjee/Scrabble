@@ -57,7 +57,7 @@ public class PopupView {
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
-                "(Quick Tip: Up and Down arrows keys allow you to navigate previous commands)\n";
+                "(Quick tip: Up and Down arrow keys allow you to navigate previous commands.)\n";
         Label text = new Label(help);
 
         Hyperlink link = new Hyperlink();
@@ -69,7 +69,6 @@ public class PopupView {
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(text, link, button);
-
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 750, 300);
         scene.getStylesheets().add(UIConstants.stylesheet);
@@ -117,7 +116,7 @@ public class PopupView {
     }
 
     /**
-     * Displays a quit popup.
+     * Displays final scores, declares winner and exits game.
      *
      * @param player1 Scrabble player 1
      * @param player2 Scrabble player 2
