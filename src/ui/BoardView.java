@@ -88,7 +88,7 @@ public class BoardView extends GridPane {
         } else {
             Text points = new Text(Integer.toString((square.getTile().getPoints())));
             points.setId("tile-points");
-            return new TileView(text, points);
+            return new TileView(text, points, false);
         }
     }
 

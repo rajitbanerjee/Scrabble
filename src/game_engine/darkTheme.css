@@ -148,7 +148,16 @@
 	-fx-background-color: #db1647;
 }
 
-#square-with-tile {
+#tile-on-board {
+	-fx-background-color: #ffc401;
+	-fx-min-height: 35, 35;
+	-fx-max-height: 35, 35;
+	-fx-hgap: 3;
+	-fx-vgap: 3;
+	-fx-alignment: center;
+}
+
+#tile-in-frame {
 	-fx-background-color: #ffc401;
 	-fx-min-height: 35, 35;
 	-fx-max-height: 35, 35;

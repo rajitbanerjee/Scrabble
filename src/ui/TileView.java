@@ -12,9 +12,13 @@ import javafx.scene.text.Text;
  * Team 15: DarkMode
  */
 public class TileView extends GridPane {
-    public TileView(Text type, Text points) {
+    public TileView(Text type, Text points, boolean inFrame) {
         super();
-        setId("square-with-tile");
+        if (inFrame) {
+            setId("tile-in-frame");
+        } else {
+            setId("tile-on-board");
+        }
         add(type, 1, 1);
         add(points, 2, 2);
     }

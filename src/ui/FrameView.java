@@ -33,7 +33,7 @@ public class FrameView extends GridPane {
                 points = new Text(Integer.toString((frame.getTile(i).getPoints())));
             }
             points.setId("tile-points");
-            TileView tile = new TileView(text, points);
+            TileView tile = new TileView(text, points, true);
             add(tile, i, 1);
         }
     }
