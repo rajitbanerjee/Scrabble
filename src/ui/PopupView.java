@@ -56,7 +56,8 @@ public class PopupView {
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
-                "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n";
+                "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
+                "(Quick Tip: Up and Down arrows keys allow you to navigate previous commands)\n";
         Label text = new Label(help);
 
         Hyperlink link = new Hyperlink();
