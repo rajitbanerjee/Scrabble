@@ -41,7 +41,7 @@ public class Main extends Application {
 
         // Set up scene
         Scene scene = new Scene(gameView, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
-        scene.getStylesheets().add("game_engine/darktheme.css");
+        scene.getStylesheets().add(UIConstants.stylesheet);
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
 

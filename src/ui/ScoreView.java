@@ -51,7 +51,7 @@ public class ScoreView extends TextFlow {
     }
 
     /**
-     * Checks if names are initalised.
+     * Checks if names are initialised.
      *
      * @return true if names are initialised.
      */

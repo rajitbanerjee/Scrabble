@@ -1,6 +1,5 @@
 package ui;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -21,9 +20,8 @@ public class CommandHistoryView extends ScrollPane {
 
     public CommandHistoryView() {
         super();
-        vbox.setId("history-view-box");
-        vbox.setAlignment(Pos.BOTTOM_LEFT);
         setId("history-view");
+        vbox.setId("history-view-text");
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
         // Allows user to pan using mouse

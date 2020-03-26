@@ -1,25 +1,19 @@
 .root {
-	-fx-base: #1f1f1f;
-	-fx-accent: white;
-	-fx-focus-color: -fx-accent;
-	-fx-background: derive(-fx-base, 20%);
-	-fx-control-inner-background: derive(-fx-base, 50%);
-
 	-fx-font-size: 10pt;
-	-fx-font-color: white;
 	-fx-font-family: Verdana;
+	-fx-accent: #1e74c6;
 }
-/*****************************************************************************/
-/*CLI text field*/
+
+/* Styles text entered into the CLI textField */
 .text-input {
 	-fx-font-size: 10pt;
-	-fx-text-fill: -fx-accent;
+	-fx-text-fill: #1e74c6;
 	-fx-highlight-fill: derive(-fx-control-inner-background, -20%);
 	-fx-highlight-text-fill: #c7001e;
-	-fx-prompt-text-fill: derive(-fx-control-inner-background, 100%);
+	-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
 	-fx-background-color: linear-gradient(
 			to bottom,
-			derive(-fx-base, -10%),
+			derive(-fx-text-box-border, -10%),
 			-fx-text-box-border
 		),
 		linear-gradient(
@@ -32,11 +26,12 @@
 	-fx-cursor: text;
 	-fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
 }
+
 /* Styles the text field when it is in focus */
 .text-input:focused {
 	-fx-font-size: 10pt;
 	-fx-highlight-fill: -fx-accent;
-	-fx-highlight-text-fill: -fx-base;
+	-fx-highlight-text-fill: white;
 	-fx-background-color: -fx-focus-color, -fx-control-inner-background,
 		-fx-faint-focus-color,
 		linear-gradient(
@@ -46,12 +41,10 @@
 		);
 	-fx-background-insets: -0.2, 1, -1.4, 3;
 	-fx-background-radius: 3, 2, 4, 0;
-	-fx-border-color: transparent;
 	-fx-prompt-text-fill: transparent;
 }
 /*****************************************************************************/
 .button {
-	-fx-background-color: derive(-fx-base, 10%);
 	-fx-background-radius: 15;
 }
 .button:focused {
@@ -64,14 +57,9 @@
 #tile-points {
 	-fx-font-size: 6pt;
 }
-
-#player-scores {
-	-fx-font-size: 10pt;
-	-fx-fill: white;
-}
 /*****************************************************************************/
 #board-view {
-	-fx-alignment: top_left;
+	-fx-alignment: center;
 	-fx-hgap: 3;
 	-fx-vgap: 3;
 }
@@ -83,24 +71,22 @@
 }
 
 #cli-view {
-	/* CLI view pref height = scene height* 0.75 */
 	-fx-pref-height: 450;
 }
 
 #history-view {
-	/* Pref height is scene height * 0.75 */
-	-fx-pref-height: 450;
+	-fx-pref-height: 430;
 	-fx-padding: 5, 5, 5, 5;
 	-fx-background-color: transparent;
 }
 
-#history-view-box {
-	/* history-view height - 20 */
-	-fx-pref-height: 450;
+#history-view-text {
+	-fx-pref-height: 430;
+	-fx-alignment: bottom_left;
 }
 
 #input-view {
-	/* input-view min width is scene width - scene heigtht  */
+	-fx-pref-height: 20;
 	-fx-pref-width: 600;
 }
 
@@ -112,7 +98,6 @@
 }
 
 #options-view {
-	/* Options view pref height is (scene height) * 0.25 */
 	-fx-pref-height: 155;
 	-fx-alignment: center;
 }
@@ -128,33 +113,32 @@
 /*****************************************************************************/
 /* Square fill and background colours */
 #square-blank {
-	-fx-fill: derive(-fx-base, 40%);
+	-fx-fill: #f8f8ff;
 }
 
 #square-double-ws {
-	-fx-background-color: #ff6188;
+	-fx-background-color: #ffb6c1;
 }
 
 #square-double-ls {
-	-fx-background-color: #507eb3;
+	-fx-background-color: #add8e6;
 }
 #square-normal {
-	-fx-background-color: derive(-fx-base, 30%);
+	-fx-background-color: #f8f8ff;
 }
 
 #square-triple-ls {
-	-fx-background-color: #164c6e;
+	-fx-background-color: #5f9ea0;
 }
 
 #square-triple-ws {
-	-fx-background-color: #db1647;
+	-fx-background-color: #cd5c5c;
 }
 
 #square-with-tile {
-	-fx-background-color: #ffc401;
-	/* -fx-background-radius: 5, 5, 0, 0; */
-	-fx-min-height: 34.688, 34.688;
-	-fx-max-height: 34.688, 34.688;
+	-fx-background-color: #ffffe0;
+	-fx-min-height: 35, 35;
+	-fx-max-height: 35, 35;
 	-fx-padding: 6, 6, 6, 6;
 	-fx-hgap: 3;
 	-fx-vgap: 3;
