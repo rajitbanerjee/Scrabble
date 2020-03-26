@@ -194,7 +194,6 @@ public class Scrabble {
     private void askForMove(Player player) {
         printDashes();
         printToOutput(String.format("> %s, it's your turn!", player.getName()));
-        printToOutput(player.getFrame().toString());
         promptUser();
     }
 
