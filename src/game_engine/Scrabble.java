@@ -194,6 +194,7 @@ public class Scrabble {
     private void askForMove(Player player) {
         printDashes();
         printToOutput(String.format("> %s, it's your turn!", player.getName()));
+        printToOutput(player.getFrame().toString());
         promptUser();
     }
 
@@ -330,6 +331,9 @@ public class Scrabble {
             int row = index.getRow();
             int column = index.getColumn();
             Tile tile = board.getBoard()[row][column].getTile();
+            if (tile.getPoints() == 0) {
+                tile.setType('-');
+            }
             addToPool.append(tile.getType());
             frame.getFrame().remove(i);
             frame.getFrame().add(i, tile);
