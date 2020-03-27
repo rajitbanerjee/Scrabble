@@ -67,8 +67,29 @@ public class GameController {
                         inputView.setText(historyView.getNLastCommand(nLastCommand));
                     }
                 }
+            } else if (keyEvent.getCode() == KeyCode.CONTROL) {
+                // Only start autocomplete if game has started and input is not empty
+                if ((game.getGameState() == P1_TURN || game.getGameState() == P2_TURN) &&
+                        !inputView.getText().trim().isEmpty()) {
+                    inputView.setText(getAutoCompletedText(inputView.getText()));
+                    inputView.end();
+                }
             }
         });
+    }
+
+    // Returns the original phrase if no matches
+    private String getAutoCompletedText(String phrase) {
+        String prefix = phrase.toUpperCase().trim();
+        // Array of supported commands
+        String[] supportedCommands = {"QUIT", "HELP", "CHALLENGE", "PASS"};
+        for (String s : supportedCommands) {
+            if (s.startsWith(prefix)) {
+                return s;
+            }
+        }
+        // If no matches return original phrase
+        return phrase;
     }
 
     // Corrects the variable nLastCommand
