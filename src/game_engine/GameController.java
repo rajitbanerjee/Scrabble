@@ -1,5 +1,6 @@
 package game_engine;
 
+import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import ui.*;
 
@@ -45,21 +46,26 @@ public class GameController {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 updateGame(inputView.getText());
                 historyView.addCommand(inputView.getText());
-                nLastCommand = 1;
+                nLastCommand = 0;
                 cliView.clearInputView();
             } else if (keyEvent.getCode() == KeyCode.UP) {
                 if (historyView.getHistorySize() != 0) {
+                    nLastCommand++;
                     correctNLast();
                     inputView.setText(historyView.getNLastCommand(nLastCommand));
-                    nLastCommand++;
+                    Platform.runLater(inputView::end);
                 }
             } else if (keyEvent.getCode() == KeyCode.DOWN) {
                 if (nLastCommand == 0) {
                     cliView.clearInputView();
                 } else if (historyView.getHistorySize() != 0) {
-                    correctNLast();
-                    inputView.setText(historyView.getNLastCommand(nLastCommand));
                     nLastCommand--;
+                    if (nLastCommand == 0) {
+                        inputView.setText("");
+                    } else {
+                        correctNLast();
+                        inputView.setText(historyView.getNLastCommand(nLastCommand));
+                    }
                 }
             }
         });
