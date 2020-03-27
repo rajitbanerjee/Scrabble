@@ -57,7 +57,7 @@ public class PopupView {
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
-                "(Quick tip: Up and Down keys allows past command navigation, CTRL key allows autocompletion.)\n";
+                "(Quick tip: Up and Down keys allow past command navigation, CTRL key allows autocompletion.)\n";
         Label text = new Label(help);
 
         Hyperlink link = new Hyperlink();
