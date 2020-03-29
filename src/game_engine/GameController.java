@@ -82,7 +82,7 @@ public class GameController {
     private String getAutoCompletedText(String phrase) {
         String prefix = phrase.toUpperCase().trim();
         // Array of supported commands
-        String[] supportedCommands = {"QUIT", "HELP", "CHALLENGE", "PASS"};
+        String[] supportedCommands = {"HELP", "PASS", "CHALLENGE", "QUIT", "RESTART"};
         for (String s : supportedCommands) {
             if (s.startsWith(prefix)) {
                 return s;
@@ -116,22 +116,27 @@ public class GameController {
                 if (updateBoard) {
                     boardView.update(game.getBoard());
                 }
+                boolean arePlayersReady = game.arePlayersReady();
                 // Set the players' names
-                if (!scoreView.areNamesInitialised() && game.getGameState() != P1_NAME
+                if (arePlayersReady && game.getGameState() != P1_NAME
                         && game.getGameState() != P2_NAME) {
                     scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
                 }
-                // Update the frame and score display
-                if (game.getGameState() == P1_TURN) {
-                    scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
-                    frameView.update(game.getPlayer1Frame());
-                } else if (game.getGameState() != P2_NAME) {
-                    scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
-                    frameView.update(game.getPlayer2Frame());
+
+                if (!arePlayersReady) {
+                    // Remove score and frame views when game has been reset
+                    scoreView.remove();
+                    frameView.remove();
+                } else {
+                    // Update the frame and score display
+                    if (game.getGameState() == P1_TURN) {
+                        scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
+                        frameView.update(game.getPlayer1().getFrame());
+                    } else if (game.getGameState() != P2_NAME) {
+                        scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
+                        frameView.update(game.getPlayer2().getFrame());
+                    }
                 }
-            } catch (NullPointerException e) {
-                scoreView.reset();
-                frameView.reset();
             } catch (RuntimeException e) {
                 System.exit(-1);
             }

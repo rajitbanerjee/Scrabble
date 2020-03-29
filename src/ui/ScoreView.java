@@ -14,19 +14,16 @@ import javafx.scene.text.TextFlow;
 public class ScoreView extends TextFlow {
     private String playerOneName;
     private String playerTwoName;
-    private boolean namesInitialised;
 
     public ScoreView() {
         super();
         setId("score-view");
-        namesInitialised = false;
     }
 
     /**
-     * Resets the ScoreView.
+     * Removes the ScoreView.
      */
-    public void reset() {
-        namesInitialised = false;
+    public void remove() {
         getChildren().clear();
     }
 
@@ -55,20 +52,6 @@ public class ScoreView extends TextFlow {
     public void setNames(String playerOneName, String playerTwoName) {
         this.playerOneName = playerOneName;
         this.playerTwoName = playerTwoName;
-        namesInitialised = true;
-    }
-
-    /**
-     * Checks if names are initialised.
-     *
-     * @return true if names are initialised.
-     */
-    public boolean areNamesInitialised() {
-        return namesInitialised;
-    }
-
-    public void setNamesInitialised(boolean value) {
-        namesInitialised = value;
     }
 
 }

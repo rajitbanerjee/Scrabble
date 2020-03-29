@@ -80,29 +80,12 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for player 1's frame.
+     * Check if both players have entered their names.
      *
-     * @return Player 1's frame, null if player1 has not been initialised
+     * @return {@code true} if both players have names.
      */
-    public Frame getPlayer1Frame() {
-        if (player1.getName() != null) {
-            return player1.getFrame();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Accessor for Player 2's frame.
-     *
-     * @return Player2's frame, null if player2 has not been initialised
-     */
-    public Frame getPlayer2Frame() {
-        if (player2.getName() != null) {
-            return player2.getFrame();
-        } else {
-            return null;
-        }
+    public boolean arePlayersReady() {
+        return player1.getName() != null && player2.getName() != null;
     }
 
     /**
