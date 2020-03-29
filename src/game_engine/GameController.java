@@ -116,13 +116,13 @@ public class GameController {
                 if (updateBoard) {
                     boardView.update(game.getBoard());
                 }
+
                 boolean arePlayersReady = game.arePlayersReady();
-                // Set the players' names
                 if (arePlayersReady && game.getGameState() != P1_NAME
                         && game.getGameState() != P2_NAME) {
+                    // Set the players' names
                     scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
                 }
-
                 if (!arePlayersReady) {
                     // Remove score and frame views when game has been reset
                     scoreView.remove();
@@ -144,7 +144,7 @@ public class GameController {
     }
 
     /**
-     * Sets actions for buttons: PASS, CHALLENGE, QUIT, HELP
+     * Sets actions for buttons: PASS, CHALLENGE, QUIT, HELP, RESTART
      */
     public void setButtons() {
         buttonsView.getPassButton().setOnAction(event -> {
