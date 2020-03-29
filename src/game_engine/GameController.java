@@ -109,26 +109,23 @@ public class GameController {
      */
     public void updateGame(String command) {
         if (game.getGameState() != GAME_OVER) {
-            Scrabble.printToOutput(command);
             try {
                 boolean updateBoard = game.processCommand(command);
                 // Update the board display
                 if (updateBoard) {
                     boardView.update(game.getBoard());
                 }
-
+                // Update the score and frame display
                 boolean arePlayersReady = game.arePlayersReady();
                 if (arePlayersReady && game.getGameState() != P1_NAME
                         && game.getGameState() != P2_NAME) {
-                    // Set the players' names
                     scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
                 }
                 if (!arePlayersReady) {
-                    // Remove score and frame views when game has been reset
+                    // Remove score and frame views when game has been restarted
                     scoreView.remove();
                     frameView.remove();
                 } else {
-                    // Update the frame and score display
                     if (game.getGameState() == P1_TURN) {
                         scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                         frameView.update(game.getPlayer1().getFrame());
@@ -179,14 +176,9 @@ public class GameController {
                 updateGame("HELP");
             }
         });
-        buttonsView.getRestartButton().setOnAction(event -> {
-            if (game.getGameState() == P1_NAME ||
-                    game.getGameState() == P2_NAME) {
-                PopupView.displayUnsupportedActionPopup();
-            } else {
-                updateGame("RESTART");
-            }
-        });
+        buttonsView.getRestartButton().setOnAction(event ->
+                updateGame("RESTART")
+        );
     }
 
 }

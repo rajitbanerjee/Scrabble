@@ -134,6 +134,17 @@ public class Scrabble {
      * @return {@code true} if the board needs to be updated after the command processing
      */
     public boolean processCommand(String command) {
+        // Process restart command
+        if (command.equalsIgnoreCase("RESTART")) {
+            boolean restart = PopupView.displayRestartPopup();
+            if (restart) {
+                resetGame();
+                Scoring.reset();
+            }
+            return false;
+        }
+        // Process other commands
+        Scrabble.printToOutput(command);
         switch (gameState) {
             case P1_NAME:
                 try {
@@ -172,13 +183,8 @@ public class Scrabble {
                     askForMove(player);
                     return true;
                 } else if (command.equalsIgnoreCase("RESTART")) {
-                    boolean doRestart = PopupView.displayRestartPopup();
-                    if (doRestart) {
-                        resetGame();
-                        Scoring.reset();
-                    } else {
-                        askForMove(player);
-                    }
+                    // Player initially asked for restart, but then chose "No"
+                    askForMove(player);
                     return true;
                 } else {
                     printDashes();
