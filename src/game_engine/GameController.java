@@ -41,8 +41,8 @@ public class GameController {
      */
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
+            CommandHistoryView historyView = CLIView.historyView;
             CommandInputView inputView = cliView.getInputView();
-            CommandHistoryView historyView = cliView.getHistoryView();
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 updateGame(inputView.getText());
                 historyView.addCommand(inputView.getText());
@@ -94,7 +94,7 @@ public class GameController {
 
     // Corrects the variable nLastCommand
     private void correctNLast() {
-        CommandHistoryView historyView = cliView.getHistoryView();
+        CommandHistoryView historyView = CLIView.historyView;
         if (nLastCommand > historyView.getHistorySize()) {
             nLastCommand = historyView.getHistorySize();
         } else if (nLastCommand < 1) {
@@ -114,7 +114,7 @@ public class GameController {
                 boolean updateBoard = game.processCommand(command);
                 // Update the board display
                 if (updateBoard) {
-                    boardView.update();
+                    boardView.update(game.getBoard());
                 }
                 // Set the players' names
                 if (!scoreView.areNamesInitialised() && game.getGameState() != P1_NAME
@@ -129,6 +129,9 @@ public class GameController {
                     scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                     frameView.update(game.getPlayer2Frame());
                 }
+            } catch (NullPointerException e) {
+                scoreView.reset();
+                frameView.reset();
             } catch (RuntimeException e) {
                 System.exit(-1);
             }
@@ -165,12 +168,20 @@ public class GameController {
             }
         });
         buttonsView.getHelpButton().setOnAction(event -> {
-            if (game.getGameState() == P1_NAME ||
-                    game.getGameState() == P2_NAME) {
-                PopupView.displayHelpPopup();
-            } else {
+            PopupView.displayHelpPopup();
+            if (game.getGameState() != P1_NAME &&
+                    game.getGameState() != P2_NAME) {
                 updateGame("HELP");
             }
         });
+        buttonsView.getRestartButton().setOnAction(event -> {
+            if (game.getGameState() == P1_NAME ||
+                    game.getGameState() == P2_NAME) {
+                PopupView.displayUnsupportedActionPopup();
+            } else {
+                updateGame("RESTART");
+            }
+        });
     }
+
 }

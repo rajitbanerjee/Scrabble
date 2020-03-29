@@ -24,6 +24,16 @@ public class Scoring {
     private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
     /**
+     * Resets the game scoring.
+     */
+    public static void reset() {
+        challengeIndices.clear();
+        wordsFormed.clear();
+        lastCoveredIndices.clear();
+        lastSixScores.clear();
+    }
+
+    /**
      * Performs the operations required during a pass move.
      *
      * @param removeLastScore indicates whether the last score

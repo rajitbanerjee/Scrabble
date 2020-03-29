@@ -23,6 +23,14 @@ public class ScoreView extends TextFlow {
     }
 
     /**
+     * Resets the ScoreView.
+     */
+    public void reset() {
+        namesInitialised = false;
+        getChildren().clear();
+    }
+
+    /**
      * Updates the score display.
      *
      * @param score1 player1's score
@@ -57,6 +65,10 @@ public class ScoreView extends TextFlow {
      */
     public boolean areNamesInitialised() {
         return namesInitialised;
+    }
+
+    public void setNamesInitialised(boolean value) {
+        namesInitialised = value;
     }
 
 }

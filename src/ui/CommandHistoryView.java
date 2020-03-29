@@ -41,7 +41,6 @@ public class CommandHistoryView extends ScrollPane {
         vbox.getChildren().add(label);
     }
 
-
     /**
      * Accesses the command entered n commands ago.
      *
@@ -62,10 +61,20 @@ public class CommandHistoryView extends ScrollPane {
     }
 
     /**
+     * Gets the size of the command history.
+     *
      * @return the size of history.
      */
     public int getHistorySize() {
         return history.size();
+    }
+
+    /**
+     * Clears the command history.
+     */
+    public void clear() {
+        history.clear();
+        vbox.getChildren().clear();
     }
 
 }

@@ -16,10 +16,11 @@ public class ButtonsView extends HBox {
     private Button pass = new Button("Pass");
     private Button challenge = new Button("Challenge");
     private Button quit = new Button("Quit");
+    private Button restart = new Button("Restart");
 
     public ButtonsView() {
         setId("buttons-view");
-        getChildren().addAll(help, pass, challenge, quit);
+        getChildren().addAll(help, pass, challenge, quit, restart);
     }
 
     /**
@@ -56,6 +57,15 @@ public class ButtonsView extends HBox {
      */
     public Button getHelpButton() {
         return help;
+    }
+
+    /**
+     * Accessor for restart.
+     *
+     * @return restart button
+     */
+    public Button getRestartButton() {
+        return restart;
     }
 
 }

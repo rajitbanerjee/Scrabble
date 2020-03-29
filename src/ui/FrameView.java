@@ -20,6 +20,13 @@ public class FrameView extends GridPane {
     }
 
     /**
+     * Resets the FrameView.
+     */
+    public void reset() {
+        getChildren().clear();
+    }
+
+    /**
      * Updates the frame being displayed.
      *
      * @param frame the Frame to be displayed (frame currently in use)

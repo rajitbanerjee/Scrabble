@@ -7,12 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Pop-up window on button click.
@@ -28,14 +31,14 @@ public class PopupView {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invalid!");
 
-        Label label = new Label("Cannot pass or challenge now!");
+        Label label = new Label("Cannot pass, challenge or restart now!");
         Button button = new Button("Close");
         button.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 250, 150);
+        Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.showAndWait();
@@ -54,6 +57,7 @@ public class PopupView {
                 "QUIT:\t\t\t\tExits the game.\n" +
                 "EXCHANGE <letters>:\tExchange letters with random ones from the pool.\n" +
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
+                "RESTART:\t\t\tStarts a new game of Scrabble.\n" +
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
@@ -70,7 +74,7 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(text, link, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 750, 300);
+        Scene scene = new Scene(layout, 750, 350);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.showAndWait();
@@ -101,6 +105,7 @@ public class PopupView {
      */
     public static void displayQuitPopup() {
         Stage window = new Stage();
+        window.setTitle("Quit");
         window.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("Thanks for playing!");
         Button button = new Button("Close");
@@ -123,8 +128,8 @@ public class PopupView {
      */
     public static void displayQuitPopup(Player player1, Player player2) {
         Stage window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Game over!");
+        window.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("Thanks for playing!\n");
         Label p1Score = new Label(String.format("%s's score: %d", player1.getName(), player1.getScore()));
         Label p2Score = new Label(String.format("%s's score: %d", player2.getName(), player2.getScore()));
@@ -146,6 +151,38 @@ public class PopupView {
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    /**
+     * Displays the restart popup.
+     */
+    public static boolean displayRestartPopup() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        AtomicBoolean doRestart = new AtomicBoolean();
+        Label label = new Label("Do you want to restart the game?");
+        Button yes = new Button("Yes");
+        yes.setOnAction(event -> {
+            doRestart.set(true);
+            window.close();
+        });
+        Button no = new Button("No");
+        no.setOnAction(event -> {
+            doRestart.set(false);
+            window.close();
+        });
+
+        HBox buttons = new HBox(10);
+        buttons.getChildren().addAll(yes, no);
+        buttons.setAlignment(Pos.CENTER);
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label, buttons);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout, 250, 150);
+        scene.getStylesheets().add(UIConstants.stylesheet);
+        window.setScene(scene);
+        window.showAndWait();
+        return doRestart.get();
     }
 
 }

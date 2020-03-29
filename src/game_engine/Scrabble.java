@@ -23,18 +23,18 @@ import static constants.UIConstants.STATUS_CODE.*;
  * Team 15: DarkMode
  */
 public class Scrabble {
-    private Pool pool = new Pool();
-    private Board board = new Board();
-    private Player player1 = new Player(new Frame(pool));
-    private Player player2 = new Player(new Frame(pool));
-    private int opponentScore = 0;
-    private UIConstants.STATUS_CODE gameState = P1_NAME;
-    private boolean isChallengeSuccessful = false;
+    private Pool pool;
+    private Board board;
+    private Player player1;
+    private Player player2;
+    private int opponentScore;
+    private UIConstants.STATUS_CODE gameState;
+    private boolean isChallengeSuccessful;
     private HashSet<String> dictionary;
 
     public Scrabble() {
+        resetGame();
         fillDictionary();
-        printWelcome();
     }
 
     /**
@@ -48,6 +48,26 @@ public class Scrabble {
         } catch (Error ignored) {
             // Ignore printing errors that occur in unit testing
         }
+    }
+
+    // Restarts the game
+    private void resetGame() {
+        pool = new Pool();
+        board = new Board();
+        player1 = new Player(new Frame(pool));
+        player2 = new Player(new Frame(pool));
+        board.reset();
+        opponentScore = 0;
+        gameState = P1_NAME;
+        isChallengeSuccessful = false;
+        CLIView.clearHistoryView();
+        printWelcome();
+    }
+
+    // Display the welcome message
+    private void printWelcome() {
+        printToOutput("> Welcome to Scrabble by DarkMode.");
+        printToOutput("> Player #1, please enter your name: ");
     }
 
     /**
@@ -124,12 +144,6 @@ public class Scrabble {
         sc.close();
     }
 
-    // Display the welcome message
-    private void printWelcome() {
-        printToOutput("> Welcome to Scrabble by DarkMode.");
-        printToOutput("> Player #1, please enter your name: ");
-    }
-
     /**
      * Respond to the text input from the user.
      *
@@ -172,8 +186,16 @@ public class Scrabble {
                     }
                     return true;
                 } else if (command.equalsIgnoreCase("HELP")) {
-                    PopupView.displayHelpPopup();
                     askForMove(player);
+                    return true;
+                } else if (command.equalsIgnoreCase("RESTART")) {
+                    boolean doRestart = PopupView.displayRestartPopup();
+                    if (doRestart) {
+                        resetGame();
+                        Scoring.reset();
+                    } else {
+                        askForMove(player);
+                    }
                     return true;
                 } else {
                     printDashes();

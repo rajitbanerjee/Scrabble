@@ -21,6 +21,13 @@ public class CLIView extends VBox {
     }
 
     /**
+     * Clears the CommandHistoryView.
+     */
+    public static void clearHistoryView() {
+        historyView.clear();
+    }
+
+    /**
      * Accessor for CommandInputView.
      *
      * @return inputView
@@ -34,15 +41,6 @@ public class CLIView extends VBox {
      */
     public void clearInputView() {
         inputView.clear();
-    }
-
-    /**
-     * Accessor for CommandHistoryView.
-     *
-     * @return historyView
-     */
-    public CommandHistoryView getHistoryView() {
-        return historyView;
     }
 
 }

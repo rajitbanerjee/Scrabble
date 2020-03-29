@@ -21,19 +21,17 @@ import javafx.scene.text.Text;
  */
 public class BoardView extends GridPane {
     private double squareSize = UIConstants.SQUARE_SIZE;
-    private Board board;
 
     public BoardView(Board board) {
         super();
         setId("board-view");
-        this.board = board;
-        update();
+        update(board);
     }
 
     /**
      * Updates the board display.
      */
-    public void update() {
+    public void update(Board board) {
         Square[][] boardArray = board.getBoard();
         // Initialise top-left empty block
         add(getEmptyUI(), 0, 0);
