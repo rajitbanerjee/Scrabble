@@ -134,7 +134,7 @@ public class Scrabble {
      * @return {@code true} if the board needs to be updated after the command processing
      */
     public boolean processCommand(String command) {
-        // Process help and restart command
+        // Process help and restart commands
         if (command.equalsIgnoreCase("HELP")) {
             PopupView.displayHelpPopup();
             return false;

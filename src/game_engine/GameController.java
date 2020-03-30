@@ -172,13 +172,7 @@ public class GameController {
                 updateGame("QUIT");
             }
         });
-        buttonsView.getHelpButton().setOnAction(event -> {
-            PopupView.displayHelpPopup();
-            if (game.getGameState() != P1_NAME &&
-                    game.getGameState() != P2_NAME) {
-                updateGame("HELP");
-            }
-        });
+        buttonsView.getHelpButton().setOnAction(event -> updateGame("HELP"));
         buttonsView.getRestartButton().setOnAction(event -> updateGame("RESTART"));
         buttonsView.getThemeButton().setOnAction(event -> {
             UIConstants.switchTheme();
