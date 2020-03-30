@@ -31,7 +31,7 @@ public class PopupView {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invalid!");
 
-        Label label = new Label("Cannot pass, challenge or restart now!");
+        Label label = new Label("Cannot pass or challenge now!");
         Button button = new Button("Close");
         button.setOnAction(event -> window.close());
 
@@ -57,7 +57,8 @@ public class PopupView {
                 "QUIT:\t\t\t\tExits the game.\n" +
                 "EXCHANGE <letters>:\tExchange letters with random ones from the pool.\n" +
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
-                "RESTART:\t\t\tStarts a new game of Scrabble.\n" +
+                "RESTART:\t\t\t\tStarts a new game of Scrabble.\n" +
+                "SWITCH THEME:\t\tSwitches the display theme (dark/light).\n" +
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +

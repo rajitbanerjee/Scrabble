@@ -1,6 +1,8 @@
 package game_engine;
 
+import constants.UIConstants;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import ui.*;
 
@@ -21,17 +23,18 @@ public class GameController {
     private ButtonsView buttonsView;
     private BoardView boardView;
     private Scrabble game;
+    private Scene scene;
     private int nLastCommand;
 
-    public GameController(FrameView frameView, ScoreView scoreView,
-                          CLIView cliView, ButtonsView buttonsView,
-                          BoardView boardView, Scrabble game) {
+    public GameController(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,
+                          ScoreView scoreView, ButtonsView buttonsView, Scene scene) {
+        this.game = game;
+        this.cliView = cliView;
+        this.boardView = boardView;
         this.frameView = frameView;
         this.scoreView = scoreView;
-        this.cliView = cliView;
         this.buttonsView = buttonsView;
-        this.boardView = boardView;
-        this.game = game;
+        this.scene = scene;
         setListeners();
         setButtons();
     }
@@ -176,9 +179,12 @@ public class GameController {
                 updateGame("HELP");
             }
         });
-        buttonsView.getRestartButton().setOnAction(event ->
-                updateGame("RESTART")
-        );
+        buttonsView.getRestartButton().setOnAction(event -> updateGame("RESTART"));
+        buttonsView.getThemeButton().setOnAction(event -> {
+            UIConstants.switchTheme();
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(UIConstants.stylesheet);
+        });
     }
 
 }

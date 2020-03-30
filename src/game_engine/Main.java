@@ -26,25 +26,25 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         // Set up game and views
+        Scrabble game = new Scrabble();
+        CLIView cliView = new CLIView();
+        BoardView boardView = new BoardView();
         FrameView frameView = new FrameView();
         ScoreView scoreView = new ScoreView();
-        CLIView cliView = new CLIView();
         ButtonsView buttonsView = new ButtonsView();
-
-        Scrabble game = new Scrabble();
-        BoardView boardView = new BoardView(game.getBoard());
         OptionsView optionsView = new OptionsView(frameView, scoreView, buttonsView);
         GameView gameView = new GameView(cliView, boardView, optionsView);
-
-        // Set up game controller
-        new GameController(frameView, scoreView, cliView, buttonsView, boardView, game);
 
         // Set up scene
         Scene scene = new Scene(gameView, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
         scene.getStylesheets().add(UIConstants.stylesheet);
+
+        // Set up game controller
+        new GameController(game, cliView, boardView, frameView, scoreView, buttonsView, scene);
+
+        // Set up stage
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");
-
         stage.getIcons().add(new Image(Objects.requireNonNull(icon)));
         stage.setTitle("Scrabble by DarkMode.");
         stage.setScene(scene);

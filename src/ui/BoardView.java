@@ -22,10 +22,10 @@ import javafx.scene.text.Text;
 public class BoardView extends GridPane {
     private double squareSize = UIConstants.SQUARE_SIZE;
 
-    public BoardView(Board board) {
+    public BoardView() {
         super();
         setId("board-view");
-        update(board);
+        update(new Board());
     }
 
     /**
