@@ -41,6 +41,7 @@ public class PopupView {
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -78,6 +79,7 @@ public class PopupView {
         Scene scene = new Scene(layout, 750, 350);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -98,6 +100,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -115,9 +118,10 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 250, 150);
+        Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -148,9 +152,10 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, p1Score, p2Score, gameResult, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 250, 250);
+        Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
+        window.setResizable(false);
         window.showAndWait();
     }
 
@@ -159,6 +164,7 @@ public class PopupView {
      */
     public static boolean displayRestartPopup() {
         Stage window = new Stage();
+        window.setTitle("Restart");
         window.initModality(Modality.APPLICATION_MODAL);
         AtomicBoolean doRestart = new AtomicBoolean();
         Label label = new Label("Do you want to restart the game?");
@@ -179,10 +185,11 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, buttons);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 250, 150);
+        Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.showAndWait();
+        window.setResizable(false);
         return doRestart.get();
     }
 
