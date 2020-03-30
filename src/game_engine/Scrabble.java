@@ -134,8 +134,11 @@ public class Scrabble {
      * @return {@code true} if the board needs to be updated after the command processing
      */
     public boolean processCommand(String command) {
-        // Process restart command
-        if (command.equalsIgnoreCase("RESTART")) {
+        // Process help and restart command
+        if (command.equalsIgnoreCase("HELP")) {
+            PopupView.displayHelpPopup();
+            return false;
+        } else if (command.equalsIgnoreCase("RESTART")) {
             boolean restart = PopupView.displayRestartPopup();
             if (restart) {
                 resetGame();
@@ -179,9 +182,6 @@ public class Scrabble {
                         askForMove(opponent);
                     }
                     return true;
-                } else if (command.equalsIgnoreCase("HELP")) {
-                    askForMove(player);
-                    return true;
                 } else if (command.equalsIgnoreCase("RESTART")) {
                     // Player initially asked for restart, but then chose "No"
                     askForMove(player);
@@ -210,8 +210,7 @@ public class Scrabble {
 
     // Helper message
     private void promptUser() {
-        printToOutput("> Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
-        printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE/HELP: ");
+        printToOutput("> Enter your move (HELP for details): ");
     }
 
     // Check if a move is valid
