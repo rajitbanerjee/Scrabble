@@ -24,6 +24,42 @@ public class Player {
     }
 
     /**
+     * Check if two players' names are identical (not permitted).
+     *
+     * @param name1 player 1's name
+     * @param name2 player 2's name
+     * @throws IllegalArgumentException if the two names are identical.
+     */
+    public static void validateNames(String name1, String name2)
+            throws IllegalArgumentException {
+        if (name1.equalsIgnoreCase(name2)) {
+            throw new IllegalArgumentException("> Name taken! Please choose another name.");
+        }
+    }
+
+    /**
+     * Accessor method for the name.
+     *
+     * @return player name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Mutator method for the name.
+     *
+     * @param name player name
+     */
+    public void setName(String name) throws IllegalArgumentException {
+        if (name == null || name.trim().equals("")) {
+            throw new IllegalArgumentException("Player name cannot be null");
+        }
+        this.name = name.trim();
+    }
+
+
+    /**
      * Increases the player score by given value.
      *
      * @param value increment value
@@ -47,15 +83,6 @@ public class Player {
             throw new IllegalArgumentException("Decrement value must be positive!");
         }
         score -= value;
-    }
-
-    /**
-     * Resets the player information: empty name, zero score and remove frame.
-     */
-    public void reset() {
-        name = "";
-        score = 0;
-        frame = null;
     }
 
     /**
@@ -104,27 +131,6 @@ public class Player {
      */
     public void setFrame(Frame frame) {
         this.frame = frame;
-    }
-
-    /**
-     * Accessor method for the name.
-     *
-     * @return player name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Mutator method for the name.
-     *
-     * @param name player name
-     */
-    public void setName(String name) throws IllegalArgumentException {
-        if (name == null || name.trim().equals("")) {
-            throw new IllegalArgumentException("Player name cannot be null");
-        }
-        this.name = name.trim();
     }
 
     /**

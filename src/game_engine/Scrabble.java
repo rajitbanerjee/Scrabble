@@ -160,24 +160,32 @@ public class Scrabble {
                 return false;
             case P2_NAME:
                 try {
+                    Player.validateNames(player1.getName(), command);
                     player2.setName(command);
                     gameState = P1_TURN;
                     startGame();
                 } catch (IllegalArgumentException e) {
+                    printToOutput(e.getMessage());
                     printToOutput("> Player #2, please enter your name: ");
                 }
                 return false;
             default:
                 Player player = (gameState == P1_TURN ? player1 : player2);
                 Player opponent = (player.equals(player1) ? player2 : player1);
-                command = command.trim();
-                if (command.toUpperCase().lastIndexOf("NAME") == 0) {
-                    String newName = command.substring(5).trim();
-                    player.setName(newName);
-                    askForMove(player);
-                    return true;
+                // Process the NAME command (to change a player's name)
+                try {
+                    if (command.toUpperCase().startsWith("NAME")) {
+                        String newName = command.substring(5);
+                        Player.validateNames(opponent.getName(), newName);
+                        player.setName(newName);
+                        askForMove(player);
+                        return false;
+                    }
+                } catch (IllegalArgumentException e) {
+                    printToOutput(e.getMessage());
+                    return false;
                 }
-                command = command.toUpperCase();
+                // Process other commands
                 if (isValidMove(command, player.getFrame())) {
                     makeMove(command, player, player.getFrame(), opponent);
                     if (isChallengeSuccessful) {

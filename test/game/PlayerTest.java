@@ -93,14 +93,7 @@ class PlayerTest {
         if (playerA.getScore() != 0) {
             fail("Error: resetScore() does not work as expected.");
         }
-        // Tests reset()
-        playerA.setScore(100);
         Frame temp = playerA.getFrame();
-        playerA.reset();
-        if (playerA.getScore() != 0 || !playerA.getName().equals("")
-                || playerA.getFrame() != null) {
-            fail("Error: reset() does not work as expected.");
-        }
         // Tests getFrame() && setFrame()
         playerA.setFrame(temp);
         if (playerA.getFrame() == null) {

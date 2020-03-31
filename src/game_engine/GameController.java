@@ -113,7 +113,7 @@ public class GameController {
     public void updateGame(String command) {
         if (game.getGameState() != GAME_OVER) {
             try {
-                boolean updateBoard = game.processCommand(command);
+                boolean updateBoard = game.processCommand(command.trim());
                 // Update the board display
                 if (updateBoard) {
                     boardView.update(game.getBoard());
