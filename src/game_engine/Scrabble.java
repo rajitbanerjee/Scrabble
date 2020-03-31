@@ -170,7 +170,14 @@ public class Scrabble {
             default:
                 Player player = (gameState == P1_TURN ? player1 : player2);
                 Player opponent = (player.equals(player1) ? player2 : player1);
-                command = command.trim().toUpperCase();
+                command = command.trim();
+                if (command.toUpperCase().lastIndexOf("NAME") == 0) {
+                    String newName = command.substring(5).trim();
+                    player.setName(newName);
+                    askForMove(player);
+                    return true;
+                }
+                command = command.toUpperCase();
                 if (isValidMove(command, player.getFrame())) {
                     makeMove(command, player, player.getFrame(), opponent);
                     if (isChallengeSuccessful) {
