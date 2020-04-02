@@ -2,3 +2,6 @@
 *.iml
 /out/production
 /out/test
+.DS_Store
+out/.DS_Store
+out/artifacts/.DS_Store
