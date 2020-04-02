@@ -58,29 +58,29 @@ class PoolTest {
         for (int i = 0; i < 100; i++) {
             Tile t = pool.drawTile();
             if (!map.containsKey(t.getType()) || map.get(t.getType()) != t.getPoints()) {
-                fail("Error: Character " + t.getType() + " is invalid");
+                fail("Character " + t.getType() + " is invalid");
             } else {
                 correctTiles++;
             }
         }
         // Checks if Pool is empty
         if (!pool.isEmpty()) {
-            fail("Error: Pool size error.");
+            fail("Pool size error.");
         }
         try {
             pool.drawTile();
-            fail("Error: Pool is empty, cannot draw tile");
+            fail("Pool is empty, cannot draw tile");
         } catch (Exception ignored) {
             // test passed
         }
         pool.reset();
         // Tests resetPool() method
         if (pool.size() != 100) {
-            fail("Error: resetPool() does not work as expected.");
+            fail("resetPool() does not work as expected.");
         }
         // Checks if all 100 tiles are correct or not
         if (correctTiles != 100) {
-            fail("Error: Not all 100 tiles are correct.");
+            fail("Not all 100 tiles are correct.");
         }
     }
 

@@ -50,7 +50,7 @@ public class Scrabble {
         }
     }
 
-    // Restarts the game
+    // Resets the game
     private void resetGame() {
         pool = new Pool();
         board = new Board();
@@ -369,7 +369,7 @@ public class Scrabble {
         Scoring.wordsFormed.clear();
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
-        opponentScore = score; // current player is opponent for next player's move
+        opponentScore = score; // Current player is opponent for next player's move
         printToOutput("WORD(S) FORMED: " + Scoring.wordsFormed.toString());
         printToOutput("POINTS AWARDED: " + score);
         printDashes();

@@ -36,19 +36,19 @@ class FrameTest {
         // test empty pool exception
         try {
             new Frame(null);
-            fail("Error: Pool cannot be null.");
+            fail("Pool cannot be null.");
         } catch (Exception ignore) {
             // test passed
         }
 
         // test isEmpty()
         if (frame.isEmpty()) {
-            fail("Error: Frame should not be empty");
+            fail("Frame should not be empty");
         }
         // empty frame
         frame.getFrame().clear();
         if (!frame.isEmpty()) {
-            fail("Error: Frame should be empty");
+            fail("Frame should be empty");
         }
         // testing refillFrame()
         // draw tiles until pool is emptied
@@ -58,11 +58,11 @@ class FrameTest {
             frame.refillFrame();
             // check that no more than 7 tiles are removed
             if (tilesInPoolBefore - frame.getPool().size() > 7) {
-                fail("Error: No more than 7 tiles should be drawn from the pool");
+                fail("No more than 7 tiles should be drawn from the pool");
             }
             // check if tiles are still available in the pool
             if (frame.isEmpty() && frame.getPool().size() > 0) {
-                fail("Error: frame should not be empty");
+                fail("frame should not be empty");
             }
             frame.getFrame().clear();
         }
@@ -74,7 +74,7 @@ class FrameTest {
         for (int i = 0; i < frame.getFrame().size(); i++) {
             // check if each drawn tile is in the frame
             if (!frame.contains(frame.getFrame().get(i).getType())) {
-                fail("Error: letter is not found in frame");
+                fail("letter is not found in frame");
             }
         }
         // test removeLetter() with letters from the frame
@@ -84,7 +84,7 @@ class FrameTest {
         }
         if (!frame.isEmpty()) {
             // check that all elements have been removed correctly
-            fail("Error: The frame should be empty");
+            fail("The frame should be empty");
         }
         // test removeLetter() with inputs not inside the frame
         try {
@@ -94,7 +94,7 @@ class FrameTest {
             for (char letter : letters) {
                 frame.remove(letter);
             }
-            fail("Error: frame cannot remove letters it does not contain");
+            fail("frame cannot remove letters it does not contain");
         } catch (Exception ignored) {
             // test passes
         }
