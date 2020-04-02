@@ -23,18 +23,18 @@ import static constants.UIConstants.STATUS_CODE.*;
  * Team 15: DarkMode
  */
 public class Scrabble {
-    private Pool pool = new Pool();
-    private Board board = new Board();
-    private Player player1 = new Player(new Frame(pool));
-    private Player player2 = new Player(new Frame(pool));
-    private int opponentScore = 0;
-    private UIConstants.STATUS_CODE gameState = P1_NAME;
-    private boolean isChallengeSuccessful = false;
+    private Pool pool;
+    private Board board;
+    private Player player1;
+    private Player player2;
+    private int opponentScore;
+    private UIConstants.STATUS_CODE gameState;
+    private boolean isChallengeSuccessful;
     private HashSet<String> dictionary;
 
     public Scrabble() {
+        resetGame();
         fillDictionary();
-        printWelcome();
     }
 
     /**
@@ -50,6 +50,26 @@ public class Scrabble {
         }
     }
 
+    // Restarts the game
+    private void resetGame() {
+        pool = new Pool();
+        board = new Board();
+        player1 = new Player(new Frame(pool));
+        player2 = new Player(new Frame(pool));
+        board.reset();
+        opponentScore = 0;
+        gameState = P1_NAME;
+        isChallengeSuccessful = false;
+        CLIView.clearHistoryView();
+        printWelcome();
+    }
+
+    // Display the welcome message
+    private void printWelcome() {
+        printToOutput("> Welcome to Scrabble by DarkMode.");
+        printToOutput("> Player #1, please enter your name: ");
+    }
+
     /**
      * Accessor for board.
      *
@@ -60,29 +80,12 @@ public class Scrabble {
     }
 
     /**
-     * Accessor for player 1's frame.
+     * Check if both players have entered their names.
      *
-     * @return Player 1's frame, null if player1 has not been initialised
+     * @return {@code true} if both players have names.
      */
-    public Frame getPlayer1Frame() {
-        if (player1.getName() != null) {
-            return player1.getFrame();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Accessor for Player 2's frame.
-     *
-     * @return Player2's frame, null if player2 has not been initialised
-     */
-    public Frame getPlayer2Frame() {
-        if (player2.getName() != null) {
-            return player2.getFrame();
-        } else {
-            return null;
-        }
+    public boolean arePlayersReady() {
+        return player1.getName() != null && player2.getName() != null;
     }
 
     /**
@@ -124,12 +127,6 @@ public class Scrabble {
         sc.close();
     }
 
-    // Display the welcome message
-    private void printWelcome() {
-        printToOutput("> Welcome to Scrabble by DarkMode.");
-        printToOutput("> Player #1, please enter your name: ");
-    }
-
     /**
      * Respond to the text input from the user.
      *
@@ -137,6 +134,20 @@ public class Scrabble {
      * @return {@code true} if the board needs to be updated after the command processing
      */
     public boolean processCommand(String command) {
+        // Process help and restart commands
+        if (command.equalsIgnoreCase("HELP")) {
+            PopupView.displayHelpPopup();
+            return false;
+        } else if (command.equalsIgnoreCase("RESTART")) {
+            boolean restart = PopupView.displayRestartPopup();
+            if (restart) {
+                resetGame();
+                Scoring.reset();
+            }
+            return false;
+        }
+        // Process other commands
+        Scrabble.printToOutput(command);
         switch (gameState) {
             case P1_NAME:
                 try {
@@ -149,17 +160,32 @@ public class Scrabble {
                 return false;
             case P2_NAME:
                 try {
+                    Player.validateNames(player1.getName(), command);
                     player2.setName(command);
                     gameState = P1_TURN;
                     startGame();
                 } catch (IllegalArgumentException e) {
+                    printToOutput(e.getMessage());
                     printToOutput("> Player #2, please enter your name: ");
                 }
                 return false;
             default:
                 Player player = (gameState == P1_TURN ? player1 : player2);
                 Player opponent = (player.equals(player1) ? player2 : player1);
-                command = command.trim().toUpperCase();
+                // Process the NAME command (to change a player's name)
+                try {
+                    if (command.toUpperCase().startsWith("NAME")) {
+                        String newName = command.substring(5);
+                        Player.validateNames(opponent.getName(), newName);
+                        player.setName(newName);
+                        askForMove(player);
+                        return false;
+                    }
+                } catch (IllegalArgumentException e) {
+                    printToOutput(e.getMessage());
+                    return false;
+                }
+                // Process other commands
                 if (isValidMove(command, player.getFrame())) {
                     makeMove(command, player, player.getFrame(), opponent);
                     if (isChallengeSuccessful) {
@@ -171,8 +197,8 @@ public class Scrabble {
                         askForMove(opponent);
                     }
                     return true;
-                } else if (command.equalsIgnoreCase("HELP")) {
-                    PopupView.displayHelpPopup();
+                } else if (command.equalsIgnoreCase("RESTART")) {
+                    // Player initially asked for restart, but then chose "No"
                     askForMove(player);
                     return true;
                 } else {
@@ -199,8 +225,7 @@ public class Scrabble {
 
     // Helper message
     private void promptUser() {
-        printToOutput("> Enter your move (E.g. \"H8 A HELLO\" or \"H10 D HI\")");
-        printToOutput("or QUIT/PASS/EXCHANGE <letters (no spaces)>/CHALLENGE/HELP: ");
+        printToOutput("> Enter your move (HELP for details): ");
     }
 
     // Check if a move is valid
