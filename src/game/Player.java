@@ -53,7 +53,7 @@ public class Player {
      */
     public void setName(String name) throws IllegalArgumentException {
         if (name == null || name.trim().equals("")) {
-            throw new IllegalArgumentException("Player name cannot be null");
+            throw new IllegalArgumentException("> Player name cannot be empty!");
         }
         this.name = name.trim();
     }

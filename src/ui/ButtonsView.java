@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
@@ -22,6 +23,9 @@ public class ButtonsView extends HBox {
     public ButtonsView() {
         setId("buttons-view");
         getChildren().addAll(help, pass, challenge, quit, restart, theme);
+        for (Node button : getChildren()) {
+            button.setId("command-button");
+        }
     }
 
     /**

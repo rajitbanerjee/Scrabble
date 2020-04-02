@@ -33,6 +33,7 @@ public class PopupView {
 
         Label label = new Label("Cannot pass or challenge now!");
         Button button = new Button("Close");
+        button.setId("command-button");
         button.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
@@ -72,6 +73,7 @@ public class PopupView {
         link.setOnAction(e -> displayScrabbleRules());
 
         Button button = new Button("Close");
+        button.setId("command-button");
         button.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
@@ -114,6 +116,7 @@ public class PopupView {
         window.initModality(Modality.APPLICATION_MODAL);
         Label label = new Label("Thanks for playing!");
         Button button = new Button("Close");
+        button.setId("command-button");
         button.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
@@ -148,6 +151,7 @@ public class PopupView {
         }
 
         Button button = new Button("Close");
+        button.setId("command-button");
         button.setOnAction(event -> window.close());
 
         VBox layout = new VBox(10);
@@ -170,11 +174,13 @@ public class PopupView {
         AtomicBoolean doRestart = new AtomicBoolean();
         Label label = new Label("Do you want to restart the game?");
         Button yes = new Button("Yes");
+        yes.setId("command-button");
         yes.setOnAction(event -> {
             doRestart.set(true);
             window.close();
         });
         Button no = new Button("No");
+        no.setId("command-button");
         no.setOnAction(event -> {
             doRestart.set(false);
             window.close();

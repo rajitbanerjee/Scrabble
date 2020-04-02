@@ -50,17 +50,17 @@
 	-fx-prompt-text-fill: transparent;
 }
 /*****************************************************************************/
-.button {
+#command-button {
 	-fx-background-color: derive(-fx-base, 10%);
 	-fx-background-radius: 15;
 }
-.button:focused {
+#command-button:focused {
 	-fx-border-color: -fx-accent;
 	-fx-border-radius: 15;
 	-fx-focus-text-color: -fx-accent;
 	-fx-background-radius: 15;
 }
-.button:hover {
+#command-button:hover {
 	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border,
 		-fx-inner-border, -fx-body-color;
 	-fx-background-insets: 0 0 -1 0, 0, 1, 2;
@@ -74,8 +74,17 @@
 #tile-points {
 	-fx-font-size: 6pt;
 }
-
-#player-scores {
+#player-turn {
+	-fx-background-color: derive(-fx-base, 20%);
+	-fx-background-radius: 15;
+	-fx-border-color: -fx-accent;
+	-fx-border-radius: 15;
+	-fx-font-size: 10pt;
+	-fx-fill: white;
+}
+#opponent-turn {
+	-fx-background-color: derive(-fx-base, 20%);
+	-fx-background-radius: 15;
 	-fx-font-size: 10pt;
 	-fx-fill: white;
 }
@@ -130,6 +139,8 @@
 }
 
 #score-view {
+	-fx-spacing: 30;
+	-fx-alignment: center;
 	-fx-text-alignment: center;
 	-fx-padding: 10, 10, 10, 10;
 }

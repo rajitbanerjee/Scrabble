@@ -129,11 +129,13 @@ public class GameController {
                     scoreView.remove();
                     frameView.remove();
                 } else {
+                    // Update scores
+                    scoreView.update(game.getPlayer1().getScore(),
+                            game.getPlayer2().getScore(), game.getGameState());
+                    // Update frame
                     if (game.getGameState() == P1_TURN) {
-                        scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
                         frameView.update(game.getPlayer1().getFrame());
-                    } else if (game.getGameState() != P2_NAME) {
-                        scoreView.update(game.getPlayer1().getScore(), game.getPlayer2().getScore());
+                    } else if (game.getGameState() == P2_TURN) {
                         frameView.update(game.getPlayer2().getFrame());
                     }
                 }

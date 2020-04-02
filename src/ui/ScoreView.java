@@ -1,23 +1,35 @@
 package ui;
 
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import constants.UIConstants;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 
 /**
- * TextFlow containing scores.
+ * Score display GUI design.
  *
+ * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
- * @author Rajit Banerjee, 18202817
  * Team 15: DarkMode
  */
-public class ScoreView extends TextFlow {
+public class ScoreView extends HBox {
     private String playerOneName;
     private String playerTwoName;
 
     public ScoreView() {
         super();
         setId("score-view");
+    }
+
+    /**
+     * Sets the names of both players.
+     *
+     * @param playerOneName player1's name
+     * @param playerTwoName player2's name
+     */
+    public void setNames(String playerOneName, String playerTwoName) {
+        this.playerOneName = playerOneName;
+        this.playerTwoName = playerTwoName;
     }
 
     /**
@@ -33,25 +45,20 @@ public class ScoreView extends TextFlow {
      * @param score1 player1's score
      * @param score2 player2's score
      */
-    public void update(int score1, int score2) {
-        getChildren().clear();
-        Text p1Text = new Text(playerOneName + ": " + score1 + " points\t\t");
-        Text p2Text = new Text(playerTwoName + ": " + score2 + " points");
-        p1Text.setId("player-scores");
-        p2Text.setId("player-scores");
-        getChildren().add(p1Text);
-        getChildren().add(p2Text);
-    }
+    public void update(int score1, int score2, UIConstants.STATUS_CODE turn) {
+        remove();
+        Button p1Button = new Button(playerOneName + ": " + score1 + " points");
+        Button p2Button = new Button(playerTwoName + ": " + score2 + " points");
+        if (turn == UIConstants.STATUS_CODE.P2_TURN) {
+            p2Button.setId("player-turn");
+            p1Button.setId("opponent-turn");
 
-    /**
-     * Sets the names of both players.
-     *
-     * @param playerOneName player1's name
-     * @param playerTwoName player2's name
-     */
-    public void setNames(String playerOneName, String playerTwoName) {
-        this.playerOneName = playerOneName;
-        this.playerTwoName = playerTwoName;
+        } else {
+            p1Button.setId("player-turn");
+            p2Button.setId("opponent-turn");
+        }
+        getChildren().add(p1Button);
+        getChildren().add(p2Button);
     }
 
 }
