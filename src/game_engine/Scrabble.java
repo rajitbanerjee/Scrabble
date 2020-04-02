@@ -185,6 +185,7 @@ public class Scrabble {
                     printToOutput(e.getMessage());
                     return false;
                 }
+                command = command.toUpperCase();
                 // Process other commands
                 if (isValidMove(command, player.getFrame())) {
                     makeMove(command, player, player.getFrame(), opponent);
@@ -196,10 +197,6 @@ public class Scrabble {
                         gameState = (gameState == P1_TURN ? P2_TURN : P1_TURN);
                         askForMove(opponent);
                     }
-                    return true;
-                } else if (command.equalsIgnoreCase("RESTART")) {
-                    // Player initially asked for restart, but then chose "No"
-                    askForMove(player);
                     return true;
                 } else {
                     printDashes();
@@ -230,11 +227,9 @@ public class Scrabble {
 
     // Check if a move is valid
     private boolean isValidMove(String move, Frame frame) {
-        return move.equalsIgnoreCase("QUIT") ||
-                move.equalsIgnoreCase("PASS") ||
+        return move.equals("QUIT") || move.equals("PASS") ||
                 ((move.startsWith("EXCHANGE") && isExchangeLegal(move, frame))) ||
-                move.equalsIgnoreCase("CHALLENGE") ||
-                isPlacementLegal(move, frame);
+                move.equals("CHALLENGE") || isPlacementLegal(move, frame);
     }
 
     // Check if an exchange is Valid
@@ -267,13 +262,13 @@ public class Scrabble {
     // Makes a valid move
     private void makeMove(String move, Player player, Frame frame, Player opponent) {
         printDashes();
-        if (move.equalsIgnoreCase("QUIT")) {
+        if (move.equals("QUIT")) {
             quit();
-        } else if (move.equalsIgnoreCase("PASS")) {
+        } else if (move.equals("PASS")) {
             pass(player, false);
         } else if (move.startsWith("EXCHANGE")) {
             exchange(move, frame, false);
-        } else if (move.equalsIgnoreCase("CHALLENGE")) {
+        } else if (move.equals("CHALLENGE")) {
             isChallengeSuccessful = challenge(opponent);
             if (isChallengeSuccessful) {
                 // If challenge is successful, pass opponent's turn
