@@ -144,7 +144,7 @@ public class Scrabble {
                 resetGame();
                 Scoring.reset();
             }
-            return false;
+            return restart;
         }
         // Process other commands
         Scrabble.printToOutput(command);
