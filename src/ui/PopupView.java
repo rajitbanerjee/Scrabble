@@ -26,11 +26,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Team 15: DarkMode
  */
 public class PopupView {
+    /**
+     * Displays unsupported action pop-up.
+     */
     public static void displayUnsupportedActionPopup() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Invalid!");
-
         Label label = new Label("Cannot pass or challenge now!");
         Button button = new Button("Close");
         button.setId("command-button");
@@ -47,7 +49,7 @@ public class PopupView {
     }
 
     /**
-     * Displays a help dialog.
+     * Displays a help message, with a link to the Scrabble rules.
      */
     public static void displayHelpPopup() {
         Stage window = new Stage();
@@ -173,6 +175,7 @@ public class PopupView {
         window.initModality(Modality.APPLICATION_MODAL);
         AtomicBoolean doRestart = new AtomicBoolean();
         Label label = new Label("Do you want to restart the game?");
+
         Button yes = new Button("Yes");
         yes.setId("command-button");
         yes.setOnAction(event -> {
@@ -185,10 +188,10 @@ public class PopupView {
             doRestart.set(false);
             window.close();
         });
-
         HBox buttons = new HBox(10);
         buttons.getChildren().addAll(yes, no);
         buttons.setAlignment(Pos.CENTER);
+
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, buttons);
         layout.setAlignment(Pos.CENTER);
