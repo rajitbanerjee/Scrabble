@@ -67,7 +67,9 @@ public class PopupView {
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
-                "(Quick tip: Up and Down keys allow past command navigation, CTRL key allows autocompletion.)\n";
+                "\nTo use blank tiles, simply type the desired tile in place of the blank tile.\n" +
+                "(E.g. \"H8 A HELLO\" with frame having: [H, -, L, L, -]\n" +
+                "\n(Quick tip: Up and Down keys allow past command navigation, CTRL key allows autocompletion.)\n";
         Label text = new Label(help);
 
         Hyperlink link = new Hyperlink();
@@ -81,7 +83,7 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(text, link, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 750, 350);
+        Scene scene = new Scene(layout, 750, 450);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.setResizable(false);
