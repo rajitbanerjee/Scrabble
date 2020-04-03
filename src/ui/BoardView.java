@@ -33,6 +33,8 @@ public class BoardView extends GridPane {
 
     /**
      * Updates the board display.
+     *
+     * @param board the board to be updated
      */
     public void update(Board board) {
         Square[][] boardArray = board.getBoard();

@@ -45,14 +45,15 @@ public class ScoreView extends HBox {
     /**
      * Updates the score display.
      *
-     * @param score1 player1's score
-     * @param score2 player2's score
+     * @param score1    player1's score
+     * @param score2    player2's score
+     * @param gameState the current game state
      */
-    public void update(int score1, int score2, UIConstants.STATUS_CODE turn) {
+    public void update(int score1, int score2, UIConstants.STATUS_CODE gameState) {
         remove();
         Button player1 = new Button(playerOneName + ": " + score1 + " points");
         Button player2 = new Button(playerTwoName + ": " + score2 + " points");
-        if (turn == UIConstants.STATUS_CODE.P1_TURN) {
+        if (gameState == UIConstants.STATUS_CODE.P1_TURN) {
             player1.setId("player-turn");
             player2.setId("opponent-turn");
         } else {

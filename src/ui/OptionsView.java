@@ -14,6 +14,10 @@ import javafx.scene.layout.GridPane;
 public class OptionsView extends GridPane {
     /**
      * Creates a new options view.
+     *
+     * @param frameView   the frame view
+     * @param scoreView   the score view
+     * @param buttonsView the buttons view
      */
     public OptionsView(FrameView frameView, ScoreView scoreView, ButtonsView buttonsView) {
         super();

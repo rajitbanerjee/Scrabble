@@ -168,6 +168,8 @@ public class PopupView {
 
     /**
      * Displays the restart popup.
+     *
+     * @return {@code true} if game is to be restarted
      */
     public static boolean displayRestartPopup() {
         Stage window = new Stage();

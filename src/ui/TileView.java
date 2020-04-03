@@ -14,6 +14,10 @@ import javafx.scene.text.Text;
 public class TileView extends GridPane {
     /**
      * Creates a new tile view.
+     *
+     * @param type    the tile type/letter
+     * @param points  the tile points
+     * @param inFrame {@code true}, if tile is displayed on the frame
      */
     public TileView(Text type, Text points, boolean inFrame) {
         super();

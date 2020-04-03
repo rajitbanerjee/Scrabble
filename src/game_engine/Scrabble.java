@@ -50,7 +50,7 @@ public class Scrabble {
         try {
             CLIView.HISTORY_VIEW.printText(text);
         } catch (Error ignored) {
-            // Ignore printing errors that occur in unit testing
+            // Ignore printing errors due to method call in JUnit tests
         }
     }
 

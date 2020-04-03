@@ -16,6 +16,10 @@ import javafx.scene.shape.Line;
 public class GameView extends HBox {
     /**
      * Creates a new game view.
+     *
+     * @param cliView     the CLI view
+     * @param boardView   the board view
+     * @param optionsView the options view
      */
     public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {
         super();
