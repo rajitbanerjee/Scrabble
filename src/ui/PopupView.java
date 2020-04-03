@@ -63,7 +63,7 @@ public class PopupView {
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
                 "RESTART:\t\t\t\tStarts a new game of Scrabble.\n" +
                 "SWITCH THEME:\t\tSwitches the display theme (dark/light).\n" +
-                "NAME <letters>:\tChange your display name.\n" +
+                "NAME <letters>:\t\tChange your display name.\n" +
                 "\nValid move format (place a word starting at specified grid reference):\n" +
                 "<COLUMN><ROW> <ORIENTATION (A/D)> <WORD>\n" +
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
