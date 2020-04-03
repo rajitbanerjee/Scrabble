@@ -40,8 +40,8 @@ public class Main extends Application {
         scene.getStylesheets().add(UIConstants.stylesheet);
 
         // Set up game controller
-        new GameController(game, cliView, boardView, frameView, scoreView, buttonsView, scene);
-
+        GameController controller = new GameController(game, cliView, boardView, frameView, scoreView, buttonsView, scene);
+        game.setController(controller);
         // Set up stage
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         InputStream icon = classLoader.getResourceAsStream("resources/icon.jpg");

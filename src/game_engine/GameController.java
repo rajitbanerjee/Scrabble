@@ -111,37 +111,38 @@ public class GameController {
      * @param command the command entered by the player
      */
     public void updateGame(String command) {
-        if (game.getGameState() != GAME_OVER) {
-            try {
-                boolean updateBoard = game.processCommand(command.trim());
-                // Update the board display
-                if (updateBoard) {
-                    boardView.update(game.getBoard());
-                }
-                // Update the score and frame display
-                boolean arePlayersReady = game.arePlayersReady();
-                if (arePlayersReady && game.getGameState() != P1_NAME
-                        && game.getGameState() != P2_NAME) {
-                    scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
-                }
-                if (!arePlayersReady) {
-                    // Remove score and frame views when game has been restarted
-                    scoreView.remove();
-                    frameView.remove();
-                } else {
-                    // Update scores
-                    scoreView.update(game.getPlayer1().getScore(),
-                            game.getPlayer2().getScore(), game.getGameState());
-                    // Update frame
-                    if (game.getGameState() == P1_TURN) {
-                        frameView.update(game.getPlayer1().getFrame());
-                    } else if (game.getGameState() == P2_TURN) {
-                        frameView.update(game.getPlayer2().getFrame());
-                    }
-                }
-            } catch (RuntimeException e) {
-                e.printStackTrace();
+        try {
+            boolean updateBoard = true;
+            if (game.getGameState() != GAME_OVER) {
+                updateBoard = game.processCommand(command.trim());
             }
+            // Update the board display
+            if (updateBoard) {
+                boardView.update(game.getBoard());
+            }
+            // Update the score and frame display
+            boolean arePlayersReady = game.arePlayersReady();
+            if (arePlayersReady && game.getGameState() != P1_NAME
+                    && game.getGameState() != P2_NAME) {
+                scoreView.setNames(game.getPlayer1().getName(), game.getPlayer2().getName());
+            }
+            if (!arePlayersReady) {
+                // Remove score and frame views when game has been restarted
+                scoreView.remove();
+                frameView.remove();
+            } else {
+                // Update scores
+                scoreView.update(game.getPlayer1().getScore(),
+                        game.getPlayer2().getScore(), game.getGameState());
+                // Update frame
+                if (game.getGameState() == P1_TURN) {
+                    frameView.update(game.getPlayer1().getFrame());
+                } else if (game.getGameState() == P2_TURN) {
+                    frameView.update(game.getPlayer2().getFrame());
+                }
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
     }
 

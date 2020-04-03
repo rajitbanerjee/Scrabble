@@ -31,6 +31,7 @@ public class Scrabble {
     private UIConstants.STATUS_CODE gameState;
     private boolean isChallengeSuccessful;
     private HashSet<String> dictionary;
+    private GameController controller;
 
     public Scrabble() {
         resetGame();
@@ -48,6 +49,10 @@ public class Scrabble {
         } catch (Error ignored) {
             // Ignore printing errors that occur in unit testing
         }
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
     }
 
     // Resets the game
@@ -289,6 +294,7 @@ public class Scrabble {
     // Quit game
     private void quit() {
         gameState = GAME_OVER;
+        controller.updateGame("");
         PopupView.displayQuitPopup(player1, player2);
         System.exit(0);
     }
