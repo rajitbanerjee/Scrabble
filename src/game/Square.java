@@ -13,7 +13,7 @@ import constants.GameConstants;
  * Team 15: DarkMode
  */
 public class Square {
-    private GameConstants.MULTIPLIER multiplier;
+    private final GameConstants.MULTIPLIER multiplier;
     private Tile tile = null;
 
     public Square(GameConstants.MULTIPLIER multiplier) {

@@ -17,13 +17,13 @@ import static constants.UIConstants.STATUS_CODE.*;
  * Team 15: DarkMode
  */
 public class GameController {
-    private FrameView frameView;
-    private ScoreView scoreView;
-    private CLIView cliView;
-    private ButtonsView buttonsView;
-    private BoardView boardView;
-    private Scrabble game;
-    private Scene scene;
+    private final FrameView frameView;
+    private final ScoreView scoreView;
+    private final CLIView cliView;
+    private final ButtonsView buttonsView;
+    private final BoardView boardView;
+    private final Scrabble game;
+    private final Scene scene;
     private int nLastCommand;
 
     public GameController(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,

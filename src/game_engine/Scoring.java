@@ -18,10 +18,10 @@ import java.util.ArrayList;
  * Team 15: DarkMode
  */
 public class Scoring {
-    public static ArrayList<Index> challengeIndices = new ArrayList<>();
-    public static ArrayList<String> wordsFormed = new ArrayList<>();
-    public static ArrayList<Index> lastCoveredIndices = new ArrayList<>();
-    private static ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
+    public static final ArrayList<Index> challengeIndices = new ArrayList<>();
+    public static final ArrayList<String> wordsFormed = new ArrayList<>();
+    public static final ArrayList<Index> lastCoveredIndices = new ArrayList<>();
+    private static final ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
 
     /**
      * Resets the game scoring.

@@ -10,10 +10,10 @@ package game;
  * Team 15: DarkMode
  */
 public class Word {
-    private String letters;
-    private int row;
-    private int column;
-    private char orientation;
+    private final String letters;
+    private final int row;
+    private final int column;
+    private final char orientation;
 
     /**
      * Construct a word with given letters, starting at a specified

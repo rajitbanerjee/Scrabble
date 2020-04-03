@@ -15,8 +15,8 @@ import java.util.ArrayList;
  * Team 15: DarkMode
  */
 public class CommandHistoryView extends ScrollPane {
-    private ArrayList<String> history = new ArrayList<>();
-    private VBox vbox = new VBox(); // Placed inside the ScrollPane
+    private final ArrayList<String> history = new ArrayList<>();
+    private final VBox vbox = new VBox(); // Placed inside the ScrollPane
 
     public CommandHistoryView() {
         super();

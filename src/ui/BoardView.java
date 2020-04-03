@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
  * Team 15: DarkMode
  */
 public class BoardView extends GridPane {
-    private double squareSize = UIConstants.SQUARE_SIZE;
+    private final double squareSize = UIConstants.SQUARE_SIZE;
 
     public BoardView() {
         super();

@@ -13,7 +13,7 @@ import game_engine.Scrabble;
  * Team 15: DarkMode
  */
 public class Board {
-    private Square[][] board;
+    private final Square[][] board;
     private boolean isFirstMove;
 
     public Board() {

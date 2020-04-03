@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  * Team 15: DarkMode
  */
 public class Pool {
-    private ArrayList<Tile> pool;
+    private final ArrayList<Tile> pool;
 
     public Pool() {
         pool = new ArrayList<>();

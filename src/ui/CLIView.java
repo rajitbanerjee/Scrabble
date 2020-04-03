@@ -11,8 +11,8 @@ import javafx.scene.layout.VBox;
  * Team 15: DarkMode
  */
 public class CLIView extends VBox {
-    public static CommandHistoryView historyView = new CommandHistoryView();
-    private CommandInputView inputView = new CommandInputView();
+    public static final CommandHistoryView historyView = new CommandHistoryView();
+    private final CommandInputView inputView = new CommandInputView();
 
     public CLIView() {
         super();

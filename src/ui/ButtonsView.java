@@ -13,12 +13,12 @@ import javafx.scene.layout.HBox;
  * Team 15: DarkMode
  */
 public class ButtonsView extends HBox {
-    private Button help = new Button("Help");
-    private Button pass = new Button("Pass");
-    private Button challenge = new Button("Challenge");
-    private Button quit = new Button("Quit");
-    private Button restart = new Button("Restart");
-    private Button theme = new Button("Switch Theme");
+    private final Button help = new Button("Help");
+    private final Button pass = new Button("Pass");
+    private final Button challenge = new Button("Challenge");
+    private final Button quit = new Button("Quit");
+    private final Button restart = new Button("Restart");
+    private final Button theme = new Button("Switch Theme");
 
     public ButtonsView() {
         setId("buttons-view");
