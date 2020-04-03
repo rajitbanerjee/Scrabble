@@ -13,11 +13,11 @@ public class Player {
     private int score;
     private Frame frame;
 
-    public Player(String name, Frame frame) throws IllegalArgumentException {
-        this(frame);
-        setName(name);
-    }
-
+    /**
+     * Creates a new Player.
+     *
+     * @param frame player's frame
+     */
     public Player(Frame frame) {
         setFrame(frame);
         score = 0;

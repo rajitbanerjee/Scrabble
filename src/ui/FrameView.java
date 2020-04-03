@@ -13,6 +13,9 @@ import javafx.scene.text.Text;
  * Team 15: DarkMode
  */
 public class FrameView extends GridPane {
+    /**
+     * Creates a new frame view.
+     */
     public FrameView() {
         super();
         setId("frame-view");

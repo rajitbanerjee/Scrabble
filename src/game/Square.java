@@ -16,6 +16,11 @@ public class Square {
     private final GameConstants.MULTIPLIER multiplier;
     private Tile tile = null;
 
+    /**
+     * Creates a new Square.
+     *
+     * @param multiplier square multiplier type
+     */
     public Square(GameConstants.MULTIPLIER multiplier) {
         this.multiplier = multiplier;
     }

@@ -16,6 +16,9 @@ public class ScoreView extends HBox {
     private String playerOneName;
     private String playerTwoName;
 
+    /**
+     * Creates a new score view.
+     */
     public ScoreView() {
         super();
         setId("score-view");
@@ -47,18 +50,17 @@ public class ScoreView extends HBox {
      */
     public void update(int score1, int score2, UIConstants.STATUS_CODE turn) {
         remove();
-        Button p1Button = new Button(playerOneName + ": " + score1 + " points");
-        Button p2Button = new Button(playerTwoName + ": " + score2 + " points");
-        if (turn == UIConstants.STATUS_CODE.P2_TURN) {
-            p2Button.setId("player-turn");
-            p1Button.setId("opponent-turn");
-
+        Button player1 = new Button(playerOneName + ": " + score1 + " points");
+        Button player2 = new Button(playerTwoName + ": " + score2 + " points");
+        if (turn == UIConstants.STATUS_CODE.P1_TURN) {
+            player1.setId("player-turn");
+            player2.setId("opponent-turn");
         } else {
-            p1Button.setId("player-turn");
-            p2Button.setId("opponent-turn");
+            player2.setId("player-turn");
+            player1.setId("opponent-turn");
         }
-        getChildren().add(p1Button);
-        getChildren().add(p2Button);
+        getChildren().add(player1);
+        getChildren().add(player2);
     }
 
 }

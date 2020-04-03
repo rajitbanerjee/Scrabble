@@ -18,6 +18,9 @@ public class CommandHistoryView extends ScrollPane {
     private final ArrayList<String> history = new ArrayList<>();
     private final VBox vbox = new VBox(); // Placed inside the ScrollPane
 
+    /**
+     * Creates a new command history view.
+     */
     public CommandHistoryView() {
         super();
         setId("history-view");

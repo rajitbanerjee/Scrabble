@@ -26,6 +26,17 @@ public class GameController {
     private final Scene scene;
     private int nLastCommand;
 
+    /**
+     * Creates a new GUI controller for the game.
+     *
+     * @param game        the Scrabble game
+     * @param cliView     CLI view
+     * @param boardView   the board view
+     * @param frameView   the frame view
+     * @param scoreView   the score view
+     * @param buttonsView the buttons view
+     * @param scene       the scene(stage contents)
+     */
     public GameController(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,
                           ScoreView scoreView, ButtonsView buttonsView, Scene scene) {
         this.game = game;
@@ -44,7 +55,7 @@ public class GameController {
      */
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
-            CommandHistoryView historyView = CLIView.historyView;
+            CommandHistoryView historyView = CLIView.HISTORY_VIEW;
             CommandInputView inputView = cliView.getInputView();
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 updateGame(inputView.getText());
@@ -97,7 +108,7 @@ public class GameController {
 
     // Corrects the variable nLastCommand
     private void correctNLast() {
-        CommandHistoryView historyView = CLIView.historyView;
+        CommandHistoryView historyView = CLIView.HISTORY_VIEW;
         if (nLastCommand > historyView.getHistorySize()) {
             nLastCommand = historyView.getHistorySize();
         } else if (nLastCommand < 1) {

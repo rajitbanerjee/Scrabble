@@ -12,6 +12,9 @@ import javafx.scene.text.Text;
  * Team 15: DarkMode
  */
 public class TileView extends GridPane {
+    /**
+     * Creates a new tile view.
+     */
     public TileView(Text type, Text points, boolean inFrame) {
         super();
         if (inFrame) {

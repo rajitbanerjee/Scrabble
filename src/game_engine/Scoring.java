@@ -18,19 +18,19 @@ import java.util.ArrayList;
  * Team 15: DarkMode
  */
 public class Scoring {
-    public static final ArrayList<Index> challengeIndices = new ArrayList<>();
-    public static final ArrayList<String> wordsFormed = new ArrayList<>();
-    public static final ArrayList<Index> lastCoveredIndices = new ArrayList<>();
-    private static final ArrayDeque<Integer> lastSixScores = new ArrayDeque<>();
+    public static final ArrayList<Index> CHALLENGE_INDICES = new ArrayList<>();
+    public static final ArrayList<String> WORDS_FORMED = new ArrayList<>();
+    public static final ArrayList<Index> LAST_COVERED_INDICES = new ArrayList<>();
+    private static final ArrayDeque<Integer> LAST_SIX_SCORES = new ArrayDeque<>();
 
     /**
      * Resets the game scoring.
      */
     public static void reset() {
-        challengeIndices.clear();
-        wordsFormed.clear();
-        lastCoveredIndices.clear();
-        lastSixScores.clear();
+        CHALLENGE_INDICES.clear();
+        WORDS_FORMED.clear();
+        LAST_COVERED_INDICES.clear();
+        LAST_SIX_SCORES.clear();
     }
 
     /**
@@ -42,7 +42,7 @@ public class Scoring {
      */
     public static void passMove(boolean removeLastScore) {
         if (removeLastScore) {
-            lastSixScores.removeLast();
+            LAST_SIX_SCORES.removeLast();
         }
         addScoreToList(0);
     }
@@ -54,12 +54,12 @@ public class Scoring {
      * @param score to be added to the list
      */
     public static void addScoreToList(int score) {
-        lastSixScores.addLast(score);
-        if (lastSixScores.size() > 6) {
-            lastSixScores.removeFirst();
+        LAST_SIX_SCORES.addLast(score);
+        if (LAST_SIX_SCORES.size() > 6) {
+            LAST_SIX_SCORES.removeFirst();
         }
         if (score == 0) {
-            challengeIndices.clear();
+            CHALLENGE_INDICES.clear();
         }
     }
 
@@ -71,10 +71,10 @@ public class Scoring {
      * @return the score awarded after placing the given word
      */
     public static int calculateScore(Word word, Board board) {
-        int bonus = (lastCoveredIndices.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
+        int bonus = (LAST_COVERED_INDICES.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
-        challengeIndices.clear();
-        challengeIndices.addAll(lastCoveredIndices);
+        CHALLENGE_INDICES.clear();
+        CHALLENGE_INDICES.addAll(LAST_COVERED_INDICES);
         addScoreToList(score);
         return score;
     }
@@ -85,7 +85,7 @@ public class Scoring {
         int wordMultiplier = 1;
         int row = word.getRow();
         int column = word.getColumn();
-        wordsFormed.add(word.getLetters());
+        WORDS_FORMED.add(word.getLetters());
         if (word.isHorizontal()) {
             for (int i = column; i < column + word.length(); i++) {
                 Square square = board.getBoard()[row][i];
@@ -113,7 +113,7 @@ public class Scoring {
 
     // Checks if a given board index (row, column) has been recently covered
     private static boolean isRecentlyCovered(int row, int column) {
-        return lastCoveredIndices.contains(new Index(row, column));
+        return LAST_COVERED_INDICES.contains(new Index(row, column));
     }
 
     // Scores the extra words formed by a word placement
@@ -129,7 +129,7 @@ public class Scoring {
     private static int scoreVerticalExtraWords(Board board) {
         int score = 0;
         Square[][] b = board.getBoard();
-        for (Index index : lastCoveredIndices) {
+        for (Index index : LAST_COVERED_INDICES) {
             int wordScore = 0;
             int wordMultiplier = 1;
             int startRow = index.getRow();
@@ -156,7 +156,7 @@ public class Scoring {
                     }
                 }
                 score += wordScore * wordMultiplier;
-                wordsFormed.add(board.getVerticalWord(column, startRow, endRow));
+                WORDS_FORMED.add(board.getVerticalWord(column, startRow, endRow));
             }
         }
         return score;
@@ -166,7 +166,7 @@ public class Scoring {
     private static int scoreHorizontalExtraWords(Board board) {
         int score = 0;
         Square[][] b = board.getBoard();
-        for (Index index : lastCoveredIndices) {
+        for (Index index : LAST_COVERED_INDICES) {
             int wordScore = 0;
             int wordMultiplier = 1;
             int startColumn = index.getColumn();
@@ -193,7 +193,7 @@ public class Scoring {
                     }
                 }
                 score += wordScore * wordMultiplier;
-                wordsFormed.add(board.getHorizontalWord(row, startColumn, endColumn));
+                WORDS_FORMED.add(board.getHorizontalWord(row, startColumn, endColumn));
             }
         }
         return score;
@@ -203,7 +203,7 @@ public class Scoring {
      * Display the last six scores of the game.
      */
     public static void printLastSixScores() {
-        Scrabble.printToOutput("> Last six scores: " + lastSixScores.toString());
+        Scrabble.printToOutput("> Last six scores: " + LAST_SIX_SCORES.toString());
     }
 
     /**
@@ -213,7 +213,7 @@ public class Scoring {
      */
     public static boolean isLastSixZero() {
         int zeroes = 0;
-        for (Integer score : lastSixScores) {
+        for (Integer score : LAST_SIX_SCORES) {
             if (score == 0) zeroes++;
         }
         return zeroes == 6;

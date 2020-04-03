@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
  * Team 15: DarkMode
  */
 public class CommandInputView extends TextField {
+    /**
+     * Creates a new command input view.
+     */
     public CommandInputView() {
         super();
         setId("input-view");

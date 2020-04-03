@@ -11,20 +11,23 @@ import javafx.scene.layout.VBox;
  * Team 15: DarkMode
  */
 public class CLIView extends VBox {
-    public static final CommandHistoryView historyView = new CommandHistoryView();
+    public static final CommandHistoryView HISTORY_VIEW = new CommandHistoryView();
     private final CommandInputView inputView = new CommandInputView();
 
+    /**
+     * Creates a new CLI view.
+     */
     public CLIView() {
         super();
         setId("cli-view");
-        getChildren().addAll(historyView, inputView);
+        getChildren().addAll(HISTORY_VIEW, inputView);
     }
 
     /**
      * Clears the CommandHistoryView.
      */
     public static void clearHistoryView() {
-        historyView.clear();
+        HISTORY_VIEW.clear();
     }
 
     /**

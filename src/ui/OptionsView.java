@@ -12,6 +12,9 @@ import javafx.scene.layout.GridPane;
  * Team 15: DarkMode
  */
 public class OptionsView extends GridPane {
+    /**
+     * Creates a new options view.
+     */
     public OptionsView(FrameView frameView, ScoreView scoreView, ButtonsView buttonsView) {
         super();
         setId("options-view");

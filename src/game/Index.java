@@ -13,6 +13,12 @@ public class Index {
     private int row;
     private int column;
 
+    /**
+     * Creates a new Index with (row, column).
+     *
+     * @param row    index row
+     * @param column index column
+     */
     public Index(int row, int column) {
         setRow(row);
         setColumn(column);

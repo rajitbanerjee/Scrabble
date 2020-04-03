@@ -14,6 +14,9 @@ import javafx.scene.shape.Line;
  * Team 15: DarkMode
  */
 public class GameView extends HBox {
+    /**
+     * Creates a new game view.
+     */
     public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {
         super();
         // Add board view to the left

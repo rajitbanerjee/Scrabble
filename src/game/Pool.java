@@ -17,6 +17,9 @@ import java.util.NoSuchElementException;
 public class Pool {
     private final ArrayList<Tile> pool;
 
+    /**
+     * Creates a new pool of tiles.
+     */
     public Pool() {
         pool = new ArrayList<>();
         reset();

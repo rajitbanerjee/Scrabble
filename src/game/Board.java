@@ -16,6 +16,9 @@ public class Board {
     private final Square[][] board;
     private boolean isFirstMove;
 
+    /**
+     * Creates a new Scrabble board.
+     */
     public Board() {
         board = new Square[15][15];
         setFirstMove(true);
@@ -114,7 +117,7 @@ public class Board {
      */
     public void placeTile(char column, int row, Tile tile) {
         board[row - 1][column - 'A'].setTile(tile);
-        Scoring.lastCoveredIndices.add(new Index(row - 1, column - 'A'));
+        Scoring.LAST_COVERED_INDICES.add(new Index(row - 1, column - 'A'));
     }
 
     /**
@@ -162,7 +165,7 @@ public class Board {
         if (!isWordLegal(word, frame)) {
             throw new IllegalArgumentException("Invalid word placement");
         }
-        Scoring.lastCoveredIndices.clear();
+        Scoring.LAST_COVERED_INDICES.clear();
         setFirstMove(false);
         int row, column;
         for (int i = 0; i < word.length(); i++) {

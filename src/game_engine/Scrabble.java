@@ -33,6 +33,9 @@ public class Scrabble {
     private HashSet<String> dictionary;
     private GameController controller;
 
+    /**
+     * Starts a new game of Scrabble.
+     */
     public Scrabble() {
         resetGame();
         fillDictionary();
@@ -45,12 +48,17 @@ public class Scrabble {
      */
     public static void printToOutput(String text) {
         try {
-            CLIView.historyView.printText(text);
+            CLIView.HISTORY_VIEW.printText(text);
         } catch (Error ignored) {
             // Ignore printing errors that occur in unit testing
         }
     }
 
+    /**
+     * Sets the controller for the current game.
+     *
+     * @param controller GUI controller for the current game.
+     */
     public void setController(GameController controller) {
         this.controller = controller;
     }
@@ -294,7 +302,8 @@ public class Scrabble {
     // Quit game
     private void quit() {
         gameState = GAME_OVER;
-        controller.updateGame("");
+        // Final move display before closing game
+        controller.updateGame(null);
         PopupView.displayQuitPopup(player1, player2);
         System.exit(0);
     }
@@ -319,7 +328,7 @@ public class Scrabble {
     // Challenge opponent's previous move and change scores accordingly
     private boolean challenge(Player opponent) {
         boolean success = false;
-        if (Scoring.challengeIndices.isEmpty()) {
+        if (Scoring.CHALLENGE_INDICES.isEmpty()) {
             printToOutput("> Cannot challenge! No word placed by opponent.");
         } else {
             if (wordsInDictionary()) {
@@ -334,14 +343,14 @@ public class Scrabble {
                 }
                 success = true;
             }
-            Scoring.challengeIndices.clear();
+            Scoring.CHALLENGE_INDICES.clear();
         }
         return success;
     }
 
     // Look up all last formed words in the dictionary
     private boolean wordsInDictionary() {
-        for (String word : Scoring.wordsFormed) {
+        for (String word : Scoring.WORDS_FORMED) {
             if (!dictionary.contains(word)) {
                 return false;
             }
@@ -361,7 +370,7 @@ public class Scrabble {
             pool.addTiles(addToPool.toString());
         }
         // Remove tiles from board and put them back in frame
-        for (Index index : Scoring.challengeIndices) {
+        for (Index index : Scoring.CHALLENGE_INDICES) {
             int row = index.getRow();
             int column = index.getColumn();
             Tile tile = board.getBoard()[row][column].getTile();
@@ -377,11 +386,11 @@ public class Scrabble {
     private void placeAndScore(String move, Player player, Frame frame) {
         Word word = Word.parseMove(move);
         board.placeWord(word, frame);
-        Scoring.wordsFormed.clear();
+        Scoring.WORDS_FORMED.clear();
         int score = Scoring.calculateScore(word, board);
         player.increaseScore(score);
         opponentScore = score; // Current player is opponent for next player's move
-        printToOutput("WORD(S) FORMED: " + Scoring.wordsFormed.toString());
+        printToOutput("WORD(S) FORMED: " + Scoring.WORDS_FORMED.toString());
         printToOutput("POINTS AWARDED: " + score);
         printDashes();
         try {

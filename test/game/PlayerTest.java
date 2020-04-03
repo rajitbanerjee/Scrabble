@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 class PlayerTest {
     @Test
     void testPlayer() {
-        Player playerA = new Player("A", new Frame(new Pool()));
+        Player playerA = new Player(new Frame(new Pool()));
 
         // Empty name tests
         try {

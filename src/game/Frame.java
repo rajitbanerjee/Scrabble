@@ -17,6 +17,12 @@ public class Frame {
     private final Pool pool;
     private ArrayList<Tile> frame;
 
+    /**
+     * Creates a new player frame.
+     *
+     * @param pool the pool from which the frame draws tiles
+     * @throws IllegalArgumentException if pool object is null
+     */
     public Frame(Pool pool) throws IllegalArgumentException {
         if (pool == null) {
             throw new IllegalArgumentException("Pool cannot be null");

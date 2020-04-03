@@ -30,7 +30,7 @@ class FrameTest {
         }
         pool.reset();
 
-        Player playerA = new Player("A", new Frame(pool));
+        Player playerA = new Player(new Frame(pool));
         Frame frame = playerA.getFrame();
 
         // test empty pool exception

@@ -22,6 +22,9 @@ import javafx.scene.text.Text;
 public class BoardView extends GridPane {
     private final double squareSize = UIConstants.SQUARE_SIZE;
 
+    /**
+     * Creates a new board view.
+     */
     public BoardView() {
         super();
         setId("board-view");

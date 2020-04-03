@@ -20,6 +20,9 @@ public class ButtonsView extends HBox {
     private final Button restart = new Button("Restart");
     private final Button theme = new Button("Switch Theme");
 
+    /**
+     * Creates a new buttons view.
+     */
     public ButtonsView() {
         setId("buttons-view");
         getChildren().addAll(help, pass, challenge, quit, restart, theme);

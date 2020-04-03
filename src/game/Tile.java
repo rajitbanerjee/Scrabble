@@ -17,6 +17,12 @@ public class Tile {
     private char type;
     private int points;
 
+    /**
+     * Creates a new Tile with given type and points.
+     *
+     * @param type   tile type/letter
+     * @param points tile points
+     */
     public Tile(char type, int points) {
         setType(type);
         setPoints(points);
