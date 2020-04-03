@@ -58,7 +58,6 @@ public class Player {
         this.name = name.trim();
     }
 
-
     /**
      * Increases the player score by given value.
      *
@@ -86,33 +85,12 @@ public class Player {
     }
 
     /**
-     * Resets the player's score to zero.
-     */
-    public void resetScore() {
-        score = 0;
-    }
-
-    /**
      * Mutator method for the score variable.
      *
      * @return player score
      */
     public int getScore() {
         return score;
-    }
-
-    /**
-     * Mutator method for the score variable.
-     * (Might be useful for debugging purposes).
-     *
-     * @param score player score
-     * @throws IllegalArgumentException if given score is negative
-     */
-    public void setScore(int score) throws IllegalArgumentException {
-        if (score < 0) {
-            throw new IllegalArgumentException("Player score cannot be less than 0");
-        }
-        this.score = score;
     }
 
     /**
@@ -131,16 +109,6 @@ public class Player {
      */
     public void setFrame(Frame frame) {
         this.frame = frame;
-    }
-
-    /**
-     * Get the String representation of a player.
-     *
-     * @return the player name (can be changed to include player score)
-     */
-    @Override
-    public String toString() {
-        return name;
     }
 
 }

@@ -73,11 +73,6 @@ class PoolTest {
         } catch (Exception ignored) {
             // test passed
         }
-        pool.reset();
-        // Tests resetPool() method
-        if (pool.size() != 100) {
-            fail("resetPool() does not work as expected.");
-        }
         // Checks if all 100 tiles are correct or not
         if (correctTiles != 100) {
             fail("Not all 100 tiles are correct.");

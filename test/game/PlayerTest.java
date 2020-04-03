@@ -68,30 +68,9 @@ class PlayerTest {
             fail("decreaseScore() does not work as expected.");
         }
 
-
-        // Try to set score to a negative value
-        try {
-            playerA.setScore(-1);
-            fail("setScore() should not accept negative values.");
-        } catch (Exception ignored) {
-            // Test passed
-        }
-        // Try to set score to a positive value
-        playerA.setScore(1000);
-        if (playerA.getScore() != 1000) {
-            fail("setScore() does not work as expected.");
-        }
         // Tests getName()
         if (!playerA.getName().equals("A")) {
             fail("Name set incorrectly.");
-        }
-        if (!playerA.toString().equals("A")) {
-            fail("toString() not working.");
-        }
-        // Tests resetScore()
-        playerA.resetScore();
-        if (playerA.getScore() != 0) {
-            fail("resetScore() does not work as expected.");
         }
         Frame temp = playerA.getFrame();
         // Tests getFrame() && setFrame()
@@ -100,7 +79,7 @@ class PlayerTest {
             fail("setFrame() or getFrame() does not work as expected.");
         }
     }
-    
+
     @Test
     void testValidateName() {
         try {

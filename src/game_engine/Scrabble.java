@@ -26,10 +26,10 @@ public class Scrabble {
     private Board board;
     private Player player1;
     private Player player2;
-    private int opponentScore;
     private String drawnTiles;
-    private UIConstants.STATUS_CODE gameState;
+    private int opponentScore;
     private boolean isChallengeSuccessful;
+    private UIConstants.STATUS_CODE gameState;
     private HashSet<String> dictionary;
     private GameController controller;
 
@@ -69,11 +69,10 @@ public class Scrabble {
         board = new Board();
         player1 = new Player(new Frame(pool));
         player2 = new Player(new Frame(pool));
-        board.reset();
-        opponentScore = 0;
         drawnTiles = "";
-        gameState = P1_NAME;
+        opponentScore = 0;
         isChallengeSuccessful = false;
+        gameState = P1_NAME;
         CLIView.clearHistoryView();
         printWelcome();
     }

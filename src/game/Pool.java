@@ -22,7 +22,22 @@ public class Pool {
      */
     public Pool() {
         pool = new ArrayList<>();
-        reset();
+        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
+            for (int j = 0; j < GameConstants.NUM_TILES_ARRAY[i]; j++) {
+                addTiles(GameConstants.TILE_TYPES_ARRAY[i]);
+            }
+        }
+    }
+
+    /**
+     * Add given group of tiles to the pool, each with the given associated points.
+     *
+     * @param tiles group of tiles to be added
+     */
+    public void addTiles(String tiles) {
+        for (char ch : tiles.toCharArray()) {
+            pool.add(Tile.makeTile(ch));
+        }
     }
 
     /**
@@ -41,29 +56,6 @@ public class Pool {
      */
     public int size() {
         return pool.size();
-    }
-
-    /**
-     * Resets the pool to its initial state with 100 tiles.
-     */
-    public void reset() {
-        pool.clear();
-        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
-            for (int j = 0; j < GameConstants.NUM_TILES_ARRAY[i]; j++) {
-                addTiles(GameConstants.TILE_TYPES_ARRAY[i]);
-            }
-        }
-    }
-
-    /**
-     * Add given group of tiles to the pool, each with the given associated points.
-     *
-     * @param tiles group of tiles to be added
-     */
-    public void addTiles(String tiles) {
-        for (char ch : tiles.toCharArray()) {
-            pool.add(Tile.makeTile(ch));
-        }
     }
 
     /**

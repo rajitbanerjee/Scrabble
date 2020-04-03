@@ -28,7 +28,7 @@ class FrameTest {
         } catch (Exception ignored) {
             // test passed
         }
-        pool.reset();
+        pool = new Pool();
 
         Player playerA = new Player(new Frame(pool));
         Frame frame = playerA.getFrame();
@@ -66,9 +66,8 @@ class FrameTest {
             }
             frame.getFrame().clear();
         }
-        // restore pool to 100
-        frame.getPool().reset();
-        frame.refillFrame();
+        // reset frame
+        frame = new Frame(new Pool());
 
         // test contains()
         for (int i = 0; i < frame.getFrame().size(); i++) {

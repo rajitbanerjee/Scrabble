@@ -2,8 +2,6 @@ package game;
 
 import constants.GameConstants;
 
-import java.util.Objects;
-
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
@@ -110,16 +108,6 @@ public class Tile {
         } else {
             return false;
         }
-    }
-
-    /**
-     * Overriding hashCode as equals is overridden.
-     *
-     * @return hashCode value
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(type, points);
     }
 
     /**

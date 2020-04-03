@@ -24,7 +24,7 @@ class BoardTest {
     // Helper function to reset frame, and board if required
     private void resetFrame(String letters, boolean resetBoard) {
         if (resetBoard) {
-            board.reset();
+            board = new Board();
         }
         for (char ch : letters.toCharArray()) {
             f.add(Tile.makeTile(ch));
@@ -80,25 +80,6 @@ class BoardTest {
         assertTrue(board.isEmpty());
         board.placeTile('H', 8, Tile.makeTile('X'));
         assertFalse(board.isEmpty());
-    }
-
-    @Test
-    void testReset() {
-        Square[][] b = board.getBoard();
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                b[i][j].setTile(Tile.makeTile('Z'));
-            }
-        }
-        board.reset();
-        b = board.getBoard();
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                if (b[i][j].getTile() != null) {
-                    fail("reset() doesn't work as expected");
-                }
-            }
-        }
     }
 
     @Test

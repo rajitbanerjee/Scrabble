@@ -111,7 +111,6 @@ public class Word {
         return letters.charAt(index);
     }
 
-
     /**
      * Checks if the word contains alphabets only.
      *

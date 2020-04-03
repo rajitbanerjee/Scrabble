@@ -77,18 +77,6 @@ public class Board {
     }
 
     /**
-     * Reset the board so that it contains 0 Tiles.
-     */
-    public void reset() {
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
-                board[i][j].setTile(null);
-            }
-        }
-        setFirstMove(true);
-    }
-
-    /**
      * Retrieve a tile at a specified row and column on the board.
      *
      * @param column the specified column ('A' - 'O') on the board
