@@ -1,6 +1,5 @@
 package game_engine;
 
-import constants.GameConstants;
 import constants.UIConstants;
 import game.*;
 import ui.CLIView;
@@ -28,6 +27,7 @@ public class Scrabble {
     private Player player1;
     private Player player2;
     private int opponentScore;
+    private String drawnTiles;
     private UIConstants.STATUS_CODE gameState;
     private boolean isChallengeSuccessful;
     private HashSet<String> dictionary;
@@ -58,6 +58,7 @@ public class Scrabble {
         player2 = new Player(new Frame(pool));
         board.reset();
         opponentScore = 0;
+        drawnTiles = "";
         gameState = P1_NAME;
         isChallengeSuccessful = false;
         CLIView.clearHistoryView();
@@ -278,7 +279,7 @@ public class Scrabble {
                 pass(player, false);
             }
         } else {
-            scoreMove(move, player, frame);
+            placeAndScore(move, player, frame);
         }
         if (isGameOver()) {
             quit();
@@ -342,10 +343,18 @@ public class Scrabble {
         return true;
     }
 
-    // Remove tile from board and put them back into frame
+    // Remove challenged tiles from board and put them back into frame
     private void removeTiles(Frame frame) {
+        // Remove drawn tiles from frame and put them back in pool
         StringBuilder addToPool = new StringBuilder();
-        int i = GameConstants.FRAME_LIMIT - Scoring.challengeIndices.size();
+        int size = frame.getFrame().size();
+        for (int j = 1; j <= drawnTiles.length(); j++) {
+            addToPool.append(frame.getFrame().remove(size - j).getType());
+        }
+        if (addToPool.length() > 0) {
+            pool.addTiles(addToPool.toString());
+        }
+        // Remove tiles from board and put them back in frame
         for (Index index : Scoring.challengeIndices) {
             int row = index.getRow();
             int column = index.getColumn();
@@ -353,17 +362,13 @@ public class Scrabble {
             if (tile.getPoints() == 0) {
                 tile.setType('-');
             }
-            addToPool.append(tile.getType());
-            frame.getFrame().remove(i);
-            frame.getFrame().add(i, tile);
+            frame.getFrame().add(tile);
             board.getBoard()[row][column].setTile(null);
-            i++;
         }
-        pool.addTiles(addToPool.toString());
     }
 
-    // Award the score for a player's move
-    private void scoreMove(String move, Player player, Frame frame) {
+    // Place word and award the score for a player's move
+    private void placeAndScore(String move, Player player, Frame frame) {
         Word word = Word.parseMove(move);
         board.placeWord(word, frame);
         Scoring.wordsFormed.clear();
@@ -374,7 +379,7 @@ public class Scrabble {
         printToOutput("POINTS AWARDED: " + score);
         printDashes();
         try {
-            frame.refillFrame();
+            drawnTiles = frame.refillFrame();
         } catch (Exception e) {
             printToOutput("> " + e.getMessage());
         }

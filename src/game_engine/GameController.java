@@ -140,7 +140,7 @@ public class GameController {
                     }
                 }
             } catch (RuntimeException e) {
-                System.exit(-1);
+                e.printStackTrace();
             }
         }
     }
