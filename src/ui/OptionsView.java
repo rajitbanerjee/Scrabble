@@ -3,8 +3,8 @@ package ui;
 import javafx.scene.layout.GridPane;
 
 /**
- * Contains the player's frame, display each players
- * score and have buttons for pass, exchange, challenge.
+ * Contains the player's frame, displays each player's score and has
+ * buttons for help, pass, challenge, quit, restart, switch theme.
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
