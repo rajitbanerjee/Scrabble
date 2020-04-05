@@ -123,7 +123,7 @@ class FrameTest {
             frame.getTile('Z');
             fail("Letter not in frame.");
         } catch (Exception ignored) {
-            // test passed
+            // Test passed
         }
     }
 
@@ -147,19 +147,8 @@ class FrameTest {
         try {
             frame.exchange("ABC");
         } catch (Exception ignored) {
-            // test passed
+            // Test passed
         }
-    }
-
-    @Test
-    void testToString() {
-        ArrayList<Tile> f = new ArrayList<>(); // Stores a copy of the frame for resetting purposes
-        Frame frame = new Frame(new Pool());
-        for (char ch : "HELLO".toCharArray()) {
-            f.add(Tile.makeTile(ch));
-        }
-        frame.setFrame(f);
-        assertEquals("[H, E, L, L, O]", frame.toString());
     }
 
 }

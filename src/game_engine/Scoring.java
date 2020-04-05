@@ -136,15 +136,15 @@ public class Scoring {
             int endRow = index.getRow();
             int column = index.getColumn();
 
-            // find the starting row index of the word
+            // Find the starting row index of the word
             while (Square.isValid(startRow - 1, column) && !b[startRow - 1][column].isEmpty()) {
                 startRow--;
             }
-            // find the tail row index of the word
+            // Find the tail row index of the word
             while (Square.isValid(endRow + 1, column) && !b[endRow + 1][column].isEmpty()) {
                 endRow++;
             }
-            // add word score for any extra words formed
+            // Add word score for any extra words formed
             if (startRow != endRow) {
                 for (int i = startRow; i <= endRow; i++) {
                     Square square = b[i][column];
@@ -173,15 +173,15 @@ public class Scoring {
             int endColumn = index.getColumn();
             int row = index.getRow();
 
-            // find the starting column index of the word
+            // Find the starting column index of the word
             while (Square.isValid(row, startColumn - 1) && !b[row][startColumn - 1].isEmpty()) {
                 startColumn--;
             }
-            // find the tail column index of the word
+            // Find the tail column index of the word
             while (Square.isValid(row, endColumn + 1) && !b[row][endColumn + 1].isEmpty()) {
                 endColumn++;
             }
-            // add word score for any extra words formed
+            // Add word score for any extra words formed
             if (startColumn != endColumn) {
                 for (int i = startColumn; i <= endColumn; i++) {
                     Square square = b[row][i];

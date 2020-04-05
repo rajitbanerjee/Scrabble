@@ -36,7 +36,7 @@ public class ScoreView extends HBox {
     }
 
     /**
-     * Removes the ScoreView.
+     * Removes the score view.
      */
     public void remove() {
         getChildren().clear();

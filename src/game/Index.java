@@ -2,7 +2,7 @@ package game;
 
 /**
  * An Index is a pair composed of row and column index.
- * It is useful to store the last covered indices after a move.
+ * It is used to store the last covered indices after a move.
  *
  * @author Rajit Banerjee, 18202817
  * @author Katarina Cvetkovic, 18347921
@@ -34,7 +34,7 @@ public class Index {
     }
 
     /**
-     * Setter for row.
+     * Mutator for row.
      *
      * @param row integer 0 - 14
      */
@@ -52,7 +52,7 @@ public class Index {
     }
 
     /**
-     * Setter for column.
+     * Mutator for column.
      *
      * @param column integer 0 - 14
      */

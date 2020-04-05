@@ -1,7 +1,7 @@
 package game;
 
 /**
- * The Player is a Scrabble player with a name, score and frame.
+ * The Player is a Scrabble player with a name, frame and score.
  *
  * @author Tee Chee Guan, 18202044
  * @author Rajit Banerjee, 18202817
@@ -10,8 +10,8 @@ package game;
  */
 public class Player {
     private String name;
-    private int score;
     private Frame frame;
+    private int score;
 
     /**
      * Creates a new Player.
@@ -28,17 +28,16 @@ public class Player {
      *
      * @param name1 player 1's name
      * @param name2 player 2's name
-     * @throws IllegalArgumentException if the two names are identical.
+     * @throws IllegalArgumentException if the two names are identical
      */
-    public static void validateNames(String name1, String name2)
-            throws IllegalArgumentException {
+    public static void validateNames(String name1, String name2) throws IllegalArgumentException {
         if (name1.equalsIgnoreCase(name2)) {
             throw new IllegalArgumentException("> Name taken! Please choose another name.");
         }
     }
 
     /**
-     * Accessor method for the name.
+     * Accessor for the name.
      *
      * @return player name
      */
@@ -47,7 +46,7 @@ public class Player {
     }
 
     /**
-     * Mutator method for the name.
+     * Mutator for the name.
      *
      * @param name player name
      */
@@ -56,6 +55,24 @@ public class Player {
             throw new IllegalArgumentException("> Player name cannot be empty!");
         }
         this.name = name.trim();
+    }
+
+    /**
+     * Accessor for the frame.
+     *
+     * @return player frame
+     */
+    public Frame getFrame() {
+        return frame;
+    }
+
+    /**
+     * Mutator for the frame.
+     *
+     * @param frame player frame
+     */
+    public void setFrame(Frame frame) {
+        this.frame = frame;
     }
 
     /**
@@ -85,30 +102,12 @@ public class Player {
     }
 
     /**
-     * Mutator method for the score variable.
+     * Accessor for score.
      *
      * @return player score
      */
     public int getScore() {
         return score;
-    }
-
-    /**
-     * Accessor method for the frame.
-     *
-     * @return player frame
-     */
-    public Frame getFrame() {
-        return frame;
-    }
-
-    /**
-     * Mutator method for the frame.
-     *
-     * @param frame player frame
-     */
-    public void setFrame(Frame frame) {
-        this.frame = frame;
     }
 
 }

@@ -27,7 +27,6 @@ public class CommandHistoryView extends ScrollPane {
         vbox.setId("history-view-text");
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.ALWAYS);
-        // Allows user to pan using mouse
         setPannable(true);
         // Automatically scrolls the scrollbar to the bottom
         vvalueProperty().bind(vbox.heightProperty());
@@ -37,7 +36,7 @@ public class CommandHistoryView extends ScrollPane {
     /**
      * Prints text to the VBox.
      *
-     * @param text to be printed.
+     * @param text to be printed
      */
     public void printText(String text) {
         Label label = new Label(text);
@@ -47,8 +46,8 @@ public class CommandHistoryView extends ScrollPane {
     /**
      * Accesses the command entered n commands ago.
      *
-     * @param n position of command relative to current command.
-     * @return returns the requested command.
+     * @param n position of command relative to current command
+     * @return returns the requested command
      */
     public String getNLastCommand(int n) {
         return history.get(history.size() - n);
@@ -57,7 +56,7 @@ public class CommandHistoryView extends ScrollPane {
     /**
      * Adds a command to the history.
      *
-     * @param command to be added.
+     * @param command to be added
      */
     public void addCommand(String command) {
         history.add(command);
@@ -66,7 +65,7 @@ public class CommandHistoryView extends ScrollPane {
     /**
      * Gets the size of the command history.
      *
-     * @return the size of history.
+     * @return the size of history
      */
     public int getHistorySize() {
         return history.size();

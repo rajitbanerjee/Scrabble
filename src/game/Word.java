@@ -57,7 +57,7 @@ public class Word {
     }
 
     /**
-     * Accessor for column of word.
+     * Accessor for column of the word.
      *
      * @return column
      */
@@ -66,7 +66,7 @@ public class Word {
     }
 
     /**
-     * Accessor for row of word.
+     * Accessor for row of the word.
      *
      * @return row
      */
@@ -124,7 +124,7 @@ public class Word {
      * Word equality checker.
      *
      * @param obj Object to be tested for equality against another Word
-     * @return {@code true} if Tiles are equal, {@code false} otherwise
+     * @return {@code true} if Word objects are equal
      */
     @Override
     public boolean equals(Object obj) {

@@ -32,7 +32,7 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for pass.
+     * Accessor for pass button.
      *
      * @return pass button
      */
@@ -41,7 +41,7 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for challenge.
+     * Accessor for challenge button.
      *
      * @return challenge button
      */
@@ -50,7 +50,7 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for quit.
+     * Accessor for quit button.
      *
      * @return quit button
      */
@@ -59,7 +59,7 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for help.
+     * Accessor for help button.
      *
      * @return help button
      */
@@ -68,7 +68,7 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for restart.
+     * Accessor for restart button.
      *
      * @return restart button
      */
@@ -77,9 +77,9 @@ public class ButtonsView extends HBox {
     }
 
     /**
-     * Accessor for theme.
+     * Accessor for theme switch button.
      *
-     * @return restart button
+     * @return theme switch button
      */
     public Button getThemeButton() {
         return theme;

@@ -34,7 +34,6 @@ public class Tile {
      * @throws IllegalArgumentException if specified type is neither A-Z nor -
      */
     public static Tile makeTile(char type) throws IllegalArgumentException {
-        type = Character.toUpperCase(type);
         int points = -1;
         for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
             if (GameConstants.TILE_TYPES_ARRAY[i].contains(type + "")) {
@@ -50,7 +49,7 @@ public class Tile {
     }
 
     /**
-     * Accessor for tile type
+     * Accessor for tile type.
      *
      * @return type letter A-Z or blank type of tile
      */
@@ -59,7 +58,7 @@ public class Tile {
     }
 
     /**
-     * Setter for tile type.
+     * Mutator for tile type.
      *
      * @param type letter A-Z or blank type of tile
      * @throws IllegalArgumentException if tile type is invalid

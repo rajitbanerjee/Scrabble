@@ -83,28 +83,6 @@ class BoardTest {
     }
 
     @Test
-    void testGetTile() {
-        Square[][] b = board.getBoard();
-        Tile tile = Tile.makeTile('Z');
-        for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= GameConstants.BOARD_SIZE; row++) {
-                tile.setType((char) ((int) (Math.random() * 26) + 'A'));
-                b[row - 1][column - 'A'].setTile(tile);
-                assertEquals(tile, board.getTile(column, row));
-            }
-        }
-        // Test if exception is thrown for square out of bounds
-        try {
-            board.getTile('A', 16);
-            board.getTile('P', 14);
-            board.getTile('B', 0);
-            fail("Queried tile out of bounds.");
-        } catch (Exception ignored) {
-            // Test passed
-        }
-    }
-
-    @Test
     void testPlaceTile() {
         Square[][] b = board.getBoard();
         Tile tile = Tile.makeTile('Z');
@@ -138,29 +116,29 @@ class BoardTest {
     void testAreMoveParametersValid() {
         resetFrame("HELLO", false);
         // Check if word is placed on a valid square
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'A'), frame));
         assertFalse(board.isWordLegal(new Word("HELLO", 'R', 7, 'A'), frame));
         assertFalse(board.isWordLegal(new Word("HELLO", (char) ('A' - 1), 7, 'A'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', -1, 'A'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', 16, 'A'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', -1, 'A'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', 16, 'A'), frame));
 
         // Check if appropriate orientation is provided A (Across)/D (Down)
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'D'), frame));
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'a'), frame));
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'd'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', 8, 'r'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', 8, 'q'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'D'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'a'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'd'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', 8, 'r'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', 8, 'q'), frame));
 
         // Check if word to be placed is too short
         assertFalse(board.isWordLegal(new Word("H", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("He", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HE", 'H', 8, 'A'), frame));
 
         // Check if word contains only alphabetical characters
         assertFalse(board.isWordLegal(new Word("123", 'H', 8, 'A'), frame));
         assertFalse(board.isWordLegal(new Word("AB?", 'H', 8, 'A'), frame));
         assertFalse(board.isWordLegal(new Word("----", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("Hello", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HELLO", 'H', 8, 'A'), frame));
 
         // Check that appropriate measures are taken for a null frame object
         assertFalse(board.isWordLegal(new Word("123", 'H', 8, 'A'), null));
@@ -213,12 +191,12 @@ class BoardTest {
     void testDoesFrameContainTiles() {
         resetFrame("H-LL", true);
         // Check if frame contains necessary tiles for word placement (ignores filled squares)
-        assertTrue(board.isWordLegal(new Word("He", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("lleH", 'H', 8, 'A'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("He", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("lleH", 'H', 8, 'D'), frame));
-        assertFalse(board.isWordLegal(new Word("Hello", 'H', 8, 'd'), frame));
+        assertTrue(board.isWordLegal(new Word("HE", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("LLEH", 'H', 8, 'A'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HE", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("LLEH", 'H', 8, 'D'), frame));
+        assertFalse(board.isWordLegal(new Word("HELLO", 'H', 8, 'd'), frame));
     }
 
     @Test
@@ -292,21 +270,21 @@ class BoardTest {
 
     @Test
     void testWordExtensions() {
-        resetFrame("HeLLo", false);
+        resetFrame("HELLO", false);
         // Tests extension of words in both directions
         board.setFirstMove(false);
 
         // Places a test Tile in the centre of the board ('H', 8)
         board.placeTile('H', 8, Tile.makeTile('X'));
-        assertTrue(board.isWordLegal(new Word("XlleH", 'H', 8, 'D'), frame));
-        assertTrue(board.isWordLegal(new Word("HXllo", 'H', 7, 'D'), frame));
-        assertTrue(board.isWordLegal(new Word("XlleH", 'H', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("HXllo", 'G', 8, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("HeX", 'F', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("XLLEH", 'H', 8, 'D'), frame));
+        assertTrue(board.isWordLegal(new Word("HXLLO", 'H', 7, 'D'), frame));
+        assertTrue(board.isWordLegal(new Word("XLLEH", 'H', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HXLLO", 'G', 8, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HEX", 'F', 8, 'A'), frame));
 
         board.placeTile('I', 13, Tile.makeTile('X'));
-        assertTrue(board.isWordLegal(new Word("HeX", 'G', 13, 'A'), frame));
-        assertTrue(board.isWordLegal(new Word("HeXllo", 'G', 13, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HEX", 'G', 13, 'A'), frame));
+        assertTrue(board.isWordLegal(new Word("HEXLLO", 'G', 13, 'A'), frame));
     }
 
     @Test
@@ -315,28 +293,28 @@ class BoardTest {
         resetFrame("HELLO", false);
         // Testing first word placement
         // Place word horizontally on H8
-        board.placeWord(new Word("Hello", 'H', 8, 'A'), frame);
+        board.placeWord(new Word("HELLO", 'H', 8, 'A'), frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['H' - 'A' + i].getTile());
         }
 
         resetFrame("HELLO", true);
         // Place word vertically on H8
-        board.placeWord(new Word("Hello", 'H', 8, 'D'), frame);
+        board.placeWord(new Word("HELLO", 'H', 8, 'D'), frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7 + i]['H' - 'A'].getTile());
         }
 
         resetFrame("HELLO", true);
         // Place word horizontally going through H8
-        board.placeWord(new Word("Hello", 'F', 8, 'A'), frame);
+        board.placeWord(new Word("HELLO", 'F', 8, 'A'), frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[7]['F' - 'A' + i].getTile());
         }
 
         resetFrame("HELLO", true);
         // Place word vertically going through H8
-        board.placeWord(new Word("Hello", 'H', 6, 'D'), frame);
+        board.placeWord(new Word("HELLO", 'H', 6, 'D'), frame);
         for (int i = 0; i < 5; i++) {
             assertEquals(Tile.makeTile(word.charAt(i)), board.getBoard()[5 + i]['H' - 'A'].getTile());
         }
@@ -362,19 +340,19 @@ class BoardTest {
     @Test
     void testInvalidWordPlacement() {
         resetFrame("HELLO", false);
-        //Illegal first word placements
+        // Illegal first word placements
         try {
             // Place first word horizontally on H9 (doesn't go through centre square)
-            board.placeWord(new Word("Hello", 'H', 9, 'A'), frame);
-        } catch (IllegalArgumentException e) {
+            board.placeWord(new Word("HELLO", 'H', 9, 'A'), frame);
+        } catch (Exception e) {
             for (int i = 0; i < 5; i++) {   //check the word was not placed
                 assertNull(board.getBoard()[8]['H' - 'A' + i].getTile());
             }
         }
         try {
             // Place first word word vertically on F5 (doesn't go through centre square)
-            board.placeWord(new Word("Hello", 'F', 5, 'D'), frame);
-        } catch (IllegalArgumentException e) {
+            board.placeWord(new Word("HELLO", 'F', 5, 'D'), frame);
+        } catch (Exception e) {
             for (int i = 0; i < 5; i++) {   //check the word was not placed
                 assertNull(board.getBoard()[4 + i]['F' - 'A'].getTile());
             }

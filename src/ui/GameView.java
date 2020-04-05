@@ -23,18 +23,17 @@ public class GameView extends HBox {
      */
     public GameView(CLIView cliView, BoardView boardView, OptionsView optionsView) {
         super();
-        // Add board view to the left
+        // Add board view to the left side
         getChildren().add(boardView);
-        // Create VBox for right side
+        // Add options view and CLI view to the right
         VBox vbox = new VBox();
-        // Add children
         vbox.getChildren().add(optionsView);
         Line separator = new Line(optionsView.getLayoutX(), optionsView.getLayoutY(),
                 optionsView.getLayoutX() + UIConstants.CMD_INPUT_WIDTH, optionsView.getLayoutY());
         separator.setId("options-view-separator");
         vbox.getChildren().add(separator);
         vbox.getChildren().add(cliView);
-        // Add right view to HBox
+        // Add right side view to game view
         getChildren().add(vbox);
     }
 

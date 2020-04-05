@@ -17,7 +17,7 @@ public class UIConstants {
     public static String stylesheet = "resources/darkTheme.css";
 
     /**
-     * Switches the game theme.
+     * Switches the game theme (dark/light).
      */
     public static void switchTheme() {
         if (stylesheet.endsWith("darkTheme.css")) {

@@ -67,10 +67,6 @@ class TileTest {
         assertEquals(t1, t2);
         assertNotEquals(t1, s1);
 
-        // Test hashCode()
-        assertEquals(t1.hashCode(), t2.hashCode());
-        assertNotEquals(t1.hashCode(), s1.hashCode());
-
         // Test makeTile()
         // Create a HashMap to test the score of each letter
         HashMap<Character, Integer> map = new HashMap<>();

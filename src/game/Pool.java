@@ -3,7 +3,6 @@ package game;
 import constants.GameConstants;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 /**
  * The Pool holds 100 tiles initially, and players refill their
@@ -62,11 +61,11 @@ public class Pool {
      * Draw a tile at random from the pool.
      *
      * @return the randomly drawn Tile object
-     * @throws NoSuchElementException if player tries to draw Tile from empty Pool
+     * @throws IllegalStateException if player tries to draw tile from empty pool
      */
-    public Tile drawTile() throws NoSuchElementException {
+    public Tile drawTile() throws IllegalStateException {
         if (isEmpty()) {
-            throw new NoSuchElementException("Pool has no tiles!");
+            throw new IllegalStateException("> Pool has no tiles!");
         }
         // Returns a random index between [0, pool.size())
         int index = (int) (Math.random() * pool.size());
@@ -79,7 +78,7 @@ public class Pool {
     /**
      * Checks if the pool is empty.
      *
-     * @return {@code true} if pool has 0 tiles, {@code false} otherwise
+     * @return {@code true} if pool has 0 tiles,
      */
     public boolean isEmpty() {
         return pool.isEmpty();

@@ -57,7 +57,7 @@ public class Scrabble {
     /**
      * Sets the controller for the current game.
      *
-     * @param controller GUI controller for the current game.
+     * @param controller GUI controller for the current game
      */
     public void setController(GameController controller) {
         this.controller = controller;
@@ -95,7 +95,7 @@ public class Scrabble {
     /**
      * Check if both players have entered their names.
      *
-     * @return {@code true} if both players have names.
+     * @return {@code true} if both players have names
      */
     public boolean arePlayersReady() {
         return player1.getName() != null && player2.getName() != null;
@@ -189,7 +189,7 @@ public class Scrabble {
                 try {
                     if (command.toUpperCase().startsWith("NAME")) {
                         String newName = command.substring(5);
-                        Player.validateNames(opponent.getName(), newName);
+                        Player.validateNames(newName, opponent.getName());
                         player.setName(newName);
                         askForMove(player);
                         return false;
@@ -254,7 +254,7 @@ public class Scrabble {
                 exchange(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
-                printToOutput("> " + e.getMessage());
+                printToOutput(e.getMessage());
                 return false;
             }
         } else {
@@ -340,6 +340,7 @@ public class Scrabble {
                 if (board.isEmpty()) {
                     board.setFirstMove(true);
                 }
+                Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
                 success = true;
             }
             Scoring.CHALLENGE_INDICES.clear();

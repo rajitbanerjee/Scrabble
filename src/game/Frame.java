@@ -44,14 +44,14 @@ public class Frame {
     /**
      * Accessor for frame.
      *
-     * @return the frame, an ArrayList of Tiles
+     * @return the frame, an ArrayList of tiles
      */
     public ArrayList<Tile> getFrame() {
         return frame;
     }
 
     /**
-     * Setter for frame.
+     * Mutator for frame.
      *
      * @param frame ArrayList of tiles
      */
@@ -60,14 +60,14 @@ public class Frame {
     }
 
     /**
-     * Method to refill the frame if it has less than 7 tiles.
+     * Refills the frame if it has less than 7 tiles.
      *
-     * @return the newly drawn tiles from the pool
+     * @return the String of newly drawn tiles from the pool
      * @throws IllegalStateException if pool is empty, frame cannot be refilled
      */
     public String refillFrame() throws IllegalStateException {
         if (pool.isEmpty()) {
-            throw new IllegalStateException("Cannot refill frame, no tiles left in pool.");
+            throw new IllegalStateException("> Cannot refill frame, no tiles left in pool.");
         }
         int numTilesToDraw = Math.min(pool.size(), GameConstants.FRAME_LIMIT - frame.size());
         StringBuilder drawnTiles = new StringBuilder();
@@ -88,7 +88,7 @@ public class Frame {
      */
     public String exchange(String letters) throws IllegalStateException {
         if (pool.size() < GameConstants.FRAME_LIMIT) {
-            throw new IllegalStateException("Cannot exchange, pool contains 6 tiles or less!");
+            throw new IllegalStateException("> Cannot exchange, pool contains 6 tiles or less!");
         }
         for (char letter : letters.toCharArray()) {
             remove(letter);
@@ -108,12 +108,12 @@ public class Frame {
         if (contains(letter)) {
             frame.remove(getLetterIndex(letter));
         } else {
-            throw new NoSuchElementException("Letter can't be removed. Not in frame!");
+            throw new NoSuchElementException("> Letter can't be removed. Not in frame!");
         }
     }
 
     /**
-     * Accessor to letters in the frame.
+     * Accessor for letters in the frame.
      *
      * @param letter chosen by user to specify the selected tile from the frame
      * @return the tile object for the given letter in frame
@@ -123,7 +123,7 @@ public class Frame {
         if (contains(letter)) {
             return getTile(getLetterIndex(letter));
         } else {
-            throw new NoSuchElementException("Letter can't be accessed. Not in frame!");
+            throw new NoSuchElementException("> Letter can't be accessed. Not in frame!");
         }
     }
 
@@ -142,19 +142,19 @@ public class Frame {
     }
 
     /**
-     * Check if a letter is found inside the frame.
+     * Check if a letter is found in the frame.
      *
      * @param letter the letter that is being searched
-     * @return {@code true} if letter is inside frame, {@code false} otherwise
+     * @return {@code true} if letter is inside frame
      */
     public boolean contains(char letter) {
         return getLetterIndex(letter) != -1;
     }
 
-    //  Find index of first tile containing some letter, -1 if not found
+    //  Find index of first tile containing given letter, -1 if not found
     private int getLetterIndex(char letter) {
         for (int i = 0; i < frame.size(); i++) {
-            if (getTile(i).getType() == Character.toUpperCase(letter)) {
+            if (getTile(i).getType() == letter) {
                 return i;
             }
         }
@@ -164,20 +164,10 @@ public class Frame {
     /**
      * Check if frame is empty.
      *
-     * @return {@code true} if frame is empty, {@code false} otherwise
+     * @return {@code true} if frame is empty
      */
     public boolean isEmpty() {
         return frame.isEmpty();
-    }
-
-    /**
-     * Override toString method
-     *
-     * @return Sting representation of Frame
-     */
-    @Override
-    public String toString() {
-        return frame.toString();
     }
 
 }

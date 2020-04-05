@@ -20,10 +20,11 @@ public class Board {
      * Creates a new Scrabble board.
      */
     public Board() {
-        board = new Square[15][15];
+        int size = GameConstants.BOARD_SIZE;
+        int centre = size / 2;
+        board = new Square[size][size];
         setFirstMove(true);
-        // initialise multiplier squares on board
-        int centre = GameConstants.BOARD_SIZE / 2; // 15/2 = 7
+        // Initialise multiplier squares on board
         board[centre][centre] = new Square(GameConstants.MULTIPLIER.CENTRE);
         for (int[] index : GameConstants.NORMAL_SQ_ARRAY) {
             board[index[0]][index[1]] = new Square(GameConstants.MULTIPLIER.NORMAL);
@@ -54,7 +55,7 @@ public class Board {
     /**
      * Setter for firstMove.
      *
-     * @param firstMove boolean value indicating whether the first move has been played.
+     * @param firstMove boolean value indicating whether the first move has been played
      */
     public void setFirstMove(boolean firstMove) {
         isFirstMove = firstMove;
@@ -74,25 +75,6 @@ public class Board {
             }
         }
         return true;
-    }
-
-    /**
-     * Retrieve a tile at a specified row and column on the board.
-     *
-     * @param column the specified column ('A' - 'O') on the board
-     * @param row    the specified row (1 - 15) on the board
-     * @return the Tile at a specified position on the board, null if empty
-     * @throws IllegalArgumentException if specified row or column are out of bounds
-     */
-    public Tile getTile(char column, int row) throws IllegalArgumentException {
-        column = Character.toUpperCase(column);
-        // Convert column and row to real indices(0 - 14)
-        column -= 'A';
-        row -= 1;
-        if (!Square.isValid(column, row)) {
-            throw new IllegalArgumentException("Square out of bounds.");
-        }
-        return board[row][column].getTile();
     }
 
     /**
@@ -117,11 +99,11 @@ public class Board {
      * @return the String representation of the word
      */
     public String getHorizontalWord(int row, int startColumn, int endColumn) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder word = new StringBuilder();
         for (int i = startColumn; i <= endColumn; i++) {
-            sb.append(board[row][i].getTile().getType());
+            word.append(board[row][i].getTile().getType());
         }
-        return sb.toString();
+        return word.toString();
     }
 
     /**
@@ -133,11 +115,11 @@ public class Board {
      * @return the String representation of the word
      */
     public String getVerticalWord(int column, int startRow, int endRow) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder word = new StringBuilder();
         for (int i = startRow; i <= endRow; i++) {
-            sb.append(board[i][column].getTile().getType());
+            word.append(board[i][column].getTile().getType());
         }
-        return sb.toString();
+        return word.toString();
     }
 
     /**
@@ -146,12 +128,11 @@ public class Board {
      *
      * @param word  to be placed on the board
      * @param frame the players frame
-     * @throws IllegalArgumentException for illegal word placement
+     * @throws IllegalArgumentException if word placement is illegal
      */
-    public void placeWord(Word word, Frame frame)
-            throws IllegalArgumentException {
+    public void placeWord(Word word, Frame frame) throws IllegalArgumentException {
         if (!isWordLegal(word, frame)) {
-            throw new IllegalArgumentException("Invalid word placement");
+            throw new IllegalArgumentException("> Invalid word placement");
         }
         Scoring.LAST_COVERED_INDICES.clear();
         setFirstMove(false);
@@ -167,24 +148,24 @@ public class Board {
                 row = word.getRow() + i;
                 column = word.getColumn();
             }
-            // Ignore filled squares
+            // Ignore filled squares, place tiles on the remaining squares
             if (board[row][column].isEmpty()) {
-                // Convert blank tile to a given letter if letter is not in the frame
-                if (!frame.contains(ch)) {
-                    Tile blankTile = new Tile(ch, 0);
-                    placeTile((char) (column + 'A'), row + 1, blankTile);
-                    frame.remove('-');
-                } else {
+                if (frame.contains(ch)) {
                     // Place tile on the board and remove it from the frame
                     placeTile((char) (column + 'A'), row + 1, frame.getTile(ch));
                     frame.remove(ch);
+                } else {
+                    // Convert blank tile to a given letter if letter is not in the frame
+                    Tile blankTile = new Tile(ch, 0);
+                    placeTile((char) (column + 'A'), row + 1, blankTile);
+                    frame.remove('-');
                 }
             }
         }
     }
 
     /**
-     * Allows a word placement to be checked to determine if it is legal or not.
+     * Determines if a word placement is legal or not.
      *
      * @param word  to be placed on the board
      * @param frame the players frame
@@ -198,7 +179,7 @@ public class Board {
                 frame == null) {
             return false;
         }
-        // Checks for overflow
+        // Checks if word length exceeds the size of the board
         if (isOverflowed(word)) {
             Scrabble.printToOutput("> Word goes out of the board!");
             return false;
@@ -299,16 +280,16 @@ public class Board {
                 row = word.getRow() + i;
                 column = word.getColumn();
             }
-            String character = Character.toString(word.charAt(i));
-            // Return false if frame does not contain letter needed
+            String letter = Character.toString(word.charAt(i));
             if (board[row][column].isEmpty()) {
-                // Check for the specified character from the frame
-                if (tilesInFrame.contains(character)) {
-                    tilesInFrame = tilesInFrame.replaceFirst(character, "");
+                if (tilesInFrame.contains(letter)) {
+                    // Check for the specified letter from the frame
+                    tilesInFrame = tilesInFrame.replaceFirst(letter, "");
                 } else if (tilesInFrame.contains("-")) {
-                    // Else check for any blank characters from the frame
+                    // Check for any blank characters from the frame
                     tilesInFrame = tilesInFrame.replaceFirst("-", "");
                 } else {
+                    // Frame does not contain letter needed
                     return false;
                 }
             }
@@ -329,10 +310,10 @@ public class Board {
                 row = word.getRow() + i;
                 column = word.getColumn();
             }
-            char ch = word.charAt(i);
-            // If square is empty, check if frame contains the required tile or a blank tile
+            char letter = word.charAt(i);
+            // If square is empty, check if frame contains the required letter or a blank tile
             if (board[row][column].isEmpty()) {
-                if (frame.contains(ch) || frame.contains('-')) {
+                if (frame.contains(letter) || frame.contains('-')) {
                     return true;
                 }
             }

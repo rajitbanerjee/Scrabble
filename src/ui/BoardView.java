@@ -40,11 +40,11 @@ public class BoardView extends GridPane {
         Square[][] boardArray = board.getBoard();
         // Initialise top-left empty block
         add(getEmptyUI(), 0, 0);
-        // Draws the first row (Column Names)
+        // Draws the first row (column names)
         for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
             add(getFirstColumnUI((char) ('A' + k)), k + 1, 0);
         }
-        // Draws the first column (Row Numbers)
+        // Draws the first column (row numbers)
         for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
             add(getFirstRowUI(k + 1), 0, k + 1);
         }

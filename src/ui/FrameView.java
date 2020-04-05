@@ -22,7 +22,7 @@ public class FrameView extends GridPane {
     }
 
     /**
-     * Removes the FrameView.
+     * Removes the frame view.
      */
     public void remove() {
         getChildren().clear();

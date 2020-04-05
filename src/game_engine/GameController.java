@@ -35,7 +35,7 @@ public class GameController {
      * @param frameView   the frame view
      * @param scoreView   the score view
      * @param buttonsView the buttons view
-     * @param scene       the scene(stage contents)
+     * @param scene       the scene (stage contents)
      */
     public GameController(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,
                           ScoreView scoreView, ButtonsView buttonsView, Scene scene) {
@@ -47,7 +47,7 @@ public class GameController {
         this.buttonsView = buttonsView;
         this.scene = scene;
         setListeners();
-        setButtons();
+        setButtonActions();
     }
 
     /**
@@ -58,11 +58,13 @@ public class GameController {
             CommandHistoryView historyView = CLIView.HISTORY_VIEW;
             CommandInputView inputView = cliView.getInputView();
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                updateGame(inputView.getText());
-                historyView.addCommand(inputView.getText());
+                // Update the game according to typed command
+                updateGame(inputView.getText().trim());
+                historyView.addCommand(inputView.getText().trim());
                 nLastCommand = 0;
                 cliView.clearInputView();
             } else if (keyEvent.getCode() == KeyCode.UP) {
+                // Navigate to previous command
                 if (historyView.getHistorySize() != 0) {
                     nLastCommand++;
                     correctNLast();
@@ -70,6 +72,7 @@ public class GameController {
                     Platform.runLater(inputView::end);
                 }
             } else if (keyEvent.getCode() == KeyCode.DOWN) {
+                // Navigate to previous command
                 if (nLastCommand == 0) {
                     cliView.clearInputView();
                 } else if (historyView.getHistorySize() != 0) {
@@ -82,7 +85,7 @@ public class GameController {
                     }
                 }
             } else if (keyEvent.getCode() == KeyCode.CONTROL) {
-                // Only start autocomplete if game has started and input is not empty
+                // Autocomplete command (if game has started and input is not empty)
                 if ((game.getGameState() == P1_TURN || game.getGameState() == P2_TURN) &&
                         !inputView.getText().trim().isEmpty()) {
                     inputView.setText(getAutoCompletedText(inputView.getText()));
@@ -90,6 +93,16 @@ public class GameController {
                 }
             }
         });
+    }
+
+    // Corrects the variable nLastCommand
+    private void correctNLast() {
+        CommandHistoryView historyView = CLIView.HISTORY_VIEW;
+        if (nLastCommand > historyView.getHistorySize()) {
+            nLastCommand = historyView.getHistorySize();
+        } else if (nLastCommand < 1) {
+            nLastCommand = 1;
+        }
     }
 
     // Returns the original phrase if no matches
@@ -106,16 +119,6 @@ public class GameController {
         return phrase;
     }
 
-    // Corrects the variable nLastCommand
-    private void correctNLast() {
-        CommandHistoryView historyView = CLIView.HISTORY_VIEW;
-        if (nLastCommand > historyView.getHistorySize()) {
-            nLastCommand = historyView.getHistorySize();
-        } else if (nLastCommand < 1) {
-            nLastCommand = 1;
-        }
-    }
-
     /**
      * Updates the game display according to the last command entered by the user.
      *
@@ -125,7 +128,7 @@ public class GameController {
         try {
             boolean updateBoard = true;
             if (game.getGameState() != GAME_OVER) {
-                updateBoard = game.processCommand(command.trim());
+                updateBoard = game.processCommand(command);
             }
             // Update the board display
             if (updateBoard) {
@@ -158,35 +161,32 @@ public class GameController {
     }
 
     /**
-     * Sets actions for buttons: PASS, CHALLENGE, QUIT, HELP, RESTART
+     * Sets actions for buttons: HELP, PASS, CHALLENGE, QUIT, RESTART, SWITCH THEME
      */
-    public void setButtons() {
+    public void setButtonActions() {
+        buttonsView.getHelpButton().setOnAction(event -> updateGame("HELP"));
         buttonsView.getPassButton().setOnAction(event -> {
-            if (game.getGameState() == P1_NAME ||
-                    game.getGameState() == P2_NAME) {
+            if (game.getGameState() == P1_NAME || game.getGameState() == P2_NAME) {
                 PopupView.displayUnsupportedActionPopup();
             } else {
                 updateGame("PASS");
             }
         });
         buttonsView.getChallengeButton().setOnAction(event -> {
-            if (game.getGameState() == P1_NAME ||
-                    game.getGameState() == P2_NAME) {
+            if (game.getGameState() == P1_NAME || game.getGameState() == P2_NAME) {
                 PopupView.displayUnsupportedActionPopup();
             } else {
                 updateGame("CHALLENGE");
             }
         });
         buttonsView.getQuitButton().setOnAction(event -> {
-            if (game.getGameState() == P1_NAME ||
-                    game.getGameState() == P2_NAME) {
+            if (game.getGameState() == P1_NAME || game.getGameState() == P2_NAME) {
                 PopupView.displayQuitPopup();
                 System.exit(0);
             } else {
                 updateGame("QUIT");
             }
         });
-        buttonsView.getHelpButton().setOnAction(event -> updateGame("HELP"));
         buttonsView.getRestartButton().setOnAction(event -> updateGame("RESTART"));
         buttonsView.getThemeButton().setOnAction(event -> {
             UIConstants.switchTheme();
