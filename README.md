@@ -3,11 +3,12 @@
 * Developed with IntelliJ IDEA, for COMP20050: Software Engineering Project 2, 
 
 #### Play Game:
-Download and run (double click) the executable [JAR file](./out/artifacts/DarkMode/DarkMode.jar).  
-Dark Theme.
+Download and run (double click) the executable [JAR file](./out/artifacts/DarkMode/DarkMode.jar). 
+
+Dark Theme:
 ![Dark Theme](images/DarkTheme.jpg)    
 
-Light Theme. 
+Light Theme: 
 ![Light Theme](images/LightTheme.jpg)  
 
 #### Dependencies:
