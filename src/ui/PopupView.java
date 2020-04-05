@@ -59,7 +59,7 @@ public class PopupView {
                 "HELP:\t\t\t\tDisplays the help message.\n" +
                 "PASS:\t\t\t\tPasses your current turn.\n" +
                 "QUIT:\t\t\t\tExits the game.\n" +
-                "EXCHANGE <letters>:\tExchange letters with random ones from the pool. (E.g. EXCHANGE JK)\n" +
+                "EXCHANGE <letters>:\tExchange letters with random ones from the pool. (E.g. \"EXCHANGE JK\")\n" +
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
                 "RESTART:\t\t\t\tStarts a new game of Scrabble.\n" +
                 "SWITCH THEME:\t\tSwitches the display theme (dark/light).\n" +

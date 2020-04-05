@@ -253,7 +253,7 @@ public class Scrabble {
                 Pool tempPool = new Pool();
                 tempPool.setPool(pool.getPool());
                 Frame tempFrame = new Frame(tempPool);
-                tempFrame.setFrame(new ArrayList<>(frame.getFrame()));
+                tempFrame.setFrame(frame.getFrame());
                 exchange(move, tempFrame, true);
                 return true;
             } catch (Exception e) {
