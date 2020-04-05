@@ -3,7 +3,7 @@
 * Developed with IntelliJ IDEA, for COMP20050: Software Engineering Project 2, 
 
 #### Play Game:
-Download and run (double click) the executable [JAR file](./out/artifacts/DarkMode/DarkMode.jar). 
+[Download](https://github.com/UCD-COMP20050/DarkMode/releases/download/4.0/DarkMode.jar) and run (double click) the JAR file from the [latest release](https://github.com/UCD-COMP20050/DarkMode/releases).
 
 Dark Theme:
 ![Dark Theme](images/DarkTheme.jpg)    
