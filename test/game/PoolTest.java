@@ -79,4 +79,12 @@ class PoolTest {
         }
     }
 
+    @Test
+    void testSetPool() {
+        Pool pool = new Pool();
+        Pool test = new Pool();
+        test.setPool(pool.getPool());
+        assertEquals(pool.getPool(), test.getPool());
+    }
+
 }

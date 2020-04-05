@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Team 15: DarkMode
  */
 public class Pool {
-    private final ArrayList<Tile> pool;
+    private ArrayList<Tile> pool;
 
     /**
      * Creates a new pool of tiles.
@@ -46,6 +46,16 @@ public class Pool {
      */
     public ArrayList<Tile> getPool() {
         return pool;
+    }
+
+    /**
+     * Mutator for pool.
+     *
+     * @param pool the new pool
+     */
+    public void setPool(ArrayList<Tile> pool) {
+        this.pool.clear();
+        this.pool.addAll(pool);
     }
 
     /**

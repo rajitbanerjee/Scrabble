@@ -56,7 +56,8 @@ public class Frame {
      * @param frame ArrayList of tiles
      */
     public void setFrame(ArrayList<Tile> frame) {
-        this.frame = frame;
+        this.frame.clear();
+        this.frame.addAll(frame);
     }
 
     /**

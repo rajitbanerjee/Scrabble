@@ -109,7 +109,7 @@ public class GameController {
     private String getAutoCompletedText(String phrase) {
         String prefix = phrase.toUpperCase().trim();
         // Array of supported commands
-        String[] supportedCommands = {"HELP", "PASS", "CHALLENGE", "QUIT", "RESTART"};
+        String[] supportedCommands = {"HELP", "PASS", "CHALLENGE", "QUIT", "RESTART", "EXCHANGE ", "NAME "};
         for (String s : supportedCommands) {
             if (s.startsWith(prefix)) {
                 return s;

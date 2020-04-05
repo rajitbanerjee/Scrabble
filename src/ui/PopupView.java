@@ -59,7 +59,7 @@ public class PopupView {
                 "HELP:\t\t\t\tDisplays the help message.\n" +
                 "PASS:\t\t\t\tPasses your current turn.\n" +
                 "QUIT:\t\t\t\tExits the game.\n" +
-                "EXCHANGE <letters>:\tExchange letters with random ones from the pool.\n" +
+                "EXCHANGE <letters>:\tExchange letters with random ones from the pool. (E.g. EXCHANGE JK)\n" +
                 "CHALLENGE:\t\t\tChallenge the move made by the opponent in the previous turn.\n" +
                 "RESTART:\t\t\t\tStarts a new game of Scrabble.\n" +
                 "SWITCH THEME:\t\tSwitches the display theme (dark/light).\n" +
@@ -69,7 +69,9 @@ public class PopupView {
                 "(E.g. \"H8 A HELLO\" or \"H10 D HI\")\n" +
                 "\nTo use blank tiles, simply type the desired tile in place of the blank tile.\n" +
                 "(E.g. \"H8 A HELLO\" with frame having: [H, -, L, L, -]\n" +
-                "\n(Quick tip: Up and Down keys allow past command navigation, CTRL key allows autocompletion.)\n";
+                "\nQuick tips: \n" +
+                "1. Up and Down keys allow past command navigation.\n" +
+                "2. Use CTRL key to autocomplete commands.\n";
         Label text = new Label(help);
 
         Hyperlink link = new Hyperlink();
@@ -83,7 +85,7 @@ public class PopupView {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(text, link, button);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, 750, 450);
+        Scene scene = new Scene(layout, 750, 500);
         scene.getStylesheets().add(UIConstants.stylesheet);
         window.setScene(scene);
         window.setResizable(false);

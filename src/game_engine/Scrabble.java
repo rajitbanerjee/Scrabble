@@ -249,7 +249,10 @@ public class Scrabble {
     private boolean isExchangeLegal(String move, Frame frame) {
         if (move.matches("EXCHANGE [A-Z-]+")) {
             try {
-                Frame tempFrame = new Frame(pool);
+                // Do a test exchange (with dummy pool and frame) to check legality
+                Pool tempPool = new Pool();
+                tempPool.setPool(pool.getPool());
+                Frame tempFrame = new Frame(tempPool);
                 tempFrame.setFrame(new ArrayList<>(frame.getFrame()));
                 exchange(move, tempFrame, true);
                 return true;
@@ -311,6 +314,7 @@ public class Scrabble {
     private void pass(Player player, boolean removeLastScore) {
         printToOutput(String.format("> Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
+        Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
     }
 
     // Exchange tiles between frame and pool
@@ -319,8 +323,8 @@ public class Scrabble {
         String newLetters = frame.exchange(to_exchange);
         if (!isTest) {
             Scoring.addScoreToList(0);
-            Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
             printToOutput(String.format("> Letters (%s) exchanged with (%s)!", to_exchange, newLetters));
+            Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
         }
     }
 
