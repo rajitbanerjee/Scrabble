@@ -31,6 +31,9 @@ In your IntelliJ project:
 * Add JUnit5.4 (org.junit.jupiter:junit-jupiter:5.4.2) under Project Structure > Libraries > + > From Maven.
 * Right click on the /test directory and ‘Run All Tests’ to generate the JUnit test report.
 
+### Documentation
+To view the API documentation, clone the repository and open 'index.html' under /docs. 
+
 ### Authors
 Team 15: DarkMode.
 * Katarina Cvetkovic ([@katarinac](https://github.com/katarinac))
