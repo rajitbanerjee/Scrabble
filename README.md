@@ -13,8 +13,10 @@ in case you don't have it.
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) is our preferred IDE for the project.
 
 ### Playing the game
-[Download](https://github.com/UCD-COMP20050/DarkMode/releases/download/4.0/DarkMode.jar) 
-and run (double click) the JAR file from the [latest release](https://github.com/UCD-COMP20050/DarkMode/releases).
+* [Download](https://github.com/UCD-COMP20050/DarkMode/releases/download/4.0/DarkMode.jar) 
+and run (double click) the JAR file from the [latest release](https://github.com/UCD-COMP20050/DarkMode/releases).  
+* Alternatively, clone this repository and build the project in IntelliJ. 
+* Then, run the application's Main class (in package: game_engine under /src).
 
 Dark Theme:
 ![Dark Theme](images/DarkTheme.jpg)    
