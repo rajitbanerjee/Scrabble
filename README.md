@@ -19,10 +19,10 @@ and run (double click) the JAR file from the [latest release](https://github.com
 * Then, run the application's Main class (in package: game_engine under /src).
 
 Dark Theme:  
-<img src="images/DarkTheme.jpg" height="400" width="800" >   
+  <img src="images/DarkTheme.jpg" height="400" width="800">   
 
 Light Theme:   
-<img src="images/LightTheme.jpg" height="400" width="800" >   
+  <img src="images/LightTheme.jpg" height="400" width="800">   
 
 ### Running the tests 
 In your IntelliJ project:
@@ -42,4 +42,4 @@ Team 15: DarkMode.
 
 ### Acknowledgements 
 * Dr. Chris Bleakley (lecturer)
-* Duncan Wallace, and the team of lab demonstrators.
+* Duncan Wallace (TA), and the team of lab demonstrators.
