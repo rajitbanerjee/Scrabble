@@ -3,6 +3,8 @@ Java implementation of the popular word game, [Scrabble](https://en.wikipedia.or
 Developed for [COMP20050: Software Engineering Project 2](https://sisweb.ucd.ie/usis/!W_HU_MENU.P_PUBLISH?p_tag=MODULE&MODULE=COMP20050) 
 at [UCD](https://www.ucd.ie/cs/).
 
+This is the branch for Sprint 5: bot design.
+
 ## Getting Started
 Follow these instructions to get a copy of the project running on your local machine.
 
@@ -11,23 +13,6 @@ Follow these instructions to get a copy of the project running on your local mac
 * Install JDK 8 from Oracle [here](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html), 
 in case you don't have it.
 * [IntelliJ IDEA](https://www.jetbrains.com/idea/) is our preferred IDE for the project.
-
-### Playing the game
-[Download](https://github.com/UCD-COMP20050/DarkMode/releases/download/4.0/DarkMode.jar) 
-and run (double click) the JAR file from the [latest release](https://github.com/UCD-COMP20050/DarkMode/releases).
-
-Dark Theme:
-![Dark Theme](images/DarkTheme.jpg)    
-
-Light Theme: 
-![Light Theme](images/LightTheme.jpg)  
-
-### Running the tests 
-In your IntelliJ project:
-* Mark the /test directory as Test Sources Root.
-* Set JDK 8 as your Project SDK under Project Structure.
-* Add JUnit5.4 (org.junit.jupiter:junit-jupiter:5.4.2) under Project Structure > Libraries > + > From Maven.
-* Right click on the /test directory and ‘Run All Tests’ to generate the JUnit test report.
 
 ### Authors
 Team 15: DarkMode.
