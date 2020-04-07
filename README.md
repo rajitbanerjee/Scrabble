@@ -18,11 +18,11 @@ and run (double click) the JAR file from the [latest release](https://github.com
 * Alternatively, clone this repository and build the project in IntelliJ. 
 * Then, run the application's Main class (in package: game_engine under /src).
 
-Dark Theme:
-![Dark Theme](images/DarkTheme.jpg)    
+Dark Theme:  
+<img src="images/DarkTheme.jpg" height="400" width="800" >   
 
-Light Theme: 
-![Light Theme](images/LightTheme.jpg)  
+Light Theme:   
+<img src="images/LightTheme.jpg" height="400" width="800" >   
 
 ### Running the tests 
 In your IntelliJ project:
