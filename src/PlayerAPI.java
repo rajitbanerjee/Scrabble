@@ -1,5 +1,3 @@
-package BasicBots;
-
 public interface PlayerAPI {
 
     int getPrintableId();

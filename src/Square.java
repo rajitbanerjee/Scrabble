@@ -1,5 +1,3 @@
-package BasicBots;
-
 public class Square {
 
     private int letterMuliplier;

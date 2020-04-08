@@ -1,5 +1,3 @@
-package BasicBots;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,11 +15,12 @@ public class Dictionary implements DictionaryAPI {
         while (in.hasNextLine()) {
             String word = in.nextLine();
             Node currentNode = root;
-            for (int i = 0; i < word.length(); i++) {
+            for (int i=0; i<word.length(); i++) {
                 char currentLetter = word.charAt(i);
                 if (currentNode.isChild(currentLetter)) {
                     currentNode = currentNode.getChild(currentLetter);
-                } else {
+                }
+                else {
                     currentNode = currentNode.addChild(currentLetter);
                 }
             }
@@ -30,15 +29,16 @@ public class Dictionary implements DictionaryAPI {
         in.close();
     }
 
-    public boolean areWords(ArrayList<Word> words) {
+    public boolean areWords (ArrayList<Word> words) {
         boolean found = true;
         for (Word word : words) {
             Node currentNode = root;
-            for (int i = 0; (i < word.length()) && found; i++) {
+            for (int i=0; (i<word.length()) && found; i++) {
                 char currentLetter = word.getDesignatedLetter(i);
                 if (currentNode.isChild(currentLetter)) {
                     currentNode = currentNode.getChild(currentLetter);
-                } else {
+                }
+                else {
                     found = false;
                 }
             }
@@ -46,7 +46,7 @@ public class Dictionary implements DictionaryAPI {
                 found = false;
             }
         }
-        return (found);
+        return(found);
     }
 
 

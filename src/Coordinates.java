@@ -1,5 +1,3 @@
-package BasicBots;
-
 public class Coordinates {
 
     int row, col;
