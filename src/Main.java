@@ -13,7 +13,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws FileNotFoundException, InterruptedException  {
+    public void start(Stage primaryStage) throws FileNotFoundException, InterruptedException {
         Scrabble scrabble = new Scrabble();
         UserInterface ui = new UserInterface(scrabble);
         Bots bots = new Bots(scrabble, ui, getParameters());

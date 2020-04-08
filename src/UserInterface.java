@@ -77,7 +77,7 @@ public class UserInterface implements UserInterfaceAPI {
                                 System.exit(0);
                             }
                         }
-                        )
+                )
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
@@ -153,9 +153,9 @@ public class UserInterface implements UserInterfaceAPI {
             style.append("-fx-font-size: 8pt;");
             style.append("-fx-font-weight: lighter;");
             button.setStyle(style.toString());
-            if (r==0) {
+            if (r == 0) {
                 button.setText(((char) (((int) 'A') + c)) + "");  // column letters
-            } else if (c==0) {
+            } else if (c == 0) {
                 button.setText((r + 1) + "");  // row numbers
             } else {
                 button.setText("");  // empty
@@ -186,8 +186,8 @@ public class UserInterface implements UserInterfaceAPI {
             printPoolSize();
         } else if (!gameOver &&
                 (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}") ||                // no blanks
-                (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}")  // with blanks
-                        && isValidPlayWithBlanks(command)) ) ) {
+                        (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}")  // with blanks
+                                && isValidPlayWithBlanks(command)))) {
             // no blanks
             Word word = parsePlay(command);
             if (!scrabble.getBoard().isLegalPlay(currentPlayer.getFrame(), word)) {
@@ -204,13 +204,14 @@ public class UserInterface implements UserInterfaceAPI {
                     scrabble.turnOver();
                 }
             }
-        } else if (!gameOver && (command.matches("EXCHANGE( )+([A-Z_]){1,7}") || command.matches("X( )+([A-Z_]){1,7}"))) {
+        } else if (!gameOver && (command.matches("EXCHANGE( )+([A-Z_]){1,7}") ||
+                command.matches("X( )+([A-Z_]){1,7}"))) {
             String[] parts = command.split("( )+");
             String letters = parts[1];
-            if (!currentPlayer.getFrame().isLegalExchange(scrabble.getPool(),letters)) {
+            if (!currentPlayer.getFrame().isLegalExchange(scrabble.getPool(), letters)) {
                 printExchangeError(currentPlayer.getFrame().getErrorCode());
             } else {
-                currentPlayer.getFrame().exchange(scrabble.getPool(),letters);
+                currentPlayer.getFrame().exchange(scrabble.getPool(), letters);
                 printTiles();
                 scrabble.zeroScorePlay();
                 if (scrabble.isZeroScorePlaysOverLimit()) {
@@ -221,7 +222,8 @@ public class UserInterface implements UserInterfaceAPI {
                     scrabble.turnOver();
                 }
             }
-        } else if (!gameOver && (command.matches("NAME( )+[A-Z][A-Z0-9]*") || command.matches("N( )+[A-Z][A-Z0-9]*"))) {
+        } else if (!gameOver && (command.matches("NAME( )+[A-Z][A-Z0-9]*") ||
+                command.matches("N( )+[A-Z][A-Z0-9]*"))) {
             String[] parts = input.split("( )+");
             currentPlayer.setName(parts[1]);
             printNewName();
@@ -251,7 +253,7 @@ public class UserInterface implements UserInterfaceAPI {
         String gridText = parts[0];
         int column = ((int) gridText.charAt(0)) - ((int) 'A');
         String rowText = parts[0].substring(1);
-        int row = Integer.parseInt(rowText)-1;
+        int row = Integer.parseInt(rowText) - 1;
         String directionText = parts[1];
         boolean isHorizontal = directionText.equals("A");
         String letters = parts[2];
@@ -269,7 +271,7 @@ public class UserInterface implements UserInterfaceAPI {
         // this just checks that the number of blanks matches the number of designated blanks
         String[] parts = command.split("( )+");
         int blankCount = 0;
-        for (int i=0; i<parts[2].length(); i++) {
+        for (int i = 0; i < parts[2].length(); i++) {
             if (parts[2].charAt(i) == Tile.BLANK) {
                 blankCount++;
             }
@@ -298,7 +300,8 @@ public class UserInterface implements UserInterfaceAPI {
     }
 
     private void printNewName() {
-        printLine("Player " + scrabble.getCurrentPlayer().getPrintableId() + " is now named " + scrabble.getCurrentPlayer().getName() + ".");
+        printLine("Player " + scrabble.getCurrentPlayer().getPrintableId() + " is now named " +
+                scrabble.getCurrentPlayer().getName() + ".");
     }
 
     private void printTiles() {
@@ -331,7 +334,7 @@ public class UserInterface implements UserInterfaceAPI {
         printLine("Names must begin with a letter.");
         printLine("For an exchange, enter the letters that you wish to exchange. E.g. X ABC");
         printLine("For a play, enter the grid reference of the first letter, A (across) or D (down), " +
-                        " and the word including any letters already on the board. E.g. A1 D HELLO");
+                " and the word including any letters already on the board. E.g. A1 D HELLO");
         printLine("For a play with a blank, enter the grid reference of the first letter, A (across) or D (down)," +
                 " the word with underscores for blanks including any letters already on the board," +
                 " and the designated letter(s) for the blanks. E.g. A1 D H_LLO E");
@@ -368,7 +371,7 @@ public class UserInterface implements UserInterfaceAPI {
         printLine(message);
     }
 
-    public void printExchangeError (int errCode) {
+    public void printExchangeError(int errCode) {
         String message = "";
         switch (errCode) {
             case Frame.EXCHANGE_NOT_AVAILABLE:

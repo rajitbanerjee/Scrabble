@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public interface BoardAPI {
 
     boolean isLegalPlay(Frame frame, Word word);

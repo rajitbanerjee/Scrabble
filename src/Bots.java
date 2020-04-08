@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Bots {
 
-    private static final String[] ALL_BOT_NAMES = {"Bot0","Bot1"};
+    private static final String[] ALL_BOT_NAMES = {"Bot0", "Bot1"};
     private BotAPI[] bots = new BotAPI[Scrabble.NUM_PLAYERS];
 
     Bots(Scrabble scrabble, UserInterface ui, Application.Parameters parameters) {
         List<String> params = parameters.getRaw();
         String[] botNames = new String[Scrabble.NUM_PLAYERS];
 //        if (params.size() < Scrabble.NUM_PLAYERS) {
-            botNames[0] = "Bot0";
-            botNames[1] = "Bot1";
+        botNames[0] = "Bot0";
+        botNames[1] = "Bot1";
 //        } else {
 //            for (int i = 0; i < Scrabble.NUM_PLAYERS; i++) {
 //                boolean found = false;
@@ -30,14 +30,17 @@ public class Bots {
 //                }
 //            }
 //        }
-        for (int i=0; i<Scrabble.NUM_PLAYERS; i++) {
+        for (int i = 0; i < Scrabble.NUM_PLAYERS; i++) {
             try {
                 Class<?> botClass = Class.forName(botNames[i]);
-                Constructor<?> botCons = botClass.getDeclaredConstructor(PlayerAPI.class, OpponentAPI.class, BoardAPI.class, UserInterfaceAPI.class, DictionaryAPI.class);
-                if (i==0) {
-                    bots[i] = (BotAPI) botCons.newInstance(scrabble.getCurrentPlayer(), scrabble.getOpposingPlayer(), scrabble.getBoard(), ui, scrabble.getDictionary());
+                Constructor<?> botCons = botClass.getDeclaredConstructor(PlayerAPI.class, OpponentAPI.class,
+                        BoardAPI.class, UserInterfaceAPI.class, DictionaryAPI.class);
+                if (i == 0) {
+                    bots[i] = (BotAPI) botCons.newInstance(scrabble.getCurrentPlayer(), scrabble.getOpposingPlayer(),
+                            scrabble.getBoard(), ui, scrabble.getDictionary());
                 } else {
-                    bots[i] = (BotAPI) botCons.newInstance(scrabble.getOpposingPlayer(), scrabble.getCurrentPlayer(), scrabble.getBoard(), ui, scrabble.getDictionary());
+                    bots[i] = (BotAPI) botCons.newInstance(scrabble.getOpposingPlayer(), scrabble.getCurrentPlayer(),
+                            scrabble.getBoard(), ui, scrabble.getDictionary());
                 }
             } catch (IllegalAccessException ex) {
                 System.out.println("Error: Bot instantiation fail (IAE)");

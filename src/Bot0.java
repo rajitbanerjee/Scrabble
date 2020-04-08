@@ -1,4 +1,3 @@
-
 public class Bot0 implements BotAPI {
 
     // The public API of Bot must not change

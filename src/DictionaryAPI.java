@@ -2,6 +2,6 @@ import java.util.ArrayList;
 
 public interface DictionaryAPI {
 
-    boolean areWords (ArrayList<Word> words);
+    boolean areWords(ArrayList<Word> words);
 
 }
