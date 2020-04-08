@@ -129,7 +129,7 @@ public class UserInterface implements UserInterfaceAPI {
     void displaySquare(int r, int c) {
         Square square = scrabble.getBoard().getSquare(r, c);
         Button button = displaySquares[r][c];
-        var style = new StringBuilder();
+        StringBuilder style = new StringBuilder();
         style.append("-fx-background-radius: 0;");
         String color;
         if (square.isDoubleLetter()) {
