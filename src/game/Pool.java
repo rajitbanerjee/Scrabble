@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Team 15: DarkMode
  */
 public class Pool {
-    private ArrayList<Tile> pool;
+    private final ArrayList<Tile> pool;
 
     /**
      * Creates a new pool of tiles.

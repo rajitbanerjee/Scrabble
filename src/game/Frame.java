@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class Frame {
     private final Pool pool;
-    private ArrayList<Tile> frame;
+    private final ArrayList<Tile> frame;
 
     /**
      * Creates a new player frame.

@@ -86,27 +86,19 @@ public class Scoring {
         int row = word.getRow();
         int column = word.getColumn();
         WORDS_FORMED.add(word.getLetters());
-        if (word.isHorizontal()) {
-            for (int i = column; i < column + word.length(); i++) {
-                Square square = board.getBoard()[row][i];
-                if (isRecentlyCovered(row, i)) {
-                    score += square.getTile().getPoints() * square.getLetterMultiplier();
-                    wordMultiplier *= square.getWordMultiplier();
-                } else {
-                    score += square.getTile().getPoints();
-                }
+        for (int i = 0; i < word.length(); i++) {
+            Square square = board.getBoard()[row][column];
+            if (isRecentlyCovered(row, column)) {
+                score += square.getTile().getPoints() * square.getLetterMultiplier();
+                wordMultiplier *= square.getWordMultiplier();
+            } else {
+                score += square.getTile().getPoints();
             }
-        } else {
-            for (int i = row; i < row + word.length(); i++) {
-                Square square = board.getBoard()[i][column];
-                if (isRecentlyCovered(i, column)) {
-                    score += square.getTile().getPoints() * square.getLetterMultiplier();
-                    wordMultiplier *= square.getWordMultiplier();
-                } else {
-                    score += square.getTile().getPoints();
-                }
+            if (word.isHorizontal()) {
+                column++;
+            } else {
+                row++;
             }
-
         }
         return score * wordMultiplier;
     }
