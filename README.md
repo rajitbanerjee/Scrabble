@@ -17,7 +17,7 @@ in case you don't have it.
 ### Playing the game
 * [Download](https://github.com/UCD-COMP20050/DarkMode/releases/download/4.0/DarkMode.jar) 
 and run (double click) the JAR file from the [latest release](https://github.com/UCD-COMP20050/DarkMode/releases).  
-* Alternatively, clone this repository and build the project in IntelliJ. 
+* Alternatively, clone this repository and build the project in your IDE. 
 * Then, run the application's Main class (in package: game_engine under /src).
 
 Dark Theme:  
@@ -27,11 +27,20 @@ Light Theme:
   <img src="images/LightTheme.jpg" height="400" width="800">   
 
 ### Running the tests 
-In your IntelliJ project:
+#### IntelliJ IDEA
+Clone the repository into your IntelliJ project, then:
 * Mark the /test directory as Test Sources Root.
 * Set JDK 8 as your Project SDK under Project Structure.
 * Add JUnit5.4 (org.junit.jupiter:junit-jupiter:5.4.2) under Project Structure > Libraries > + > From Maven.
 * Right click on the /test directory and ‘Run All Tests’ to generate the JUnit test report.
+
+#### Eclipse
+Clone the repository into your Eclipse project, then:
+* Go to project Properties > Java Build Path > Source > set 'Contains test sources: Yes' for /test directory.
+* Go to project Properties > Java Build Path > Source > set different 'Output folder' for /src and /test directories.
+* If you don't have JUnit 5 set up, Eclipse will show errors for the /test directory.   
+Open any test file, hover over an @Test annotation, and select 'Add JUnit 5 library to the build path'.
+* Right click on the /test directory and 'Run As > JUnit Test' to generate the JUnit test report.
 
 ### Documentation
 To view the API documentation, clone the repository and open 'index.html' under /docs. 
