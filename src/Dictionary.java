@@ -26,6 +26,7 @@ public class Dictionary implements DictionaryAPI {
         in.close();
     }
 
+    @Override
     public boolean areWords(ArrayList<Word> words) {
         boolean found = true;
         for (Word word : words) {

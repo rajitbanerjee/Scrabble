@@ -435,10 +435,12 @@ public class UserInterface implements UserInterfaceAPI {
 
     // Methods for Bots
 
+    @Override
     public String getLatestInfo() {
         return latestInfo;
     }
 
+    @Override
     public String getAllInfo() {
         return allInfo + "";
     }

@@ -21,6 +21,7 @@ public class DarkMode1 implements BotAPI {
         this.dictionary = dictionary;
     }
 
+    @Override
     public String getCommand() {
         // Add your code here to input your commands
         String command;

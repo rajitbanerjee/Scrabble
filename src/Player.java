@@ -14,10 +14,12 @@ public class Player implements PlayerAPI, OpponentAPI {
         frame = new Frame();
     }
 
+    @Override
     public int getPrintableId() {
         return id + 1;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -34,6 +36,7 @@ public class Player implements PlayerAPI, OpponentAPI {
         score = score - decrease;
     }
 
+    @Override
     public int getScore() {
         return score;
     }
@@ -42,6 +45,7 @@ public class Player implements PlayerAPI, OpponentAPI {
         return frame;
     }
 
+    @Override
     public String getFrameAsString() {
         return frame.toString();
     }
@@ -55,6 +59,7 @@ public class Player implements PlayerAPI, OpponentAPI {
         score = score - unused;
     }
 
+    @Override
     public String toString() {
 
         if (name.isEmpty()) {

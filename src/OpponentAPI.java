@@ -6,6 +6,7 @@ public interface OpponentAPI {
 
     int getScore();
 
+    @Override
     String toString();
 
 }

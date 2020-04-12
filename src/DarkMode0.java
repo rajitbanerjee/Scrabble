@@ -22,6 +22,7 @@ public class DarkMode0 implements BotAPI {
         turnCount = 0;
     }
 
+    @Override
     public String getCommand() {
         // Add your code here to input your commands
         // Your code must give the command NAME <botname> at the start of the game

@@ -8,6 +8,7 @@ public interface PlayerAPI {
 
     String getFrameAsString();
 
+    @Override
     String toString();
 
 }

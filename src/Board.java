@@ -60,6 +60,7 @@ public class Board implements BoardAPI {
         numPlays = 0;
     }
 
+    @Override
     public boolean isLegalPlay(Frame frame, Word word) {
         boolean isLegal = true;
         //check for invalid first play
@@ -287,10 +288,12 @@ public class Board implements BoardAPI {
         return squares[row][col];
     }
 
+    @Override
     public Square getSquareCopy(int row, int col) {
         return new Square(squares[row][col]);
     }
 
+    @Override
     public boolean isFirstPlay() {
         return numPlays == 0;
     }
