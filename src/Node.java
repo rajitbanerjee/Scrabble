@@ -36,4 +36,5 @@ public class Node {
     public boolean isEndOfWord() {
         return endOfWord;
     }
+
 }

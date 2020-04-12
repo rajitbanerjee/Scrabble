@@ -8,12 +8,12 @@ public class Main extends Application {
     public static boolean BOT_GAME = true;
     public static int BOT_DELAY = 3; // s
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws FileNotFoundException, InterruptedException {
+    public void start(Stage primaryStage) throws FileNotFoundException {
         Scrabble scrabble = new Scrabble();
         UserInterface ui = new UserInterface(scrabble);
         Bots bots = new Bots(scrabble, ui, getParameters());

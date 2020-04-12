@@ -23,7 +23,7 @@ public class Bot1 implements BotAPI {
 
     public String getCommand() {
         // Add your code here to input your commands
-        String command = "";
+        String command;
         switch (turnCount) {
             case 0:
                 command = "NAME Bot1";

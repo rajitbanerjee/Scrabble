@@ -6,5 +6,4 @@ public interface BoardAPI {
 
     boolean isFirstPlay();
 
-
 }

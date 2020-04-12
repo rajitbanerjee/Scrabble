@@ -29,12 +29,7 @@ public class Pool {
     }
 
     public ArrayList<Tile> drawTiles(int numRequested) {
-        int numGiven;
-        if (numRequested > pool.size()) {
-            numGiven = pool.size();
-        } else {
-            numGiven = numRequested;
-        }
+        int numGiven = Math.min(numRequested, pool.size());
         ArrayList<Tile> draw = new ArrayList<>();
         for (int i = 0; i < numGiven; i++) {
             int index = (int) (Math.random() * pool.size());

@@ -2,9 +2,10 @@ public interface OpponentAPI {
 
     int getPrintableId();
 
-    public String getName();
+    String getName();
 
-    public int getScore();
+    int getScore();
 
-    public String toString();
+    String toString();
+
 }

@@ -1,25 +1,27 @@
 public class Square {
 
-    private int letterMuliplier;
+    private int letterMultiplier;
     private int wordMultiplier;
     private boolean isOccupied;
     private Tile tile;
 
     Square(int letterMultiplier, int wordMultiplier) {
         isOccupied = false;
-        this.letterMuliplier = letterMultiplier;
+        this.letterMultiplier = letterMultiplier;
         this.wordMultiplier = wordMultiplier;
     }
 
     Square(Square square) {
-        this.letterMuliplier = square.letterMuliplier;
+        this.letterMultiplier = square.letterMultiplier;
         this.wordMultiplier = square.wordMultiplier;
         this.isOccupied = square.isOccupied;
-        this.tile = new Tile(tile);
+        if (square.isOccupied) {
+            this.tile = new Tile(square.tile);
+        }
     }
 
-    public int getLetterMuliplier() {
-        return letterMuliplier;
+    public int getLetterMultiplier() {
+        return letterMultiplier;
     }
 
     public int getWordMultiplier() {
@@ -27,11 +29,11 @@ public class Square {
     }
 
     public boolean isDoubleLetter() {
-        return letterMuliplier == 2;
+        return letterMultiplier == 2;
     }
 
     public boolean isTripleLetter() {
-        return letterMuliplier == 3;
+        return letterMultiplier == 3;
     }
 
     public boolean isDoubleWord() {

@@ -2,12 +2,12 @@ public interface PlayerAPI {
 
     int getPrintableId();
 
-    public String getName();
+    String getName();
 
-    public int getScore();
+    int getScore();
 
-    public String getFrameAsString();
+    String getFrameAsString();
 
-    public String toString();
+    String toString();
 
 }

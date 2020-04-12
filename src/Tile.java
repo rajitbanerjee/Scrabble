@@ -48,7 +48,8 @@ public class Tile {
         if (!(object instanceof Tile)) {
             return false;
         } else {
-            return (this.letter == ((Tile) object).letter) || (this.isBlank() && ((Tile) object).isBlank());
+            Tile t = (Tile) object;
+            return (this.letter == t.letter) || (this.isBlank() && t.isBlank());
         }
     }
 

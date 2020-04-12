@@ -63,11 +63,10 @@ public class Board implements BoardAPI {
     public boolean isLegalPlay(Frame frame, Word word) {
         boolean isLegal = true;
         //check for invalid first play
-        if (numPlays == 0 &&
-                ((word.isHorizontal() && (word.getRow() != BOARD_CENTRE || word.getFirstColumn() > BOARD_CENTRE ||
-                        word.getLastColumn() < BOARD_CENTRE)) ||
-                        (word.isVertical() && (word.getColumn() != BOARD_CENTRE || word.getFirstRow() > BOARD_CENTRE ||
-                                word.getLastRow() < BOARD_CENTRE)))) {
+        if (numPlays == 0 && ((word.isHorizontal() && (word.getRow() != BOARD_CENTRE ||
+                word.getFirstColumn() > BOARD_CENTRE || word.getLastColumn() < BOARD_CENTRE)) ||
+                (word.isVertical() && (word.getColumn() != BOARD_CENTRE ||
+                        word.getFirstRow() > BOARD_CENTRE || word.getLastRow() < BOARD_CENTRE)))) {
             isLegal = false;
             errorCode = WORD_INCORRECT_FIRST_PLAY;
         }
@@ -81,7 +80,7 @@ public class Board implements BoardAPI {
             errorCode = WORD_OUT_OF_BOUNDS;
         }
         // check that letters in the word do not clash with those on the board
-        String lettersPlaced = "";
+        StringBuilder lettersPlaced = new StringBuilder();
         if (isLegal) {
             int r = word.getFirstRow();
             int c = word.getFirstColumn();
@@ -90,7 +89,7 @@ public class Board implements BoardAPI {
                     isLegal = false;
                     errorCode = WORD_LETTER_CLASH;
                 } else if (!squares[r][c].isOccupied()) {
-                    lettersPlaced = lettersPlaced + word.getLetter(i);
+                    lettersPlaced.append(word.getLetter(i));
                 }
                 if (word.isHorizontal()) {
                     c++;
@@ -105,7 +104,7 @@ public class Board implements BoardAPI {
             errorCode = WORD_NO_LETTER_PLACED;
         }
         // check that the letters placed are in the frame
-        if (isLegal && !frame.isAvailable(lettersPlaced)) {
+        if (isLegal && !frame.isAvailable(lettersPlaced.toString())) {
             isLegal = false;
             errorCode = WORD_LETTER_NOT_IN_FRAME;
         }
@@ -117,9 +116,10 @@ public class Board implements BoardAPI {
             int boxRight = Math.min(word.getLastColumn() + 1, BOARD_SIZE - 1);
             boolean foundConnection = false;
             for (int r = boxTop; r <= boxBottom && !foundConnection; r++) {
-                for (int c = boxLeft; c <= boxRight && !foundConnection; c++) {
+                for (int c = boxLeft; c <= boxRight; c++) {
                     if (squares[r][c].isOccupied()) {
                         foundConnection = true;
+                        break;
                     }
                 }
             }
@@ -192,14 +192,10 @@ public class Board implements BoardAPI {
     }
 
     private boolean isAdditionalWord(int r, int c, boolean isHorizontal) {
-        if ((isHorizontal &&
-                (r > 0 && squares[r - 1][c].isOccupied() || (r < BOARD_SIZE - 1 && squares[r + 1][c].isOccupied()))) ||
-                (!isHorizontal) &&
-                        (c > 0 && squares[r][c - 1].isOccupied() ||
-								(c < BOARD_SIZE - 1 && squares[r][c + 1].isOccupied()))) {
-            return true;
-        }
-        return false;
+        return (isHorizontal && (r > 0 && squares[r - 1][c].isOccupied() ||
+                (r < BOARD_SIZE - 1 && squares[r + 1][c].isOccupied()))) ||
+                (!isHorizontal) && (c > 0 && squares[r][c - 1].isOccupied() ||
+                        (c < BOARD_SIZE - 1 && squares[r][c + 1].isOccupied()));
     }
 
     private Word getAdditionalWord(int mainWordRow, int mainWordCol, boolean mainWordIsHorizontal) {
@@ -220,18 +216,18 @@ public class Board implements BoardAPI {
             firstCol++;
         }
         // collect the letters by moving down or right
-        String letters = "";
+        StringBuilder letters = new StringBuilder();
         int r = firstRow;
         int c = firstCol;
         while (r < BOARD_SIZE && c < BOARD_SIZE && squares[r][c].isOccupied()) {
-            letters = letters + squares[r][c].getTile().getLetter();
+            letters.append(squares[r][c].getTile().getLetter());
             if (mainWordIsHorizontal) {
                 r++;
             } else {
                 c++;
             }
         }
-        return new Word(firstRow, firstCol, !mainWordIsHorizontal, letters);
+        return new Word(firstRow, firstCol, !mainWordIsHorizontal, letters.toString());
     }
 
     public ArrayList<Word> getAllWords(Word mainWord) {
@@ -256,14 +252,14 @@ public class Board implements BoardAPI {
 
     private int getWordPoints(Word word) {
         int wordValue = 0;
-        int wordMultipler = 1;
+        int wordMultiplier = 1;
         int r = word.getFirstRow();
         int c = word.getFirstColumn();
         for (int i = 0; i < word.length(); i++) {
             int letterValue = squares[r][c].getTile().getValue();
             if (newLetterCoords.contains(new Coordinates(r, c))) {
-                wordValue = wordValue + letterValue * squares[r][c].getLetterMuliplier();
-                wordMultipler = wordMultipler * squares[r][c].getWordMultiplier();
+                wordValue = wordValue + letterValue * squares[r][c].getLetterMultiplier();
+                wordMultiplier = wordMultiplier * squares[r][c].getWordMultiplier();
             } else {
                 wordValue = wordValue + letterValue;
             }
@@ -273,7 +269,7 @@ public class Board implements BoardAPI {
                 r++;
             }
         }
-        return wordValue * wordMultipler;
+        return wordValue * wordMultiplier;
     }
 
     public int getAllPoints(ArrayList<Word> words) {

@@ -35,7 +35,7 @@ public class Word {
         return row;
     }
 
-    // getColumn pre-condition: isHorizonal is flase
+    // getColumn pre-condition: isHorizontal is false
     public int getColumn() {
         return column;
     }
@@ -96,6 +96,5 @@ public class Word {
     public String toString() {
         return letters;
     }
-
 
 }

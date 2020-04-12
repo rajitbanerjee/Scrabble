@@ -12,7 +12,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class UserInterface implements UserInterfaceAPI {
@@ -30,7 +29,7 @@ public class UserInterface implements UserInterfaceAPI {
     StringBuilder allInfo;
     int gameOverDelayCount;
 
-    UserInterface(Scrabble scrabble) throws FileNotFoundException {
+    UserInterface(Scrabble scrabble) {
         this.scrabble = scrabble;
         gameOver = false;
         opponentMadePlay = false;
@@ -45,7 +44,7 @@ public class UserInterface implements UserInterfaceAPI {
 
     // Stage display methods
 
-    public void displayStage(Stage primaryStage) throws InterruptedException {
+    public void displayStage(Stage primaryStage) {
         primaryStage.setTitle("Scrabble");
 
         mainPane = new BorderPane();
@@ -110,7 +109,7 @@ public class UserInterface implements UserInterfaceAPI {
         printPrompt();
     }
 
-    private void pause() throws InterruptedException {
+    private void pause() {
         try {
             Thread.sleep(Main.BOT_DELAY);
         } catch (InterruptedException e) {
@@ -276,11 +275,7 @@ public class UserInterface implements UserInterfaceAPI {
                 blankCount++;
             }
         }
-        if (blankCount == 0 || parts[3].length() != blankCount) {
-            return false;
-        } else {
-            return true;
-        }
+        return blankCount != 0 && parts[3].length() == blankCount;
     }
 
     // Print methods
@@ -330,14 +325,15 @@ public class UserInterface implements UserInterfaceAPI {
     }
 
     private void printHelp() {
-        printLine("Command options: Q (quit), N (name), P (pass), X (exchange), C (challenge), S (scores), O (pool) or play");
+        printLine("Command options: Q (quit), N (name), P (pass), X (exchange), C (challenge), S (scores), " +
+                "O (pool) or play");
         printLine("Names must begin with a letter.");
         printLine("For an exchange, enter the letters that you wish to exchange. E.g. X ABC");
         printLine("For a play, enter the grid reference of the first letter, A (across) or D (down), " +
                 " and the word including any letters already on the board. E.g. A1 D HELLO");
-        printLine("For a play with a blank, enter the grid reference of the first letter, A (across) or D (down)," +
-                " the word with underscores for blanks including any letters already on the board," +
-                " and the designated letter(s) for the blanks. E.g. A1 D H_LLO E");
+        printLine("For a play with a blank, enter the grid reference of the first letter, " +
+                "A (across) or D (down), the word with underscores for blanks including any letters already on " +
+                "the board, and the designated letter(s) for the blanks. E.g. A1 D H_LLO E");
     }
 
     private void printPlayError(int errCode) {

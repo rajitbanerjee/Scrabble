@@ -23,4 +23,5 @@ public class Coordinates {
             return (this.row == ((Coordinates) object).row) && (this.col == ((Coordinates) object).col);
         }
     }
+
 }
