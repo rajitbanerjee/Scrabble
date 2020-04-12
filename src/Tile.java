@@ -5,9 +5,9 @@ public class Tile {
     private static final int[] TILE_VALUE = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3,
             1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
-    private boolean blank;
+    private final boolean blank;
     private char letter;
-    private int value;
+    private final int value;
 
     // Tile precondition: must be uppercase letter
     Tile(char letter) {
@@ -18,7 +18,7 @@ public class Tile {
         } else {
             this.blank = false;
             this.letter = letter;
-            this.value = TILE_VALUE[(int) letter - (int) 'A'];
+            this.value = TILE_VALUE[letter - 'A'];
         }
     }
 

@@ -1,4 +1,4 @@
-public class Bot1 implements BotAPI {
+public class DarkMode0 implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -11,22 +11,24 @@ public class Bot1 implements BotAPI {
     private BoardAPI board;
     private UserInterfaceAPI info;
     private DictionaryAPI dictionary;
-    private int turnCount = 0;
+    private int turnCount;
 
-    Bot1(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
+    DarkMode0(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
         this.info = ui;
         this.dictionary = dictionary;
+        turnCount = 0;
     }
 
     public String getCommand() {
         // Add your code here to input your commands
+        // Your code must give the command NAME <botname> at the start of the game
         String command;
         switch (turnCount) {
             case 0:
-                command = "NAME Bot1";
+                command = "NAME DarkMode0";
                 break;
             case 1:
                 command = "PASS";

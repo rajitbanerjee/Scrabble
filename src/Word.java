@@ -1,9 +1,9 @@
 public class Word {
 
-    private int row, column; // first letter position
-    private boolean isHorizontal;  // true = horizontal, false = vertical
-    private String letters;
-    private String designatedLetters;
+    private final int row, column; // first letter position
+    private final boolean isHorizontal;  // true = horizontal, false = vertical
+    private final String letters;
+    private final String designatedLetters;
 
     Word(int row, int column, boolean isHorizontal, String letters) {
         this.row = row;

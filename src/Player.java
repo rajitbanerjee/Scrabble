@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 public class Player implements PlayerAPI, OpponentAPI {
 
-    private int id;
+    private final int id;
     private String name;
     private int score;
-    private Frame frame;
+    private final Frame frame;
 
     Player(int id) {
         this.id = id;

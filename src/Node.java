@@ -1,7 +1,7 @@
 public class Node {
     private static final int NUM_LETTERS = 26;
 
-    private Node[] children = new Node[NUM_LETTERS];
+    private final Node[] children = new Node[NUM_LETTERS];
     private boolean endOfWord;
 
     Node() {

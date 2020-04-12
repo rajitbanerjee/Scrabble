@@ -4,16 +4,16 @@ import java.util.ArrayList;
 public class Scrabble {
 
     public static int NUM_PLAYERS = 2;
-    private static int ZERO_SCORE_PLAY_LIMIT = 6;
+    private static final int ZERO_SCORE_PLAY_LIMIT = 6;
     ArrayList<Word> latestWords;
     int latestPoints;
     ArrayList<Tile> latestRefill;
-    private Board board;
-    private Pool pool;
-    private ArrayList<Player> players;
+    private final Board board;
+    private final Pool pool;
+    private final ArrayList<Player> players;
     private int currentPlayerId;
     private int numZeroScorePlays;
-    private Dictionary dictionary;
+    private final Dictionary dictionary;
 
     Scrabble() throws FileNotFoundException {
         board = new Board();

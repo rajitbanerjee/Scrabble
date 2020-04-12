@@ -1,7 +1,7 @@
 public class Square {
 
-    private int letterMultiplier;
-    private int wordMultiplier;
+    private final int letterMultiplier;
+    private final int wordMultiplier;
     private boolean isOccupied;
     private Tile tile;
 

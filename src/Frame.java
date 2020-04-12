@@ -6,7 +6,7 @@ public class Frame {
     public static final int EXCHANGE_NOT_AVAILABLE = 0;
     public static final int EXCHANGE_NOT_ENOUGH_IN_POOL = 1;
     int errorCode;
-    private ArrayList<Tile> tiles;
+    private final ArrayList<Tile> tiles;
 
     Frame() {
         tiles = new ArrayList<>();

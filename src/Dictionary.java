@@ -5,13 +5,11 @@ import java.util.Scanner;
 
 public class Dictionary implements DictionaryAPI {
 
-    private static String inputFileName = "csw.txt";
-    private Node root;
+    private final Node root;
 
     Dictionary() throws FileNotFoundException {
         root = new Node();
-        File inputFile = new File(inputFileName);
-        Scanner in = new Scanner(inputFile);
+        Scanner in = new Scanner(new File("csw.txt"));
         while (in.hasNextLine()) {
             String word = in.nextLine();
             Node currentNode = root;
@@ -46,6 +44,5 @@ public class Dictionary implements DictionaryAPI {
         }
         return (found);
     }
-
 
 }

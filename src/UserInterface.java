@@ -184,8 +184,8 @@ public class UserInterface implements UserInterfaceAPI {
         } else if (!gameOver && (command.equals("POOL") || command.equals("O"))) {
             printPoolSize();
         } else if (!gameOver &&
-                (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}") ||                // no blanks
-                        (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}")  // with blanks
+                (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}") ||  // no blanks
+                        (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}") // blanks
                                 && isValidPlayWithBlanks(command)))) {
             // no blanks
             Word word = parsePlay(command);
@@ -444,5 +444,3 @@ public class UserInterface implements UserInterfaceAPI {
     }
 
 }
-
-
