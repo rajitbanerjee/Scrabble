@@ -3,6 +3,8 @@ Java implementation of the popular word game, [Scrabble](https://en.wikipedia.or
 Developed for [COMP20050: Software Engineering Project 2](https://sisweb.ucd.ie/usis/!W_HU_MENU.P_PUBLISH?p_tag=MODULE&MODULE=COMP20050) 
 at [UCD](https://www.ucd.ie/cs/).
 
+*Note*: Please check the ['bot' branch](https://github.com/UCD-COMP20050/DarkMode/tree/bot) for Sprint 5 (bot design) using the lecturer's base classes for compatibilty.
+
 ## Getting Started
 Follow these instructions to get a copy of the project running on your local machine.
 
