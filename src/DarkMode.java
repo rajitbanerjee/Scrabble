@@ -1,4 +1,4 @@
-public class DarkMode0 implements BotAPI {
+public class DarkMode implements BotAPI {
 
     // The public API of Bot must not change
     // This is ONLY class that you can edit in the program
@@ -13,7 +13,7 @@ public class DarkMode0 implements BotAPI {
     private DictionaryAPI dictionary;
     private int turnCount;
 
-    DarkMode0(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
+    DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
@@ -29,7 +29,7 @@ public class DarkMode0 implements BotAPI {
         String command;
         switch (turnCount) {
             case 0:
-                command = "NAME DarkMode0";
+                command = "NAME DarkMode";
                 break;
             case 1:
                 command = "PASS";
