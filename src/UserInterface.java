@@ -302,7 +302,13 @@ public class UserInterface implements UserInterfaceAPI {
     private void printTiles() {
         printLine(scrabble.getCurrentPlayer() + " has the following tiles:");
         for (Tile tile : scrabble.getCurrentPlayer().getFrame().getTiles()) {
-            if (!Main.BOT_GAME) {
+            if (Main.BOT_GAME) {
+                /*
+                    TODO tile display only enabled for debugging, set it to "!Main.BOT_GAME" before
+                     submitting. When designing the bot, it should NOT be able to see the
+                      opponent's tiles (if tiles are displayed, bot will get access to the latest
+                      info on the screen). Ensure that a bot doesn't try to read opponents tiles.
+                 */
                 print(tile + " ");
             } else {
                 print("? ");

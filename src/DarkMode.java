@@ -29,7 +29,12 @@ public class DarkMode implements BotAPI {
         String command;
         switch (turnCount) {
             case 0:
-                command = "NAME DarkMode";
+//                command = "NAME DarkMode";
+                if (me.getPrintableId() == 1) {
+                    command = "NAME DarkMode1";
+                } else {
+                    command = "NAME DarkMode2";
+                }
                 break;
             case 1:
                 command = "PASS";

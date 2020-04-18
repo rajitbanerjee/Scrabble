@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class Main extends Application {
 
     public static boolean BOT_GAME = true;
-    public static int BOT_DELAY = 3; // s
+    public static int BOT_DELAY = 2; // TODO change for debugging, originally 3s
 
     public static void main(String[] args) {
         launch(args);

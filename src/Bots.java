@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Bots {
 
-    private static final String[] ALL_BOT_NAMES = {"DarkMode", "DarkMode1"};
+    private static final String[] ALL_BOT_NAMES = {"DarkMode"};
     private final BotAPI[] bots = new BotAPI[Scrabble.NUM_PLAYERS];
 
     Bots(Scrabble scrabble, UserInterface ui, Application.Parameters parameters) {
@@ -14,7 +14,7 @@ public class Bots {
         String[] botNames = new String[Scrabble.NUM_PLAYERS];
 //        if (params.size() < Scrabble.NUM_PLAYERS) {
         botNames[0] = "DarkMode";
-        botNames[1] = "DarkMode1";
+        botNames[1] = "DarkMode";
 //        } else {
 //            for (int i = 0; i < Scrabble.NUM_PLAYERS; i++) {
 //                boolean found = false;
