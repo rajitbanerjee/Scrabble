@@ -26,15 +26,15 @@ Dark Theme:
 Light Theme:   
   <img src="images/LightTheme.jpg" height="400" width="800">   
 
-### Running the tests 
-#### IntelliJ IDEA
+## Running the tests 
+### IntelliJ IDEA
 Clone the repository into your IntelliJ project, then:
 * Mark the /test directory as Test Sources Root.
 * Set JDK 8 as your Project SDK under Project Structure.
 * Add JUnit5.4 (org.junit.jupiter:junit-jupiter:5.4.2) under Project Structure > Libraries > + > From Maven.
 * Right click on the /test directory and ‘Run All Tests’ to generate the JUnit test report.
 
-#### Eclipse
+### Eclipse
 Clone the repository into your Eclipse project, then:
 * Go to project Properties > Java Build Path > Source > set 'Contains test sources: Yes' for /test directory.
 * Go to project Properties > Java Build Path > Source > set different 'Output folder' for /src and /test directories.
@@ -42,15 +42,15 @@ Clone the repository into your Eclipse project, then:
 Open any test file, hover over an @Test annotation, and select 'Add JUnit 5 library to the build path'.
 * Right click on the /test directory and 'Run As > JUnit Test' to generate the JUnit test report.
 
-### Documentation
+## Documentation
 To view the API documentation, clone the repository and open 'index.html' under /docs. 
 
-### Authors
+## Authors
 Team 15: DarkMode.
 * Katarina Cvetkovic ([@katarinac](https://github.com/katarinac))
 * Jason Tee ([@AmplifiedHuman](https://github.com/AmplifiedHuman))
 * Rajit Banerjee ([@rajitbanerjee](https://github.com/rajitbanerjee))
 
-### Acknowledgements 
+## Acknowledgements 
 * Dr. Chris Bleakley (lecturer)
 * Duncan Wallace (TA), and the team of lab demonstrators.
