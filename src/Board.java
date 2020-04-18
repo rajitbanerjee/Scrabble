@@ -44,8 +44,8 @@ public class Board implements BoardAPI {
                     {1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1},
                     {1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1},
                     {3, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 3}};
-    private static int BONUS = 50;
-    private Square[][] squares;
+    private static final int BONUS = 50;
+    private final Square[][] squares;
     private int errorCode;
     private int numPlays;
     private ArrayList<Coordinates> newLetterCoords;

@@ -1,3 +1,7 @@
+/*
+   TODO delete this class before submitting, two objects of DarkMode can play each other,
+    don't need a new DarkMode1 class.
+ */
 public class DarkMode1 implements BotAPI {
 
     // The public API of Bot must not change
