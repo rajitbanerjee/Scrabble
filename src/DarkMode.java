@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class DarkMode implements BotAPI {
 
     // The public API of Bot must not change
@@ -6,12 +10,14 @@ public class DarkMode implements BotAPI {
     // Bot may not alter the state of the game objects
     // It may only inspect the state of the board and the player objects
 
-    private PlayerAPI me;
-    private OpponentAPI opponent;
-    private BoardAPI board;
-    private UserInterfaceAPI info;
-    private DictionaryAPI dictionary;
+    private static final int ALPHABET_SIZE = 26;
+    private final PlayerAPI me;
+    private final OpponentAPI opponent;
+    private final BoardAPI board;
+    private final UserInterfaceAPI info;
+    private final DictionaryAPI dictionary;
     private int turnCount;
+    private final Trie trie;
 
     DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
         this.me = me;
@@ -19,7 +25,9 @@ public class DarkMode implements BotAPI {
         this.board = board;
         this.info = ui;
         this.dictionary = dictionary;
+        trie = new Trie();
         turnCount = 0;
+        setUpDictionaryTrie();
     }
 
     @Override
@@ -56,4 +64,58 @@ public class DarkMode implements BotAPI {
         return command;
     }
 
+    private void setUpDictionaryTrie() {
+        try (Scanner reader = new Scanner(new File("csw.txt"))) {
+            while (reader.hasNextLine()) {
+                String word = reader.nextLine();
+                trie.insert(word);
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static class Trie {
+        private final TrieNode head;
+
+        public Trie() {
+            // creates a sentinel node
+            head = new TrieNode();
+        }
+
+        public void insert(String word) {
+            // only supports uppercase alphabetical characters
+            if (word == null || !word.matches("^[a-zA-Z]+$")) {
+                throw new IllegalArgumentException("Invalid word.");
+            }
+            word = word.toUpperCase();
+            TrieNode pointer = head;
+            // go through each character in string
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
+                // no children, create new node and follow new child
+                if (pointer.children[ch - 'A'] == null) {
+                    pointer.children[ch - 'A'] = new TrieNode();
+                }
+                // update pointer to point to child
+                pointer = pointer.children[ch - 'A'];
+                // set end of word if it's the last character
+                if (i == word.length() - 1) {
+                    pointer.isEndOfWord = true;
+                }
+            }
+        }
+
+        /* uses arrays instead of HashMaps since there's only 26 uppercase characters
+           (HashMap resizing trade off isn't worth it) */
+        private static class TrieNode {
+            private final TrieNode[] children;
+            private boolean isEndOfWord;
+
+            public TrieNode() {
+                children = new TrieNode[ALPHABET_SIZE];
+                isEndOfWord = false;
+            }
+        }
+    }
 }
