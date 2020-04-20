@@ -35,7 +35,7 @@ public class DarkMode implements BotAPI {
         // Add your code here to input your commands
         // Your code must give the command NAME <botname> at the start of the game
         String command;
-        if (turnCount == 0) {//                command = "NAME DarkMode";
+        if (turnCount == 0) {
             if (me.getPrintableId() == 1) {
                 command = "NAME DarkMode1";
             } else {
@@ -131,11 +131,11 @@ public class DarkMode implements BotAPI {
             }
 
             TrieNode getChild(char letter) {
-                return children[letter - 'a'];
+                return children[letter - 'A'];
             }
 
             void createChild(char letter) {
-                children[letter - 'a'] = new TrieNode();
+                children[letter - 'A'] = new TrieNode();
             }
 
             boolean getIsEndOfWord() {

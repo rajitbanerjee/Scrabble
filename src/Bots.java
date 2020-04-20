@@ -44,19 +44,19 @@ public class Bots {
                 }
             } catch (IllegalAccessException ex) {
                 System.out.println("Error: Bot instantiation fail (IAE)");
-                Thread.currentThread().interrupt();
+                ex.printStackTrace();
             } catch (InstantiationException ex) {
                 System.out.println("Error: Bot instantiation fail (IE)");
-                Thread.currentThread().interrupt();
+                ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 System.out.println("Error: Bot instantiation fail (CNFE)");
-                Thread.currentThread().interrupt();
+                ex.printStackTrace();
             } catch (InvocationTargetException ex) {
                 System.out.println("Error: Bot instantiation fail (ITE)");
-                Thread.currentThread().interrupt();
+                ex.printStackTrace();
             } catch (NoSuchMethodException ex) {
                 System.out.println("Error: Bot instantiation fail (NSME)");
-                Thread.currentThread().interrupt();
+                ex.printStackTrace();
             }
         }
     }
