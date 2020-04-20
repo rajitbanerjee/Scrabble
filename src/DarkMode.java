@@ -35,87 +35,117 @@ public class DarkMode implements BotAPI {
         // Add your code here to input your commands
         // Your code must give the command NAME <botname> at the start of the game
         String command;
-        switch (turnCount) {
-            case 0:
-//                command = "NAME DarkMode";
-                if (me.getPrintableId() == 1) {
-                    command = "NAME DarkMode1";
-                } else {
-                    command = "NAME DarkMode2";
-                }
-                break;
-            case 1:
-                command = "PASS";
-                break;
-            case 2:
-                command = "HELP";
-                break;
-            case 3:
-                command = "SCORE";
-                break;
-            case 4:
-                command = "POOL";
-                break;
-            default:
-                command = "H8 A AN";
-                break;
+        if (turnCount == 0) {//                command = "NAME DarkMode";
+            if (me.getPrintableId() == 1) {
+                command = "NAME DarkMode1";
+            } else {
+                command = "NAME DarkMode2";
+            }
+        } else if (!getFrameLetters().contains("A") || !getFrameLetters().contains("N")) {
+            System.out.println(getFrameLetters());
+            command = "EXCHANGE " + getFrameLetters();
+        } else {
+            command = "H8 A AN";
         }
         turnCount++;
         return command;
     }
 
+    // Gets a String of only the contents of the bot's frame
+    private String getFrameLetters() {
+        StringBuilder letters = new StringBuilder();
+        for (char ch : me.getFrameAsString().toCharArray()) {
+            if (Character.isLetter(ch) || ch == '_') {
+                letters.append(ch);
+            }
+        }
+        return letters.toString();
+    }
+
+    // Dictionary processing ---------------------------------------------
+
     private void setUpDictionaryTrie() {
-        try (Scanner reader = new Scanner(new File("csw.txt"))) {
-            while (reader.hasNextLine()) {
-                String word = reader.nextLine();
+        try (Scanner sc = new Scanner(new File("csw.txt"))) {
+            while (sc.hasNextLine()) {
+                String word = sc.nextLine();
                 trie.insert(word);
             }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     private static class Trie {
-        private final TrieNode head;
+        private static final int ALPHABET_SIZE = 26;
+        private static final TrieNode ROOT = new TrieNode();
 
-        public Trie() {
-            // creates a sentinel node
-            head = new TrieNode();
-        }
-
+        /**
+         * Inserts a word into the Trie.
+         *
+         * @param word to be inserted into Trie.
+         */
         public void insert(String word) {
-            // only supports uppercase alphabetical characters
+            // Only supports uppercase alphabetical characters
             if (word == null || !word.matches("^[a-zA-Z]+$")) {
                 throw new IllegalArgumentException("Invalid word.");
             }
             word = word.toUpperCase();
-            TrieNode pointer = head;
-            // go through each character in string
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
-                // no children, create new node and follow new child
-                if (pointer.children[ch - 'A'] == null) {
-                    pointer.children[ch - 'A'] = new TrieNode();
+            TrieNode curr = ROOT;
+            for (char letter : word.toCharArray()) {
+                // If letter not in Trie, create child node with letter
+                if (curr.getChild(letter) == null) {
+                    curr.createChild(letter);
                 }
-                // update pointer to point to child
-                pointer = pointer.children[ch - 'A'];
-                // set end of word if it's the last character
-                if (i == word.length() - 1) {
-                    pointer.isEndOfWord = true;
-                }
+                curr = curr.getChild(letter);
             }
+            curr.setEndOfWord(true);
         }
 
-        /* uses arrays instead of HashMaps since there's only 26 uppercase characters
-           (HashMap resizing trade off isn't worth it) */
-        private static class TrieNode {
-            private final TrieNode[] children;
-            private boolean isEndOfWord;
+        /**
+         * Search for a word in the Trie.
+         *
+         * @param word to be searched
+         * @return {@code true}, if word is present in Trie
+         */
+        public boolean search(String word) {
+            TrieNode curr = ROOT;
+            for (char letter : word.toCharArray()) {
+                // Return false at any point a child letter is not found
+                if (curr.getChild(letter) == null) {
+                    return false;
+                }
+                curr = curr.getChild(letter);
+            }
+            // Check that final child letter is found and end of word is reached
+            return curr != null && curr.getIsEndOfWord();
+        }
 
-            public TrieNode() {
-                children = new TrieNode[ALPHABET_SIZE];
-                isEndOfWord = false;
+        private static class TrieNode {
+            private final TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+            private boolean isEndOfWord; // Checks if node is leaf node (end of a word)
+
+            TrieNode() {
+                setEndOfWord(false);
+                for (int i = 0; i < ALPHABET_SIZE; i++)
+                    children[i] = null;
+            }
+
+            TrieNode getChild(char letter) {
+                return children[letter - 'a'];
+            }
+
+            void createChild(char letter) {
+                children[letter - 'a'] = new TrieNode();
+            }
+
+            boolean getIsEndOfWord() {
+                return isEndOfWord;
+            }
+
+            void setEndOfWord(boolean isEndOfWord) {
+                this.isEndOfWord = isEndOfWord;
             }
         }
     }
+
 }
