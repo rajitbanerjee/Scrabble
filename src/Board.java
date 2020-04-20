@@ -111,10 +111,18 @@ public class Board implements BoardAPI {
         }
         // check that the letters placed connect with the letters on the board
         if (isLegal && numPlays > 0) {
-            int boxTop = Math.max(word.getFirstRow() - 1, 0);
-            int boxBottom = Math.min(word.getLastRow() + 1, BOARD_SIZE - 1);
-            int boxLeft = Math.max(word.getFirstColumn() - 1, 0);
-            int boxRight = Math.min(word.getLastColumn() + 1, BOARD_SIZE - 1);
+            int boxTop, boxBottom, boxLeft, boxRight;
+            if (word.isHorizontal()) {
+                boxTop = Math.max(word.getRow() - 1, 0);
+                boxBottom = Math.min(word.getRow() + 1, BOARD_SIZE - 1);
+                boxLeft = word.getFirstColumn();
+                boxRight = word.getLastColumn();
+            } else {
+                boxTop = word.getFirstRow();
+                boxBottom = word.getLastRow();
+                boxLeft = Math.max(word.getColumn() - 1, 0);
+                boxRight = Math.min(word.getColumn() + 1, BOARD_SIZE - 1);
+            }
             boolean foundConnection = false;
             for (int r = boxTop; r <= boxBottom && !foundConnection; r++) {
                 for (int c = boxLeft; c <= boxRight; c++) {
@@ -193,10 +201,10 @@ public class Board implements BoardAPI {
     }
 
     private boolean isAdditionalWord(int r, int c, boolean isHorizontal) {
-        return (isHorizontal && (r > 0 && squares[r - 1][c].isOccupied() ||
+        return (isHorizontal && ((r > 0 && squares[r - 1][c].isOccupied()) ||
                 (r < BOARD_SIZE - 1 && squares[r + 1][c].isOccupied()))) ||
-                (!isHorizontal) && (c > 0 && squares[r][c - 1].isOccupied() ||
-                        (c < BOARD_SIZE - 1 && squares[r][c + 1].isOccupied()));
+                (!isHorizontal && ((c > 0 && squares[r][c - 1].isOccupied()) ||
+                        (c < BOARD_SIZE - 1 && squares[r][c + 1].isOccupied())));
     }
 
     private Word getAdditionalWord(int mainWordRow, int mainWordCol, boolean mainWordIsHorizontal) {
