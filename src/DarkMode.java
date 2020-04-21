@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
@@ -73,198 +76,139 @@ public class DarkMode implements BotAPI {
     // TODO: workaround for Word methods, getNewLetters(), prepend()
     // TODO: goOn(), gen(), helper methods
 
-    /**
-     * Tells if the old arc contains the given letter and if that branch is terminal.
-     *
-     * @param oldArc The arc to check.
-     * @param l      The letter to check for
-     * @return True if the tree contains the letter and that branch is terminal.
-     */
-    public boolean isOn(GADDAG oldArc, Character l) {
-        if (!oldArc.hasPathFrom(l)) {
+    // Checks if the old arc contains the given letter and if that branch is terminal.
+    public boolean isOn(GADDAG prevArc, Character letter) {
+        if (!prevArc.hasPathFrom(letter)) {
             return false;
         }
-        if (oldArc.getSubTree(l).isEndOfWord()) {
+        if (prevArc.getSubTree(letter).isEndOfWord()) {
             return true;
-        } else if (oldArc.getSubTree(l).hasPathFrom('#')) {
-            return oldArc.getSubTree(l).getSubTree('#').isEndOfWord();
+        } else if (prevArc.getSubTree(letter).hasPathFrom('+')) {
+            return prevArc.getSubTree(letter).getSubTree('+').isEndOfWord();
         }
         return false;
     }
 
-    /**
-     * Returns the letter at the given spot depending on what the current anchor
-     * square is.
-     *
-     * @param isHorizontal  direction of anchor square
-     * @param pos           The distance away from the anchor square (can be <0).
-     * @param currentAnchor The anchor coordinate we are working on.
-     * @return The character at the given spot according to the board.
-     */
-    private Character getLetterOnSpot(boolean isHorizontal, Coordinate currentAnchor, int pos) {
+    // Returns the letter at the given spot depending on what the current anchor square is
+    private Character getLetterOnSpot(boolean isHorizontal, Coordinate anchor, int pos) {
         if (isHorizontal) {
-            return getCharAtIndex(currentAnchor.getRow(), currentAnchor.getColumn() + pos);
+            return getCharAtIndex(anchor.getRow(), anchor.getColumn() + pos);
+        } else {
+            return getCharAtIndex(anchor.getRow() + pos, anchor.getColumn());
         }
-        return getCharAtIndex(currentAnchor.getRow() + pos, currentAnchor.getColumn());
     }
 
 
-    //Searching board ---------------------------------------------------------------
+    // Searching the board -------------------------------------------------------------
 
-    /**
-     * Generates a list of all of the anchor squares needed when working in the
-     * current direction.  Anchor squares consist of squares containing the first
-     * letter of all the words in the given direction as well as any squares
-     * directly above or below an occupied square for horizontal and directly
-     * right or left of an occupied square for vertical.  These are the squares
-     * that the GADDAG algorithm can base its search out from.
-     *
-     * @param isHorizontal specifies the direction of the current search
-     * @return an ArrayList of Coordinates
-     */
+    private boolean isValidIndex(int row, int column) {
+        return row >= 0 && row < Board.BOARD_SIZE && column >= 0 && column < Board.BOARD_SIZE;
+    }
+
+    private boolean isEmpty(int row, int column) {
+        return !board.getSquareCopy(row, column).isOccupied();
+    }
+
+    // Generates a list of all of the anchor squares needed for the current direction
     private ArrayList<Coordinate> getAnchorSquares(boolean isHorizontal) {
         ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            boolean foundWord = false;
+            boolean found = false;
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                // horizontal anchor search
+                // Horizontal anchor search
                 if (isHorizontal) {
                     if (isEmpty(i, j)) {
-                        foundWord = false;
-                        // check above and below for words
+                        found = false;
+                        // Check above and below for words
                         if (!getHorizontalWord(i - 1, j).equals("")
                                 || !getHorizontalWord(i + 1, j).equals("")) {
                             anchors.add(new Coordinate(i, j));
                         }
-                    } else if (!foundWord) {
-                        // else if square is occupied and first word character not added
-                        foundWord = true;
+                    } else if (!found) {
+                        // Square is occupied and first word character not added
+                        found = true;
                         anchors.add(new Coordinate(i, j));
                     }
                 } else {
-                    // vertical anchors search
+                    // Vertical anchors search
                     if (isEmpty(i, j)) {
-                        foundWord = false;
-                        // check left and right for words
+                        found = false;
+                        // Check left and right for words
                         if (!getVerticalWord(j, i - 1).equals("")
                                 || !getVerticalWord(j, i + 1).equals("")) {
                             anchors.add(new Coordinate(j, i));
                         }
-                    } else if (!foundWord) {
-                        // else if square is occupied and first word character not added
-                        foundWord = true;
+                    } else if (!found) {
+                        // Square is occupied and first word character not added
+                        found = true;
                         anchors.add(new Coordinate(j, i));
                     }
                 }
-
             }
         }
-        // add the middle square as the anchor if the board is empty
-        if (isBoardEmpty()) {
-            anchors.add(new Coordinate(Board.BOARD_SIZE / 2, Board.BOARD_SIZE / 2));
+        // Add the middle square as the anchor if the board is empty
+        if (board.isFirstPlay()) {
+            anchors.add(new Coordinate(Board.BOARD_CENTRE, Board.BOARD_CENTRE));
         }
         return anchors;
     }
 
-    /**
-     * Checks if the board is empty
-     *
-     * @return true if the board is empty
-     */
-    private boolean isBoardEmpty() {
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                if (!isEmpty(i, j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Uses a greedy approach to get the horizontal word if it exists, returns an empty string otherwise
-     *
-     * @param row    row index
-     * @param column column index
-     * @return String representation of the word or empty string if there is no valid word
-     */
+    // Get the horizontal word if it exists, else ""
     private String getHorizontalWord(int row, int column) {
         // return empty and stop search if square is not occupied or out of bounds
         if (!isValidIndex(row, column) || isEmpty(row, column)) {
             return "";
         }
-        StringBuilder sb = new StringBuilder();
-        // find tail, appends character to the end
-        int tail = column;
-        while (isValidIndex(row, tail) && !isEmpty(row, tail)) {
-            sb.append(getCharAtIndex(row, tail));
-            tail++;
+        StringBuilder word = new StringBuilder();
+        // Find end, appends character to the end
+        int end = column;
+        while (isValidIndex(row, end) && !isEmpty(row, end)) {
+            word.append(getCharAtIndex(row, end));
+            end++;
         }
-        // do not include the starting character
-        int head = column - 1;
-        while (isValidIndex(row, head) && !isEmpty(row, head)) {
-            sb.insert(0, head);
-            head--;
+        // Do not include the first character
+        int start = column - 1;
+        while (isValidIndex(row, start) && !isEmpty(row, start)) {
+            word.insert(0, start);
+            start--;
         }
-        // no one letter words
-        if (sb.length() == 1) {
+        // No single letter words
+        if (word.length() == 1) {
             return "";
         }
-        return sb.toString();
+        return word.toString();
     }
 
-    /**
-     * Uses a greedy approach to get the vertical word if it exists, returns an empty string otherwise
-     *
-     * @param row    row index
-     * @param column column index
-     * @return String representation of the word or empty string if there is no valid word
-     */
+    // Get the vertical word if it exists, returns an empty string otherwise
     private String getVerticalWord(int row, int column) {
-        // return empty and stop search if square is not occupied or out of bounds
+        // Return empty and stop search if square is not occupied or out of bounds
         if (!isValidIndex(row, column) || isEmpty(row, column)) {
             return "";
         }
-        StringBuilder sb = new StringBuilder();
-        // find tail, appends character to the end
-        int tail = row;
-        while (isValidIndex(tail, column) && !isEmpty(tail, column)) {
-            sb.append(getCharAtIndex(tail, column));
-            tail++;
+        StringBuilder word = new StringBuilder();
+        // Find end, appends character to the end
+        int end = row;
+        while (isValidIndex(end, column) && !isEmpty(end, column)) {
+            word.append(getCharAtIndex(end, column));
+            end++;
         }
-        // do not include the starting character
-        int head = row - 1;
-        while (isValidIndex(head, column) && !isEmpty(head, column)) {
-            sb.append(getCharAtIndex(head, column));
-            head--;
+        // Do not include the starting character
+        int start = row - 1;
+        while (isValidIndex(start, column) && !isEmpty(start, column)) {
+            word.append(getCharAtIndex(start, column));
+            start--;
         }
-        // no one letter words
-        if (sb.length() == 1) {
+        // No single letter words
+        if (word.length() == 1) {
             return "";
         }
-        return sb.toString();
+        return word.toString();
     }
 
-    /**
-     * Checks if the given board index is occupied
-     *
-     * @param row    row index
-     * @param column column index
-     * @return true if square is empty
-     */
-    private boolean isEmpty(int row, int column) {
-        return !board.getSquareCopy(row, column).isOccupied();
-    }
-
-    /**
-     * @param row    row index
-     * @param column column index
-     * @return the character at a given board position, _ when empty, # when out of bounds
-     */
+    // Return character at a given board position, _ when empty, + when out of bounds
     private char getCharAtIndex(int row, int column) {
-        if (isValidIndex(row, column)) {
-            return '#';
+        if (!isValidIndex(row, column)) {
+            return '+';
         }
         if (isEmpty(row, column)) {
             return '_';
@@ -272,29 +216,18 @@ public class DarkMode implements BotAPI {
         return board.getSquareCopy(row, column).getTile().getLetter();
     }
 
-    /**
-     * Tells if the given spot has an adjacent tile.  Useful for generating anchors.
-     *
-     * @param row    row index
-     * @param column column index
-     * @return True if the spot has a neighboring tile.
-     */
-    private boolean hasNeighbor(int row, int column) {
-        if (isValidIndex(row - 1, column) && board.getSquareCopy(row - 1, column).isOccupied()) return true;
-        if (isValidIndex(row + 1, column) && board.getSquareCopy(row + 1, column).isOccupied()) return true;
-        if (isValidIndex(row, column - 1) && board.getSquareCopy(row, column - 1).isOccupied()) return true;
-        return isValidIndex(row, column + 1) && board.getSquareCopy(row, column + 1).isOccupied();
-    }
-
-    /**
-     * Checks if a board index is valid
-     *
-     * @param row    row index
-     * @param column column index
-     * @return true is index is valid
-     */
-    private boolean isValidIndex(int row, int column) {
-        return row >= 0 && row < Board.BOARD_SIZE && column >= 0 && column < Board.BOARD_SIZE;
+    // Checks if the given index has an adjacent tile.
+    private boolean hasNeighbour(int row, int column) {
+        if (isValidIndex(row - 1, column) && !isEmpty(row - 1, column)) {
+            return true;
+        }
+        if (isValidIndex(row + 1, column) && !isEmpty(row + 1, column)) {
+            return true;
+        }
+        if (isValidIndex(row, column - 1) && !isEmpty(row, column - 1)) {
+            return true;
+        }
+        return isValidIndex(row, column + 1) && !isEmpty(row, column + 1);
     }
 
     // Returns a String representation of the highest scoring word placement available
@@ -349,7 +282,7 @@ public class DarkMode implements BotAPI {
 
         @Override
         public String toString() {
-            return "(" + row + "," + column + ")";
+            return "(" + row + ", " + column + ")";
         }
     }
 
@@ -375,7 +308,8 @@ public class DarkMode implements BotAPI {
                     insert(word);
                 }
                 sc.close();
-                System.out.println("GADDAG build time: " + (System.currentTimeMillis() - startTime) / 1000);
+                System.out.println("GADDAG build time: " +
+                        (System.currentTimeMillis() - startTime) / 1000);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -427,7 +361,7 @@ public class DarkMode implements BotAPI {
                 if (!hasPathFrom(item.charAt(0))) {
                     children.add(new GADDAG(item.charAt(0)));
                 }
-                Objects.requireNonNull(getSubTree(item.charAt(0))).insertFormatted(item.substring(1));
+                getSubTree(item.charAt(0)).insertFormatted(item.substring(1));
             } else {
                 isEndOfWord = true;
             }
@@ -478,18 +412,18 @@ public class DarkMode implements BotAPI {
                 }
             } else if (tree.letter == null) {
                 for (String suffix : getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                        Objects.requireNonNull(tree.getSubTree(prefix.charAt(prefix.length() - 1))))) {
+                        tree.getSubTree(prefix.charAt(prefix.length() - 1)))) {
                     words.add(prefix + suffix);
                 }
             } else if (prefix.equals("")) {
                 if (tree.hasPathFrom('+')) {
-                    for (String str : getAllStrings(Objects.requireNonNull(tree.getSubTree('+')))) {
+                    for (String str : getAllStrings(tree.getSubTree('+'))) {
                         words.add(str.substring(1)); // Substring removes the '+'
                     }
                 }
             } else if (tree.hasPathFrom(prefix.charAt(prefix.length() - 1))) {
                 words = getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                        Objects.requireNonNull(tree.getSubTree(prefix.charAt(prefix.length() - 1))));
+                        tree.getSubTree(prefix.charAt(prefix.length() - 1)));
             }
             return words;
         }
@@ -501,7 +435,7 @@ public class DarkMode implements BotAPI {
                 return wordList;
             } else if (tree.letter == null) {
                 for (String prefix : getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                        Objects.requireNonNull(tree.getSubTree(suffix.charAt(suffix.length() - 1))))) {
+                        tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
                     wordList.add(prefix + suffix);
                 }
                 if (isValidWord(suffix)) {
@@ -520,7 +454,7 @@ public class DarkMode implements BotAPI {
                 }
             } else if (tree.hasPathFrom(suffix.charAt(suffix.length() - 1))) {
                 wordList = getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                        Objects.requireNonNull(tree.getSubTree(suffix.charAt(suffix.length() - 1))));
+                        tree.getSubTree(suffix.charAt(suffix.length() - 1)));
             }
             return wordList;
         }
