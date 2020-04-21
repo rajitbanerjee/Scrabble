@@ -71,20 +71,76 @@ public class DarkMode implements BotAPI {
     //Searching board ---------------------------------------------------------------
 
     // Returns a list of anchor squares
-    private ArrayList<Coordinate> getAnchorSquares() {
+    private ArrayList<Coordinate> getAnchorSquares(boolean isHorizontal) {
         ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            boolean foundWord = false;
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                if (isEmpty(i, j) && hasNeighbor(i, j)) {
-                    anchors.add((new Coordinate(i, j)));
+                if (isHorizontal && isEmpty(i, j)) {
+                    foundWord = false;
+                    if ((!getHorizontalWord(i - 1, j).equals("")
+                            || !getHorizontalWord(i + 1, j).equals("")) && isEmpty(i, j)) {
+                        anchors.add(new Coordinate(i, j));
+                    }
+                } else if (isHorizontal && !foundWord) {
+                    foundWord = true;
+                    anchors.add(new Coordinate(i, j));
+                } else if (!isHorizontal && isEmpty(i, j)) {
+                    foundWord = false;
+                    if ((!getVerticalWord(j, i - 1).equals("")
+                            || !getVerticalWord(j, i + 1).equals("")) && isEmpty(i, j)) {
+                        anchors.add(new Coordinate(j, i));
+                    }
+                } else if (!isHorizontal && !foundWord) {
+                    foundWord = true;
+                    anchors.add(new Coordinate(j, i));
                 }
             }
+        }
+        if (isBoardEmpty()) {
+            anchors.add(new Coordinate(Board.BOARD_SIZE / 2, Board.BOARD_SIZE / 2));
         }
         return anchors;
     }
 
+    private boolean isBoardEmpty() {
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                if (!isEmpty(i, j)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private String getHorizontalWord(int i, int j) {
+        StringBuilder sb = new StringBuilder();
+        while (isValidIndex(i, j) && !isEmpty(i, j)) {
+            sb.append(getCharAtIndex(i, j));
+            j++;
+        }
+        return sb.toString();
+    }
+
+    private String getVerticalWord(int i, int j) {
+        StringBuilder sb = new StringBuilder();
+        while (isValidIndex(i, j) && !isEmpty(i, j)) {
+            sb.append(getCharAtIndex(i, j));
+            i++;
+        }
+        return sb.toString();
+    }
+
     private boolean isEmpty(int row, int column) {
         return !board.getSquareCopy(row, column).isOccupied();
+    }
+
+    private char getCharAtIndex(int row, int column) {
+        if (isEmpty(row, column)) {
+            throw new IllegalArgumentException("No characters on this square.");
+        }
+        return board.getSquareCopy(row, column).getTile().getLetter();
     }
 
     // Checks if the given spot has an adjacent tile.  Useful for generating anchors.
