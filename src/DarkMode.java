@@ -70,7 +70,13 @@ public class DarkMode implements BotAPI {
 
     //Searching board ---------------------------------------------------------------
 
-    // Returns a list of anchor squares
+    /**
+     * Generates a list of all of the anchor squares needed when working in the
+     * current direction.
+     *
+     * @param isHorizontal specifies the direction of the current search
+     * @return an ArrayList of Coordinates
+     */
     private ArrayList<Coordinate> getAnchorSquares(boolean isHorizontal) {
         ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
@@ -103,6 +109,11 @@ public class DarkMode implements BotAPI {
         return anchors;
     }
 
+    /**
+     * Checks if the board is empty
+     *
+     * @return true if the board is empty
+     */
     private boolean isBoardEmpty() {
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
@@ -114,28 +125,71 @@ public class DarkMode implements BotAPI {
         return true;
     }
 
-    private String getHorizontalWord(int i, int j) {
+    /**
+     * Uses a greedy approach to get the horizontal word if it exists, returns an empty string otherwise
+     *
+     * @param row    row index
+     * @param column column index
+     * @return String representation of the word or empty string if there is no valid word
+     */
+    private String getHorizontalWord(int row, int column) {
         StringBuilder sb = new StringBuilder();
-        while (isValidIndex(i, j) && !isEmpty(i, j)) {
-            sb.append(getCharAtIndex(i, j));
-            j++;
+        // find tail, appends character to the end
+        int tail = column;
+        while (isValidIndex(row, tail) && !isEmpty(row, tail)) {
+            sb.append(getCharAtIndex(row, tail));
+            tail++;
+        }
+        // do not include the starting character
+        int head = column - 1;
+        while (isValidIndex(row, head) && !isEmpty(row, head)) {
+            sb.insert(0, head);
+            head--;
         }
         return sb.toString();
     }
 
-    private String getVerticalWord(int i, int j) {
+    /**
+     * Uses a greedy approach to get the vertical word if it exists, returns an empty string otherwise
+     *
+     * @param row    row index
+     * @param column column index
+     * @return String representation of the word or empty string if there is no valid word
+     */
+    private String getVerticalWord(int row, int column) {
         StringBuilder sb = new StringBuilder();
-        while (isValidIndex(i, j) && !isEmpty(i, j)) {
-            sb.append(getCharAtIndex(i, j));
-            i++;
+        // find tail, appends character to the end
+        int tail = row;
+        while (isValidIndex(tail, column) && !isEmpty(tail, column)) {
+            sb.append(getCharAtIndex(tail, column));
+            tail++;
+        }
+        // do not include the starting character
+        int head = row - 1;
+        while (isValidIndex(head, column) && !isEmpty(head, column)) {
+            sb.append(getCharAtIndex(head, column));
+            head--;
         }
         return sb.toString();
     }
 
+    /**
+     * Checks if the given board index is occupied
+     *
+     * @param row    row index
+     * @param column column index
+     * @return true if square is empty
+     */
     private boolean isEmpty(int row, int column) {
         return !board.getSquareCopy(row, column).isOccupied();
     }
 
+    /**
+     * @param row    row index
+     * @param column column index
+     * @return the character at a given board position
+     * @throws IllegalArgumentException if the square is empty
+     */
     private char getCharAtIndex(int row, int column) {
         if (isEmpty(row, column)) {
             throw new IllegalArgumentException("No characters on this square.");
@@ -143,7 +197,13 @@ public class DarkMode implements BotAPI {
         return board.getSquareCopy(row, column).getTile().getLetter();
     }
 
-    // Checks if the given spot has an adjacent tile.  Useful for generating anchors.
+    /**
+     * Tells if the given spot has an adjacent tile.  Useful for generating anchors.
+     *
+     * @param row    row index
+     * @param column column index
+     * @return True if the spot has a neighboring tile.
+     */
     private boolean hasNeighbor(int row, int column) {
         if (isValidIndex(row - 1, column) && board.getSquareCopy(row - 1, column).isOccupied()) return true;
         if (isValidIndex(row + 1, column) && board.getSquareCopy(row + 1, column).isOccupied()) return true;
@@ -151,6 +211,13 @@ public class DarkMode implements BotAPI {
         return isValidIndex(row, column + 1) && board.getSquareCopy(row, column + 1).isOccupied();
     }
 
+    /**
+     * Checks if a board index is valid
+     *
+     * @param row    row index
+     * @param column column index
+     * @return true is index is valid
+     */
     private boolean isValidIndex(int row, int column) {
         return row >= 0 && row < Board.BOARD_SIZE && column >= 0 && column < Board.BOARD_SIZE;
     }
