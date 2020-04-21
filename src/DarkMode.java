@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DarkMode implements BotAPI {
@@ -17,23 +18,23 @@ public class DarkMode implements BotAPI {
     private final UserInterfaceAPI info;
     private final DictionaryAPI dictionary;
     private int turnCount;
-    private final Trie trie;
+    private final GADDAG tree;
 
-    DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board, UserInterfaceAPI ui, DictionaryAPI dictionary) {
+    // NOTE: Don't need a MockBot for testing, two DarkMode objects can play each other
+    DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board,
+             UserInterfaceAPI ui, DictionaryAPI dictionary) {
         this.me = me;
         this.opponent = opponent;
         this.board = board;
         this.info = ui;
         this.dictionary = dictionary;
-        trie = new Trie();
+        tree = new GADDAG(null);
         turnCount = 0;
-        setUpDictionaryTrie();
+        setUpDictionaryGADDAG();
     }
 
     @Override
     public String getCommand() {
-        // Add your code here to input your commands
-        // Your code must give the command NAME <botname> at the start of the game
         String command;
         if (turnCount == 0) {
             if (me.getPrintableId() == 1) {
@@ -54,7 +55,7 @@ public class DarkMode implements BotAPI {
     // Gets a String of only the contents of the bot's frame
     private String getFrameLetters() {
         StringBuilder letters = new StringBuilder();
-        for (char ch : me.getFrameAsString().toCharArray()) {
+        for (Character ch : me.getFrameAsString().toCharArray()) {
             if (Character.isLetter(ch) || ch == '_') {
                 letters.append(ch);
             }
@@ -62,89 +63,185 @@ public class DarkMode implements BotAPI {
         return letters.toString();
     }
 
-    // Dictionary processing ---------------------------------------------
+    // Dictionary processing: build GADDAG ------------------------------------------
 
-    private void setUpDictionaryTrie() {
+    private void setUpDictionaryGADDAG() {
         try (Scanner sc = new Scanner(new File("csw.txt"))) {
             while (sc.hasNextLine()) {
                 String word = sc.nextLine();
-                trie.insert(word);
+                // TODO add a filter to only insert words that can possibly be created in Scrabble
+                insert(word);
             }
+            // Test GADDAG
+            System.out.println(getWordsStartingWith("ABAND", tree));
+            System.out.println(getWordsEndingWith("ATION", tree));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private static class Trie {
-        private static final int ALPHABET_SIZE = 26;
-        private static final TrieNode ROOT = new TrieNode();
+    // Converts a word xy to all possible rev(x)+y, and inserts into GADDAG
+    private void insert(String word) {
+        for (int i = 0; i < word.length(); i++) {
+            StringBuilder x = new StringBuilder(word.substring(0, i + 1));
+            x.reverse();
+            String y = word.substring(i + 1);
+            x.append("+").append(y);
+            tree.insertFormatted(x.toString());
+        }
+    }
 
-        /**
-         * Inserts a word into the Trie.
-         *
-         * @param word to be inserted into Trie.
-         */
-        public void insert(String word) {
-            // Only supports uppercase alphabetical characters
-            if (word == null || !word.matches("^[a-zA-Z]+$")) {
-                throw new IllegalArgumentException("Invalid word.");
-            }
-            word = word.toUpperCase();
-            TrieNode curr = ROOT;
-            for (char letter : word.toCharArray()) {
-                // If letter not in Trie, create child node with letter
-                if (curr.getChild(letter) == null) {
-                    curr.createChild(letter);
+    // Word search methods and GADDAG set-up --------------------------------
+
+    // Check if a word is valid (present in the dictionary)
+    private boolean isValidWord(String word) {
+        if (word.equals("")) {
+            return false;
+        } else {
+            return find(word.charAt(0) + "+" + word.substring(1), tree);
+        }
+    }
+
+    private boolean find(String str, GADDAG tree) {
+        if (str.length() == 0 && tree.isEndOfWord()) {
+            return true;
+        } else if (str.length() > 0 && tree.hasPathFrom(str.charAt(0))) {
+            return find(str.substring(1), tree.getSubTree(str.charAt(0)));
+        } else {
+            return false;
+        }
+    }
+
+    // Get a list of words starting with a prefix
+    private ArrayList<String> getWordsStartingWith(String prefix, GADDAG tree) {
+        ArrayList<String> words = new ArrayList<>();
+        if (tree.getLetter() == null && prefix.equals("")) {
+            for (GADDAG child : tree.getChildren()) {
+                for (String str : getWordsStartingWith("", child)) {
+                    words.add(child.getLetter() + str);
                 }
-                curr = curr.getChild(letter);
             }
-            curr.setEndOfWord(true);
+        } else if (tree.getLetter() == null) {
+            for (String suffix : getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
+                    tree.getSubTree(prefix.charAt(prefix.length() - 1)))) {
+                words.add(prefix + suffix);
+            }
+        } else if (prefix.equals("")) {
+            if (tree.hasPathFrom('+')) {
+                for (String str : getAllStrings(tree.getSubTree('+'))) {
+                    words.add(str.substring(1)); // Substring removes the '+'
+                }
+            }
+        } else if (tree.hasPathFrom(prefix.charAt(prefix.length() - 1))) {
+            words = getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
+                    tree.getSubTree(prefix.charAt(prefix.length() - 1)));
+        }
+        return words;
+    }
+
+    // Get a list of  words ending with a given suffix
+    private ArrayList<String> getWordsEndingWith(String suffix, GADDAG tree) {
+        ArrayList<String> wordList = new ArrayList<>();
+        if (tree.getLetter() == null && suffix.equals("")) {
+            return wordList;
+        } else if (tree.getLetter() == null) {
+            for (String prefix : getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
+                    tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
+                wordList.add(prefix + suffix);
+            }
+            if (isValidWord(suffix)) {
+                wordList.add(suffix);
+            }
+        } else if (suffix.equals("")) {
+            for (GADDAG child : tree.getChildren()) {
+                for (String str : getAllStrings(child)) {
+                    StringBuilder word = new StringBuilder(str.substring(0, str.indexOf('+')));
+                    word.reverse();
+                    if (str.indexOf('+') != str.length() - 1) {
+                        word.append(str.substring(str.indexOf('+') + 1));
+                    }
+                    if (str.endsWith("+")) wordList.add(word.toString());
+                }
+            }
+        } else if (tree.hasPathFrom(suffix.charAt(suffix.length() - 1))) {
+            wordList = getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
+                    tree.getSubTree(suffix.charAt(suffix.length() - 1)));
+        }
+        return wordList;
+    }
+
+    // Helper to get a list of complete Strings in the GADDAG, rev(x)+y format
+    private ArrayList<String> getAllStrings(GADDAG tree) {
+        ArrayList<String> list = new ArrayList<>();
+        if (tree.isEndOfWord()) {
+            list.add(tree.getLetter() + "");
+        }
+        for (GADDAG child : tree.getChildren()) {
+            for (String str : getAllStrings(child)) {
+                if (tree.getLetter() != null) {
+                    list.add(tree.getLetter() + "" + str);
+                } else {
+                    list.add(str);
+                }
+            }
+        }
+        return list;
+    }
+
+    // Inner class to represent a GADDAG data structure
+    private static class GADDAG {
+        private final Character letter;
+        private final ArrayList<GADDAG> children;
+        private boolean endOfWord;
+
+        GADDAG(Character letter) {
+            this.letter = letter;
+            children = new ArrayList<>();
+            endOfWord = false;
         }
 
-        /**
-         * Search for a word in the Trie.
-         *
-         * @param word to be searched
-         * @return {@code true}, if word is present in Trie
-         */
-        public boolean search(String word) {
-            TrieNode curr = ROOT;
-            for (char letter : word.toCharArray()) {
-                // Return false at any point a child letter is not found
-                if (curr.getChild(letter) == null) {
-                    return false;
+        // Inserts a given item of the form rev(x)+y into the GADDAG
+        void insertFormatted(String item) {
+            if (!item.equals("")) {
+                if (!hasPathFrom(item.charAt(0))) {
+                    children.add(new GADDAG(item.charAt(0)));
                 }
-                curr = curr.getChild(letter);
+                getSubTree(item.charAt(0)).insertFormatted(item.substring(1));
+            } else {
+                endOfWord = true;
             }
-            // Check that final child letter is found and end of word is reached
-            return curr != null && curr.getIsEndOfWord();
         }
 
-        private static class TrieNode {
-            private final TrieNode[] children = new TrieNode[ALPHABET_SIZE];
-            private boolean isEndOfWord; // Checks if node is leaf node (end of a word)
-
-            TrieNode() {
-                setEndOfWord(false);
-                for (int i = 0; i < ALPHABET_SIZE; i++)
-                    children[i] = null;
+        // Checks if this level of the GADDAG has a path starting from given letter
+        boolean hasPathFrom(Character letter) {
+            for (GADDAG tree : children) {
+                if (letter == tree.getLetter()) {
+                    return true;
+                }
             }
+            return false;
+        }
 
-            TrieNode getChild(char letter) {
-                return children[letter - 'A'];
+        // Returns the sub-tree at this level starting from given letter
+        GADDAG getSubTree(Character letter) {
+            for (GADDAG tree : children) {
+                if (letter == tree.getLetter()) {
+                    return tree;
+                }
             }
+            return null;
+        }
 
-            void createChild(char letter) {
-                children[letter - 'A'] = new TrieNode();
-            }
+        Character getLetter() {
+            return letter;
+        }
 
-            boolean getIsEndOfWord() {
-                return isEndOfWord;
-            }
+        ArrayList<GADDAG> getChildren() {
+            return children;
+        }
 
-            void setEndOfWord(boolean isEndOfWord) {
-                this.isEndOfWord = isEndOfWord;
-            }
+        boolean isEndOfWord() {
+            return endOfWord;
         }
     }
 
