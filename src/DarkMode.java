@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
@@ -93,10 +96,7 @@ public class DarkMode implements BotAPI {
     private void setUpDictionaryGADDAG() {
         try (Scanner sc = new Scanner(new File("csw.txt"))) {
             while (sc.hasNextLine()) {
-                String word = sc.nextLine();
-                if (isPossibleWord(word)) {
-                    insert(word);
-                }
+                insert(sc.nextLine());
             }
             // Test GADDAG
             System.out.println(getPossibleWords("AUTO", "ING", tree));
@@ -114,31 +114,6 @@ public class DarkMode implements BotAPI {
             x.append("+").append(y);
             tree.insertFormatted(x.toString());
         }
-    }
-
-    private boolean isPossibleWord(String word) {
-        Map<Character, Integer> map = new HashMap<>();
-        // create frequency map, otherwise contains method require multiple traversals
-        for (char ch : word.toCharArray()) {
-            if (!map.containsKey(ch)) {
-                map.put(ch, 0);
-            } else {
-                map.put(ch, map.get(ch) + 1);
-            }
-        }
-        String threeMaxOccurrences = "KJXQZ";
-        String fourMaxOccurrences = "BCMPFHVWY";
-        for (char ch : threeMaxOccurrences.toCharArray()) {
-            if (map.getOrDefault(ch, 0) > 3) {
-                return false;
-            }
-        }
-        for (char ch : fourMaxOccurrences.toCharArray()) {
-            if (map.getOrDefault(ch, 0) > 4) {
-                return false;
-            }
-        }
-        return true;
     }
 
     // Word search methods and GADDAG set-up --------------------------------
