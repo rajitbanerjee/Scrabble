@@ -68,6 +68,86 @@ public class DarkMode implements BotAPI {
         return letters.toString();
     }
 
+    //Searching board ---------------------------------------------------------------
+
+    /**
+     * Nested class for coordinates
+     */
+    private static class Coordinate {
+
+        private int row;
+        private int column;
+
+        /**
+         * Instantiates the coordinate with a row and column.
+         *
+         * @param row    row of board
+         * @param column column of board
+         */
+        public Coordinate(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        public int getColumn() {
+            return column;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + row + "," + column + ")";
+        }
+    }
+
+    /**
+     * Returns ArrayList of anchorSquares
+     */
+    private ArrayList<Coordinate> getAnchorSquares() {
+        ArrayList<Coordinate> anchors = new ArrayList<Coordinate>();
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                if (isEmpty(i, j) && hasNeighbor(i, j)) {
+                    anchors.add((new Coordinate(i, j)));
+                }
+            }
+        }
+        return anchors;
+    }
+
+    private boolean isEmpty(int row, int column) {
+        return !board.getSquareCopy(row, column).isOccupied();
+    }
+
+    /**
+     * Tells if the given spot has an adjacent tile.  Useful for generating anchors.
+     *
+     * @param row    The row.
+     * @param column The column.
+     * @return True if the spot has a neighboring tile.
+     */
+    private boolean hasNeighbor(int row, int column) {
+        //if square is at edge of board
+        if (row == 0) {
+            return board.getSquareCopy(row + 1, column).isOccupied();
+        } else if (row == Board.BOARD_SIZE - 1) {
+            return board.getSquareCopy(row - 1, column).isOccupied();
+        }
+        if (column == 0) {
+            return board.getSquareCopy(row, column + 1).isOccupied();
+        } else if (column == Board.BOARD_SIZE - 1) {
+            return board.getSquareCopy(row, column - 1).isOccupied();
+        }
+        //square is not at edge of board
+        if (board.getSquareCopy(row - 1, column).isOccupied()) return true;
+        if (board.getSquareCopy(row + 1, column).isOccupied()) return true;
+        if (board.getSquareCopy(row, column - 1).isOccupied()) return true;
+        return board.getSquareCopy(row, column + 1).isOccupied();
+    }
+
     // Returns a String representation of the highest scoring word placement available
     private String bestWordPlacement(ArrayList<String> words) {
         String bestWord = null;
