@@ -72,7 +72,11 @@ public class DarkMode implements BotAPI {
 
     /**
      * Generates a list of all of the anchor squares needed when working in the
-     * current direction.
+     * current direction.  Anchor squares consist of squares containing the first
+     * letter of all the words in the given direction as well as any squares
+     * directly above or below an occupied square for horizontal and directly
+     * right or left of an occupied square for vertical.  These are the squares
+     * that the GADDAG algorithm can base its search out from.
      *
      * @param isHorizontal specifies the direction of the current search
      * @return an ArrayList of Coordinates
@@ -82,27 +86,39 @@ public class DarkMode implements BotAPI {
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             boolean foundWord = false;
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                if (isHorizontal && isEmpty(i, j)) {
-                    foundWord = false;
-                    if ((!getHorizontalWord(i - 1, j).equals("")
-                            || !getHorizontalWord(i + 1, j).equals("")) && isEmpty(i, j)) {
+                // horizontal anchor search
+                if (isHorizontal) {
+                    if (isEmpty(i, j)) {
+                        foundWord = false;
+                        // check above and below for words
+                        if (!getHorizontalWord(i - 1, j).equals("")
+                                || !getHorizontalWord(i + 1, j).equals("")) {
+                            anchors.add(new Coordinate(i, j));
+                        }
+                    } else if (!foundWord) {
+                        // else if square is occupied and first word character not added
+                        foundWord = true;
                         anchors.add(new Coordinate(i, j));
                     }
-                } else if (isHorizontal && !foundWord) {
-                    foundWord = true;
-                    anchors.add(new Coordinate(i, j));
-                } else if (!isHorizontal && isEmpty(i, j)) {
-                    foundWord = false;
-                    if ((!getVerticalWord(j, i - 1).equals("")
-                            || !getVerticalWord(j, i + 1).equals("")) && isEmpty(i, j)) {
+                } else {
+                    // vertical anchors search
+                    if (isEmpty(i, j)) {
+                        foundWord = false;
+                        // check left and right for words
+                        if (!getVerticalWord(j, i - 1).equals("")
+                                || !getVerticalWord(j, i + 1).equals("")) {
+                            anchors.add(new Coordinate(j, i));
+                        }
+                    } else if (!foundWord) {
+                        // else if square is occupied and first word character not added
+                        foundWord = true;
                         anchors.add(new Coordinate(j, i));
                     }
-                } else if (!isHorizontal && !foundWord) {
-                    foundWord = true;
-                    anchors.add(new Coordinate(j, i));
                 }
+
             }
         }
+        // add the middle square as the anchor if the board is empty
         if (isBoardEmpty()) {
             anchors.add(new Coordinate(Board.BOARD_SIZE / 2, Board.BOARD_SIZE / 2));
         }
