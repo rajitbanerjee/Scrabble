@@ -7,12 +7,6 @@ import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
-    // The public API of Bot must not change
-    // This is ONLY class that you can edit in the program
-    // Rename Bot to the name of your team. Use camel case.
-    // Bot may not alter the state of the game objects
-    // It may only inspect the state of the board and the player objects
-
     private static final int ALPHABET_SIZE = 26;
     private final PlayerAPI me;
     private final OpponentAPI opponent;
@@ -76,7 +70,7 @@ public class DarkMode implements BotAPI {
     // TODO: workaround for Word methods, getNewLetters(), prepend()
     // TODO: goOn(), gen(), helper methods
 
-    // Checks if the old arc contains the given letter and if that branch is terminal.
+    // Checks if the old arc contains the given letter and if that branch leads to end of word
     public boolean isOn(GADDAG prevArc, Character letter) {
         if (!prevArc.hasPathFrom(letter)) {
             return false;
@@ -89,7 +83,7 @@ public class DarkMode implements BotAPI {
         return false;
     }
 
-    // Returns the letter at the given spot depending on what the current anchor square is
+    // Returns the letter at the given spot depending on the current anchor
     private Character getLetterOnSpot(boolean isHorizontal, Coordinate anchor, int pos) {
         if (isHorizontal) {
             return getCharAtIndex(anchor.getRow(), anchor.getColumn() + pos);
@@ -97,7 +91,6 @@ public class DarkMode implements BotAPI {
             return getCharAtIndex(anchor.getRow() + pos, anchor.getColumn());
         }
     }
-
 
     // Searching the board -------------------------------------------------------------
 
@@ -160,7 +153,7 @@ public class DarkMode implements BotAPI {
             return "";
         }
         StringBuilder word = new StringBuilder();
-        // Find end, appends character to the end
+        // Find end and append character
         int end = column;
         while (isValidIndex(row, end) && !isEmpty(row, end)) {
             word.append(getCharAtIndex(row, end));
@@ -186,7 +179,7 @@ public class DarkMode implements BotAPI {
             return "";
         }
         StringBuilder word = new StringBuilder();
-        // Find end, appends character to the end
+        // Find end and append character
         int end = row;
         while (isValidIndex(end, column) && !isEmpty(end, column)) {
             word.append(getCharAtIndex(end, column));
@@ -205,7 +198,7 @@ public class DarkMode implements BotAPI {
         return word.toString();
     }
 
-    // Return character at a given board position, _ when empty, + when out of bounds
+    // Return character at a given board position (_ for empty, + for out of bounds)
     private char getCharAtIndex(int row, int column) {
         if (!isValidIndex(row, column)) {
             return '+';
@@ -261,12 +254,6 @@ public class DarkMode implements BotAPI {
         private final int row;
         private final int column;
 
-        /**
-         * Instantiates the coordinate with a row and column.
-         *
-         * @param row    row of board
-         * @param column column of board
-         */
         Coordinate(int row, int column) {
             this.row = row;
             this.column = column;
@@ -290,11 +277,12 @@ public class DarkMode implements BotAPI {
     private static class GADDAG {
 
         private final Character letter;
-        private final ArrayList<GADDAG> children = new ArrayList<>();
+        private final ArrayList<GADDAG> children;
         private boolean isEndOfWord;
 
         GADDAG(Character letter) {
             this.letter = letter;
+            children = new ArrayList<>();
             isEndOfWord = false;
         }
 
@@ -318,7 +306,7 @@ public class DarkMode implements BotAPI {
         // GADDAG search methods to be used in move generation ----------------------------------------------
 
         // Check if a word is valid (present in the dictionary)
-        boolean isValidWord(String word) {
+        boolean inDictionary(String word) {
             if (word.equals("")) {
                 return false;
             } else {
@@ -365,30 +353,6 @@ public class DarkMode implements BotAPI {
             } else {
                 isEndOfWord = true;
             }
-        }
-
-        // Checks if this level of the GADDAG has a path starting from given letter
-        private boolean hasPathFrom(Character letter) {
-            for (GADDAG tree : children) {
-                if (letter == tree.letter) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Returns the sub-tree at this level starting from given letter
-        private GADDAG getSubTree(Character letter) {
-            for (GADDAG tree : children) {
-                if (letter == tree.letter) {
-                    return tree;
-                }
-            }
-            return null;
-        }
-
-        private boolean isEndOfWord() {
-            return isEndOfWord;
         }
 
         private boolean find(String str, GADDAG tree) {
@@ -438,7 +402,7 @@ public class DarkMode implements BotAPI {
                         tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
                     wordList.add(prefix + suffix);
                 }
-                if (isValidWord(suffix)) {
+                if (inDictionary(suffix)) {
                     wordList.add(suffix);
                 }
             } else if (suffix.equals("")) {
@@ -475,6 +439,30 @@ public class DarkMode implements BotAPI {
                 }
             }
             return list;
+        }
+
+        // Checks if this level of the GADDAG has a path starting from given letter
+        private boolean hasPathFrom(Character letter) {
+            for (GADDAG tree : children) {
+                if (letter == tree.letter) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Returns the sub-tree at this level starting from given letter
+        private GADDAG getSubTree(Character letter) {
+            for (GADDAG tree : children) {
+                if (letter == tree.letter) {
+                    return tree;
+                }
+            }
+            return null;
+        }
+
+        private boolean isEndOfWord() {
+            return isEndOfWord;
         }
     }
 
