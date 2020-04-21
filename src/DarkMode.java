@@ -4,12 +4,6 @@ import java.util.*;
 
 public class DarkMode implements BotAPI {
 
-    // The public API of Bot must not change
-    // This is ONLY class that you can edit in the program
-    // Rename Bot to the name of your team. Use camel case.
-    // Bot may not alter the state of the game objects
-    // It may only inspect the state of the board and the player objects
-
     private static final int ALPHABET_SIZE = 26;
     private final PlayerAPI me;
     private final OpponentAPI opponent;
@@ -68,7 +62,7 @@ public class DarkMode implements BotAPI {
         return letters.toString();
     }
 
-    //Searching board ---------------------------------------------------------------
+    // Searching board -------------------------------------------------------------------------
 
     // Returns a list of anchor squares
     private ArrayList<Coordinate> getAnchorSquares() {
@@ -89,7 +83,7 @@ public class DarkMode implements BotAPI {
 
     // Checks if the given spot has an adjacent tile.  Useful for generating anchors.
     private boolean hasNeighbor(int row, int column) {
-        //if square is at edge of board
+        // If square is at edge of board
         if (row == 0) {
             return board.getSquareCopy(row + 1, column).isOccupied();
         } else if (row == Board.BOARD_SIZE - 1) {
@@ -100,7 +94,7 @@ public class DarkMode implements BotAPI {
         } else if (column == Board.BOARD_SIZE - 1) {
             return board.getSquareCopy(row, column - 1).isOccupied();
         }
-        //square is not at edge of board
+        // Square is not at edge of board
         if (board.getSquareCopy(row - 1, column).isOccupied()) return true;
         if (board.getSquareCopy(row + 1, column).isOccupied()) return true;
         if (board.getSquareCopy(row, column - 1).isOccupied()) return true;
@@ -116,17 +110,16 @@ public class DarkMode implements BotAPI {
             score = 0;
             word = word.toUpperCase();
             char[] letters = word.toCharArray();
-            for (char ch : letters) {  //calculate value of word
+            for (char ch : letters) {  // Calculate value of word
                 Tile t = new Tile(ch);
                 score += t.getValue();
             }
-            if (score > bestScore) {  //update bestWord
+            if (score > bestScore) {  // Update bestWord
                 bestWord = word;
                 bestScore = score;
             }
         }
         if (bestWord == null) {
-            //the Arraylist is empty. The bot hasn't found any word placements
             throw new IllegalStateException("No words formed.");
         }
         return bestWord;
@@ -159,7 +152,7 @@ public class DarkMode implements BotAPI {
 
         @Override
         public String toString() {
-            return "(" + row + "," + column + ")";
+            return "(" + row + ", " + column + ")";
         }
     }
 
