@@ -70,44 +70,9 @@ public class DarkMode implements BotAPI {
 
     //Searching board ---------------------------------------------------------------
 
-    /**
-     * Nested class for coordinates
-     */
-    private static class Coordinate {
-
-        private int row;
-        private int column;
-
-        /**
-         * Instantiates the coordinate with a row and column.
-         *
-         * @param row    row of board
-         * @param column column of board
-         */
-        public Coordinate(int row, int column) {
-            this.row = row;
-            this.column = column;
-        }
-
-        public int getColumn() {
-            return column;
-        }
-
-        public int getRow() {
-            return row;
-        }
-
-        @Override
-        public String toString() {
-            return "(" + row + "," + column + ")";
-        }
-    }
-
-    /**
-     * Returns ArrayList of anchorSquares
-     */
+    // Returns a list of anchor squares
     private ArrayList<Coordinate> getAnchorSquares() {
-        ArrayList<Coordinate> anchors = new ArrayList<Coordinate>();
+        ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 if (isEmpty(i, j) && hasNeighbor(i, j)) {
@@ -122,13 +87,7 @@ public class DarkMode implements BotAPI {
         return !board.getSquareCopy(row, column).isOccupied();
     }
 
-    /**
-     * Tells if the given spot has an adjacent tile.  Useful for generating anchors.
-     *
-     * @param row    The row.
-     * @param column The column.
-     * @return True if the spot has a neighboring tile.
-     */
+    // Checks if the given spot has an adjacent tile.  Useful for generating anchors.
     private boolean hasNeighbor(int row, int column) {
         //if square is at edge of board
         if (row == 0) {
@@ -173,8 +132,40 @@ public class DarkMode implements BotAPI {
         return bestWord;
     }
 
-    // Build a GADDAG with dictionary words -----------
+    // Nested class for coordinates
+    private static class Coordinate {
+
+        private final int row;
+        private final int column;
+
+        /**
+         * Instantiates the coordinate with a row and column.
+         *
+         * @param row    row of board
+         * @param column column of board
+         */
+        Coordinate(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        int getColumn() {
+            return column;
+        }
+
+        int getRow() {
+            return row;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + row + "," + column + ")";
+        }
+    }
+
+    // Build a GADDAG with dictionary words -----------------------------------------------------------------
     private static class GADDAG {
+
         private final Character letter;
         private final ArrayList<GADDAG> children = new ArrayList<>();
         private boolean isEndOfWord = false;
