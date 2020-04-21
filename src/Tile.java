@@ -6,8 +6,8 @@ public class Tile {
             1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
 
     private final boolean blank;
-    private char letter;
     private final int value;
+    private char letter;
 
     // Tile precondition: must be uppercase letter
     Tile(char letter) {

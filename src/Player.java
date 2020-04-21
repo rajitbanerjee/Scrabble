@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Player implements PlayerAPI, OpponentAPI {
 
     private final int id;
+    private final Frame frame;
     private String name;
     private int score;
-    private final Frame frame;
 
     Player(int id) {
         this.id = id;
