@@ -72,7 +72,7 @@ public class DarkMode implements BotAPI {
     /**
      * Nested class for coordinates
      */
-    private class Coordinate {
+    private static class Coordinate {
 
         private int row;
         private int column;
@@ -80,8 +80,8 @@ public class DarkMode implements BotAPI {
         /**
          * Instantiates the coordinate with a row and column.
          *
-         * @param row
-         * @param column
+         * @param row    row of board
+         * @param column column of board
          */
         public Coordinate(int row, int column) {
             this.row = row;
@@ -131,37 +131,20 @@ public class DarkMode implements BotAPI {
     private boolean hasNeighbor(int row, int column) {
         //if square is at edge of board
         if (row == 0) {
-            if (board.getSquareCopy(row + 1, column).isOccupied()) {
-                return true;
-            } else {
-                return false;
-            }
+            return board.getSquareCopy(row + 1, column).isOccupied();
         } else if (row == Board.BOARD_SIZE - 1) {
-            if (board.getSquareCopy(row - 1, column).isOccupied()) {
-                return true;
-            } else {
-                return false;
-            }
+            return board.getSquareCopy(row - 1, column).isOccupied();
         }
         if (column == 0) {
-            if (board.getSquareCopy(row, column + 1).isOccupied()) {
-                return true;
-            } else {
-                return false;
-            }
+            return board.getSquareCopy(row, column + 1).isOccupied();
         } else if (column == Board.BOARD_SIZE - 1) {
-            if (board.getSquareCopy(row, column - 1).isOccupied()) {
-                return true;
-            } else {
-                return false;
-            }
+            return board.getSquareCopy(row, column - 1).isOccupied();
         }
         //square is not at edge of board
         if (board.getSquareCopy(row - 1, column).isOccupied()) return true;
         if (board.getSquareCopy(row + 1, column).isOccupied()) return true;
         if (board.getSquareCopy(row, column - 1).isOccupied()) return true;
-        if (board.getSquareCopy(row, column + 1).isOccupied()) return true;
-        return false;
+        return board.getSquareCopy(row, column + 1).isOccupied();
     }
 
     // Returns a String representation of the highest scoring word placement available
