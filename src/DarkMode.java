@@ -133,6 +133,10 @@ public class DarkMode implements BotAPI {
      * @return String representation of the word or empty string if there is no valid word
      */
     private String getHorizontalWord(int row, int column) {
+        // return empty and stop search if square is not occupied or out of bounds
+        if (!isValidIndex(row, column) || isEmpty(row, column)) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         // find tail, appends character to the end
         int tail = column;
@@ -146,6 +150,10 @@ public class DarkMode implements BotAPI {
             sb.insert(0, head);
             head--;
         }
+        // no one letter words
+        if (sb.length() == 1) {
+            return "";
+        }
         return sb.toString();
     }
 
@@ -157,6 +165,10 @@ public class DarkMode implements BotAPI {
      * @return String representation of the word or empty string if there is no valid word
      */
     private String getVerticalWord(int row, int column) {
+        // return empty and stop search if square is not occupied or out of bounds
+        if (!isValidIndex(row, column) || isEmpty(row, column)) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         // find tail, appends character to the end
         int tail = row;
@@ -169,6 +181,10 @@ public class DarkMode implements BotAPI {
         while (isValidIndex(head, column) && !isEmpty(head, column)) {
             sb.append(getCharAtIndex(head, column));
             head--;
+        }
+        // no one letter words
+        if (sb.length() == 1) {
+            return "";
         }
         return sb.toString();
     }
