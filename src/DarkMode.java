@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DarkMode implements BotAPI {
@@ -60,6 +61,31 @@ public class DarkMode implements BotAPI {
             }
         }
         return letters.toString();
+    }
+
+    //Returns a String representation of the highest scoring word placement available
+    private String bestWordPlacement(ArrayList<String> words) {
+        String bestWord = null;
+        int bestScore = 0;
+        int score;
+        for (String word : words) {
+            score = 0;
+            word = word.toUpperCase();
+            char[] letters = word.toCharArray();
+            for (char ch : letters) {  //calculate value of word
+                Tile t = new Tile(ch);
+                score += t.getValue();
+            }
+            if (score > bestScore) {  //update bestWord
+                bestWord = word;
+                bestScore = score;
+            }
+        }
+        if (bestWord == null) {
+            //the Arraylist is empty. The bot hasn't found any word placements
+            throw new IllegalStateException("No words formed.");
+        }
+        return bestWord;
     }
 
     // Dictionary processing ---------------------------------------------
