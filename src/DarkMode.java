@@ -1,7 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
@@ -139,15 +141,10 @@ public class DarkMode implements BotAPI {
 
     // Get a list of possible words starting with a prefix and ending with a suffix
     private ArrayList<String> getPossibleWords(String prefix, String suffix, GADDAG tree) {
-        ArrayList<String> prefixWords = getWordsStartingWith(prefix, tree);
-        ArrayList<String> suffixWords = getWordsEndingWith(suffix, tree);
-        ArrayList<String> ans = new ArrayList<>();
-        for (String word : prefixWords) {
-            if(suffixWords.contains(word)) {
-                ans.add(word);
-            }
-        }
-        return ans;
+        Set<String> prefixWords = new HashSet<>(getWordsStartingWith(prefix, tree));
+        Set<String> suffixWords = new HashSet<>(getWordsEndingWith(suffix, tree));
+        prefixWords.retainAll(suffixWords);
+        return new ArrayList<>(prefixWords);
     }
 
     // Get a list of words starting with a prefix
