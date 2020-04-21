@@ -68,7 +68,7 @@ public class DarkMode implements BotAPI {
     }
 
     // Returns a String representation of the highest scoring word placement available
-    private String bestWordPlacement(ArrayList<String> words) {
+    private String getHighestRawScoreWord(ArrayList<String> words) {
         String bestWord = null;
         int bestScore = 0;
         int score;
