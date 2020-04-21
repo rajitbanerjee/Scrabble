@@ -89,22 +89,14 @@ public class DarkMode implements BotAPI {
 
     // Checks if the given spot has an adjacent tile.  Useful for generating anchors.
     private boolean hasNeighbor(int row, int column) {
-        //if square is at edge of board
-        if (row == 0) {
-            return board.getSquareCopy(row + 1, column).isOccupied();
-        } else if (row == Board.BOARD_SIZE - 1) {
-            return board.getSquareCopy(row - 1, column).isOccupied();
-        }
-        if (column == 0) {
-            return board.getSquareCopy(row, column + 1).isOccupied();
-        } else if (column == Board.BOARD_SIZE - 1) {
-            return board.getSquareCopy(row, column - 1).isOccupied();
-        }
-        //square is not at edge of board
-        if (board.getSquareCopy(row - 1, column).isOccupied()) return true;
-        if (board.getSquareCopy(row + 1, column).isOccupied()) return true;
-        if (board.getSquareCopy(row, column - 1).isOccupied()) return true;
-        return board.getSquareCopy(row, column + 1).isOccupied();
+        if (isValidIndex(row - 1, column) && board.getSquareCopy(row - 1, column).isOccupied()) return true;
+        if (isValidIndex(row + 1, column) && board.getSquareCopy(row + 1, column).isOccupied()) return true;
+        if (isValidIndex(row, column - 1) && board.getSquareCopy(row, column - 1).isOccupied()) return true;
+        return isValidIndex(row, column + 1) && board.getSquareCopy(row, column + 1).isOccupied();
+    }
+
+    private boolean isValidIndex(int row, int column) {
+        return row >= 0 && row < Board.BOARD_SIZE && column >= 0 && column < Board.BOARD_SIZE;
     }
 
     // Returns a String representation of the highest scoring word placement available
