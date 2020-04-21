@@ -52,6 +52,7 @@ public class DarkMode implements BotAPI {
             command = "EXCHANGE " + getFrameLetters();
         } else {
             command = "H8 A AN";
+            System.out.println(getAnchorSquares(true));
         }
         turnCount++;
         return command;
@@ -67,6 +68,46 @@ public class DarkMode implements BotAPI {
         }
         return letters.toString();
     }
+    // GADDAG algorithm -------------------------------------------------------------
+
+    // TODO: workaround for Word methods, getNewLetters(), prepend()
+    // TODO: goOn(), gen(), helper methods
+
+    /**
+     * Tells if the old arc contains the given letter and if that branch is terminal.
+     *
+     * @param oldArc The arc to check.
+     * @param l      The letter to check for
+     * @return True if the tree contains the letter and that branch is terminal.
+     */
+    public boolean isOn(GADDAG oldArc, Character l) {
+        if (!oldArc.hasPathFrom(l)) {
+            return false;
+        }
+        if (oldArc.getSubTree(l).isEndOfWord()) {
+            return true;
+        } else if (oldArc.getSubTree(l).hasPathFrom('#')) {
+            return oldArc.getSubTree(l).getSubTree('#').isEndOfWord();
+        }
+        return false;
+    }
+
+    /**
+     * Returns the letter at the given spot depending on what the current anchor
+     * square is.
+     *
+     * @param isHorizontal  direction of anchor square
+     * @param pos           The distance away from the anchor square (can be <0).
+     * @param currentAnchor The anchor coordinate we are working on.
+     * @return The character at the given spot according to the board.
+     */
+    private Character getLetterOnSpot(boolean isHorizontal, Coordinate currentAnchor, int pos) {
+        if (isHorizontal) {
+            return getCharAtIndex(currentAnchor.getRow(), currentAnchor.getColumn() + pos);
+        }
+        return getCharAtIndex(currentAnchor.getRow() + pos, currentAnchor.getColumn());
+    }
+
 
     //Searching board ---------------------------------------------------------------
 
@@ -219,12 +260,14 @@ public class DarkMode implements BotAPI {
     /**
      * @param row    row index
      * @param column column index
-     * @return the character at a given board position
-     * @throws IllegalArgumentException if the square is empty
+     * @return the character at a given board position, _ when empty, # when out of bounds
      */
     private char getCharAtIndex(int row, int column) {
+        if (isValidIndex(row, column)) {
+            return '#';
+        }
         if (isEmpty(row, column)) {
-            throw new IllegalArgumentException("No characters on this square.");
+            return '_';
         }
         return board.getSquareCopy(row, column).getTile().getLetter();
     }
@@ -315,10 +358,11 @@ public class DarkMode implements BotAPI {
 
         private final Character letter;
         private final ArrayList<GADDAG> children = new ArrayList<>();
-        private boolean isEndOfWord = false;
+        private boolean isEndOfWord;
 
         GADDAG(Character letter) {
             this.letter = letter;
+            isEndOfWord = false;
         }
 
         // Inserts words from dictionary into the GADDAG
@@ -407,6 +451,10 @@ public class DarkMode implements BotAPI {
                 }
             }
             return null;
+        }
+
+        private boolean isEndOfWord() {
+            return isEndOfWord;
         }
 
         private boolean find(String str, GADDAG tree) {
