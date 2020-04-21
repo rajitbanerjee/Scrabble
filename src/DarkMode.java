@@ -99,8 +99,7 @@ public class DarkMode implements BotAPI {
                 insert(word);
             }
             // Test GADDAG
-            System.out.println(getWordsStartingWith("ABAND", tree));
-            System.out.println(getWordsEndingWith("ATION", tree));
+            System.out.println(getPossibleWords("AUTO", "ING", tree));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -136,6 +135,19 @@ public class DarkMode implements BotAPI {
         } else {
             return false;
         }
+    }
+
+    // Get a list of possible words starting with a prefix and ending with a suffix
+    private ArrayList<String> getPossibleWords(String prefix, String suffix, GADDAG tree) {
+        ArrayList<String> prefixWords = getWordsStartingWith(prefix, tree);
+        ArrayList<String> suffixWords = getWordsEndingWith(suffix, tree);
+        ArrayList<String> ans = new ArrayList<>();
+        for (String word : prefixWords) {
+            if(suffixWords.contains(word)) {
+                ans.add(word);
+            }
+        }
+        return ans;
     }
 
     // Get a list of words starting with a prefix
