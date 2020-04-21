@@ -3,17 +3,17 @@ import java.util.ArrayList;
 
 public class Scrabble {
 
-    public static int NUM_PLAYERS = 2;
     private static final int ZERO_SCORE_PLAY_LIMIT = 6;
-    ArrayList<Word> latestWords;
-    int latestPoints;
-    ArrayList<Tile> latestRefill;
+    public static int NUM_PLAYERS = 2;
     private final Board board;
     private final Pool pool;
     private final ArrayList<Player> players;
+    private final Dictionary dictionary;
+    ArrayList<Word> latestWords;
+    int latestPoints;
+    ArrayList<Tile> latestRefill;
     private int currentPlayerId;
     private int numZeroScorePlays;
-    private final Dictionary dictionary;
 
     Scrabble() throws FileNotFoundException {
         board = new Board();

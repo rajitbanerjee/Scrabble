@@ -5,8 +5,8 @@ public class Frame {
     public static final int MAX_TILES = 7;
     public static final int EXCHANGE_NOT_AVAILABLE = 0;
     public static final int EXCHANGE_NOT_ENOUGH_IN_POOL = 1;
-    int errorCode;
     private final ArrayList<Tile> tiles;
+    int errorCode;
 
     Frame() {
         tiles = new ArrayList<>();
