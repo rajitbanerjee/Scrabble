@@ -1,6 +1,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
@@ -29,7 +32,9 @@ public class DarkMode implements BotAPI {
         this.dictionary = dictionary;
         tree = new GADDAG(null);
         turnCount = 0;
-        setUpDictionaryGADDAG();
+        GADDAG tree = new GADDAG(null);
+        tree.build();
+        System.out.println(tree.getPossibleWords("AUTO", "ING"));
     }
 
     @Override
@@ -87,166 +92,7 @@ public class DarkMode implements BotAPI {
         return bestWord;
     }
 
-    // Dictionary processing: build GADDAG ------------------------------------------
-
-    // Inserts words from dictionary into the GADDAG
-    private void setUpDictionaryGADDAG() {
-        try (Scanner sc = new Scanner(new File("csw.txt"))) {
-            while (sc.hasNextLine()) {
-                String word = sc.nextLine();
-                if (isPossibleWord(word)) {
-                    insert(word);
-                }
-            }
-            // Test GADDAG
-            System.out.println(getPossibleWords("AUTO", "ING", tree));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Converts a word xy to all possible rev(x)+y, and inserts into GADDAG
-    private void insert(String word) {
-        for (int i = 0; i < word.length(); i++) {
-            StringBuilder x = new StringBuilder(word.substring(0, i + 1));
-            x.reverse();
-            String y = word.substring(i + 1);
-            x.append("+").append(y);
-            tree.insertFormatted(x.toString());
-        }
-    }
-
-    private boolean isPossibleWord(String word) {
-        Map<Character, Integer> map = new HashMap<>();
-        // create frequency map, otherwise contains method require multiple traversals
-        for (char ch : word.toCharArray()) {
-            if (!map.containsKey(ch)) {
-                map.put(ch, 0);
-            } else {
-                map.put(ch, map.get(ch) + 1);
-            }
-        }
-        String threeMaxOccurrences = "KJXQZ";
-        String fourMaxOccurrences = "BCMPFHVWY";
-        for (char ch : threeMaxOccurrences.toCharArray()) {
-            if (map.getOrDefault(ch, 0) > 3) {
-                return false;
-            }
-        }
-        for (char ch : fourMaxOccurrences.toCharArray()) {
-            if (map.getOrDefault(ch, 0) > 4) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // Word search methods and GADDAG set-up --------------------------------
-
-    // Check if a word is valid (present in the dictionary)
-    private boolean isValidWord(String word) {
-        if (word.equals("")) {
-            return false;
-        } else {
-            return find(word.charAt(0) + "+" + word.substring(1), tree);
-        }
-    }
-
-    private boolean find(String str, GADDAG tree) {
-        if (str.length() == 0 && tree.isEndOfWord()) {
-            return true;
-        } else if (str.length() > 0 && tree.hasPathFrom(str.charAt(0))) {
-            return find(str.substring(1), tree.getSubTree(str.charAt(0)));
-        } else {
-            return false;
-        }
-    }
-
-    // Get a list of possible words starting with a prefix and ending with a suffix
-    private ArrayList<String> getPossibleWords(String prefix, String suffix, GADDAG tree) {
-        Set<String> prefixWords = new HashSet<>(getWordsStartingWith(prefix, tree));
-        Set<String> suffixWords = new HashSet<>(getWordsEndingWith(suffix, tree));
-        prefixWords.retainAll(suffixWords);
-        return new ArrayList<>(prefixWords);
-    }
-
-    // Get a list of words starting with a prefix
-    private ArrayList<String> getWordsStartingWith(String prefix, GADDAG tree) {
-        ArrayList<String> words = new ArrayList<>();
-        if (tree.getLetter() == null && prefix.equals("")) {
-            for (GADDAG child : tree.getChildren()) {
-                for (String str : getWordsStartingWith("", child)) {
-                    words.add(child.getLetter() + str);
-                }
-            }
-        } else if (tree.getLetter() == null) {
-            for (String suffix : getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                    tree.getSubTree(prefix.charAt(prefix.length() - 1)))) {
-                words.add(prefix + suffix);
-            }
-        } else if (prefix.equals("")) {
-            if (tree.hasPathFrom('+')) {
-                for (String str : getAllStrings(tree.getSubTree('+'))) {
-                    words.add(str.substring(1)); // Substring removes the '+'
-                }
-            }
-        } else if (tree.hasPathFrom(prefix.charAt(prefix.length() - 1))) {
-            words = getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                    tree.getSubTree(prefix.charAt(prefix.length() - 1)));
-        }
-        return words;
-    }
-
-    // Get a list of  words ending with a given suffix
-    private ArrayList<String> getWordsEndingWith(String suffix, GADDAG tree) {
-        ArrayList<String> wordList = new ArrayList<>();
-        if (tree.getLetter() == null && suffix.equals("")) {
-            return wordList;
-        } else if (tree.getLetter() == null) {
-            for (String prefix : getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                    tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
-                wordList.add(prefix + suffix);
-            }
-            if (isValidWord(suffix)) {
-                wordList.add(suffix);
-            }
-        } else if (suffix.equals("")) {
-            for (GADDAG child : tree.getChildren()) {
-                for (String str : getAllStrings(child)) {
-                    StringBuilder word = new StringBuilder(str.substring(0, str.indexOf('+')));
-                    word.reverse();
-                    if (str.indexOf('+') != str.length() - 1) {
-                        word.append(str.substring(str.indexOf('+') + 1));
-                    }
-                    if (str.endsWith("+")) wordList.add(word.toString());
-                }
-            }
-        } else if (tree.hasPathFrom(suffix.charAt(suffix.length() - 1))) {
-            wordList = getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                    tree.getSubTree(suffix.charAt(suffix.length() - 1)));
-        }
-        return wordList;
-    }
-
-    // Helper to get a list of complete Strings in the GADDAG, rev(x)+y format
-    private ArrayList<String> getAllStrings(GADDAG tree) {
-        ArrayList<String> list = new ArrayList<>();
-        if (tree.isEndOfWord()) {
-            list.add(tree.getLetter() + "");
-        }
-        for (GADDAG child : tree.getChildren()) {
-            for (String str : getAllStrings(child)) {
-                if (tree.getLetter() != null) {
-                    list.add(tree.getLetter() + "" + str);
-                } else {
-                    list.add(str);
-                }
-            }
-        }
-        return list;
-    }
-
-    // Inner class to represent a GADDAG data structure
+    // Build a GADDAG with dictionary words -----------
     private static class GADDAG {
         private final Character letter;
         private final ArrayList<GADDAG> children;
@@ -258,8 +104,35 @@ public class DarkMode implements BotAPI {
             endOfWord = false;
         }
 
+        // Inserts words from dictionary into the GADDAG
+        void build() {
+            try {
+                Scanner sc = new Scanner(new File("csw.txt"));
+                long startTime = System.currentTimeMillis();
+                while (sc.hasNextLine()) {
+                    String word = sc.nextLine();
+                    insert(word);
+                }
+                sc.close();
+                System.out.println("GADDAG build time: " + (System.currentTimeMillis() - startTime) / 1000);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Converts a word xy to all possible rev(x)+y, and inserts into GADDAG
+        private void insert(String word) {
+            for (int i = 0; i < word.length(); i++) {
+                StringBuilder x = new StringBuilder(word.substring(0, i + 1));
+                x.reverse();
+                String y = word.substring(i + 1);
+                x.append("+").append(y);
+                insertFormatted(x.toString());
+            }
+        }
+
         // Inserts a given item of the form rev(x)+y into the GADDAG
-        void insertFormatted(String item) {
+        private void insertFormatted(String item) {
             if (!item.equals("")) {
                 if (!hasPathFrom(item.charAt(0))) {
                     children.add(new GADDAG(item.charAt(0)));
@@ -300,6 +173,109 @@ public class DarkMode implements BotAPI {
 
         boolean isEndOfWord() {
             return endOfWord;
+        }
+
+        // Check if a word is valid (present in the dictionary)
+        boolean isValidWord(String word) {
+            if (word.equals("")) {
+                return false;
+            } else {
+                return find(word.charAt(0) + "+" + word.substring(1), this);
+            }
+        }
+
+        private boolean find(String str, GADDAG tree) {
+            if (str.length() == 0 && tree.isEndOfWord()) {
+                return true;
+            } else if (str.length() > 0 && tree.hasPathFrom(str.charAt(0))) {
+                return find(str.substring(1), tree.getSubTree(str.charAt(0)));
+            } else {
+                return false;
+            }
+        }
+
+        // Get a list of possible words starting with a prefix and ending with a suffix
+        private ArrayList<String> getPossibleWords(String prefix, String suffix) {
+            Set<String> prefixWords = new HashSet<>(getWordsStartingWith(prefix, this));
+            Set<String> suffixWords = new HashSet<>(getWordsEndingWith(suffix, this));
+            prefixWords.retainAll(suffixWords);
+            return new ArrayList<>(prefixWords);
+        }
+
+        // Get a list of words starting with a prefix
+        ArrayList<String> getWordsStartingWith(String prefix, GADDAG tree) {
+            ArrayList<String> words = new ArrayList<>();
+            if (tree.getLetter() == null && prefix.equals("")) {
+                for (GADDAG child : tree.getChildren()) {
+                    for (String str : getWordsStartingWith("", child)) {
+                        words.add(child.getLetter() + str);
+                    }
+                }
+            } else if (tree.getLetter() == null) {
+                for (String suffix : getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
+                        tree.getSubTree(prefix.charAt(prefix.length() - 1)))) {
+                    words.add(prefix + suffix);
+                }
+            } else if (prefix.equals("")) {
+                if (tree.hasPathFrom('+')) {
+                    for (String str : getAllStrings(tree.getSubTree('+'))) {
+                        words.add(str.substring(1)); // Substring removes the '+'
+                    }
+                }
+            } else if (tree.hasPathFrom(prefix.charAt(prefix.length() - 1))) {
+                words = getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
+                        tree.getSubTree(prefix.charAt(prefix.length() - 1)));
+            }
+            return words;
+        }
+
+        // Get a list of  words ending with a given suffix
+        ArrayList<String> getWordsEndingWith(String suffix, GADDAG tree) {
+            ArrayList<String> wordList = new ArrayList<>();
+            if (tree.getLetter() == null && suffix.equals("")) {
+                return wordList;
+            } else if (tree.getLetter() == null) {
+                for (String prefix : getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
+                        tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
+                    wordList.add(prefix + suffix);
+                }
+                if (isValidWord(suffix)) {
+                    wordList.add(suffix);
+                }
+            } else if (suffix.equals("")) {
+                for (GADDAG child : tree.getChildren()) {
+                    for (String str : getAllStrings(child)) {
+                        StringBuilder word = new StringBuilder(str.substring(0, str.indexOf('+')));
+                        word.reverse();
+                        if (str.indexOf('+') != str.length() - 1) {
+                            word.append(str.substring(str.indexOf('+') + 1));
+                        }
+                        if (str.endsWith("+")) wordList.add(word.toString());
+                    }
+                }
+            } else if (tree.hasPathFrom(suffix.charAt(suffix.length() - 1))) {
+                wordList = getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
+                        tree.getSubTree(suffix.charAt(suffix.length() - 1)));
+            }
+            return wordList;
+        }
+
+        // Helper to get a list of complete Strings in the GADDAG, rev(x)+y format
+        private ArrayList<String> getAllStrings(GADDAG tree) {
+            ArrayList<String> list = new ArrayList<>();
+            if (tree.isEndOfWord()) {
+                list.add(tree.getLetter() + "");
+            }
+            for (GADDAG child : tree.getChildren()) {
+                for (String str : getAllStrings(child)) {
+                    if (tree.getLetter() != null) {
+                        list.add(tree.getLetter() + "" + str);
+                    } else {
+                        list.add(str);
+                    }
+                }
+            }
+            return list;
         }
     }
 
