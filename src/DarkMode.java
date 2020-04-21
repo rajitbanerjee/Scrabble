@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class DarkMode implements BotAPI {
 
@@ -19,8 +16,8 @@ public class DarkMode implements BotAPI {
     private final BoardAPI board;
     private final UserInterfaceAPI info;
     private final DictionaryAPI dictionary;
-    private int turnCount;
     private final GADDAG tree;
+    private int turnCount;
 
     // NOTE: Don't need a MockBot for testing, two DarkMode objects can play each other
     DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board,
@@ -97,8 +94,9 @@ public class DarkMode implements BotAPI {
         try (Scanner sc = new Scanner(new File("csw.txt"))) {
             while (sc.hasNextLine()) {
                 String word = sc.nextLine();
-                // TODO add a filter to only insert words that can possibly be created in Scrabble
-                insert(word);
+                if (isPossibleWord(word)) {
+                    insert(word);
+                }
             }
             // Test GADDAG
             System.out.println(getPossibleWords("AUTO", "ING", tree));
@@ -116,6 +114,31 @@ public class DarkMode implements BotAPI {
             x.append("+").append(y);
             tree.insertFormatted(x.toString());
         }
+    }
+
+    private boolean isPossibleWord(String word) {
+        Map<Character, Integer> map = new HashMap<>();
+        // create frequency map, otherwise contains method require multiple traversals
+        for (char ch : word.toCharArray()) {
+            if (!map.containsKey(ch)) {
+                map.put(ch, 0);
+            } else {
+                map.put(ch, map.get(ch) + 1);
+            }
+        }
+        String threeMaxOccurrences = "KJXQZ";
+        String fourMaxOccurrences = "BCMPFHVWY";
+        for (char ch : threeMaxOccurrences.toCharArray()) {
+            if (map.getOrDefault(ch, 0) > 3) {
+                return false;
+            }
+        }
+        for (char ch : fourMaxOccurrences.toCharArray()) {
+            if (map.getOrDefault(ch, 0) > 4) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Word search methods and GADDAG set-up --------------------------------
