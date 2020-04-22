@@ -49,6 +49,7 @@ public class DarkMode implements BotAPI {
             }
         } else {
             command = getBestMove();
+            System.out.println("Best move: " + command + "\n");
         }
         turnCount++;
         return command;
@@ -152,7 +153,11 @@ public class DarkMode implements BotAPI {
     private void getAllMoves(boolean searchHorizontal) {
         this.searchHorizontal = searchHorizontal;
         ArrayList<Coordinate> anchors = getAnchors();
-        System.out.println("Anchors: " + anchors);
+        if (searchHorizontal) {
+            System.out.println("Horizontal search, anchors: " + anchors);
+        } else {
+            System.out.println("Vertical search, anchors: " + anchors);
+        }
         for (Coordinate cor : anchors) {
             anchor = cor;
             generate(0, "", getFrameLetters(), tree);
