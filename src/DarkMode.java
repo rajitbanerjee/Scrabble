@@ -1,9 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class DarkMode implements BotAPI {
 
@@ -17,6 +14,8 @@ public class DarkMode implements BotAPI {
     private Coordinate anchor;
     private boolean searchHorizontal;
     private int turnCount;
+    private final HashMap<Coordinate, String> horizontalWords;
+    private final HashMap<Coordinate, String> verticalWords;
 
     // NOTE: Don't need a MockBot for testing, two DarkMode objects can play each other
     DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board,
@@ -31,6 +30,8 @@ public class DarkMode implements BotAPI {
         tree.build();
         searchHorizontal = true;
         moves = new HashSet<>();
+        horizontalWords = new HashMap<>();
+        verticalWords = new HashMap<>();
     }
 
     /**
@@ -41,6 +42,7 @@ public class DarkMode implements BotAPI {
     @Override
     public String getCommand() {
         String command;
+        generateWordLists();
         if (turnCount == 0) {
             if (me.getPrintableId() == 1) {
                 command = "NAME DarkMode1";
@@ -53,6 +55,53 @@ public class DarkMode implements BotAPI {
         }
         turnCount++;
         return command;
+    }
+
+    private void generateWordLists() {
+        horizontalWords.clear();
+        verticalWords.clear();
+
+        // Horizontal words.
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            int j = 0;
+            while (j < Board.BOARD_SIZE) {
+                StringBuilder word = new StringBuilder();
+                Coordinate start = new Coordinate(i, j);
+                while (isValidIndex(i, j) && board.getSquareCopy(i, j).isOccupied()) {
+                    word.append(getCharAtIndex(i, j));
+                    j++;
+                }
+                System.out.println(word.toString());
+                if (!word.toString().equals("")) {
+                    for (int k = 0; k < word.length(); k++) {
+                        horizontalWords.put(start, word.toString());
+                        start = new Coordinate(i, start.getColumn() + 1);
+                    }
+                }
+                j++;
+            }
+        }
+
+        // Vertical words.
+        for (int j = 0; j < Board.BOARD_SIZE; j++) {
+            int i = 0;
+            while (i < Board.BOARD_SIZE) {
+                StringBuilder word = new StringBuilder();
+                Coordinate start = new Coordinate(i, j);
+                while (isValidIndex(i, j) && board.getSquareCopy(i, j).isOccupied()) {
+                    word.append(getCharAtIndex(i, j));
+                    i++;
+                }
+                if (!word.toString().equals("")) {
+                    for (int k = 0; k < word.length(); k++) {
+                        verticalWords.put(start, word.toString());
+                        start = new Coordinate(start.getRow() + 1, j);
+                    }
+                }
+                i++;
+            }
+        }
+
     }
 
     // Gets a String of only the contents of the bot's frame
@@ -315,7 +364,14 @@ public class DarkMode implements BotAPI {
         return getLetterAtOffset(pos) == '_';
     }
 
-    // Generates a list of all of the anchor squares needed for the current direction
+    /**
+     * Generates a list of all of the anchor squares needed when working in the
+     * current direction.  Anchor squares consist of squares containing the first
+     * letter of all the words in the given direction as well as any squares
+     * directly above or below an occupied square for horizontal and directly
+     * right or left of an occupied square for vertical.  These are the squares
+     * that the GADDAG algorithm can base its search out from.
+     */
     private ArrayList<Coordinate> getAnchors() {
         ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
@@ -327,7 +383,7 @@ public class DarkMode implements BotAPI {
                         found = false;
                         // Check above and below for words
                         if (!getHorizontalWord(i - 1, j).equals("")
-                                || !getHorizontalWord(i + 1, j).equals("")) {
+                                || !getHorizontalWord(i + 1, j).equals("") && isEmpty(i, j)) {
                             anchors.add(new Coordinate(i, j));
                         }
                     } else if (!found) {
@@ -337,11 +393,11 @@ public class DarkMode implements BotAPI {
                     }
                 } else {
                     // Vertical anchors search
-                    if (isEmpty(i, j)) {
+                    if (isEmpty(j, i)) {
                         found = false;
                         // Check left and right for words
                         if (!getVerticalWord(j, i - 1).equals("")
-                                || !getVerticalWord(j, i + 1).equals("")) {
+                                || !getVerticalWord(j, i + 1).equals("") && isEmpty(j, i)) {
                             anchors.add(new Coordinate(j, i));
                         }
                     } else if (!found) {
@@ -361,54 +417,20 @@ public class DarkMode implements BotAPI {
 
     // Get the horizontal word if it exists, else ""
     private String getHorizontalWord(int row, int column) {
-        // return empty and stop search if square is not occupied or out of bounds
-        if (!isValidIndex(row, column) || isEmpty(row, column)) {
-            return "";
+        Coordinate c = new Coordinate(row, column);
+        if (horizontalWords.containsKey(c)) {
+            return horizontalWords.get(c);
         }
-        StringBuilder word = new StringBuilder();
-        // Find end and append character
-        int end = column;
-        while (isValidIndex(row, end) && !isEmpty(row, end)) {
-            word.append(getCharAtIndex(row, end));
-            end++;
-        }
-        // Do not include the first character
-        int start = column - 1;
-        while (isValidIndex(row, start) && !isEmpty(row, start)) {
-            word.insert(0, start);
-            start--;
-        }
-        // No single letter words
-        if (word.length() == 1) {
-            return "";
-        }
-        return word.toString();
+        return "";
     }
 
-    // Get the vertical word if it exists, returns an empty string otherwise
+    // Get the vertical word if it exists, else ""
     private String getVerticalWord(int row, int column) {
-        // Return empty and stop search if square is not occupied or out of bounds
-        if (!isValidIndex(row, column) || isEmpty(row, column)) {
-            return "";
+        Coordinate c = new Coordinate(row, column);
+        if (verticalWords.containsKey(c)) {
+            return verticalWords.get(c);
         }
-        StringBuilder word = new StringBuilder();
-        // Find end and append character
-        int end = row;
-        while (isValidIndex(end, column) && !isEmpty(end, column)) {
-            word.append(getCharAtIndex(end, column));
-            end++;
-        }
-        // Do not include the starting character
-        int start = row - 1;
-        while (isValidIndex(start, column) && !isEmpty(start, column)) {
-            word.append(getCharAtIndex(start, column));
-            start--;
-        }
-        // No single letter words
-        if (word.length() == 1) {
-            return "";
-        }
-        return word.toString();
+        return "";
     }
 
     // Nested class for coordinates
@@ -433,6 +455,19 @@ public class DarkMode implements BotAPI {
         @Override
         public String toString() {
             return "(" + row + ", " + column + ")";
+        }
+
+        @Override
+        public boolean equals(Object c) {
+            if (!(c instanceof Coordinate)) {
+                return false;
+            }
+            return (row == ((Coordinate) c).getRow() && column == ((Coordinate) c).getColumn());
+        }
+
+        @Override
+        public int hashCode() {
+            return (10000 * row) + (10 * column);
         }
     }
 
