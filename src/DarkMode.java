@@ -91,10 +91,10 @@ public class DarkMode implements BotAPI {
             for (String move : moves) {
                 String letters = move.substring(move.indexOf(' ', move.indexOf(' ') + 1) + 1);
                 letters = letters.substring(0, letters.length() - countBlanks(letters) - 1);
-                System.out.println(letters);
+//                System.out.println(letters);
                 score = 0;
                 for (Character ch : letters.toCharArray()) {  // calculate value of word
-                    System.out.println("ch: " + ch);
+//                    System.out.println("ch: " + ch);
                     score += (new Tile(ch)).getValue();
                 }
                 if (score > bestScore) {  // update best word
@@ -285,7 +285,7 @@ public class DarkMode implements BotAPI {
         }
     }
 
-    // Return character at a given board position (null for empty, + for out of bounds)
+    // Return character at a given board position ('_' for empty, + for out of bounds)
     private Character getCharAtIndex(int row, int column) {
         if (!isValidIndex(row, column)) {
             return '+';
