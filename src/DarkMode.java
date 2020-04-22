@@ -7,13 +7,15 @@ import java.util.Set;
 
 public class DarkMode implements BotAPI {
 
-    private static final int ALPHABET_SIZE = 26;
     private final PlayerAPI me;
     private final OpponentAPI opponent;
     private final BoardAPI board;
     private final UserInterfaceAPI info;
     private final DictionaryAPI dictionary;
     private final GADDAG tree;
+    private final HashSet<Word> moves;
+    private Coordinate anchor;
+    private boolean searchHorizontal;
     private int turnCount;
 
     // NOTE: Don't need a MockBot for testing, two DarkMode objects can play each other
@@ -27,7 +29,8 @@ public class DarkMode implements BotAPI {
         turnCount = 0;
         tree = new GADDAG(null);
         tree.build();
-        System.out.println(tree.getPossibleWords("AUTO", "ING"));
+        searchHorizontal = true;
+        moves = new HashSet<>();
     }
 
     /**
@@ -44,12 +47,8 @@ public class DarkMode implements BotAPI {
             } else {
                 command = "NAME DarkMode2";
             }
-        } else if (!getFrameLetters().contains("A") || !getFrameLetters().contains("N")) {
-            System.out.println(getFrameLetters());
-            command = "EXCHANGE " + getFrameLetters();
         } else {
-            command = "H8 A AN";
-            System.out.println(getAnchorSquares(true));
+            command = getBestMove();
         }
         turnCount++;
         return command;
@@ -65,13 +64,159 @@ public class DarkMode implements BotAPI {
         }
         return letters.toString();
     }
-    // GADDAG algorithm -------------------------------------------------------------
 
-    // TODO: workaround for Word methods, getNewLetters(), prepend()
-    // TODO: goOn(), gen(), helper methods
+    // Create the bot's frame object using given frame tiles
+    private Frame frame() {
+        Frame frame = new Frame();
+        ArrayList<Tile> tiles = new ArrayList<>();
+        for (Character ch : getFrameLetters().toCharArray()) {
+            tiles.add(new Tile(ch));
+        }
+        frame.addTiles(tiles);
+        return frame;
+    }
+
+    // Returns a String representation of the highest scoring word placement available
+    // FIXME
+    private String getBestMove() {
+        HashSet<String> moves = format(getAllMoves());
+        System.out.println("my frame: " + frame());
+        System.out.println("all moves: " + moves);
+        if (moves.size() == 0) {
+            return "EXCHANGE " + getFrameLetters();
+        } else {
+            String bestPlacement = null;
+            int bestScore = 0;
+            int score;
+            for (String move : moves) {
+                String letters = move.substring(move.indexOf(' ', move.indexOf(' ') + 1) + 1);
+                letters = letters.substring(0, letters.length() - countBlanks(letters) - 1);
+                System.out.println(letters);
+                score = 0;
+                for (Character ch : letters.toCharArray()) {  // calculate value of word
+                    System.out.println("ch: " + ch);
+                    score += (new Tile(ch)).getValue();
+                }
+                if (score > bestScore) {  // update best word
+                    bestPlacement = move;
+                    bestScore = score;
+                }
+            }
+            if (bestPlacement == null || !(bestPlacement.length() > 2)) {
+                throw new IllegalStateException("No words formed.");
+            }
+            return bestPlacement;
+        }
+    }
+
+    private int countBlanks(String letters) {
+        int count = 0;
+        for (Character ch : letters.toCharArray()) {
+            if (ch == '_') {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Get best command in required format
+    // FIXME?
+    private HashSet<String> format(HashSet<Word> moves) {
+        HashSet<String> ans = new HashSet<>();
+        for (Word word : moves) {
+            StringBuilder designations = new StringBuilder();
+            String letters = word.getLetters();
+            for (Character l : letters.toCharArray()) {
+                if (!getFrameLetters().contains("" + l)) {
+                    letters = letters.replaceFirst("" + l, "_");
+                    designations.append(l);
+                }
+            }
+            String index = (char) (word.getColumn() + 'A') + "" + (word.getRow() + 1);
+            char orientation = word.isHorizontal() ? 'A' : 'D';
+            ans.add((index + " " + orientation + " " + letters + " " + designations.toString()).trim());
+        }
+        return ans;
+    }
+
+    // Move generation algorithm -------------------------------------------------------------
+
+    // Gets all possible moves, searching both horizontally and vertically
+    private HashSet<Word> getAllMoves() {
+        getAllMoves(true);
+        getAllMoves(false);
+        return moves;
+    }
+
+    // FIXME?
+    private void getAllMoves(boolean searchHorizontal) {
+        this.searchHorizontal = searchHorizontal;
+        ArrayList<Coordinate> anchors = getAnchors();
+        System.out.println("Anchors: " + anchors);
+        for (Coordinate cor : anchors) {
+            anchor = cor;
+            generate(0, "", getFrameLetters(), tree);
+        }
+        moves.removeIf(word -> !board.isLegalPlay(frame(), word));
+    }
+
+    // GADDAG move generation algorithm by Steven A. Gordon
+    // FIXME
+    private void generate(int pos, String word, String frame, GADDAG arc) {
+//        System.out.println("generate " + pos + ", " + word + ", " + frame);
+        if (!isEmpty(pos) && getLetterAtOffset(pos) != '+') {
+            goOn(pos, getLetterAtOffset(pos), word, frame, arc.getSubTree(getLetterAtOffset(pos)), arc);
+        } else if (!frame.equals("")) {
+            for (Character letter : frame.toCharArray()) {
+                if (letter != '_') { // not blank tile
+//                    System.out.println("arc has path from " + letter + ": " + arc.hasPathFrom(letter));
+//                    System.out.println("arc can grow from " + pos + ", " + letter + ": " + canGrow(pos, letter));
+                    if (arc.hasPathFrom(letter) && allowedOn(pos, letter)) {
+                        goOn(pos, letter, word, frame.replaceFirst("" + letter, ""),
+                                arc.getSubTree(letter), arc);
+                    }
+                } else {
+                    for (char i = 'A'; i < 'Z'; i++) {
+                        if (arc.hasPathFrom(i) && allowedOn(pos, i)) {
+                            goOn(pos, i, word, frame.replaceFirst("_", ""),
+                                    arc.getSubTree(i), arc);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Append/prepend the given letter to the word and then records the move if needed
+    // FIXME?
+    private void goOn(int pos, Character letter, String word, String frame, GADDAG newArc, GADDAG prevArc) {
+        if (pos <= 0) {
+            word = letter + word;
+            if (isOn(prevArc, letter) && (isEmpty(pos - 1) || getLetterAtOffset(pos - 1) == '+')) {
+                storeMove(word);
+            }
+            if (newArc != null) {
+                if (isEmpty(pos - 1)) {
+                    generate(pos - 1, word, frame, newArc);
+                }
+                newArc = newArc.getSubTree('+');
+                if (newArc != null && isEmpty(pos - 1) && rightOrBottomFree()) {
+                    generate(1, word, frame, newArc);
+                }
+            }
+        } else {
+            word += letter;
+            if (isOn(prevArc, letter) && (isEmpty(pos + 1) || getLetterAtOffset(pos + 1) == '+')) {
+                storeMove(word);
+            }
+            if (newArc != null && rightOrBottomFree()) {
+                generate(pos + 1, word, frame, newArc);
+            }
+        }
+    }
 
     // Checks if the old arc contains the given letter and if that branch leads to end of word
-    public boolean isOn(GADDAG prevArc, Character letter) {
+    private boolean isOn(GADDAG prevArc, Character letter) {
         if (!prevArc.hasPathFrom(letter)) {
             return false;
         }
@@ -83,33 +228,96 @@ public class DarkMode implements BotAPI {
         return false;
     }
 
-    // Returns the letter at the given spot depending on the current anchor
-    private Character getLetterOnSpot(boolean isHorizontal, Coordinate anchor, int pos) {
-        if (isHorizontal) {
+    // Check that invalid words are not created in the cross-set
+    private boolean allowedOn(int pos, Character letter) {
+        String top;
+        String bottom;
+        if (searchHorizontal) {
+            top = getVerticalWord(anchor.getRow() - 1, anchor.getColumn() + pos);
+            bottom = getVerticalWord(anchor.getRow() + 1, anchor.getColumn() + pos);
+        } else {
+            top = getHorizontalWord(anchor.getRow() + pos, anchor.getColumn() - 1);
+            bottom = getHorizontalWord(anchor.getRow() + pos, anchor.getColumn() + 1);
+        }
+        // FIXME? Doesn't work without this
+        if (board.isFirstPlay()) {
+            return true;
+        }
+        return tree.inDictionary(top + letter + bottom);
+    }
+
+    // TODO improve?
+    private void storeMove(String word) {
+        int row = anchor.getRow();
+        int col = anchor.getColumn();
+        // Include code below or not? Change to word.length() != 0?
+//        if (word.length() == 0) {
+//            if (searchHorizontal) {
+//                col++;
+//            } else {
+//                row++;
+//            }
+//        }
+        Word move = new Word(row, col, searchHorizontal, word);
+        if (board.isLegalPlay(frame(), move)) {
+            moves.add(move);
+        }
+    }
+
+    // Checks if the rightmost column or bottommost row have available empty squares
+    private boolean rightOrBottomFree() {
+        if (searchHorizontal) {
+            return isEmpty(anchor.getRow(), Board.BOARD_SIZE - 1);
+        } else {
+            return isEmpty(Board.BOARD_SIZE - 1, anchor.getColumn());
+        }
+    }
+
+
+    // Searching the board -------------------------------------------------------------
+
+    // Returns the letter at the given offset from anchor
+    private Character getLetterAtOffset(int pos) {
+        if (searchHorizontal) {
             return getCharAtIndex(anchor.getRow(), anchor.getColumn() + pos);
         } else {
             return getCharAtIndex(anchor.getRow() + pos, anchor.getColumn());
         }
     }
 
-    // Searching the board -------------------------------------------------------------
+    // Return character at a given board position (null for empty, + for out of bounds)
+    private Character getCharAtIndex(int row, int column) {
+        if (!isValidIndex(row, column)) {
+            return '+';
+        }
+        if (isEmpty(row, column)) {
+            return '_';
+        }
+        return board.getSquareCopy(row, column).getTile().getLetter();
+    }
 
     private boolean isValidIndex(int row, int column) {
         return row >= 0 && row < Board.BOARD_SIZE && column >= 0 && column < Board.BOARD_SIZE;
     }
 
+    // Checks if board has empty spot at given row and column
     private boolean isEmpty(int row, int column) {
         return !board.getSquareCopy(row, column).isOccupied();
     }
 
+    // Checks if board has empty spot relative to anchor
+    private boolean isEmpty(int pos) {
+        return getLetterAtOffset(pos) == '_';
+    }
+
     // Generates a list of all of the anchor squares needed for the current direction
-    private ArrayList<Coordinate> getAnchorSquares(boolean isHorizontal) {
+    private ArrayList<Coordinate> getAnchors() {
         ArrayList<Coordinate> anchors = new ArrayList<>();
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             boolean found = false;
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 // Horizontal anchor search
-                if (isHorizontal) {
+                if (searchHorizontal) {
                     if (isEmpty(i, j)) {
                         found = false;
                         // Check above and below for words
@@ -196,56 +404,6 @@ public class DarkMode implements BotAPI {
             return "";
         }
         return word.toString();
-    }
-
-    // Return character at a given board position (_ for empty, + for out of bounds)
-    private char getCharAtIndex(int row, int column) {
-        if (!isValidIndex(row, column)) {
-            return '+';
-        }
-        if (isEmpty(row, column)) {
-            return '_';
-        }
-        return board.getSquareCopy(row, column).getTile().getLetter();
-    }
-
-    // Checks if the given index has an adjacent tile.
-    private boolean hasNeighbour(int row, int column) {
-        if (isValidIndex(row - 1, column) && !isEmpty(row - 1, column)) {
-            return true;
-        }
-        if (isValidIndex(row + 1, column) && !isEmpty(row + 1, column)) {
-            return true;
-        }
-        if (isValidIndex(row, column - 1) && !isEmpty(row, column - 1)) {
-            return true;
-        }
-        return isValidIndex(row, column + 1) && !isEmpty(row, column + 1);
-    }
-
-    // Returns a String representation of the highest scoring word placement available
-    private String bestWordPlacement(ArrayList<String> words) {
-        String bestWord = null;
-        int bestScore = 0;
-        int score;
-        for (String word : words) {
-            score = 0;
-            word = word.toUpperCase();
-            char[] letters = word.toCharArray();
-            for (char ch : letters) {  //calculate value of word
-                Tile t = new Tile(ch);
-                score += t.getValue();
-            }
-            if (score > bestScore) {  //update bestWord
-                bestWord = word;
-                bestScore = score;
-            }
-        }
-        if (bestWord == null) {
-            //the Arraylist is empty. The bot hasn't found any word placements
-            throw new IllegalStateException("No words formed.");
-        }
-        return bestWord;
     }
 
     // Nested class for coordinates
