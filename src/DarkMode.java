@@ -71,7 +71,6 @@ public class DarkMode implements BotAPI {
                     word.append(getCharAtIndex(i, j));
                     j++;
                 }
-                System.out.println(word.toString());
                 if (!word.toString().equals("")) {
                     for (int k = 0; k < word.length(); k++) {
                         horizontalWords.put(start, word.toString());
