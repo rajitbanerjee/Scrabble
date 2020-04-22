@@ -129,6 +129,7 @@ public class DarkMode implements BotAPI {
     // FIXME
     private String getBestMove() {
         HashSet<String> moves = format(getAllMoves());
+        System.out.println("test: " + getAllMoves());
         System.out.println("my frame: " + frame());
         System.out.println("all moves: " + moves);
         if (moves.size() == 0) {
@@ -175,15 +176,9 @@ public class DarkMode implements BotAPI {
         for (Word word : moves) {
             StringBuilder designations = new StringBuilder();
             String letters = word.getLetters();
-            for (Character l : letters.toCharArray()) {
-                if (!getFrameLetters().contains("" + l)) {
-                    letters = letters.replaceFirst("" + l, "_");
-                    designations.append(l);
-                }
-            }
-            String index = (char) (word.getColumn() + 'A') + "" + (word.getRow() + 1);
             char orientation = word.isHorizontal() ? 'A' : 'D';
-            ans.add((index + " " + orientation + " " + letters + " " + designations.toString()).trim());
+            String index = String.format("%s%d", (char) ('A' + word.getColumn()), word.getRow() + 1);
+            ans.add(String.format("%s %c %s", index, orientation, letters));
         }
         return ans;
     }
