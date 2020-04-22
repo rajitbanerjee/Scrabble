@@ -72,9 +72,10 @@ public class UserInterface implements UserInterfaceAPI {
                             } else {
                                 gameOverDelayCount++;
                             }
-                            if (gameOverDelayCount >= 3) {
-                                System.exit(0);
-                            }
+                            // TODO uncomment this
+//                            if (gameOverDelayCount >= 3) {
+//                                System.exit(0);
+//                            }
                         }
                 )
         );
