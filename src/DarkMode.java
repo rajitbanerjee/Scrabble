@@ -28,7 +28,6 @@ public class DarkMode implements BotAPI {
         turnCount = 0;
         tree = new GADDAG(null);
         tree.build();
-        searchHorizontal = true;
         moves = new HashSet<>();
         horizontalWords = new HashMap<>();
         verticalWords = new HashMap<>();
@@ -50,6 +49,7 @@ public class DarkMode implements BotAPI {
                 command = "NAME DarkMode2";
             }
         } else {
+            searchHorizontal = true;
             command = getBestMove();
             System.out.println("Best move: " + command + "\n");
         }
@@ -60,7 +60,6 @@ public class DarkMode implements BotAPI {
     private void generateWordLists() {
         horizontalWords.clear();
         verticalWords.clear();
-
         // Horizontal words.
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             int j = 0;
@@ -141,10 +140,8 @@ public class DarkMode implements BotAPI {
             for (String move : moves) {
                 String letters = move.substring(move.indexOf(' ', move.indexOf(' ') + 1) + 1);
                 letters = letters.substring(0, letters.length() - countBlanks(letters) - 1);
-//                System.out.println(letters);
                 score = 0;
                 for (Character ch : letters.toCharArray()) {  // calculate value of word
-//                    System.out.println("ch: " + ch);
                     score += (new Tile(ch)).getValue();
                 }
                 if (score > bestScore) {  // update best word
@@ -211,14 +208,11 @@ public class DarkMode implements BotAPI {
     // GADDAG move generation algorithm by Steven A. Gordon
     // FIXME
     private void generate(int pos, String word, String frame, GADDAG arc) {
-//        System.out.println("generate " + pos + ", " + word + ", " + frame);
         if (!isEmpty(pos) && getLetterAtOffset(pos) != '+') {
             goOn(pos, getLetterAtOffset(pos), word, frame, arc.getSubTree(getLetterAtOffset(pos)), arc);
         } else if (!frame.equals("")) {
             for (Character letter : frame.toCharArray()) {
                 if (letter != '_') { // not blank tile
-//                    System.out.println("arc has path from " + letter + ": " + arc.hasPathFrom(letter));
-//                    System.out.println("arc can grow from " + pos + ", " + letter + ": " + canGrow(pos, letter));
                     if (arc.hasPathFrom(letter) && allowedOn(pos, letter)) {
                         goOn(pos, letter, word, frame.replaceFirst("" + letter, ""),
                                 arc.getSubTree(letter), arc);
@@ -448,7 +442,7 @@ public class DarkMode implements BotAPI {
 
         @Override
         public String toString() {
-            return "(" + row + ", " + column + ")";
+            return (char) ('A' + column) + "" + (row + 1);
         }
 
         @Override
@@ -506,22 +500,6 @@ public class DarkMode implements BotAPI {
             }
         }
 
-        // Get a list of possible words starting with a prefix and ending with a suffix
-        ArrayList<String> getPossibleWords(String prefix, String suffix) {
-            Set<String> prefixWords = new HashSet<>(getWordsStartingWith(prefix));
-            Set<String> suffixWords = new HashSet<>(getWordsEndingWith(suffix));
-            prefixWords.retainAll(suffixWords);
-            return new ArrayList<>(prefixWords);
-        }
-
-        ArrayList<String> getWordsStartingWith(String prefix) {
-            return getWordsStartingWith(prefix, this);
-        }
-
-        ArrayList<String> getWordsEndingWith(String suffix) {
-            return getWordsEndingWith(suffix, this);
-        }
-
         // GADDAG helper utilities ------------------------------------------------------------------
 
         // Converts a word xy to all possible rev(x)+y, and inserts into GADDAG
@@ -555,82 +533,6 @@ public class DarkMode implements BotAPI {
             } else {
                 return false;
             }
-        }
-
-        // Helper to get a list of words starting with a prefix
-        ArrayList<String> getWordsStartingWith(String prefix, GADDAG tree) {
-            ArrayList<String> words = new ArrayList<>();
-            if (tree.letter == null && prefix.equals("")) {
-                for (GADDAG child : tree.children) {
-                    for (String str : getWordsStartingWith("", child)) {
-                        words.add(child.letter + str);
-                    }
-                }
-            } else if (tree.letter == null) {
-                for (String suffix : getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                        tree.getSubTree(prefix.charAt(prefix.length() - 1)))) {
-                    words.add(prefix + suffix);
-                }
-            } else if (prefix.equals("")) {
-                if (tree.hasPathFrom('+')) {
-                    for (String str : getAllStrings(tree.getSubTree('+'))) {
-                        words.add(str.substring(1)); // Substring removes the '+'
-                    }
-                }
-            } else if (tree.hasPathFrom(prefix.charAt(prefix.length() - 1))) {
-                words = getWordsStartingWith(prefix.substring(0, prefix.length() - 1),
-                        tree.getSubTree(prefix.charAt(prefix.length() - 1)));
-            }
-            return words;
-        }
-
-        // Helper to get a list of  words ending with a given suffix
-        ArrayList<String> getWordsEndingWith(String suffix, GADDAG tree) {
-            ArrayList<String> wordList = new ArrayList<>();
-            if (tree.letter == null && suffix.equals("")) {
-                return wordList;
-            } else if (tree.letter == null) {
-                for (String prefix : getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                        tree.getSubTree(suffix.charAt(suffix.length() - 1)))) {
-                    wordList.add(prefix + suffix);
-                }
-                if (inDictionary(suffix)) {
-                    wordList.add(suffix);
-                }
-            } else if (suffix.equals("")) {
-                for (GADDAG child : tree.children) {
-                    for (String str : getAllStrings(child)) {
-                        StringBuilder word = new StringBuilder(str.substring(0, str.indexOf('+')));
-                        word.reverse();
-                        if (str.indexOf('+') != str.length() - 1) {
-                            word.append(str.substring(str.indexOf('+') + 1));
-                        }
-                        if (str.endsWith("+")) wordList.add(word.toString());
-                    }
-                }
-            } else if (tree.hasPathFrom(suffix.charAt(suffix.length() - 1))) {
-                wordList = getWordsEndingWith(suffix.substring(0, suffix.length() - 1),
-                        tree.getSubTree(suffix.charAt(suffix.length() - 1)));
-            }
-            return wordList;
-        }
-
-        // Helper to get a list of complete Strings in the GADDAG, rev(x)+y format
-        private ArrayList<String> getAllStrings(GADDAG tree) {
-            ArrayList<String> list = new ArrayList<>();
-            if (tree.isEndOfWord) {
-                list.add(tree.letter + "");
-            }
-            for (GADDAG child : tree.children) {
-                for (String str : getAllStrings(child)) {
-                    if (tree.letter != null) {
-                        list.add(tree.letter + "" + str);
-                    } else {
-                        list.add(str);
-                    }
-                }
-            }
-            return list;
         }
 
         // Checks if this level of the GADDAG has a path starting from given letter
