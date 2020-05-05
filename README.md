@@ -1,6 +1,6 @@
 # Scrabble by DarkMode.
 * This is the branch for Sprint 5: bot design, using lecturer provided code for compatibility.
-* Windows: change your display scale to 125% if the game window size exceeds your screen size.
+* Run Main.java to play DarkMode against Bot0 (that always passes its turn).
 
 ### Authors
 Team 15: DarkMode.
