@@ -1,24 +1,16 @@
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
 
-public class Main extends Application {
+public class Main {
 
     public static boolean BOT_GAME = true;
-    public static int BOT_DELAY = 2; // TODO change for debugging, originally 3s
+    public static int BOT_DELAY = 0; // ms
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException {
         Scrabble scrabble = new Scrabble();
         UserInterface ui = new UserInterface(scrabble);
-        Bots bots = new Bots(scrabble, ui, getParameters());
+        Bots bots = new Bots(scrabble, ui, args);
         ui.setBots(bots);
-        ui.displayStage(primaryStage);
+        ui.playGame();
     }
 
 }

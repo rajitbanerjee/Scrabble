@@ -1,33 +1,16 @@
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class UserInterface implements UserInterfaceAPI {
 
-    BorderPane mainPane;
-    GridPane boardPane;
-    TextArea infoArea;
-    TextField commandField;
-    Button[][] displaySquares = new Button[Board.BOARD_SIZE][Board.BOARD_SIZE];
     Scrabble scrabble;
-    boolean gameOver;
-    boolean opponentMadePlay;
+    boolean gameOver, opponentMadePlay, turnOver;
     Bots bots;
     String latestInfo;
     StringBuilder allInfo;
     int gameOverDelayCount;
+    PrintStream originalStream, dummyStream;
 
     UserInterface(Scrabble scrabble) {
         this.scrabble = scrabble;
@@ -44,70 +27,30 @@ public class UserInterface implements UserInterfaceAPI {
 
     // Stage display methods
 
-    public void displayStage(Stage primaryStage) {
-        primaryStage.setTitle("Scrabble");
-
-        mainPane = new BorderPane();
-        boardPane = new GridPane();
-        infoArea = new TextArea();
-        commandField = new TextField();
-
-        infoArea.setPrefRowCount(10);
-        infoArea.setPrefColumnCount(15);
-        infoArea.setWrapText(true);
-
-        commandField.setPromptText("Enter command...");
-        commandField.setPrefColumnCount(15);
-        Timeline timeline = new Timeline(
-                new KeyFrame(
-                        Duration.seconds(Main.BOT_DELAY),
-                        event -> {
-                            if (!gameOver) {
-                                String input = bots.getBot(scrabble.getCurrentPlayerId()).getCommand();
-                                printLine("> " + input);
-                                processInput(input);
-                            }
-                            if (!gameOver) {
-                                printPrompt();
-                            } else {
-                                gameOverDelayCount++;
-                            }
-                            // TODO uncomment this
-//                            if (gameOverDelayCount >= 3) {
-//                                System.exit(0);
-//                            }
-                        }
-                )
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-
-        // rows are numbered from zero at the top
-        // columns are numbers from zero at the left
-        boardPane.setGridLinesVisible(true);
-        int squareSize = 50;
-        for (int r = 0; r < Board.BOARD_SIZE; r++) {
-            boardPane.getColumnConstraints().add(new ColumnConstraints(squareSize));
-            boardPane.getRowConstraints().add(new RowConstraints(squareSize));
-            for (int c = 0; c < Board.BOARD_SIZE; c++) {
-                Button button = new Button();
-                boardPane.add(button, c, r);
-                displaySquares[r][c] = button;
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                GridPane.setFillHeight(button, true);
-                GridPane.setFillWidth(button, true);
-            }
-        }
-        refreshBoard();
-
-        mainPane.setCenter(boardPane);
-        mainPane.setBottom(commandField);
-        mainPane.setRight(infoArea);
-        primaryStage.setScene(new Scene(mainPane));
-        primaryStage.show();
-
+    public void playGame() {
+        int inputCount;
         printGameStart();
-        printPrompt();
+        int INPUT_LIMIT = 10;
+        do {
+            printBoard();
+            printScores();
+            printPrompt();
+            inputCount = 0;
+            do {
+                stopSystemOut();
+                String input = bots.getBot(scrabble.getCurrentPlayerId()).getCommand();
+                restartSystemOut();
+                printLine("> " + input);
+                processInput(input);
+                inputCount++;
+            } while (!turnOver && inputCount < INPUT_LIMIT);
+            pause();
+        } while (!gameOver && inputCount < INPUT_LIMIT);
+        if (inputCount >= INPUT_LIMIT) {
+            System.out.println("ABORT: " + scrabble.getCurrentPlayer() + " exceeded number of attempts.");
+            System.out.println(scrabble.getOpposingPlayer() + " WINS THE MATCH");
+            printGameOver();
+        }
     }
 
     private void pause() {
@@ -118,48 +61,34 @@ public class UserInterface implements UserInterfaceAPI {
         }
     }
 
-    void refreshBoard() {
+    private void printBoard() {
+        Board board = scrabble.getBoard();
+        System.out.print("    ");
+        for (int c = 0; c < Board.BOARD_SIZE; c++) {
+            System.out.printf("%c  ", (char) ((int) 'A' + c));
+        }
+        System.out.println();
         for (int r = 0; r < Board.BOARD_SIZE; r++) {
+            System.out.printf("%2d  ", r + 1);
             for (int c = 0; c < Board.BOARD_SIZE; c++) {
-                displaySquare(r, c);
+                if (board.getSquare(r, c).isOccupied()) {
+                    System.out.printf("%c ", board.getSquare(r, c).getTile().getLetter());
+                } else {
+                    if (board.getSquare(r, c).isDoubleLetter()) {
+                        System.out.print(". ");
+                    } else if (board.getSquare(r, c).isTripleLetter()) {
+                        System.out.print("..");
+                    } else if (board.getSquare(r, c).isDoubleWord()) {
+                        System.out.print(": ");
+                    } else if (board.getSquare(r, c).isTripleWord()) {
+                        System.out.print("::");
+                    } else {
+                        System.out.print("  ");
+                    }
+                }
+                System.out.print(" ");
             }
-        }
-    }
-
-    void displaySquare(int r, int c) {
-        Square square = scrabble.getBoard().getSquare(r, c);
-        Button button = displaySquares[r][c];
-        StringBuilder style = new StringBuilder();
-        style.append("-fx-background-radius: 0;");
-        String color;
-        if (square.isDoubleLetter()) {
-            color = "8080ff";
-        } else if (square.isTripleLetter()) {
-            color = "0000ff";
-        } else if (square.isDoubleWord()) {
-            color = "ff8080";
-        } else if (square.isTripleWord()) {
-            color = "ff0000";
-        } else {
-            color = "ffffff";
-        }
-        style.append("-fx-background-color: #").append(color).append(';');
-        if (square.isOccupied()) {
-            style.append("-fx-font-size: 14pt;");
-            style.append("-fx-font-weight: bold;");
-            button.setStyle(style.toString());
-            button.setText(square.getTile() + "");  // placed letter
-        } else {
-            style.append("-fx-font-size: 8pt;");
-            style.append("-fx-font-weight: lighter;");
-            button.setStyle(style.toString());
-            if (r == 0) {
-                button.setText(((char) (((int) 'A') + c)) + "");  // column letters
-            } else if (c == 0) {
-                button.setText((r + 1) + "");  // row numbers
-            } else {
-                button.setText("");  // empty
-            }
+            System.out.print("\n");
         }
     }
 
@@ -167,16 +96,18 @@ public class UserInterface implements UserInterfaceAPI {
 
     private void processInput(String input) {
         // this deals with user commands
+        turnOver = false;
         String command = input.trim().toUpperCase();
         Player currentPlayer = scrabble.getCurrentPlayer();
         if (!gameOver && (command.equals("PASS") || command.equals("P"))) {
+            turnOver = true;
             scrabble.zeroScorePlay();
             if (scrabble.isZeroScorePlaysOverLimit()) {
                 printZeroScorePlaysOverLimit();
                 gameOver = true;
             } else {
                 opponentMadePlay = false;
-                scrabble.turnOver();
+                scrabble.nextPlayer();
             }
         } else if (!gameOver && (command.equals("HELP") || command.equals("H"))) {
             printHelp();
@@ -185,32 +116,32 @@ public class UserInterface implements UserInterfaceAPI {
         } else if (!gameOver && (command.equals("POOL") || command.equals("O"))) {
             printPoolSize();
         } else if (!gameOver &&
-                (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}") ||  // no blanks
-                        (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}") // blanks
+                (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z]){1,15}") ||                // no blanks
+                        (command.matches("[A-O](\\d){1,2}( )+[A,D]( )+([A-Z_]){1,17}( )+([A-Z]){1,2}")  // with blanks
                                 && isValidPlayWithBlanks(command)))) {
             // no blanks
             Word word = parsePlay(command);
             if (!scrabble.getBoard().isLegalPlay(currentPlayer.getFrame(), word)) {
                 printPlayError(scrabble.getBoard().getErrorCode());
             } else {
+                turnOver = true;
                 scrabble.play(word);
-                refreshBoard();
                 printPoints(scrabble.getLatestPoints());
                 if (scrabble.framesAreEmpty()) {
                     printAllTilesPlayed();
                     gameOver = true;
                 } else {
                     opponentMadePlay = true;
-                    scrabble.turnOver();
+                    scrabble.nextPlayer();
                 }
             }
-        } else if (!gameOver && (command.matches("EXCHANGE( )+([A-Z_]){1,7}") ||
-                command.matches("X( )+([A-Z_]){1,7}"))) {
+        } else if (!gameOver && (command.matches("EXCHANGE( )+([A-Z_]){1,7}") || command.matches("X( )+([A-Z_]){1,7}"))) {
             String[] parts = command.split("( )+");
             String letters = parts[1];
             if (!currentPlayer.getFrame().isLegalExchange(scrabble.getPool(), letters)) {
                 printExchangeError(currentPlayer.getFrame().getErrorCode());
             } else {
+                turnOver = true;
                 currentPlayer.getFrame().exchange(scrabble.getPool(), letters);
                 printTiles();
                 scrabble.zeroScorePlay();
@@ -219,21 +150,21 @@ public class UserInterface implements UserInterfaceAPI {
                     gameOver = true;
                 } else {
                     opponentMadePlay = false;
-                    scrabble.turnOver();
+                    scrabble.nextPlayer();
                 }
             }
-        } else if (!gameOver && (command.matches("NAME( )+[A-Z][A-Z0-9]*") ||
-                command.matches("N( )+[A-Z][A-Z0-9]*"))) {
+        } else if (!gameOver && (command.matches("NAME( )+[A-Z][A-Z0-9]*") || command.matches("N( )+[A-Z][A-Z0-9]*"))) {
             String[] parts = input.split("( )+");
             currentPlayer.setName(parts[1]);
             printNewName();
         } else if (!gameOver && opponentMadePlay && (command.equals("CHALLENGE") || command.equals("C"))) {
             if (scrabble.getDictionary().areWords(scrabble.getLatestWords())) {
+                turnOver = true;
                 printChallengeFail();
-                scrabble.turnOver();
+                scrabble.nextPlayer();
             } else {
                 scrabble.undoPlay();
-                refreshBoard();
+                opponentMadePlay = false;
                 printChallengeSuccess();
             }
         } else {
@@ -282,7 +213,7 @@ public class UserInterface implements UserInterfaceAPI {
     // Print methods
 
     private void print(String text) {
-        infoArea.appendText(text);
+        System.out.print(text);
         latestInfo = text;
         allInfo.append(text);
     }
@@ -296,20 +227,14 @@ public class UserInterface implements UserInterfaceAPI {
     }
 
     private void printNewName() {
-        printLine("Player " + scrabble.getCurrentPlayer().getPrintableId() + " is now named " +
-                scrabble.getCurrentPlayer().getName() + ".");
+        printLine("Player " + scrabble.getCurrentPlayer().getPrintableId() +
+                " is now named " + scrabble.getCurrentPlayer().getName() + ".");
     }
 
     private void printTiles() {
         printLine(scrabble.getCurrentPlayer() + " has the following tiles:");
         for (Tile tile : scrabble.getCurrentPlayer().getFrame().getTiles()) {
-            if (Main.BOT_GAME) {
-                /*
-                    TODO tile display only enabled for debugging, set it to "!Main.BOT_GAME" before
-                     submitting. When designing the bot, it should NOT be able to see the
-                      opponent's tiles (if tiles are displayed, bot will get access to the latest
-                      info on the screen). Ensure that a bot doesn't try to read opponents tiles.
-                 */
+            if (!Main.BOT_GAME) {
                 print(tile + " ");
             } else {
                 print("? ");
@@ -427,11 +352,11 @@ public class UserInterface implements UserInterfaceAPI {
             }
         }
         if (!draw) {
-            printLine(winners.get(0) + " wins!");
+            printLine(winners.get(0) + " WINS THE MATCH");
         } else {
-            printLine("The following players draw!");
+            printLine("The game is a draw");
             for (Player winner : winners) {
-                printLine(winner + "");
+                printLine(winner + " DRAWS THE MATCH");
             }
         }
     }
@@ -442,14 +367,29 @@ public class UserInterface implements UserInterfaceAPI {
 
     // Methods for Bots
 
-    @Override
     public String getLatestInfo() {
         return latestInfo;
     }
 
-    @Override
     public String getAllInfo() {
         return allInfo + "";
+    }
+
+    // Suppress Bot Chat
+
+    private void stopSystemOut() {
+        // STOP BOT CHAT
+        originalStream = System.out;
+        dummyStream = new PrintStream(new OutputStream() {
+            public void write(int b) {
+                //NO-OP
+            }
+        });
+        System.setOut(dummyStream);
+    }
+
+    private void restartSystemOut() {
+        System.setOut(originalStream);
     }
 
 }

@@ -10,10 +10,10 @@ public class Scrabble {
     private final ArrayList<Player> players;
     private final Dictionary dictionary;
     ArrayList<Word> latestWords;
-    int latestPoints;
     ArrayList<Tile> latestRefill;
     private int currentPlayerId;
     private int numZeroScorePlays;
+    int latestPoints;
 
     Scrabble() throws FileNotFoundException {
         board = new Board();
@@ -46,7 +46,7 @@ public class Scrabble {
         }
     }
 
-    public void turnOver() {
+    public void nextPlayer() {
         if (currentPlayerId == NUM_PLAYERS - 1) {
             currentPlayerId = 0;
         } else {
