@@ -27,7 +27,7 @@ public class DarkMode implements BotAPI {
     private boolean firstPlay;
 
     DarkMode(PlayerAPI me, OpponentAPI opponent, BoardAPI board,
-             UserInterfaceAPI ui, DictionaryAPI dictionary) {
+         UserInterfaceAPI ui, DictionaryAPI dictionary) {
         this.me = me;
         this.board = board;
         horizontalWords = new HashMap<>();
@@ -83,7 +83,7 @@ public class DarkMode implements BotAPI {
         HashSet<String> formattedMoves = getAllMoves();
         if (formattedMoves.size() == 0) {
             String frame = getFrameLetters();
-            // Exchange some tiles at random
+            // Exchange some tiles at random if no suitable moves are found
             int i1 = (int) (Math.random() * frame.length());
             int i2 = (int) (Math.random() * frame.length());
             if (i1 == i2) {
@@ -94,11 +94,11 @@ public class DarkMode implements BotAPI {
         } else {
             String bestPlacement = null;
             int bestScore = 0;
-            int score = 0;
             for (String move : formattedMoves) {
                 String letters = move.substring(move.lastIndexOf(' ') + 1);
+                int score = 0;
                 for (Character ch : letters.toCharArray()) {
-                    // Calculation only considers the tile values, without square multipliers
+                    // Calculation only considers the tile values, without multipliers
                     score += (new Tile(ch)).getValue();
                 }
                 if (score > bestScore) {
@@ -151,7 +151,6 @@ public class DarkMode implements BotAPI {
                 i++;
             }
         }
-
     }
 
     // Gets all possible moves in the required format
@@ -159,14 +158,14 @@ public class DarkMode implements BotAPI {
         // Searching horizontally, then vertically, for new possible moves
         getAllMoves(true);
         getAllMoves(false);
-        HashSet<String> ans = new HashSet<>();
+        HashSet<String> formatted = new HashSet<>();
         for (Word word : moves) {
             String letters = word.getLetters();
             char orientation = word.isHorizontal() ? 'A' : 'D';
             String index = String.format("%s%d", (char) ('A' + word.getColumn()), word.getRow() + 1);
-            ans.add(String.format("%s %c %s", index, orientation, letters));
+            formatted.add(String.format("%s %c %s", index, orientation, letters));
         }
-        return ans;
+        return formatted;
     }
 
     private void getAllMoves(boolean searchHorizontal) {
@@ -226,7 +225,7 @@ public class DarkMode implements BotAPI {
 
     // Finds all possible next moves for the bot
     private void generateMoves(int offset, String word, String frame, GADDAG arc) {
-        if (isValidIndex(offset) && !isEmpty(offset)) {
+        if (!isEmpty(offset) && isValidIndex(offset)) {
             extendWord(offset, getLetter(offset), word, frame, arc.getSubTree(getLetter(offset)), arc);
         } else if (!frame.equals("")) {
             for (Character letter : frame.toCharArray()) {
@@ -240,20 +239,18 @@ public class DarkMode implements BotAPI {
         }
     }
 
-    // Check if invalid words aren't created in the cross-set
+    // Check that invalid words are not created in the cross-set
     private boolean isValidCrossSet(int offset, Character letter) {
         if (board.isFirstPlay()) {
             return true;
         } else {
-            int r = getRow(offset);
-            int c = getCol(offset);
             String before, after;
             if (horizontalSearch) {
-                before = getVerticalWord(r - 1, c);
-                after = getVerticalWord(r + 1, c);
+                before = getVerticalWord(anchor.getRow() - 1, anchor.getCol() + offset);
+                after = getVerticalWord(anchor.getRow() + 1, anchor.getCol() + offset);
             } else {
-                before = getHorizontalWord(r, c - 1);
-                after = getHorizontalWord(r, c + 1);
+                before = getHorizontalWord(anchor.getRow() + offset, anchor.getCol() - 1);
+                after = getHorizontalWord(anchor.getRow() + offset, anchor.getCol() + 1);
             }
             // Verify that the new play doesn't form invalid words
             return tree.inDictionary(before + letter + after);
@@ -263,11 +260,10 @@ public class DarkMode implements BotAPI {
     // Prepend/append the given letter to the word and then records the move if needed
     private void extendWord(int offset, Character letter, String word, String frame,
                             GADDAG newArc, GADDAG oldArc) {
-        // Extending the word by prepending the letter
         if (offset <= 0) {
             word = letter + word;
             if (foundMove(oldArc, letter) &&
-                    (!isValidIndex(offset - 1) || isEmpty(offset - 1))) {
+                    (isEmpty(offset - 1) || !isValidIndex(offset - 1))) {
                 // Store the move in main list if a dictionary word can be created
                 storeMove(word);
             }
@@ -284,7 +280,7 @@ public class DarkMode implements BotAPI {
             // Extending the word by appending the letter
             word += letter;
             if (foundMove(oldArc, letter) &&
-                    (!isValidIndex(offset + 1) || isEmpty(offset + 1))) {
+                    (isEmpty(offset + 1) || !isValidIndex(offset + 1))) {
                 // Store the move in main list if a dictionary word can be created
                 storeMove(word);
             }
@@ -298,13 +294,13 @@ public class DarkMode implements BotAPI {
     private boolean foundMove(GADDAG oldArc, Character letter) {
         if (!oldArc.hasPathFrom(letter)) {
             return false;
-        }
-        if (oldArc.getSubTree(letter).isEndOfWord()) {
+        } else if (oldArc.getSubTree(letter).isEndOfWord()) {
             return true;
         } else if (oldArc.getSubTree(letter).hasPathFrom('+')) {
             return oldArc.getSubTree(letter).getSubTree('+').isEndOfWord();
+        } else {
+            return false;
         }
-        return false;
     }
 
     // Checks if the word can be extended towards the right or bottom
@@ -326,50 +322,44 @@ public class DarkMode implements BotAPI {
 
     //-------------------- Helper access methods ---------------------------------------
 
-    // Return character at a given board position
+    // Return character at a given board position ('_' for empty, '@' for out of bounds)
     private Character getCharAtIndex(int row, int col) {
+        if (!isValidIndex(row, col)) {
+            return '@';
+        }
+        if (isEmpty(row, col)) {
+            return '_';
+        }
         return board.getSquareCopy(row, col).getTile().getLetter();
     }
 
     // Returns the letter at the given offset from anchor
     private Character getLetter(int offset) {
-        return getCharAtIndex(getRow(offset), getCol(offset));
-    }
-
-    private int getRow(int offset) {
         if (horizontalSearch) {
-            return anchor.getRow();
+            return getCharAtIndex(anchor.getRow(), anchor.getCol() + offset);
         } else {
-            return anchor.getRow() + offset;
+            return getCharAtIndex(anchor.getRow() + offset, anchor.getCol());
         }
     }
 
-    private int getCol(int offset) {
-        if (horizontalSearch) {
-            return anchor.getCol() + offset;
-        } else {
-            return anchor.getCol();
-        }
-    }
-
-    // Checks if the index (row, col) is within the board
     private boolean isValidIndex(int row, int col) {
-        return row >= 0 && row < Board.BOARD_SIZE && col >= 0 && col < Board.BOARD_SIZE;
+        return row >= 0 && row < Board.BOARD_SIZE &&
+                col >= 0 && col < Board.BOARD_SIZE;
     }
 
     // Checks if index at the given offset from current anchor is valid
     private boolean isValidIndex(int offset) {
-        return isValidIndex(getRow(offset), getCol(offset));
+        return getLetter(offset) != '@';
     }
 
-    // Checks if board has empty spot at given row and column
+    // Checks if board has empty spot at given row and col
     private boolean isEmpty(int row, int col) {
         return !board.getSquareCopy(row, col).isOccupied();
     }
 
     // Checks if board has empty spot relative to anchor
     private boolean isEmpty(int offset) {
-        return isEmpty(getRow(offset), getCol(offset));
+        return getLetter(offset) == '_';
     }
 
     // Get the horizontal word if it exists, else ""
@@ -389,11 +379,6 @@ public class DarkMode implements BotAPI {
 
         Coordinate(int row, int col) {
             super(row, col);
-        }
-
-        @Override
-        public String toString() {
-            return (char) ('A' + getCol()) + "" + (getRow() + 1);
         }
 
         @Override
@@ -438,14 +423,11 @@ public class DarkMode implements BotAPI {
         void build() {
             try {
                 Scanner sc = new Scanner(new File("csw.txt"));
-                long startTime = System.currentTimeMillis();
                 while (sc.hasNextLine()) {
                     String word = sc.nextLine();
                     insert(word);
                 }
                 sc.close();
-                System.out.println("GADDAG build time: " +
-                        (System.currentTimeMillis() - startTime) / 1000);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
