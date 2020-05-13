@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'DarkMode'
+version '2.0'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClassName 'game_engine.Main'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'game_engine.Main'
+    }
+}
+
+dependencies {
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.4.2'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging.showStandardStreams = true
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
