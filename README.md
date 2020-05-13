@@ -12,7 +12,7 @@ Install JDK 8 from Oracle [here](https://www.oracle.com/java/technologies/javase
 in case you don't have it.
 
 ### Build and run
-[Download](https://github.com/rajitbanerjee/Scrabble/releases/download/v1.0/DarkMode.jar) 
+[Download](https://github.com/rajitbanerjee/Scrabble/releases/download/v5.0/Scrabble-5.0.jar) 
 and run (double click) the JAR file from the [latest release](https://github.com/rajitbanerjee/Scrabble/releases).  
 An alternative (using Gradle) is to clone the repository, then
 * Build project and run JUnit tests
