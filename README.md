@@ -36,6 +36,9 @@ Use the command to generate API documentation under **build > docs > javadoc**:
 ```
 ./gradlew javadoc
 ```  
+### TODO/Upcoming Features
+* Fix MacOS display issue
+* Integrate Scrabble bot into the main branch
 
 ## Authors
 Team 15: DarkMode.
