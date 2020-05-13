@@ -11,10 +11,8 @@ Java 8 is required for the project, since JavaFX is bundled with it.
 Install JDK 8 from Oracle [here](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html), 
 in case you don't have it.
 
-### Build and run
-[Download](https://github.com/rajitbanerjee/Scrabble/releases/download/v5.0/Scrabble-5.0.jar) 
-and run (double click) the JAR file from the [latest release](https://github.com/rajitbanerjee/Scrabble/releases).  
-An alternative (using Gradle) is to clone the repository, then
+### Build and run 
+Clone the repository, then (using Gradle):
 * Build project and run JUnit tests
 ```
 ./gradlew build
@@ -23,6 +21,9 @@ An alternative (using Gradle) is to clone the repository, then
 ```
 ./gradlew run
 ``` 
+
+Alternatively, play the game by [downloading](https://github.com/rajitbanerjee/Scrabble/releases/download/v5.0/Scrabble-5.0.jar) 
+and running (double click) the JAR file from the [latest release](https://github.com/rajitbanerjee/Scrabble/releases). 
 
 Dark Theme:  
   <img src="images/DarkTheme.jpg" height="400" width="800">   
