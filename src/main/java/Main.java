@@ -1,10 +1,9 @@
-package game_engine;
-
-import constants.UIConstants;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import logic.Controller;
+import logic.Scrabble;
 import ui.*;
 
 import java.io.InputStream;
@@ -37,10 +36,10 @@ public class Main extends Application {
 
         // Set up scene
         Scene scene = new Scene(gameView, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
 
         // Set up game controller
-        GameController controller = new GameController(game, cliView, boardView, frameView,
+        Controller controller = new Controller(game, cliView, boardView, frameView,
                 scoreView, buttonsView, scene);
         game.setController(controller);
 

@@ -1,6 +1,5 @@
 package game;
 
-import constants.GameConstants;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -62,7 +61,7 @@ class TileTest {
         // Test equals()
         Tile t1 = Tile.makeTile('Z');
         Tile t2 = Tile.makeTile('Z');
-        Square s1 = new Square(GameConstants.MULTIPLIER.NORMAL);
+        Square s1 = new Square(Square.MULTIPLIER.NORMAL);
         s1.setTile(t1);
         assertEquals(t1, t2);
         assertNotEquals(t1, s1);

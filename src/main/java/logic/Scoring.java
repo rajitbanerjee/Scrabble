@@ -1,10 +1,6 @@
-package game_engine;
+package logic;
 
-import constants.GameConstants;
-import game.Board;
-import game.Index;
-import game.Square;
-import game.Word;
+import game.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -71,7 +67,7 @@ public class Scoring {
      * @return the score awarded after placing the given word
      */
     public static int calculateScore(Word word, Board board) {
-        int bonus = (LAST_COVERED_INDICES.size() == GameConstants.FRAME_LIMIT) ? 50 : 0;
+        int bonus = (LAST_COVERED_INDICES.size() == Frame.LIMIT) ? 50 : 0;
         int score = mainWordScore(word, board) + extraWordScore(word, board) + bonus;
         CHALLENGE_INDICES.clear();
         CHALLENGE_INDICES.addAll(LAST_COVERED_INDICES);

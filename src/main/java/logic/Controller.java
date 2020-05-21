@@ -1,12 +1,11 @@
-package game_engine;
+package logic;
 
-import constants.UIConstants;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import ui.*;
 
-import static constants.UIConstants.STATUS_CODE.*;
+import static logic.Scrabble.STATUS_CODE.*;
 
 /**
  * Main controller to manage all the UI view components.
@@ -16,7 +15,7 @@ import static constants.UIConstants.STATUS_CODE.*;
  * @author Rajit Banerjee, 18202817
  * Team 15: DarkMode
  */
-public class GameController {
+public class Controller {
     private final FrameView frameView;
     private final ScoreView scoreView;
     private final CLIView cliView;
@@ -37,8 +36,8 @@ public class GameController {
      * @param buttonsView the buttons view
      * @param scene       the scene (stage contents)
      */
-    public GameController(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,
-                          ScoreView scoreView, ButtonsView buttonsView, Scene scene) {
+    public Controller(Scrabble game, CLIView cliView, BoardView boardView, FrameView frameView,
+                      ScoreView scoreView, ButtonsView buttonsView, Scene scene) {
         this.game = game;
         this.cliView = cliView;
         this.boardView = boardView;
@@ -189,9 +188,9 @@ public class GameController {
         });
         buttonsView.getRestartButton().setOnAction(event -> updateGame("RESTART"));
         buttonsView.getThemeButton().setOnAction(event -> {
-            UIConstants.switchTheme();
+            GameView.switchTheme();
             scene.getStylesheets().clear();
-            scene.getStylesheets().add(UIConstants.stylesheet);
+            scene.getStylesheets().add(GameView.stylesheet);
         });
     }
 

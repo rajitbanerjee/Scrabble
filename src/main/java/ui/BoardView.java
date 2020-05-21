@@ -1,7 +1,5 @@
 package ui;
 
-import constants.GameConstants;
-import constants.UIConstants;
 import game.Board;
 import game.Square;
 import javafx.scene.Node;
@@ -41,16 +39,16 @@ public class BoardView extends GridPane {
         // Initialise top-left empty block
         add(getEmptyUI(), 0, 0);
         // Draws the first row (column names)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+        for (int k = 0; k < Board.SIZE; k++) {
             add(getFirstColumnUI((char) ('A' + k)), k + 1, 0);
         }
         // Draws the first column (row numbers)
-        for (int k = 0; k < GameConstants.BOARD_SIZE; k++) {
+        for (int k = 0; k < Board.SIZE; k++) {
             add(getFirstRowUI(k + 1), 0, k + 1);
         }
         // Draws the rest of the board
-        for (int i = 0; i < GameConstants.BOARD_SIZE; i++) {
-            for (int j = 0; j < GameConstants.BOARD_SIZE; j++) {
+        for (int i = 0; i < Board.SIZE; i++) {
+            for (int j = 0; j < Board.SIZE; j++) {
                 add(getSquareUI(boardArray[i][j]), j + 1, i + 1);
             }
         }

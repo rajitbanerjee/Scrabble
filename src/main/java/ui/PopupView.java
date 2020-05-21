@@ -1,6 +1,5 @@
 package ui;
 
-import constants.UIConstants;
 import game.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,7 +41,7 @@ public class PopupView {
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -86,7 +85,7 @@ public class PopupView {
         layout.getChildren().addAll(text, link, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 750, 500);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -129,7 +128,7 @@ public class PopupView {
         layout.getChildren().addAll(label, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -164,7 +163,7 @@ public class PopupView {
         layout.getChildren().addAll(label, p1Score, p2Score, gameResult, button);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -202,7 +201,7 @@ public class PopupView {
         layout.getChildren().addAll(label, buttons);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
-        scene.getStylesheets().add(UIConstants.stylesheet);
+        scene.getStylesheets().add(GameView.stylesheet);
         window.setScene(scene);
         window.showAndWait();
         window.setResizable(false);

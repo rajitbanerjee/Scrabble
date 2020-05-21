@@ -11,12 +11,12 @@ repositories {
 }
 
 application {
-    mainClassName 'game_engine.Main'
+    mainClassName 'Main'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'game_engine.Main'
+        attributes 'Main-Class': 'Main'
     }
 }
 

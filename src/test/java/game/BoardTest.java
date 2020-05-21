@@ -1,6 +1,5 @@
 package game;
 
-import constants.GameConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,30 +51,6 @@ class BoardTest {
     }
 
     @Test
-    void testConstructor() {
-        Square[][] b = board.getBoard();
-
-        // Check if multipliers are set correctly
-        for (int[] index : GameConstants.DOUBLE_LS_ARRAY) {
-            assertEquals(GameConstants.MULTIPLIER.DOUBLE_LS, b[index[0]][index[1]].getMultiplier());
-        }
-        for (int[] index : GameConstants.TRIPLE_LS_ARRAY) {
-            assertEquals(GameConstants.MULTIPLIER.TRIPLE_LS, b[index[0]][index[1]].getMultiplier());
-        }
-        for (int[] index : GameConstants.DOUBLE_WS_ARRAY) {
-            assertEquals(GameConstants.MULTIPLIER.DOUBLE_WS, b[index[0]][index[1]].getMultiplier());
-        }
-        for (int[] index : GameConstants.TRIPLE_WS_ARRAY) {
-            assertEquals(GameConstants.MULTIPLIER.TRIPLE_WS, b[index[0]][index[1]].getMultiplier());
-        }
-        for (int[] index : GameConstants.NORMAL_SQ_ARRAY) {
-            assertEquals(GameConstants.MULTIPLIER.NORMAL, b[index[0]][index[1]].getMultiplier());
-        }
-        int centre = GameConstants.BOARD_SIZE / 2;
-        assertEquals(GameConstants.MULTIPLIER.CENTRE, b[centre][centre].getMultiplier());
-    }
-
-    @Test
     void testIsEmpty() {
         assertTrue(board.isEmpty());
         board.placeTile('H', 8, Tile.makeTile('X'));
@@ -87,7 +62,7 @@ class BoardTest {
         Square[][] b = board.getBoard();
         Tile tile = Tile.makeTile('Z');
         for (char column = 'A'; column <= 'O'; column++) {
-            for (int row = 1; row <= GameConstants.BOARD_SIZE; row++) {
+            for (int row = 1; row <= Board.SIZE; row++) {
                 tile.setType((char) ((int) (Math.random() * 26) + 'A'));
                 board.placeTile(column, row, tile);
                 assertEquals(tile, b[row - 1][column - 'A'].getTile());
@@ -151,7 +126,7 @@ class BoardTest {
         // Place tile at edge of board ('O', 8)
         board.placeTile('O', 8, Tile.makeTile('X'));
         // Place tile at edge of board ('H', 15)
-        board.placeTile('H', GameConstants.BOARD_SIZE, Tile.makeTile('X'));
+        board.placeTile('H', Board.SIZE, Tile.makeTile('X'));
 
         // Sets firstMove to false for debugging purposes
         board.setFirstMove(false);

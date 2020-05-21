@@ -1,7 +1,5 @@
 package game;
 
-import constants.GameConstants;
-
 import java.util.ArrayList;
 
 /**
@@ -21,9 +19,9 @@ public class Pool {
      */
     public Pool() {
         pool = new ArrayList<>();
-        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
-            for (int j = 0; j < GameConstants.NUM_TILES_ARRAY[i]; j++) {
-                addTiles(GameConstants.TILE_TYPES_ARRAY[i]);
+        for (int i = 0; i < Tile.TYPES_ARRAY.length; i++) {
+            for (int j = 0; j < Tile.NUM_ARRAY[i]; j++) {
+                addTiles(Tile.TYPES_ARRAY[i]);
             }
         }
     }

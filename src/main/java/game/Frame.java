@@ -1,7 +1,5 @@
 package game;
 
-import constants.GameConstants;
-
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -14,6 +12,7 @@ import java.util.NoSuchElementException;
  * Team 15: DarkMode
  */
 public class Frame {
+    public static final int LIMIT = 7;
     private final Pool pool;
     private final ArrayList<Tile> frame;
 
@@ -70,7 +69,7 @@ public class Frame {
         if (pool.isEmpty()) {
             throw new IllegalStateException("> Cannot refill frame, no tiles left in pool.");
         }
-        int numTilesToDraw = Math.min(pool.size(), GameConstants.FRAME_LIMIT - frame.size());
+        int numTilesToDraw = Math.min(pool.size(), LIMIT - frame.size());
         StringBuilder drawnTiles = new StringBuilder();
         for (int i = 0; i < numTilesToDraw; i++) {
             Tile draw = pool.drawTile();
@@ -88,7 +87,7 @@ public class Frame {
      * @throws IllegalStateException if there are insufficient tiles in the pool
      */
     public String exchange(String letters) throws IllegalStateException {
-        if (pool.size() < GameConstants.FRAME_LIMIT) {
+        if (pool.size() < LIMIT) {
             throw new IllegalStateException("> Cannot exchange, pool contains 6 tiles or less!");
         }
         for (char letter : letters.toCharArray()) {

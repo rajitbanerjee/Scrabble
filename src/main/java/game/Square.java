@@ -1,7 +1,5 @@
 package game;
 
-import constants.GameConstants;
-
 /**
  * Each Square has an assigned multiplier and can have
  * a Tile placed on it.
@@ -13,7 +11,7 @@ import constants.GameConstants;
  * Team 15: DarkMode
  */
 public class Square {
-    private final GameConstants.MULTIPLIER multiplier;
+    private final MULTIPLIER multiplier;
     private Tile tile = null;
 
     /**
@@ -21,7 +19,7 @@ public class Square {
      *
      * @param multiplier square multiplier type
      */
-    public Square(GameConstants.MULTIPLIER multiplier) {
+    public Square(MULTIPLIER multiplier) {
         this.multiplier = multiplier;
     }
 
@@ -33,8 +31,8 @@ public class Square {
      * @return {@code true} if the specified square index is valid
      */
     public static boolean isValid(int column, int row) {
-        return column >= 0 && column < GameConstants.BOARD_SIZE &&
-                row >= 0 && row < GameConstants.BOARD_SIZE;
+        return column >= 0 && column < Board.SIZE &&
+                row >= 0 && row < Board.SIZE;
     }
 
     /**
@@ -42,7 +40,7 @@ public class Square {
      *
      * @return GameConstants.MULTIPLIER multiplier
      */
-    public GameConstants.MULTIPLIER getMultiplier() {
+    public MULTIPLIER getMultiplier() {
         return multiplier;
     }
 
@@ -119,20 +117,25 @@ public class Square {
         if (tile == null) {
             switch (multiplier) {
                 case DOUBLE_LS:
-                    return "2xL";
+                    return "2L";
                 case TRIPLE_LS:
-                    return "3xL";
+                    return "3L";
                 case DOUBLE_WS:
-                    return "2xW";
+                    return "2W";
                 case TRIPLE_WS:
-                    return "3xW";
+                    return "3W";
                 case CENTRE:
-                    return " * ";
+                    return "*";
                 default:
-                    return "   ";
+                    return " ";
             }
         }
         return tile.toString();
     }
+
+    /**
+     * Represents the type of square on the board.
+     */
+    public enum MULTIPLIER {DOUBLE_LS, TRIPLE_LS, DOUBLE_WS, TRIPLE_WS, NORMAL, CENTRE}
 
 }

@@ -1,7 +1,5 @@
 package game;
 
-import constants.GameConstants;
-
 /**
  * Each Tile has an associated type (blank or A-Z) and an
  * assigned number of points for using it to construct a word.
@@ -12,6 +10,14 @@ import constants.GameConstants;
  * Team 15: DarkMode
  */
 public class Tile {
+    /* Different types of tiles ("-" represents the blank tile) grouped
+    according to equality of associated points */
+    public static final String[] TYPES_ARRAY = {"-", "E", "AI", "O", "NRT", "LSU",
+            "D", "G", "BCMP", "FHVWY", "K", "JX", "QZ"};
+    // Number of tiles for each tile type in every group of tile types
+    public static final int[] NUM_ARRAY = {2, 12, 9, 8, 6, 4, 4, 3, 2, 2, 1, 1, 1};
+    // Points associated for each tile in each group
+    public static final int[] POINTS_ARRAY = {0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 8, 10};
     private char type;
     private int points;
 
@@ -35,9 +41,9 @@ public class Tile {
      */
     public static Tile makeTile(char type) throws IllegalArgumentException {
         int points = -1;
-        for (int i = 0; i < GameConstants.TILE_TYPES_ARRAY.length; i++) {
-            if (GameConstants.TILE_TYPES_ARRAY[i].contains(type + "")) {
-                points = GameConstants.POINT_TYPES_ARRAY[i];
+        for (int i = 0; i < TYPES_ARRAY.length; i++) {
+            if (TYPES_ARRAY[i].contains(type + "")) {
+                points = POINTS_ARRAY[i];
                 break;
             }
         }

@@ -1,16 +1,14 @@
-package game_engine;
+package logic;
 
-import constants.UIConstants;
 import game.*;
 import ui.CLIView;
 import ui.PopupView;
+import ui.UIConstants;
 
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Scanner;
-
-import static constants.UIConstants.STATUS_CODE.*;
 
 /**
  * Integrates all game components to create a 2 player Scrabble game.
@@ -28,9 +26,9 @@ public class Scrabble {
     private String drawnTiles;
     private int opponentScore;
     private boolean isChallengeSuccessful;
-    private UIConstants.STATUS_CODE gameState;
+    private STATUS_CODE gameState;
     private HashSet<String> dictionary;
-    private GameController controller;
+    private Controller controller;
 
     /**
      * Starts a new game of Scrabble.
@@ -58,7 +56,7 @@ public class Scrabble {
      *
      * @param controller GUI controller for the current game
      */
-    public void setController(GameController controller) {
+    public void setController(Controller controller) {
         this.controller = controller;
     }
 
@@ -71,7 +69,7 @@ public class Scrabble {
         drawnTiles = "";
         opponentScore = 0;
         isChallengeSuccessful = false;
-        gameState = P1_NAME;
+        gameState = STATUS_CODE.P1_NAME;
         CLIView.clearHistoryView();
         printWelcome();
     }
@@ -123,7 +121,7 @@ public class Scrabble {
      *
      * @return the status code of the game at present
      */
-    public UIConstants.STATUS_CODE getGameState() {
+    public STATUS_CODE getGameState() {
         return gameState;
     }
 
@@ -164,7 +162,7 @@ public class Scrabble {
             case P1_NAME:
                 try {
                     player1.setName(command);
-                    gameState = P2_NAME;
+                    gameState = STATUS_CODE.P2_NAME;
                     printToOutput("> Player #2, please enter your name: ");
                 } catch (IllegalArgumentException e) {
                     printToOutput("> Player #1, please enter your name: ");
@@ -174,7 +172,7 @@ public class Scrabble {
                 try {
                     Player.validateNames(player1.getName(), command);
                     player2.setName(command);
-                    gameState = P1_TURN;
+                    gameState = STATUS_CODE.P1_TURN;
                     startGame();
                 } catch (IllegalArgumentException e) {
                     printToOutput(e.getMessage());
@@ -182,7 +180,7 @@ public class Scrabble {
                 }
                 return false;
             default:
-                Player player = (gameState == P1_TURN ? player1 : player2);
+                Player player = (gameState == STATUS_CODE.P1_TURN ? player1 : player2);
                 Player opponent = (player.equals(player1) ? player2 : player1);
                 // Process the NAME command (to change a player's name)
                 try {
@@ -206,7 +204,8 @@ public class Scrabble {
                         isChallengeSuccessful = false;
                         askForMove(player);
                     } else {
-                        gameState = (gameState == P1_TURN ? P2_TURN : P1_TURN);
+                        gameState = (gameState == STATUS_CODE.P1_TURN) ?
+                                STATUS_CODE.P2_TURN : STATUS_CODE.P1_TURN;
                         askForMove(opponent);
                     }
                     return true;
@@ -302,7 +301,7 @@ public class Scrabble {
 
     // Quit game
     private void quit() {
-        gameState = GAME_OVER;
+        gameState = STATUS_CODE.GAME_OVER;
         // Final move display before closing game
         controller.updateGame(null);
         PopupView.displayQuitPopup(player1, player2);
@@ -313,7 +312,6 @@ public class Scrabble {
     private void pass(Player player, boolean removeLastScore) {
         printToOutput(String.format("> Turn passed for %s!", player.getName()));
         Scoring.passMove(removeLastScore);
-        Scrabble.printToOutput("> Number of tiles in pool: " + pool.size());
     }
 
     // Exchange tiles between frame and pool
@@ -427,5 +425,10 @@ public class Scrabble {
         }
         printToOutput(dash.toString());
     }
+
+    /**
+     * Represents the different states of the game.
+     */
+    public enum STATUS_CODE {P1_NAME, P2_NAME, P1_TURN, P2_TURN, GAME_OVER}
 
 }

@@ -1,6 +1,5 @@
 package ui;
 
-import constants.UIConstants;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -14,6 +13,8 @@ import javafx.scene.shape.Line;
  * Team 15: DarkMode
  */
 public class GameView extends HBox {
+    public static String stylesheet = "darkTheme.css";
+
     /**
      * Creates a new game view.
      *
@@ -35,6 +36,17 @@ public class GameView extends HBox {
         vbox.getChildren().add(cliView);
         // Add right side view to game view
         getChildren().add(vbox);
+    }
+
+    /**
+     * Switches the game theme (dark/light).
+     */
+    public static void switchTheme() {
+        if (stylesheet.endsWith("darkTheme.css")) {
+            stylesheet = "lightTheme.css";
+        } else {
+            stylesheet = "darkTheme.css";
+        }
     }
 
 }

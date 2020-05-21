@@ -1,8 +1,8 @@
 package ui;
 
-import constants.UIConstants;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import logic.Scrabble;
 
 /**
  * Score display GUI design.
@@ -49,11 +49,11 @@ public class ScoreView extends HBox {
      * @param score2    player2's score
      * @param gameState the current game state
      */
-    public void update(int score1, int score2, UIConstants.STATUS_CODE gameState) {
+    public void update(int score1, int score2, Scrabble.STATUS_CODE gameState) {
         remove();
         Button player1 = new Button(playerOneName + ": " + score1 + " points");
         Button player2 = new Button(playerTwoName + ": " + score2 + " points");
-        if (gameState == UIConstants.STATUS_CODE.P1_TURN) {
+        if (gameState == Scrabble.STATUS_CODE.P1_TURN) {
             player1.setId("player-turn");
             player2.setId("opponent-turn");
         } else {
