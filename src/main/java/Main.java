@@ -35,7 +35,7 @@ public class Main extends Application {
         GameView gameView = new GameView(cliView, boardView, optionsView);
 
         // Set up scene
-        Scene scene = new Scene(gameView, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
+        Scene scene = new Scene(gameView, GameView.SCENE_WIDTH, GameView.SCENE_HEIGHT);
         scene.getStylesheets().add(GameView.stylesheet);
 
         // Set up game controller

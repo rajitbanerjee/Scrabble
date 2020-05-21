@@ -2,8 +2,8 @@ package logic;
 
 import game.*;
 import ui.CLIView;
+import ui.GameView;
 import ui.PopupView;
-import ui.UIConstants;
 
 import java.io.InputStream;
 import java.util.HashSet;
@@ -420,7 +420,7 @@ public class Scrabble {
     // Print a line of dashes for design
     private void printDashes() {
         StringBuilder dash = new StringBuilder();
-        for (int i = 0; i < UIConstants.DASH_LENGTH; i++) {
+        for (int i = 0; i < GameView.SEPARATOR_LENGTH; i++) {
             dash.append("-");
         }
         printToOutput(dash.toString());

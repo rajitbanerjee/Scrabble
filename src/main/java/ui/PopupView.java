@@ -106,7 +106,7 @@ public class PopupView {
         VBox.setVgrow(browser, Priority.ALWAYS);
         layout.getChildren().addAll(browser);
         layout.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(layout, UIConstants.SCENE_WIDTH, UIConstants.SCENE_HEIGHT);
+        Scene scene = new Scene(layout, GameView.SCENE_WIDTH, GameView.SCENE_HEIGHT);
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();

@@ -13,6 +13,11 @@ import javafx.scene.shape.Line;
  * Team 15: DarkMode
  */
 public class GameView extends HBox {
+    public static final int SCENE_WIDTH = 1240;
+    public static final int SCENE_HEIGHT = 620;
+    public static final int INPUT_FIELD_WIDTH = SCENE_WIDTH / 2;
+    public static final int SEPARATOR_LENGTH = (int) (INPUT_FIELD_WIDTH * 0.175);
+    public static final double SQUARE_SIZE = 35;
     public static String stylesheet = "darkTheme.css";
 
     /**
@@ -30,7 +35,7 @@ public class GameView extends HBox {
         VBox vbox = new VBox();
         vbox.getChildren().add(optionsView);
         Line separator = new Line(optionsView.getLayoutX(), optionsView.getLayoutY(),
-                optionsView.getLayoutX() + UIConstants.CMD_INPUT_WIDTH, optionsView.getLayoutY());
+                optionsView.getLayoutX() + INPUT_FIELD_WIDTH, optionsView.getLayoutY());
         separator.setId("options-view-separator");
         vbox.getChildren().add(separator);
         vbox.getChildren().add(cliView);
