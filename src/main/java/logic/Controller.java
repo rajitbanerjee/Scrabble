@@ -1,5 +1,6 @@
 package logic;
 
+import bot.DarkMode;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -50,7 +51,7 @@ public class Controller {
     }
 
     /**
-     * Sets the listeners for GameController.
+     * Sets the listeners for key events.
      */
     public void setListeners() {
         cliView.getInputView().setOnKeyPressed(keyEvent -> {
@@ -62,6 +63,19 @@ public class Controller {
                 historyView.addCommand(inputView.getText().trim());
                 nLastCommand = 0;
                 cliView.clearInputView();
+                // Bot makes a move, if playing against bot
+                if (game.botGame() == 1) {
+                    String command;
+                    if (game.getGameState() == P2_NAME) {
+                        command = "DarkMode";
+                        updateGame(command);
+                        historyView.addCommand(command);
+                    } else if (game.getGameState() == P2_TURN) {
+                        command = DarkMode.getCommand();
+                        updateGame(command);
+                        historyView.addCommand(command);
+                    }
+                }
             } else if (keyEvent.getCode() == KeyCode.UP) {
                 // Navigate to previous command
                 if (historyView.getHistorySize() != 0) {

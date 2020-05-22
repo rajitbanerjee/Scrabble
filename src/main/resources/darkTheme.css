@@ -1,5 +1,5 @@
 .root {
-	-fx-base: #1f1f1f;
+	-fx-base: black;
 	-fx-accent: white;
 	-fx-focus-color: -fx-accent;
 	-fx-background: derive(-fx-base, 20%);
@@ -32,6 +32,7 @@
 	-fx-cursor: text;
 	-fx-padding: 0.333333em 0.583em 0.333333em 0.583em; /* 4 7 4 7 */
 }
+
 /* Styles the text field when it is in focus */
 .text-input:focused {
 	-fx-font-size: 10pt;
@@ -47,16 +48,27 @@
 	-fx-prompt-text-fill: transparent;
 }
 /*****************************************************************************/
+#start-title {
+	-fx-font-size: 40;
+	-fx-padding: 20;
+}
+
+#start-popup {
+	-fx-background-color: derive(-fx-base, 15%);
+}
+
 #command-button {
 	-fx-background-color: derive(-fx-base, 10%);
 	-fx-background-radius: 15;
 }
+
 #command-button:focused {
 	-fx-border-color: -fx-accent;
 	-fx-border-radius: 15;
 	-fx-focus-text-color: -fx-accent;
 	-fx-background-radius: 15;
 }
+
 #command-button:hover {
 	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border,
 		-fx-inner-border, -fx-body-color;
@@ -71,6 +83,7 @@
 #tile-points {
 	-fx-font-size: 6pt;
 }
+
 #player-turn {
 	-fx-background-color: derive(-fx-base, 20%);
 	-fx-background-radius: 15;
@@ -79,6 +92,7 @@
 	-fx-font-size: 10pt;
 	-fx-fill: white;
 }
+
 #opponent-turn {
 	-fx-background-color: derive(-fx-base, 20%);
 	-fx-background-radius: 15;
@@ -95,7 +109,7 @@
 
 #buttons-view {
 	-fx-spacing: 30;
-	-fx-padding: 10, 10, 10, 10;
+	-fx-padding: 10;
 	-fx-alignment: center;
 }
 
@@ -105,7 +119,7 @@
 
 #history-view {
 	-fx-pref-height: 445;
-	-fx-padding: 5, 5, 5, 5;
+	-fx-padding: 5;
 	-fx-background-color: transparent;
 }
 
@@ -139,7 +153,7 @@
 	-fx-spacing: 30;
 	-fx-alignment: center;
 	-fx-text-alignment: center;
-	-fx-padding: 10, 10, 10, 10;
+	-fx-padding: 10;
 }
 /*****************************************************************************/
 /* Square fill and background colours */
@@ -179,7 +193,7 @@
 	-fx-background-color: #ffc401;
 	-fx-min-height: 35, 35;
 	-fx-max-height: 35, 35;
-	-fx-padding: 6, 6, 6, 6;
+	-fx-padding: 6;
 	-fx-hgap: 3;
 	-fx-vgap: 3;
 	-fx-alignment: center;

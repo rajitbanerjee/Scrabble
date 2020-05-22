@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -14,7 +15,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Pop-up window on button click.
@@ -25,6 +29,53 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Team 15: DarkMode
  */
 public class PopupView {
+    public static final InputStream ICON = ClassLoader.getSystemClassLoader().
+            getResourceAsStream("icon.png");
+
+    /**
+     * Displays the start popup.
+     *
+     * @return 1, if game is to be played against a bot, 0 if not, -1 for quit
+     */
+    public static int displayStartPopup() {
+        Stage window = new Stage();
+        window.setTitle("Welcome");
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.close();
+        AtomicInteger botGame = new AtomicInteger(-1);
+        Label title = new Label("Scrabble by DarkMode.");
+        title.setId("start-title");
+        Label label = new Label("Who do you want to play against?");
+
+        Button yes = new Button("DarkMode, the Scrabble bot");
+        yes.setId("command-button");
+        yes.setOnAction(event -> {
+            botGame.set(1);
+            window.close();
+        });
+        Button no = new Button("Another player");
+        no.setId("command-button");
+        no.setOnAction(event -> {
+            botGame.set(0);
+            window.close();
+        });
+        HBox buttons = new HBox(10);
+        buttons.getChildren().addAll(yes, no);
+        buttons.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(10);
+        layout.setId("start-popup");
+        layout.getChildren().addAll(title, label, buttons);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout, 600, 300);
+        scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.setScene(scene);
+        window.showAndWait();
+        window.setResizable(false);
+        return botGame.get();
+    }
+
     /**
      * Displays unsupported action pop-up.
      */
@@ -42,6 +93,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -86,6 +138,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 750, 500);
         scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -107,6 +160,7 @@ public class PopupView {
         layout.getChildren().addAll(browser);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, GameView.SCENE_WIDTH, GameView.SCENE_HEIGHT);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -129,6 +183,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -164,6 +219,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -202,6 +258,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
+        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
         window.setScene(scene);
         window.showAndWait();
         window.setResizable(false);

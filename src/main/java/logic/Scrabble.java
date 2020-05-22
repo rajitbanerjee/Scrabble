@@ -1,5 +1,6 @@
 package logic;
 
+import bot.DarkMode;
 import game.*;
 import ui.CLIView;
 import ui.GameView;
@@ -19,6 +20,7 @@ import java.util.Scanner;
  * Team 15: DarkMode
  */
 public class Scrabble {
+    private final int botGame;
     private Pool pool;
     private Board board;
     private Player player1;
@@ -34,6 +36,10 @@ public class Scrabble {
      * Starts a new game of Scrabble.
      */
     public Scrabble() {
+        botGame = PopupView.displayStartPopup();
+        if (botGame == -1) {
+            System.exit(0);
+        }
         resetGame();
         fillDictionary();
     }
@@ -52,6 +58,15 @@ public class Scrabble {
     }
 
     /**
+     * Returns 1 if a player is playing against a bot; 0 if not; -1 for quit
+     *
+     * @return 1, if the current game is against a bot; 0 if not; -1 for quit
+     */
+    public int botGame() {
+        return botGame;
+    }
+
+    /**
      * Sets the controller for the current game.
      *
      * @param controller GUI controller for the current game
@@ -66,6 +81,9 @@ public class Scrabble {
         board = new Board();
         player1 = new Player(new Frame(pool));
         player2 = new Player(new Frame(pool));
+        if (botGame == 1) {
+            DarkMode.setPlayer(player2);
+        }
         drawnTiles = "";
         opponentScore = 0;
         isChallengeSuccessful = false;

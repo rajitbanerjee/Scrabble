@@ -44,9 +44,7 @@ public class Main extends Application {
         game.setController(controller);
 
         // Set up stage
-        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-        InputStream icon = classLoader.getResourceAsStream("icon.jpg");
-        stage.getIcons().add(new Image(Objects.requireNonNull(icon)));
+        stage.getIcons().add(new Image(Objects.requireNonNull(PopupView.ICON)));
         stage.setTitle("Scrabble by DarkMode.");
         stage.setScene(scene);
         stage.setResizable(false);
