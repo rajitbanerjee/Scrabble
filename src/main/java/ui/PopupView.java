@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Team 15: DarkMode
  */
 public class PopupView {
-    public static final InputStream ICON = ClassLoader.getSystemClassLoader().
+    public static InputStream icon = ClassLoader.getSystemClassLoader().
             getResourceAsStream("icon.png");
 
     /**
@@ -69,7 +69,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 600, 300);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.showAndWait();
         window.setResizable(false);
@@ -93,7 +93,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -138,7 +138,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 750, 500);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -160,7 +160,7 @@ public class PopupView {
         layout.getChildren().addAll(browser);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, GameView.SCENE_WIDTH, GameView.SCENE_HEIGHT);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -183,7 +183,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -219,7 +219,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.setResizable(false);
         window.showAndWait();
@@ -258,7 +258,7 @@ public class PopupView {
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 150);
         scene.getStylesheets().add(GameView.stylesheet);
-        window.getIcons().add(new Image(Objects.requireNonNull(ICON)));
+        window.getIcons().add(new Image(Objects.requireNonNull(icon)));
         window.setScene(scene);
         window.showAndWait();
         window.setResizable(false);
