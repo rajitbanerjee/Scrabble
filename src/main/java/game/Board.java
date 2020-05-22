@@ -3,8 +3,11 @@ package game;
 import logic.Scoring;
 import logic.Scrabble;
 
+import java.util.HashMap;
+
 /**
  * The Board is a 15x15 matrix of Squares.
+ * TODO javadoc comments
  *
  * @author Katarina Cvetkovic, 18347921
  * @author Tee Chee Guan, 18202044
@@ -24,6 +27,8 @@ public class Board {
             "3W,N,N,2L,N,N,N,*,N,N,N,2L,N,N,3W",
     };
     private final Square[][] board;
+    private final HashMap<Index, String> horizontalWords = new HashMap<>();
+    private final HashMap<Index, String> verticalWords = new HashMap<>();
     private boolean isFirstMove;
 
     /**
@@ -61,6 +66,74 @@ public class Board {
         }
     }
 
+    public void storeHorizontalWords() {
+        horizontalWords.clear();
+        for (int i = 0; i < Board.SIZE; i++) {
+            int j = 0;
+            while (j < Board.SIZE) {
+                StringBuilder word = new StringBuilder();
+                Index start = new Index(i, j);
+                while (Square.isValid(i, j) && !isEmpty(i, j)) {
+                    word.append(getLetter(i, j));
+                    j++;
+                }
+                if (!word.toString().equals("")) {
+                    for (int k = 0; k < word.length(); k++) {
+                        horizontalWords.put(start, word.toString());
+                        start = new Index(i, start.getColumn() + 1);
+                    }
+                }
+                j++;
+            }
+        }
+    }
+
+    public void storeVerticalWords() {
+        verticalWords.clear();
+        for (int j = 0; j < Board.SIZE; j++) {
+            int i = 0;
+            while (i < Board.SIZE) {
+                StringBuilder word = new StringBuilder();
+                Index start = new Index(i, j);
+                while (Square.isValid(i, j) && !isEmpty(i, j)) {
+                    word.append(getLetter(i, j));
+                    i++;
+                }
+                if (!word.toString().equals("")) {
+                    for (int k = 0; k < word.length(); k++) {
+                        verticalWords.put(start, word.toString());
+                        start = new Index(start.getRow() + 1, j);
+                    }
+                }
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Gets the horizontal word if it exists, else "".
+     *
+     * @param row    board row
+     * @param column board column
+     * @return the horizontal word starting at given index
+     */
+    public String getHorizontalWord(int row, int column) {
+        Index c = new Index(row, column);
+        return horizontalWords.getOrDefault(c, "");
+    }
+
+    /**
+     * Gets the vertical word if it exists, else "".
+     *
+     * @param row    board row
+     * @param column board column
+     * @return the vertical word starting at given index
+     */
+    public String getVerticalWord(int row, int column) {
+        Index c = new Index(row, column);
+        return verticalWords.getOrDefault(c, "");
+    }
+
     /**
      * Accessor for board.
      *
@@ -71,12 +144,36 @@ public class Board {
     }
 
     /**
-     * Setter for firstMove.
+     * Accessor for letter at specified row and column.
      *
-     * @param firstMove boolean value indicating whether the first move has been played
+     * @param row    board row
+     * @param column board column
+     * @return the letter on the Square at the given index
      */
-    public void setFirstMove(boolean firstMove) {
-        isFirstMove = firstMove;
+    public char getLetter(int row, int column) {
+        return board[row][column].getTile().getType();
+    }
+
+    /**
+     * Accessor for isFirstMove.
+     *
+     * @return boolean value indicating whether the first move has been played
+     */
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
+    /**
+     * Setter for isFirstMove.
+     *
+     * @param isFirstMove indicates whether the current move is the first move of the game
+     */
+    public void setFirstMove(boolean isFirstMove) {
+        this.isFirstMove = isFirstMove;
+    }
+
+    public boolean isEmpty(int row, int column) {
+        return board[row][column].isEmpty();
     }
 
     /**
@@ -167,7 +264,7 @@ public class Board {
                 column = word.getColumn();
             }
             // Ignore filled squares, place tiles on the remaining squares
-            if (board[row][column].isEmpty()) {
+            if (isEmpty(row, column)) {
                 if (frame.contains(ch)) {
                     // Place tile on the board and remove it from the frame
                     placeTile((char) (column + 'A'), row + 1, frame.getTile(ch));
@@ -191,7 +288,7 @@ public class Board {
      */
     public boolean isWordLegal(Word word, Frame frame) {
         // Checks for input validity
-        if (!Square.isValid(word.getColumn(), word.getRow()) ||
+        if (!Square.isValid(word.getRow(), word.getColumn()) ||
                 !(word.isHorizontal() || word.isVertical()) ||
                 word.length() < 2 || !word.isAlphaString() ||
                 frame == null) {
@@ -242,37 +339,37 @@ public class Board {
     // Checks if a word conflicts with any existing words on the board
     private boolean doesWordConflict(Word word) {
         char[] wordArray = word.getLetters().toCharArray();
-        int column = word.getColumn();
         int row = word.getRow();
+        int column = word.getColumn();
         if (word.isHorizontal()) {
             // Check if the squares before and after the word are empty
-            if (Square.isValid(column - 1, row) &&
-                    Square.isValid(column + word.length(), row)) {
-                if (!board[row][column - 1].isEmpty() ||
-                        !board[row][column + word.length()].isEmpty()) {
+            if (Square.isValid(row, column - 1) &&
+                    Square.isValid(row, column + word.length())) {
+                if (!isEmpty(row, column - 1) ||
+                        !isEmpty(row, column + word.length())) {
                     return true;
                 }
             }
             for (int i = 0; i < word.length(); i++) {
                 // Square is filled but tile does not match letters in the placed word
-                if (!board[row][column + i].isEmpty() &&
-                        board[row][column + i].getTile().getType() != wordArray[i]) {
+                if (!isEmpty(row, column + i) &&
+                        getLetter(row, column + i) != wordArray[i]) {
                     return true;
                 }
             }
         } else {
             // Check if the squares before and after the word are empty
-            if (Square.isValid(column, row - 1) &&
-                    Square.isValid(column, row + word.length())) {
-                if (!board[row - 1][column].isEmpty() ||
-                        !board[row + word.length()][column].isEmpty()) {
+            if (Square.isValid(row - 1, column) &&
+                    Square.isValid(row + word.length(), column)) {
+                if (!isEmpty(row - 1, column) ||
+                        !isEmpty(row + word.length(), column)) {
                     return true;
                 }
             }
             for (int i = 0; i < word.length(); i++) {
                 // Square is filled but tile does not match letters in the placed word
-                if (!board[row + i][column].isEmpty() &&
-                        board[row + i][column].getTile().getType() != wordArray[i]) {
+                if (!isEmpty(row + i, column) &&
+                        getLetter(row + i, column) != wordArray[i]) {
                     return true;
                 }
             }
@@ -299,7 +396,7 @@ public class Board {
                 column = word.getColumn();
             }
             String letter = Character.toString(word.charAt(i));
-            if (board[row][column].isEmpty()) {
+            if (isEmpty(row, column)) {
                 if (tilesInFrame.contains(letter)) {
                     // Check for the specified letter from the frame
                     tilesInFrame = tilesInFrame.replaceFirst(letter, "");
@@ -330,7 +427,7 @@ public class Board {
             }
             char letter = word.charAt(i);
             // If square is empty, check if frame contains the required letter or a blank tile
-            if (board[row][column].isEmpty()) {
+            if (isEmpty(row, column)) {
                 if (frame.contains(letter) || frame.contains('-')) {
                     return true;
                 }
@@ -359,20 +456,20 @@ public class Board {
         if (word.isHorizontal()) {
             for (int i = 0; i < word.length(); i++) {
                 // Check top
-                if (Square.isValid(column + i, row - 1)) {
-                    if (!board[row - 1][column + i].isEmpty()) {
+                if (Square.isValid(row - 1, column + i)) {
+                    if (!isEmpty(row - 1, column + i)) {
                         return true;
                     }
                 }
                 // Check bottom
-                if (Square.isValid(column + i, row + 1)) {
-                    if (!board[row + 1][column + i].isEmpty()) {
+                if (Square.isValid(row + 1, column + i)) {
+                    if (!isEmpty(row + 1, column + i)) {
                         return true;
                     }
                 }
                 // Check if the word contains tiles already on the board
-                if (Square.isValid(column + i, row)) {
-                    if (!board[row][column + i].isEmpty()) {
+                if (Square.isValid(row, column + i)) {
+                    if (!isEmpty(row, column + i)) {
                         return true;
                     }
                 }
@@ -380,20 +477,20 @@ public class Board {
         } else {
             for (int i = 0; i < word.length(); i++) {
                 // Check left
-                if (Square.isValid(column - 1, row + i)) {
-                    if (!board[row + i][column - 1].isEmpty()) {
+                if (Square.isValid(row + i, column - 1)) {
+                    if (!isEmpty(row + i, column - 1)) {
                         return true;
                     }
                 }
                 // Check right
-                if (Square.isValid(column + 1, row + i)) {
-                    if (!board[row + i][column + 1].isEmpty()) {
+                if (Square.isValid(row + i, column + 1)) {
+                    if (!isEmpty(row + i, column + 1)) {
                         return true;
                     }
                 }
                 // Check if the word contains letter already on the board
-                if (Square.isValid(column, row + i)) {
-                    if (!board[row + i][column].isEmpty()) {
+                if (Square.isValid(row + i, column)) {
+                    if (!isEmpty(row + i, column)) {
                         return true;
                     }
                 }
