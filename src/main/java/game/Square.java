@@ -26,13 +26,12 @@ public class Square {
     /**
      * Checks if a specified square index is within the board.
      *
-     * @param column integer between 0 - 14 to specify the real board column index
      * @param row    integer between 0 - 14 to specify the real board row index
+     * @param column integer between 0 - 14 to specify the real board column index
      * @return {@code true} if the specified square index is valid
      */
-    public static boolean isValid(int column, int row) {
-        return column >= 0 && column < Board.SIZE &&
-                row >= 0 && row < Board.SIZE;
+    public static boolean isValid(int row, int column) {
+        return row >= 0 && row < Board.SIZE && column >= 0 && column < Board.SIZE;
     }
 
     /**

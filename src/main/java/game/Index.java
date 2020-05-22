@@ -76,4 +76,14 @@ public class Index {
         }
     }
 
+    @Override
+    public int hashCode() {
+        return (10000 * row) + (10 * column);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%c%d", (char) ('A' + column), row + 1);
+    }
+
 }

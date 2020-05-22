@@ -58,11 +58,11 @@ public class Scrabble {
     }
 
     /**
-     * Returns 1 if a player is playing against a bot; 0 if not; -1 for quit
+     * Returns 1 if a player is playing against a bot; 0 if not; -1 for quit.
      *
      * @return 1, if the current game is against a bot; 0 if not; -1 for quit
      */
-    public int botGame() {
+    public int getBotGame() {
         return botGame;
     }
 

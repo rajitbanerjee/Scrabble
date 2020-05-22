@@ -125,11 +125,11 @@ public class Scoring {
             int column = index.getColumn();
 
             // Find the starting row index of the word
-            while (Square.isValid(startRow - 1, column) && !b[startRow - 1][column].isEmpty()) {
+            while (Square.isValid(startRow - 1, column) && !board.isEmpty(startRow - 1, column)) {
                 startRow--;
             }
             // Find the tail row index of the word
-            while (Square.isValid(endRow + 1, column) && !b[endRow + 1][column].isEmpty()) {
+            while (Square.isValid(endRow + 1, column) && !board.isEmpty(endRow + 1, column)) {
                 endRow++;
             }
             // Add word score for any extra words formed
@@ -162,11 +162,11 @@ public class Scoring {
             int row = index.getRow();
 
             // Find the starting column index of the word
-            while (Square.isValid(row, startColumn - 1) && !b[row][startColumn - 1].isEmpty()) {
+            while (Square.isValid(row, startColumn - 1) && !board.isEmpty(row, startColumn - 1)) {
                 startColumn--;
             }
             // Find the tail column index of the word
-            while (Square.isValid(row, endColumn + 1) && !b[row][endColumn + 1].isEmpty()) {
+            while (Square.isValid(row, endColumn + 1) && !board.isEmpty(row, endColumn + 1)) {
                 endColumn++;
             }
             // Add word score for any extra words formed

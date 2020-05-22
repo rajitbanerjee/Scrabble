@@ -137,4 +137,11 @@ public class Word {
         }
     }
 
+    @Override
+    public String toString() {
+        char orientation = isHorizontal() ? 'A' : 'D';
+        String index = String.format("%s%d", (char) ('A' + getColumn()), getRow() + 1);
+        return (String.format("%s %c %s", index, orientation, getLetters()));
+    }
+
 }

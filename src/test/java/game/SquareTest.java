@@ -43,11 +43,11 @@ class SquareTest {
 
     @Test
     void testIsValid() {
-        assertTrue(Square.isValid('H' - 'A', 8));
-        assertFalse(Square.isValid('R' - 'A', 7));
-        assertFalse(Square.isValid((char) ('A' - 1), 7));
-        assertFalse(Square.isValid('H', -1));
-        assertFalse(Square.isValid('H', 16));
+        assertTrue(Square.isValid(8, 'H' - 'A'));
+        assertFalse(Square.isValid(7, 'R' - 'A'));
+        assertFalse(Square.isValid(7, (char) ('A' - 1)));
+        assertFalse(Square.isValid(-1, 'H'));
+        assertFalse(Square.isValid(16, 'H'));
     }
 
     @Test

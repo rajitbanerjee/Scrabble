@@ -58,22 +58,19 @@ public class Controller {
             CommandHistoryView historyView = CLIView.HISTORY_VIEW;
             CommandInputView inputView = cliView.getInputView();
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                // Update the game according to typed command
-                updateGame(inputView.getText().trim());
-                historyView.addCommand(inputView.getText().trim());
+                // Fetch command from input text field
+                String command = inputView.getText().trim();
+                updateGame(command);
                 nLastCommand = 0;
                 cliView.clearInputView();
                 // Bot makes a move, if playing against bot
-                if (game.botGame() == 1) {
-                    String command;
+                if (game.getBotGame() == 1) {
                     if (game.getGameState() == P2_NAME) {
                         command = "DarkMode";
                         updateGame(command);
-                        historyView.addCommand(command);
                     } else if (game.getGameState() == P2_TURN) {
-                        command = DarkMode.getCommand();
+                        command = DarkMode.getCommand(game.getBoard());
                         updateGame(command);
-                        historyView.addCommand(command);
                     }
                 }
             } else if (keyEvent.getCode() == KeyCode.UP) {
@@ -142,6 +139,7 @@ public class Controller {
             boolean updateBoard = true;
             if (game.getGameState() != GAME_OVER) {
                 updateBoard = game.processCommand(command);
+                CLIView.HISTORY_VIEW.addCommand(command);
             }
             // Update the board display
             if (updateBoard) {
