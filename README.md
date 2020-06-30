@@ -29,10 +29,10 @@ Clone the repository, then (using Gradle):
  .fxml,javafx.web```. Building from source with Gradle is simpler (as shown above).
 
 Dark Theme:  
-  <img src="images/DarkTheme.jpg" height="400" width="800">   
+  <img src="readme_resources/DarkTheme.jpg" height="400" width="800">   
 
 Light Theme:   
-  <img src="images/LightTheme.jpg" height="400" width="800">   
+  <img src="readme_resources/LightTheme.jpg" height="400" width="800">   
 
 
 ## Documentation
