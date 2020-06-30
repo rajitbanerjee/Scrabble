@@ -7,8 +7,8 @@ at [UCD](https://www.ucd.ie/cs/).
 Follow these instructions to get a copy of the project running on your local machine.
 
 ### Prerequisites
-Java 8 is required for the project, since JavaFX is bundled with it.   
-Install JDK 8 from Oracle [here](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html), 
+Java 13 is required for the project. Install JDK 13 from Oracle 
+[here](https://www.oracle.com/java/technologies/javase-jdk13-downloads.html), 
 in case you don't have it.
 
 ### Build and run 
@@ -20,10 +20,12 @@ Clone the repository, then (using Gradle):
 * Run the game
 ```
 ./gradlew run
-``` 
+```  
 
-Alternatively, play the game by [downloading](https://github.com/rajitbanerjee/Scrabble/releases/download/v5.0/Scrabble-5.0.jar) 
-and running (double click) the JAR file from the [latest release](https://github.com/rajitbanerjee/Scrabble/releases). 
+*Note*: If you'd like to run the JAR file created by Gradle, you would need to install JavaFX separately, set path to
+ the installed JavaFX and add the required [VM arguments](https://stackoverflow.com/a/60113010/12842278) ```--module-path /path/to/javafx/lib --add-modules javafx
+ .controls,javafx
+ .fxml,javafx.web```. Building from source with Gradle is simpler (as shown above).
 
 Dark Theme:  
   <img src="images/DarkTheme.jpg" height="400" width="800">   
