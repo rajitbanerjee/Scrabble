@@ -9,7 +9,8 @@ Follow these instructions to get a copy of the project running on your local mac
 ### Prerequisites
 Java 13 is required for the project. Install JDK 13 from Oracle 
 [here](https://www.oracle.com/java/technologies/javase-jdk13-downloads.html), 
-in case you don't have it.
+in case you don't have it.  
+*Note*: Although JavaFX does not come bundled with JDK 13, Gradle manages the JavaFX requirements with plugins.
 
 ### Build and run 
 Clone the repository, then (using Gradle):
